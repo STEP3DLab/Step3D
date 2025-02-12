@@ -1,987 +1,151 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="utf-8">
-  <title>Step3D — Все 3D-услуги в одном месте</title>
-  <meta name="description" content="AI-сервис для заказа 3D-услуг: сканирование, моделирование, печать"/>
-  <meta name="keywords" content="3D-услуги, 3D-сканирование, CAD, реверсивный инжиниринг, FDM, SLA, DLP, 3D-печать">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Step3D</title>
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
 
-  <!-- Подключение шрифта Montserrat -->
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+        .container {
+            width: 90%;
+            max-width: 600px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
 
-  <!-- Подключение Font Awesome для иконок -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        button {
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+        }
 
-  <!-- Подключение Swiper.js для карусели -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/9.4.1/swiper-bundle.min.css" integrity="sha512-YvjUhjR0uNw4Y/E+YMIcG1s3H+Pca0N9OnzS+E4XDRPvMkS4CLv8cP5BTiKrAlP0qv+KUIE+aBsJl0mj3s4llA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/9.4.1/swiper-bundle.min.js" integrity="sha512-YkNnXbVKJrUQaXLfi4dnzFKWgwhP0whJRkJ6GZEsRLTngM4Vhw7M4I86M9FYacHRv4L0aCJt3Rk94THy7tPHUA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        button:hover {
+            background-color: #45a049;
+        }
 
-  <!-- Подключение Three.js для 3D-анимаций -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
 
-  <!-- Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=YOUR_GOOGLE_ANALYTICS_ID"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
+        h2 {
+            text-align: center;
+        }
 
-    gtag('config', 'YOUR_GOOGLE_ANALYTICS_ID');
-  </script>
-
-  <style>
-    /* Основные стили */
-    body, h1, h2, h3, h4, h5, p, ul, li, a, button, input, textarea { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      font-family: 'Montserrat', Arial, sans-serif;
-      color: #111;
-      line-height: 1.6;
-      background-color: #fff;
-      scroll-behavior: smooth; /* Плавная прокрутка */
-    }
-    header, section, footer {
-      padding: 20px;
-    }
-    a {
-      color: #002CFF;
-      text-decoration: none;
-      transition: color 0.3s;
-    }
-    a:hover, a:focus {
-      color: #0011cc;
-    }
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      position: relative;
-    }
-    .btn {
-      display: inline-block;
-      padding: 12px 24px;
-      border: 2px solid #002CFF;
-      color: #002CFF;
-      text-transform: uppercase;
-      font-weight: bold;
-      text-decoration: none;
-      transition: background 0.3s, color 0.3s;
-      border-radius: 4px; /* Лёгкие скругления для лучшего восприятия */
-      cursor: pointer;
-    }
-    .btn:hover, .btn:focus {
-      background: #002CFF;
-      color: #fff;
-    }
-    h1, h2, h3 {
-      margin-bottom: 20px;
-      color: #000;
-    }
-    h1 {
-      font-size: 2.5rem;
-      line-height: 1.2;
-    }
-    h2 {
-      font-size: 1.8rem;
-    }
-    h3 {
-      font-size: 1.5rem;
-      font-weight: 500; /* Убираем жирный шрифт для FAQ */
-    }
-    .hero {
-      background: #f5f5f5;
-      text-align: center;
-      padding: 100px 20px;
-    }
-    .hero h1 { font-size: 3rem; }
-    .services, .portfolio, .advantages, .experts,
-    .partners, .faq, .contacts, .blog, .reviews {
-      background: #fff;
-      padding: 60px 20px;
-    }
-    .about {
-      background: #111;
-      color: #fff;
-      padding: 60px 20px;
-    }
-    .about h2, .about p {
-      color: #fff;
-    }
-    .grid-3, .grid-4, .partners-matrix, .reviews-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 30px;
-    }
-    .card, .partner-card, .review-card, .expert-card {
-      background: #f9f9f9;
-      padding: 25px;
-      border-radius: 4px;
-      transition: transform 0.3s, box-shadow 0.3s;
-      cursor: pointer;
-    }
-    .card:hover, .partner-card:hover, .review-card:hover, .expert-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 8px 16px rgba(0,0,0,0.1);
-    }
-    .card img, .experts .card img, .expert-card img {
-      width: 100%;
-      height: 200px;
-      object-fit: cover;
-      border-radius: 4px;
-      margin-bottom: 15px;
-    }
-    .faq-item {
-      margin-bottom: 20px;
-      border-bottom: 1px solid #ddd;
-      padding-bottom: 15px;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
-    .faq-item:hover {
-      background: #f0f0f0;
-    }
-    .faq-item p {
-      display: none;
-      margin-top: 10px;
-      color: #555;
-    }
-    .footer {
-      background: #f2f2f2;
-      padding: 40px 20px;
-    }
-    .footer p {
-      color: #444;
-      margin-bottom: 10px;
-    }
-    /* Бургерное меню */
-    .burger {
-      display: none;
-      font-size: 24px;
-      cursor: pointer;
-      z-index: 1000;
-    }
-    .nav-links {
-      list-style: none;
-      display: flex;
-      gap: 20px;
-    }
-    .nav-links li a.active-link {
-      border-bottom: 2px solid #002CFF;
-      padding-bottom: 5px;
-    }
-    @media (max-width: 768px) {
-      .nav-links {
-        display: none;
-        flex-direction: column;
-        gap: 15px;
-        background: #fff;
-        position: absolute;
-        top: 70px;
-        right: 20px;
-        padding: 20px;
-        box-shadow: 0 8px 16px rgba(0,0,0,0.1);
-        border-radius: 4px;
-      }
-      .nav-links.active {
-        display: flex;
-      }
-      .burger {
-        display: block;
-      }
-    }
-    /* Иконки в разделе "Почему Step3D?" */
-    .advantages .card h3 {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-weight: 600;
-    }
-    .advantages .card i {
-      font-size: 1.5rem;
-      color: #002CFF;
-      transition: transform 0.3s;
-    }
-    .advantages .card:hover i {
-      transform: rotate(20deg);
-    }
-    /* Партнёры: матрица */
-    .partners-matrix {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: 25px;
-      margin-top: 40px;
-    }
-    .partner-card {
-      background: #f9f9f9;
-      padding: 20px;
-      border-radius: 4px;
-      text-align: center;
-      transition: transform 0.3s, box-shadow 0.3s;
-    }
-    .partner-card img {
-      max-height: 60px;
-      margin-bottom: 15px;
-      width: auto;
-    }
-    .partner-card p {
-      font-size: 0.95rem;
-      color: #555;
-    }
-    /* Блог */
-    .blog {
-      background: #f9f9f9;
-    }
-    .blog-container {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 40px;
-      align-items: flex-start;
-    }
-    .blog-content {
-      flex: 1 1 600px;
-    }
-    .blog-animation {
-      flex: 1 1 400px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 400px;
-    }
-    .blog-post {
-      background: #fff;
-      padding: 20px;
-      border-radius: 4px;
-      transition: transform 0.3s, box-shadow 0.3s;
-      position: relative;
-    }
-    .blog-post:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 8px 16px rgba(0,0,0,0.1);
-    }
-    .blog-post img {
-      width: 100%;
-      height: 200px;
-      object-fit: cover;
-      border-radius: 4px;
-      margin-bottom: 15px;
-    }
-    .blog-post h3 {
-      font-size: 1.3rem;
-      margin-bottom: 10px;
-    }
-    .blog-post p {
-      color: #555;
-      margin-bottom: 10px;
-    }
-    .blog-post a {
-      font-weight: 600;
-      color: #002CFF;
-    }
-    /* Отзывы */
-    .reviews {
-      background: #f5f5f5;
-    }
-    .reviews-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 30px;
-      margin-top: 40px;
-    }
-    .review-card {
-      background: #fff;
-      padding: 20px;
-      border-radius: 4px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
-      transition: transform 0.3s, box-shadow 0.3s;
-    }
-    .review-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 8px 16px rgba(0,0,0,0.1);
-    }
-    .review-card img {
-      width: 60px;
-      height: 60px;
-      border-radius: 50%;
-      object-fit: cover;
-      margin-bottom: 15px;
-    }
-    .review-card h4 {
-      font-size: 1.1rem;
-      margin-bottom: 5px;
-    }
-    .review-card p {
-      color: #555;
-    }
-    /* Форма обратной связи */
-    .contacts form {
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-      margin-top: 20px;
-    }
-    .contacts label {
-      font-weight: 600;
-      margin-bottom: 5px;
-    }
-    .contacts input, .contacts textarea {
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      font-family: 'Montserrat', Arial, sans-serif;
-      font-size: 1rem;
-    }
-    .contacts button {
-      align-self: flex-start;
-    }
-    /* Обратная связь */
-    .success-message {
-      display: none;
-      color: green;
-      margin-top: 10px;
-    }
-    /* Accessibility Focus */
-    a:focus, button:focus, input:focus, textarea:focus {
-      outline: 2px dashed #002CFF;
-      outline-offset: 4px;
-    }
-    /* Дополнительные стили для 3D анимации */
-    /* Sticky Header */
-    header {
-      position: sticky;
-      top: 0;
-      background: #fff;
-      z-index: 999;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-    /* Trust Badges */
-    .trust-badges {
-      display: flex;
-      gap: 20px;
-      margin-top: 20px;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-    .trust-badge {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .trust-badge img {
-      width: 40px;
-      height: 40px;
-    }
-    /* Responsive Adjustments */
-    @media (max-width: 992px) {
-      .blog-container {
-        flex-direction: column;
-        align-items: center;
-      }
-      .blog-animation {
-        width: 100%;
-        height: 300px;
-      }
-    }
-    @media (max-width: 768px) {
-      .nav-links {
-        display: none;
-        flex-direction: column;
-        gap: 15px;
-        background: #fff;
-        position: absolute;
-        top: 70px;
-        right: 20px;
-        padding: 20px;
-        box-shadow: 0 8px 16px rgba(0,0,0,0.1);
-        border-radius: 4px;
-      }
-      .nav-links.active {
-        display: flex;
-      }
-      .burger {
-        display: block;
-      }
-    }
-    /* Карусель Swiper */
-    .swiper {
-      width: 100%;
-      padding: 40px 0;
-    }
-    .swiper-slide {
-      background: #fff;
-      border-radius: 4px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 20px;
-    }
-    .swiper-slide img {
-      width: 100%;
-      height: 200px;
-      object-fit: cover;
-      border-radius: 4px;
-      margin-bottom: 15px;
-    }
-    .swiper-slide p {
-      color: #555;
-      text-align: center;
-    }
-    /* Эксперты */
-    .experts {
-      background: #fff;
-      padding: 60px 20px;
-    }
-    .experts h2 {
-      text-align: center;
-      margin-bottom: 40px;
-    }
-    .experts-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-      gap: 30px;
-    }
-    .expert-card {
-      background: #f9f9f9;
-      padding: 20px;
-      border-radius: 4px;
-      text-align: center;
-      transition: transform 0.3s, box-shadow 0.3s;
-    }
-    .expert-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 8px 16px rgba(0,0,0,0.1);
-    }
-    .expert-card img {
-      width: 100px;
-      height: 100px;
-      border-radius: 50%;
-      object-fit: cover;
-      margin-bottom: 15px;
-    }
-    .expert-card h3 {
-      font-size: 1.2rem;
-      margin-bottom: 5px;
-    }
-    .expert-card p {
-      color: #555;
-      font-size: 0.95rem;
-    }
-  </style>
+        #orderData {
+            margin-top: 20px;
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+    </style>
 </head>
 <body>
 
-<!-- ШАПКА -->
-<header>
-  <div class="container">
-    <nav style="display: flex; align-items: center; justify-content: space-between; position: relative;">
-      <!-- Логотип -->
-      <div>
-        <a href="#hero"><img src="https://259506.selcdn.ru/sites-static/site953902/096387b6-44c2-437d-90cd-16d7fd61076e/096387b6-44c2-437d-90cd-16d7fd61076e-10592150.png" alt="Step3D Логотип" style="height:50px;"></a>
-      </div>
-      <!-- Бургерное меню -->
-      <div class="burger" aria-label="Открыть меню" tabindex="0">
-        <i class="fas fa-bars"></i>
-      </div>
-      <!-- Меню -->
-      <ul class="nav-links">
-        <li><a href="#hero" class="active-link">Главная</a></li>
-        <li><a href="#services">Услуги</a></li>
-        <li><a href="#portfolio">Портфолио</a></li>
-        <li><a href="#experts">Эксперты</a></li>
-        <li><a href="#faq">FAQ</a></li>
-        <li><a href="#blog">Блог</a></li>
-        <li><a href="#courses">Курсы</a></li>
-        <li><a href="#contacts">Контакты</a></li>
-      </ul>
-    </nav>
-  </div>
-</header>
+<div class="container">
+    <h2>Загрузка 3D-модели и настройки печати</h2>
 
-<!-- HERO (Главный экран) -->
-<section id="hero" class="hero" aria-labelledby="hero-title">
-  <div class="container">
-    <h1 id="hero-title">Все 3D-услуги в одном месте</h1>
-    <p style="margin: 20px 0; max-width: 800px; margin-left: auto; margin-right: auto;">
-      Инновационный AI-сервис, который поможет вам отсканировать любой объект, смоделировать 3D-прототип и напечатать его в кратчайшие сроки.
-    </p>
-    <a href="#contacts" class="btn" aria-label="Узнать стоимость">Узнать стоимость</a>
-  </div>
-</section>
-
-<!-- О НАС / ABOUT -->
-<section id="about" class="about" aria-labelledby="about-title">
-  <div class="container">
-    <h2 id="about-title">О компании Step3D</h2>
-    <p style="max-width:800px; margin: 20px auto;">
-      Компания Step3D — это сообщество профессионалов и энтузиастов 3D-технологий. Наши эксперты занимаются промышленным 3D-сканированием, CAD-моделированием и аддитивными технологиями уже более 5 лет.
-      Мы объединили под одной крышей талантливых инженеров, дизайнеров и разработчиков, чтобы каждый проект выполнялся с максимальной точностью и соответствовал мировым стандартам.
-    </p>
-  </div>
-</section>
-
-<!-- УСЛУГИ / SERVICES -->
-<section id="services" class="services" aria-labelledby="services-title">
-  <div class="container">
-    <h2 id="services-title">Услуги</h2>
-    <p style="margin-bottom:40px; max-width:800px; margin-left: auto; margin-right: auto;">
-      Мы предлагаем комплексные решения по созданию цифровых копий, 3D-моделей и реальных изделий. Вот основные направления:
-    </p>
-    <div class="grid-3">
-      <div class="card" tabindex="0" aria-labelledby="service1-title">
-        <h3 id="service1-title">3D-моделирование</h3>
-        <p>
-          • Инженерное CAD-моделирование (Autodesk, КОМПАС 3D)<br>
-          • Полигональное моделирование (Blender, ZBrush)<br>
-          • Обратное проектирование из облака точек
-        </p>
-        <p><strong>Цена от 1000 ₽</strong></p>
-      </div>
-      <div class="card" tabindex="0" aria-labelledby="service2-title">
-        <h3 id="service2-title">3D-сканирование</h3>
-        <p>
-          • Высокодетализированное оптическое сканирование<br>
-          • Лазерное 3D-сканирование (для крупных объектов)<br>
-          • Оборудование: RangeVision, Artec, VolumeTech
-        </p>
-        <p><strong>Цена от 2500 ₽</strong></p>
-      </div>
-      <div class="card" tabindex="0" aria-labelledby="service3-title">
-        <h3 id="service3-title">3D-печать</h3>
-        <p>
-          • FDM (доступная печать пластиком)<br>
-          • SLA / DLP (высокая точность и детализация)<br>
-          • Formlabs, Ultimaker, Raise3D, Anycubic
-        </p>
-        <p><strong>Цена рассчитывается по граммам или см³</strong></p>
-      </div>
-    </div>
-    <!-- Дополнительный CTA -->
-    <div style="text-align: center; margin-top: 40px;">
-      <a href="#contacts" class="btn">Начать проект</a>
-    </div>
-  </div>
-</section>
-
-<!-- ПОРТФОЛИО / PORTFOLIO -->
-<section id="portfolio" class="portfolio" aria-labelledby="portfolio-title">
-  <div class="container">
-    <h2 id="portfolio-title">Портфолио</h2>
-    <p style="max-width:800px; margin-bottom:40px; margin-left: auto; margin-right: auto;">
-      Посмотрите на некоторые наши проекты в области дизайна, промышленного инжиниринга и художественного моделирования.
-    </p>
-    <!-- Карусель Swiper -->
-    <div class="swiper mySwiper">
-      <div class="swiper-wrapper">
-        <!-- Слайды -->
-        <div class="swiper-slide">
-          <img src="https://259506.selcdn.ru/sites-static/site953902/8e086b33-591a-4cce-a9f5-f1122cb33241/8e086b33-591a-4cce-a9f5-f1122cb33241-11049501.jpeg" alt="Реверсивный инжиниринг сложной детали" loading="lazy">
-          <p>Реверсивный инжиниринг сложной детали</p>
-        </div>
-        <div class="swiper-slide">
-          <img src="https://259506.selcdn.ru/sites-static/site953902/581ed915-b832-4ace-8da6-7942fe71855a/581ed915-b832-4ace-8da6-7942fe71855a-11049503.jpeg" alt="Создание 3D-модели для визуализации архитектуры" loading="lazy">
-          <p>Создание 3D-модели для визуализации архитектуры</p>
-        </div>
-        <div class="swiper-slide">
-          <img src="https://259506.selcdn.ru/sites-static/site953902/dcd3d171-5c47-4e70-aac4-d5b7bc75f523/dcd3d171-5c47-4e70-aac4-d5b7bc75f523-11049506.jpeg" alt="Печать макета промышленных механизмов" loading="lazy">
-          <p>Печать макета промышленных механизмов</p>
-        </div>
-        <!-- Добавьте больше слайдов по необходимости -->
-      </div>
-      <!-- Навигация -->
-      <div class="swiper-pagination"></div>
-      <div class="swiper-button-prev"></div>
-      <div class="swiper-button-next"></div>
-    </div>
-    <!-- Дополнительный CTA -->
-    <div style="text-align: center; margin-top: 40px;">
-      <a href="#contacts" class="btn">Предложить проект</a>
-    </div>
-  </div>
-</section>
-
-<!-- ЭКСПЕРТЫ / EXPERTS -->
-<section id="experts" class="experts" aria-labelledby="experts-title">
-  <div class="container">
-    <h2 id="experts-title">Наши Эксперты</h2>
-    <p style="max-width:800px; margin: 20px auto; text-align: center;">
-      Познакомьтесь с нашей командой профессионалов, которые стоят за качеством предоставляемых услуг.
-    </p>
-    <div class="experts-grid">
-      <!-- Карточка эксперта 1 -->
-      <div class="expert-card" tabindex="0" aria-labelledby="expert1-name">
-        <img src="https://via.placeholder.com/100" alt="Фото эксперта Иван Иванов" loading="lazy">
-        <h3 id="expert1-name">Иван Иванов</h3>
-        <p>Главный инженер</p>
-      </div>
-      <!-- Карточка эксперта 2 -->
-      <div class="expert-card" tabindex="0" aria-labelledby="expert2-name">
-        <img src="https://via.placeholder.com/100" alt="Фото эксперта Мария Петрова" loading="lazy">
-        <h3 id="expert2-name">Мария Петрова</h3>
-        <p>Ведущий дизайнер</p>
-      </div>
-      <!-- Карточка эксперта 3 -->
-      <div class="expert-card" tabindex="0" aria-labelledby="expert3-name">
-        <img src="https://via.placeholder.com/100" alt="Фото эксперта Алексей Смирнов" loading="lazy">
-        <h3 id="expert3-name">Алексей Смирнов</h3>
-        <p>Специалист по 3D-печати</p>
-      </div>
-      <!-- Добавьте больше экспертов по аналогии -->
-    </div>
-    <!-- Дополнительный CTA -->
-    <div style="text-align: center; margin-top: 40px;">
-      <a href="#contacts" class="btn">Связаться с Экспертом</a>
-    </div>
-  </div>
-</section>
-
-<!-- БЛОГ / BLOG -->
-<section id="blog" class="blog" aria-labelledby="blog-title">
-  <div class="container">
-    <h2 id="blog-title">Блог</h2>
-    <p style="max-width:800px; margin-bottom:40px; margin-left: auto; margin-right: auto;">
-      Узнайте последние новости, тенденции и советы в сфере 3D-технологий от наших экспертов.
-    </p>
-    <div class="blog-container">
-      <div class="blog-content">
-        <div class="blog-post" tabindex="0" aria-labelledby="blog1-title">
-          <img src="https://via.placeholder.com/400x250" alt="Современные тенденции в 3D-печати" loading="lazy">
-          <h3 id="blog1-title">Современные тенденции в 3D-печати</h3>
-          <p>Обзор новейших технологий и материалов, используемых в 3D-печати в 2025 году.</p>
-          <a href="#blog-post-1" class="btn" aria-label="Читать далее">Читать далее</a>
-        </div>
-      </div>
-      <div class="blog-animation">
-        <!-- 3D-анимация с использованием Three.js -->
-        <canvas id="threejs-animation-blog" style="width: 100%; height: 100%;"></canvas>
-        <script>
-          // Пример простой 3D-анимации с Three.js для блока "Блог"
-          const sceneBlog = new THREE.Scene();
-          const cameraBlog = new THREE.PerspectiveCamera(75, document.getElementById('threejs-animation-blog').clientWidth / document.getElementById('threejs-animation-blog').clientHeight, 0.1, 1000);
-
-          const rendererBlog = new THREE.WebGLRenderer({ canvas: document.getElementById('threejs-animation-blog'), antialias: true });
-          rendererBlog.setSize(document.getElementById('threejs-animation-blog').clientWidth, document.getElementById('threejs-animation-blog').clientHeight);
-
-          const geometryBlog = new THREE.TorusKnotGeometry(1, 0.4, 100, 16);
-          const materialBlog = new THREE.MeshNormalMaterial();
-          const knot = new THREE.Mesh(geometryBlog, materialBlog);
-          sceneBlog.add(knot);
-
-          cameraBlog.position.z = 5;
-
-          function animateBlog() {
-            requestAnimationFrame(animateBlog);
-
-            knot.rotation.x += 0.01;
-            knot.rotation.y += 0.01;
-
-            rendererBlog.render(sceneBlog, cameraBlog);
-          }
-
-          animateBlog();
-        </script>
-      </div>
-    </div>
-    <div class="grid-3">
-      <!-- Добавьте больше статей по аналогии -->
-      <div class="blog-post" tabindex="0" aria-labelledby="blog2-title">
-        <img src="https://via.placeholder.com/400x250" alt="Название статьи блога" loading="lazy">
-        <h3 id="blog2-title">Название статьи блога</h3>
-        <p>Краткое описание статьи блога.</p>
-        <a href="#blog-post-2" class="btn" aria-label="Читать далее">Читать далее</a>
-      </div>
-      <div class="blog-post" tabindex="0" aria-labelledby="blog3-title">
-        <img src="https://via.placeholder.com/400x250" alt="Название статьи блога" loading="lazy">
-        <h3 id="blog3-title">Название статьи блога</h3>
-        <p>Краткое описание статьи блога.</p>
-        <a href="#blog-post-3" class="btn" aria-label="Читать далее">Читать далее</a>
-      </div>
-    </div>
-    <!-- Дополнительный CTA -->
-    <div style="text-align: center; margin-top: 40px;">
-      <a href="#contacts" class="btn">Узнать больше</a>
-    </div>
-  </div>
-</section>
-
-<!-- ОТЗЫВЫ КЛИЕНТОВ / REVIEWS -->
-<section id="reviews" class="reviews" aria-labelledby="reviews-title">
-  <div class="container">
-    <h2 id="reviews-title">Отзывы клиентов</h2>
-    <div class="reviews-grid" style="margin-top:40px;">
-      <div class="review-card" tabindex="0" aria-labelledby="review1-title">
-        <img src="https://via.placeholder.com/60" alt="Фото клиента Иван Иванов" loading="lazy">
-        <h4 id="review1-title">Иван Иванов</h4>
-        <p>Step3D помогла мне воплотить в жизнь идею моего проекта. Высокое качество работы и оперативность!</p>
-      </div>
-      <div class="review-card" tabindex="0" aria-labelledby="review2-title">
-        <img src="https://via.placeholder.com/60" alt="Фото клиента Мария Петрова" loading="lazy">
-        <h4 id="review2-title">Мария Петрова</h4>
-        <p>Отличный сервис! Мои 3D-модели были выполнены точно и в срок. Рекомендую всем!</p>
-      </div>
-      <div class="review-card" tabindex="0" aria-labelledby="review3-title">
-        <img src="https://via.placeholder.com/60" alt="Фото клиента Алексей Смирнов" loading="lazy">
-        <h4 id="review3-title">Алексей Смирнов</h4>
-        <p>Профессиональная команда и современное оборудование. Благодарю за отличную работу!</p>
-      </div>
-      <!-- Добавьте больше отзывов по аналогии -->
-    </div>
-    <!-- Дополнительный CTA -->
-    <div style="text-align: center; margin-top: 40px;">
-      <a href="#contacts" class="btn">Оставить отзыв</a>
-    </div>
-  </div>
-</section>
-
-<!-- ПАРТНЁРЫ / PARTNERS -->
-<section id="partners" class="partners" aria-labelledby="partners-title">
-  <div class="container">
-    <h2 id="partners-title">Партнёры и клиенты</h2>
-    <p style="max-width:800px; margin-bottom:40px; margin-left: auto; margin-right: auto;">
-      Мы успешно сотрудничали с крупными промышленными холдингами, IT-компаниями и образовательными организациями.
-    </p>
-    <div class="partners-matrix">
-      <!-- Партнёр 1 -->
-      <div class="partner-card" tabindex="0" aria-labelledby="partner1-title">
-        <img src="https://259506.selcdn.ru/sites-static/site953902/498009b8-b611-46fa-89ec-6eedce3d97ab/498009b8-b611-46fa-89ec-6eedce3d97ab-11049831.png" alt="Северсталь Логотип" loading="lazy">
-        <h3 id="partner1-title">Северсталь</h3>
-        <p>Партнер по промышленному 3D-сканированию и моделированию.</p>
-      </div>
-      <!-- Партнёр 2 -->
-      <div class="partner-card" tabindex="0" aria-labelledby="partner2-title">
-        <img src="https://259506.selcdn.ru/sites-static/site953902/c23d68dc-6008-4a16-be88-2b407b5a81f9/c23d68dc-6008-4a16-be88-2b407b5a81f9-10972333.png" alt="Роскосмос Логотип" loading="lazy">
-        <h3 id="partner2-title">Роскосмос</h3>
-        <p>Сотрудничество в области 3D-печати космических компонентов.</p>
-      </div>
-      <!-- Партнёр 3 -->
-      <div class="partner-card" tabindex="0" aria-labelledby="partner3-title">
-        <img src="https://259506.selcdn.ru/sites-static/site953902/f4087f6c-429e-47c6-ae31-5b30337bd056/f4087f6c-429e-47c6-ae31-5b30337bd056-10594839.jpeg" alt="Доброториум.АРТ Логотип" loading="lazy">
-        <h3 id="partner3-title">Доброториум.АРТ</h3>
-        <p>Совместные проекты в области художественного 3D-моделирования.</p>
-      </div>
-      <!-- Партнёр 4 -->
-      <div class="partner-card" tabindex="0" aria-labelledby="partner4-title">
-        <img src="https://via.placeholder.com/60" alt="Технопарк РГСУ Логотип" loading="lazy">
-        <h3 id="partner4-title">Технопарк РГСУ</h3>
-        <p>Сотрудничество в области исследований и разработок 3D-технологий.</p>
-      </div>
-      <!-- Добавьте больше партнёров по аналогии -->
-    </div>
-  </div>
-</section>
-
-<!-- FAQ -->
-<section id="faq" class="faq" aria-labelledby="faq-title">
-  <div class="container">
-    <h2 id="faq-title">Частые вопросы</h2>
-    <div style="margin-top: 40px;">
-      <div class="faq-item" tabindex="0" aria-expanded="false" aria-controls="faq1-answer">
-        <h3>Как работает ваш сервис?</h3>
-        <p id="faq1-answer">Мы предлагаем полный цикл 3D-услуг — от сканирования объектов до их моделирования и печати. Вы можете отправить запрос через сайт или воспользоваться нашим AI-чат-ботом в Telegram для быстрой оценки проекта.</p>
-      </div>
-      <div class="faq-item" tabindex="0" aria-expanded="false" aria-controls="faq2-answer">
-        <h3>Как быстро выполняются проекты?</h3>
-        <p id="faq2-answer">Сроки зависят от сложности. Для простых деталей — 2-5 дней, для комплексных проектов — от 1-2 недель. Узнайте точнее через чат-бот.</p>
-      </div>
-      <div class="faq-item" tabindex="0" aria-expanded="false" aria-controls="faq3-answer">
-        <h3>Какие материалы доступны для 3D-печати?</h3>
-        <p id="faq3-answer">FDM-пластик (PLA, ABS и т. д.), фотополимерные смолы (SLA/DLP), а также металлические порошки (при заказе через партнёров). Выбор зависит от задачи.</p>
-      </div>
-      <div class="faq-item" tabindex="0" aria-expanded="false" aria-controls="faq4-answer">
-        <h3>Как рассчитать стоимость?</h3>
-        <p id="faq4-answer">Используйте наш Telegram-бот @step_3d_mngr, который за пару минут определит ориентировочную цену и сроки. Или отправьте заявку через форму на сайте.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- КОНТАКТЫ / CONTACTS -->
-<section id="contacts" class="contacts" aria-labelledby="contacts-title">
-  <div class="container">
-    <h2 id="contacts-title">Связаться со Step3D</h2>
-    <p style="max-width:800px; margin-bottom:40px; margin-left: auto; margin-right: auto;">
-      Напишите нам в любом удобном мессенджере или заполните короткую форму, чтобы мы могли связаться с вами и обсудить детали проекта.
-    </p>
-    <div style="margin: 20px 0;">
-      <p><strong>Телефон:</strong> <a href="tel:+79959009141">+7 (995) 900-91-41</a></p>
-      <p><strong>E-mail:</strong> <a href="mailto:info@step3d.tech">info@step3d.tech</a></p>
-      <p><strong>Telegram:</strong> <a href="https://t.me/step_3d_mngr">@step_3d_mngr</a></p>
-    </div>
-    <!-- Улучшенная форма обратной связи с подтверждением -->
-    <form id="contact-form" style="max-width:500px;" aria-label="Форма обратной связи">
-      <label for="name">Ваше имя</label>
-      <input type="text" id="name" name="name" required aria-required="true" placeholder="Введите ваше имя">
-
-      <label for="phone">Телефон / Telegram</label>
-      <input type="text" id="phone" name="phone" required aria-required="true" placeholder="Введите телефон или Telegram">
-
-      <label for="details">Комментарий</label>
-      <textarea id="details" name="details" required aria-required="true" placeholder="Введите комментарий"></textarea>
-
-      <button type="submit" class="btn">Отправить</button>
-      <p class="success-message" id="success-message">Ваше сообщение успешно отправлено!</p>
+    <button onclick="fetchOrderData()">Получить данные о заказах</button>
+    <button onclick="sendOrderData(['1', 'John Doe', 'Pending', '100'])">Добавить заказ</button>
+    
+    <form id="uploadForm">
+        <input type="file" id="fileInput" />
+        <select id="profile">
+            <option value="fast">Быстрый</option>
+            <option value="standard">Стандартный</option>
+            <option value="high">Качественный</option>
+        </select>
+        <button type="submit">Загрузить модель</button>
     </form>
-  </div>
-</section>
 
-<!-- ПОДВАЛ / FOOTER -->
-<footer class="footer" aria-labelledby="footer-title">
-  <div class="container">
-    <h2 id="footer-title" class="visually-hidden">Футер</h2>
-    <div style="display:flex; flex-wrap:wrap; gap:20px; align-items:center; justify-content:space-between;">
-      <div>
-        <p>© 2020–2024 Step3D</p>
-        <p>ООО "СЕРВИС ТИРАЖИРОВАНИЯ И ЕДИНОГО ПРОИЗВОДСТВА 3Д-УСЛУГ" — ИНН: 9725161467, ОГРН: 1247700430449</p>
-      </div>
-      <div>
-        <ul style="list-style:none; display:flex; gap:15px;">
-          <li><a href="/pol">Политика конфиденциальности</a></li>
-          <li><a href="/offer">Оферта</a></li>
-          <li><a href="#blog">Блог</a></li>
-          <li><a href="#courses">Курсы / Образование</a></li>
-        </ul>
-      </div>
-      <div>
-        <a href="https://t.me/step_3d_mngr" class="btn">Чат-бот в Telegram</a>
-      </div>
-    </div>
-    <!-- Trust Badges (Добавлено) -->
-    <div class="trust-badges">
-      <div class="trust-badge">
-        <img src="https://via.placeholder.com/40" alt="Логотип сертификата">
-        <span>Сертификат качества</span>
-      </div>
-      <div class="trust-badge">
-        <img src="https://via.placeholder.com/40" alt="Логотип партнёра">
-        <span>Партнер WorldSkills</span>
-      </div>
-      <!-- Добавьте больше доверительных элементов по необходимости -->
-    </div>
-  </div>
-</footer>
+    <div id="orderData"></div>
+</div>
 
-<!-- Скрипты для интерактивности -->
 <script>
-  // Бургерное меню
-  const burger = document.querySelector('.burger');
-  const navLinks = document.querySelector('.nav-links');
-  const navLinksList = document.querySelectorAll('.nav-links a');
+    // URL для взаимодействия с Google Apps Script
+    const url = 'https://script.google.com/macros/s/AKfycbzks4jH57f-VHXB-FO4aaW1bK8IzXK0H4ViNTOtQtQd2B5-0BUOkypDRtHi0VgylYTo/exec';
 
-  burger.addEventListener('click', () => {
-    navLinks.classList.toggle('active');
-  });
-
-  // Закрытие меню при нажатии на ссылку
-  navLinksList.forEach(link => {
-    link.addEventListener('click', () => {
-      if (navLinks.classList.contains('active')) {
-        navLinks.classList.remove('active');
-      }
-    });
-  });
-
-  // Сворачиваемые FAQ с ARIA атрибутами
-  const faqItems = document.querySelectorAll('.faq-item');
-
-  faqItems.forEach(item => {
-    item.addEventListener('click', () => {
-      const isExpanded = item.getAttribute('aria-expanded') === 'true';
-
-      // Закрыть все открытые FAQ
-      faqItems.forEach(i => {
-        i.setAttribute('aria-expanded', 'false');
-        i.querySelector('p').style.display = 'none';
-      });
-
-      // Открыть выбранный FAQ, если он был закрыт
-      if (!isExpanded) {
-        item.setAttribute('aria-expanded', 'true');
-        item.querySelector('p').style.display = 'block';
-      }
-    });
-
-    // Поддержка клавиатуры (Enter и Space)
-    item.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        item.click();
-      }
-    });
-  });
-
-  // Обработка формы обратной связи
-  const contactForm = document.getElementById('contact-form');
-  const successMessage = document.getElementById('success-message');
-
-  contactForm.addEventListener('submit', function(e) {
-    e.preventDefault();
-    // Здесь должна быть обработка данных формы (например, отправка на сервер)
-
-    // Показать сообщение об успехе
-    successMessage.style.display = 'block';
-
-    // Очистить форму
-    contactForm.reset();
-
-    // Скрыть сообщение через 5 секунд
-    setTimeout(() => {
-      successMessage.style.display = 'none';
-    }, 5000);
-  });
-
-  // Отслеживание текущего раздела для активной ссылки
-  const sections = document.querySelectorAll('section');
-  const navLi = document.querySelectorAll('.nav-links a');
-
-  window.addEventListener('scroll', () => {
-    let current = '';
-
-    sections.forEach(section => {
-      const sectionTop = section.offsetTop - 80;
-      if (pageYOffset >= sectionTop) {
-        current = section.getAttribute('id');
-      }
-    });
-
-    navLi.forEach(li => {
-      li.classList.remove('active-link');
-      if (li.getAttribute('href') === `#${current}`) {
-        li.classList.add('active-link');
-      }
-    });
-  });
-
-  // Инициализация Swiper карусели в разделе "Портфолио"
-  const swiper = new Swiper(".mySwiper", {
-    slidesPerView: 1,
-    spaceBetween: 30,
-    loop: true,
-    pagination: {
-      el: ".swiper-pagination",
-      clickable: true,
-    },
-    navigation: {
-      nextEl: ".swiper-button-next",
-      prevEl: ".swiper-button-prev",
-    },
-    breakpoints: {
-      640: {
-        slidesPerView: 2,
-      },
-      1024: {
-        slidesPerView: 3,
-      },
-    },
-  });
-
-  // Улучшенные элементы доступности
-  document.querySelectorAll('img').forEach(img => {
-    if (!img.hasAttribute('alt')) {
-      img.setAttribute('alt', '');
+    // Функция для получения данных о заказах
+    function fetchOrderData() {
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                console.log('Order Data:', data);
+                displayOrderData(data);
+            })
+            .catch(error => {
+                console.error('Error fetching order data:', error);
+            });
     }
-  });
-</script>
 
-<!-- Минификация CSS и JavaScript -->
-<!-- Для реальной минимизации используйте инструменты сборки, такие как Webpack или онлайн-сервисы -->
+    // Функция для отправки данных о заказе
+    function sendOrderData(orderData) {
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ orderData: orderData })
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Order successfully sent:', data);
+        })
+        .catch(error => {
+            console.error('Error sending order data:', error);
+        });
+    }
+
+    // Отображение данных о заказах на странице
+    function displayOrderData(data) {
+        const orderDataDiv = document.getElementById('orderData');
+        orderDataDiv.innerHTML = ''; // Очистить предыдущие данные
+
+        if (data && data.length > 0) {
+            data.forEach(order => {
+                const orderElement = document.createElement('div');
+                orderElement.textContent = `ID: ${order[0]}, Имя: ${order[1]}, Статус: ${order[2]}, Цена: ${order[3]}`;
+                orderDataDiv.appendChild(orderElement);
+            });
+        } else {
+            orderDataDiv.textContent = 'Нет данных для отображения.';
+        }
+    }
+
+    // Обработка формы загрузки модели
+    document.getElementById('uploadForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        
+        const fileInput = document.getElementById('fileInput');
+        const profileSelect = document.getElementById('profile');
+
+        const fileName = fileInput.files[0] ? fileInput.files[0].name : 'Не выбран файл';
+        const selectedProfile = profileSelect.value;
+
+        // Здесь можно добавить логику для загрузки модели на сервер или Google Drive.
+        alert(`Загружена модель: ${fileName}, Профиль: ${selectedProfile}`);
+    });
+</script>
 
 </body>
 </html>
