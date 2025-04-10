@@ -1,4 +1,4 @@
-// Header: Добавление тени при скролле
+// Header: добавление тени при скролле
 const mainHeader = document.getElementById('main-header');
 window.addEventListener('scroll', () => {
   if (window.scrollY > 10) {
@@ -32,7 +32,7 @@ if (scrollTopBtn) {
   });
 }
 
-// Fade-in: Активируем эффекты при прокрутке для элементов с классом .fade-in
+// Fade-in эффекты через IntersectionObserver
 const fadeEls = document.querySelectorAll('.fade-in');
 const fadeObserver = new IntersectionObserver((entries, observer) => {
   entries.forEach(entry => {
@@ -78,7 +78,7 @@ if (countdownTimerEl) {
   setInterval(updateCountdown, 1000);
 }
 
-// Прогресс чтения (для program.html, если используется, здесь мы пример общий)
+// Прогресс чтения (если используется)
 const readingProgressBar = document.getElementById('readingProgressBar');
 const contentArea = document.getElementById('content-area');
 if (readingProgressBar && contentArea) {
@@ -99,6 +99,96 @@ if (fabToggle && fab) {
   });
 }
 
-/* Дополнительно можно добавить обработку для восстановления состояния "Отложенной заявки" в multiForm,
-   если используется в другой странице (contacts.html) */
-// (Если используется форма с сохранением данных, логика уже описана в contacts.html)
+// "Отложить заявку" — сохранение данных в localStorage
+const saveForLaterBtn = document.getElementById('saveForLaterBtn');
+if (saveForLaterBtn) {
+  saveForLaterBtn.addEventListener('click', () => {
+    const nameVal = document.getElementById('name').value;
+    const phoneVal = document.getElementById('phone').value;
+    const data = { name: nameVal, phone: phoneVal, timestamp: Date.now() };
+    localStorage.setItem('savedApplication', JSON.stringify(data));
+    alert('Заявка отложена! Вы сможете вернуться позже.');
+  });
+}
+
+// Если в localStorage есть сохранённая заявка, восстанавливаем данные формы
+const multiForm = document.getElementById('multiForm');
+if (multiForm) {
+  const saved = localStorage.getItem('savedApplication');
+  if (saved) {
+    const savedObj = JSON.parse(saved);
+    if (savedObj.name) document.getElementById('name').value = savedObj.name;
+    if (savedObj.phone) document.getElementById('phone').value = savedObj.phone;
+  }
+}
+
+// Многошаговая форма и progress bar
+const step1 = document.getElementById('step-1');
+const step2 = document.getElementById('step-2');
+const step3 = document.getElementById('step-3');
+const next1 = document.getElementById('next1');
+const next2 = document.getElementById('next2');
+const prev1 = document.getElementById('prev1');
+const prev2 = document.getElementById('prev2');
+const submitForm = document.getElementById('submitForm');
+const thankYouMessage = document.getElementById('thankYouMessage');
+const stepIndicators = document.querySelectorAll('.step-indicator');
+
+function updateProgressBar(step) {
+  stepIndicators.forEach(si => si.classList.remove('active'));
+  const current = document.querySelector(`.step-indicator[data-step="${step}"]`);
+  if (current) current.classList.add('active');
+}
+function validateStep1() {
+  const nameVal = (document.getElementById('name')?.value || '').trim();
+  const phoneVal = (document.getElementById('phone')?.value || '').trim();
+  if (!nameVal || !phoneVal) {
+    alert('Пожалуйста, заполните имя и телефон.');
+    return false;
+  }
+  return true;
+}
+
+if (next1 && step1 && step2) {
+  next1.addEventListener('click', () => {
+    if (!validateStep1()) return;
+    step1.classList.remove('active');
+    step2.classList.add('active');
+    updateProgressBar(2);
+  });
+}
+if (prev1 && step1 && step2) {
+  prev1.addEventListener('click', () => {
+    step2.classList.remove('active');
+    step1.classList.add('active');
+    updateProgressBar(1);
+  });
+}
+if (next2 && step2 && step3) {
+  next2.addEventListener('click', () => {
+    step2.classList.remove('active');
+    step3.classList.add('active');
+    updateProgressBar(3);
+  });
+}
+if (prev2 && step2 && step3) {
+  prev2.addEventListener('click', () => {
+    step3.classList.remove('active');
+    step2.classList.add('active');
+    updateProgressBar(2);
+  });
+}
+if (submitForm && thankYouMessage && multiForm) {
+  submitForm.addEventListener('click', (e) => {
+    e.preventDefault();
+    const emailVal = (document.getElementById('email')?.value || '').trim();
+    if (!emailVal) {
+      alert('Пожалуйста, введите e-mail!');
+      return;
+    }
+    // Скрыть форму, показать "Спасибо" и очистить сохранение
+    multiForm.style.display = 'none';
+    thankYouMessage.style.display = 'block';
+    localStorage.removeItem('savedApplication');
+  });
+}
