@@ -12,7 +12,7 @@
 
   <header role="banner">
     <a href="index.html" class="logo">RGSU / STEP_3D</a>
-    <nav role="navigation">
+    <nav role="navigation" aria-label="Основная навигация">
       <ul id="nav-list">
         <li><a href="index.html">Главная</a></li>
         <li><a href="program.html">О курсе</a></li>
@@ -29,26 +29,26 @@
   <main role="main">
     <section class="section-content">
       <h2>Как нас найти</h2>
-      <p><strong>Адрес:</strong> Москва, ул. Беговая, д.12</p>
-      <p>Телефон: <a href="tel:+79959009141">+7 (995) 900-91-41</a> <br>
+      <p><strong>Адрес:</strong> Москва, ул. Беговая, д. 12</p>
+      <p>Телефон: <a href="tel:+79959009141">+7 (995) 900-91-41</a><br>
          E-mail: <a href="mailto:info@step3d.tech">info@step3d.tech</a></p>
-      <!-- Карта -->
-      <iframe src="..." width="100%" height="400" loading="lazy"></iframe>
+      <!-- Карта, пример -->
+      <iframe src="https://yandex.ru/map-widget/v1/..." width="100%" height="400" loading="lazy"></iframe>
     </section>
 
-    <!-- Многошаговая форма с inline-валидацией (п.12) и "Отложить" (п.6) -->
-    <section id="registration">
+    <!-- Многошаговая форма (inline-валидация, "Отложить") -->
+    <section id="registration" class="section-content">
       <h2>Записаться на курс</h2>
       <div class="form-progress" id="form-progress">
         <div class="step-indicator active" data-step="1">Шаг 1</div>
         <div class="step-indicator" data-step="2">Шаг 2</div>
         <div class="step-indicator" data-step="3">Шаг 3</div>
       </div>
-      
+
       <form id="multiForm">
         <!-- Шаг 1 -->
         <div class="form-step active" id="step-1">
-          <p><strong>Шаг 1:</strong> Контактные данные</p>
+          <p><strong>Шаг 1:</strong> Введите имя и телефон</p>
           <label for="name">Имя</label><br>
           <input type="text" id="name" name="name" placeholder="Иван Иванов" aria-required="true"/><br>
 
@@ -57,7 +57,7 @@
 
           <div class="form-nav">
             <button type="button" id="next1">Далее</button>
-            <!-- (6) Кнопка "Отложить заявку" -->
+            <!-- (6) Отложить заявку -->
             <button type="button" id="saveForLaterBtn">Отложить</button>
           </div>
         </div>
@@ -89,15 +89,15 @@
       </form>
 
       <div class="thank-you" id="thankYouMessage" style="display:none; margin-top:2rem;">
-        <h3>Спасибо, заявка сохранена!</h3>
+        <h3>Спасибо за заявку!</h3>
         <p>Мы свяжемся с вами в ближайшее время.</p>
       </div>
     </section>
 
-    <!-- (10) Пример "закрытый раздел" -->
+    <!-- (10) Пример "Закрытый раздел" -->
     <section class="locked-section" aria-hidden="true">
-      <h2>Закрытая информация (только для зарегистрированных)</h2>
-      <p>Контент доступен после авторизации в личном кабинете.</p>
+      <h2>Закрытый раздел</h2>
+      <p>Доступен только авторизованным пользователям.</p>
     </section>
   </main>
 
