@@ -110,3 +110,173 @@ nav ul li a.active-link {
 /* ---------- Подсказки на шагах формы (п.10) —
    уже учтены в тексте, 
    стилистически можно лишь указать p { } */
+
+:root {
+  /* (7) Единая дизайн-система (UI Kit) */
+  --primary-color: #10A37F;
+  --secondary-color: #EEE;
+  --font-family: 'Inter', sans-serif;
+  --text-color: #333;
+  --bg-color: #FFF;
+  --accent-color: #10A37F; /* алиас на primary */
+  --error-color: #c0392b;
+  --light-bg: #f9f9f9;
+}
+
+body {
+  font-family: var(--font-family);
+  color: var(--text-color);
+  background: var(--bg-color);
+  margin: 0; 
+  padding: 0;
+}
+
+/* (1) Тултипы — можно использовать data-tooltip и псевдоэлементы */
+.tooltip {
+  position: relative;
+  cursor: help;
+  border-bottom: 1px dotted var(--accent-color);
+}
+.tooltip::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: 125%;
+  left: 0;
+  background: #444;
+  color: #fff;
+  padding: 0.5rem;
+  border-radius: 4px;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+}
+.tooltip:hover::after {
+  opacity: 1;
+}
+
+/* (2) Микро-анимации */
+.micro-anim {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.micro-anim:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+/* (3) Портфолио — .gallery-container */
+.gallery-container {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+}
+.gallery-item img {
+  width: 100%;
+  border-radius: 4px;
+}
+
+/* (4) Плавающая action-bar */
+.floating-action-bar {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 999;
+}
+.fab-btn {
+  background: var(--accent-color);
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 50px; 
+  height: 50px;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+.fab-menu {
+  display: none;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+.fab-menu a {
+  background: #fff;
+  color: var(--text-color);
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+}
+.fab.show .fab-menu {
+  display: flex;
+}
+
+/* (5) Прогресс чтения (readingProgressBar) */
+#readingProgressBar {
+  position: fixed;
+  top: 0; left: 0;
+  height: 4px;
+  background: var(--accent-color);
+  width: 0%;
+  z-index: 999;
+}
+
+/* (6) "Отложить заявку" — стилистика кнопок уже есть, логика в JS. */
+
+/* (7) UI Kit — используется везде: переменные, класс .btn-accent, ... */
+
+/* (8) Countdown: стили обычно простые: #countdown-timer { font-size:1.5rem; } */
+
+/* (9) Виртуальная экскурсия: стили под iframe, адаптив. */
+
+/* (10) Личный кабинет: уже упоминалось. .locked-section[aria-hidden="true"] { opacity: 0.4; pointer-events: none; } */
+
+/* (11) ARIA: это в основном атрибуты в HTML, а не стили. */
+
+/* (12) Inline-валидация */
+input:invalid {
+  border: 1px solid var(--error-color);
+  animation: shake 0.3s;
+}
+@keyframes shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-3px); }
+  50% { transform: translateX(3px); }
+  75% { transform: translateX(-3px); }
+  100% { transform: translateX(0); }
+}
+
+/* (13) Поиск autocomplete */
+.search-block {
+  position: relative;
+  margin-top: 1rem;
+}
+.autocomplete-list {
+  position: absolute;
+  top: 3rem;
+  left: 0;
+  background: #fff;
+  border: 1px solid #ddd;
+  width: 100%;
+  max-height: 200px;
+  overflow-y: auto;
+  display: none;
+}
+.autocomplete-list li {
+  padding: 0.5rem;
+  cursor: pointer;
+}
+.autocomplete-list li:hover {
+  background: var(--secondary-color);
+}
+
+/* (14) Sticky-подзаголовки */
+.sticky-heading > h2 {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 60px; /* ниже шапки */
+  background: var(--bg-color);
+  margin: 0 -1rem;
+  padding: 0.5rem 1rem;
+  z-index: 50;
+}
+
