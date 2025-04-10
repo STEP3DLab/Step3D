@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>О курсе — Реверсивный инжиниринг</title>
-  <meta name="description" content="Описание программы, преимущества, портфолио работ, FAQ." />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  
+  <meta name="description" content="Программа обучения, преимущества, портфолио, часто задаваемые вопросы." />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <link rel="stylesheet" href="assets/css/style.css" />
 </head>
 <body>
 
   <header role="banner">
     <a href="index.html" class="logo">RGSU / STEP_3D</a>
-    <nav role="navigation">
+    <nav role="navigation" aria-label="Основная навигация">
       <ul id="nav-list">
         <li><a href="index.html">Главная</a></li>
         <li><a href="program.html" class="active-link">О курсе</a></li>
@@ -26,14 +26,15 @@
     </div>
   </header>
 
-  <!-- (5) Прогресс-бар чтения (reading progress) -->
+  <!-- (5) Прогресс чтения -->
   <div id="readingProgressBar"></div>
 
   <main role="main" id="content-area">
+    <!-- (14) Sticky-подзаголовок -->
     <section class="section-content sticky-heading" id="intro-section">
       <h2>Формат и структура обучения</h2>
-      <p>Большой текст... [При прокрутке “h2” можно сделать position: sticky;]</p>
-      
+      <p>Наша программа стартует в очно-дистанционном формате, длительность от 48 до 144 часов...</p>
+
       <!-- (13) Поиск по сайту (автокомплит) -->
       <div class="search-block">
         <label for="site-search">Поиск по сайту:</label><br>
@@ -42,33 +43,67 @@
       </div>
     </section>
 
-    <!-- (14) Sticky-подзаголовок — можно задать класс sticky-heading -->
     <section class="section-content sticky-heading" id="modules-section">
       <h2>Модули курса</h2>
-      <p>Описание модулей, расписание, стоимость...</p>
-      <p class="micro-anim">Элемент с небольшой анимацией при наведении (п.2)</p>
+      <p>Мы предлагаем 3 основных модуля: базовый, углублённый и финальный проект.</p>
+      <div class="advantages-grid micro-anim">
+        <div class="advantage-card">
+          <img src="assets/images/icons/icon-basic.svg" alt="Базовый модуль" class="icon">
+          <h3>Базовый модуль</h3>
+          <p>48 часов. Основы реверсивного инжиниринга, простые 3D-сканы, базовый CAD.</p>
+        </div>
+        <div class="advantage-card">
+          <img src="assets/images/icons/icon-advanced.svg" alt="Углублённый модуль" class="icon">
+          <h3>Углублённый модуль</h3>
+          <p>48 часов. Сложные объекты, продвинутое CAD, промышленное оборудование.</p>
+        </div>
+        <div class="advantage-card">
+          <img src="assets/images/icons/icon-final.svg" alt="Финальный проект" class="icon">
+          <h3>Финальный проект</h3>
+          <p>48 часов. Итоговое задание, защита проекта, демонстрационный экзамен.</p>
+        </div>
+      </div>
     </section>
 
-    <!-- (3) Портфолио (галерея работ) -->
+    <!-- (3) Портфолио (галерея) -->
     <section class="section-content sticky-heading" id="portfolio-section">
       <h2>Портфолио работ студентов</h2>
       <div class="gallery-container">
         <div class="gallery-item micro-anim">
-          <img src="assets/images/gallery/work1.jpg" alt="Проект №1"/>
-          <p>Описание проекта</p>
+          <img src="assets/images/gallery/work1.jpg" alt="Проект 1">
+          <p>Проект №1: деталь для промышленного оборудования.</p>
         </div>
         <div class="gallery-item micro-anim">
-          <img src="assets/images/gallery/work2.jpg" alt="Проект №2"/>
-          <p>Описание проекта</p>
+          <img src="assets/images/gallery/work2.jpg" alt="Проект 2">
+          <p>Проект №2: сканирование сложной геометрии для машины.</p>
         </div>
-        <!-- ... -->
+        <!-- Дополните своими примерами -->
       </div>
     </section>
 
+    <!-- FAQ (аккордеон) -->
     <section class="section-content sticky-heading" id="faq-section">
       <h2>FAQ</h2>
-      <p>Частые вопросы о курсе...</p>
-      <!-- ... аккордеон, и т.д. -->
+      <p>Ниже ответы на некоторые часто задаваемые вопросы.</p>
+      <div class="accordion" data-appear>
+        <div class="item">
+          <button class="question">Нужен ли опыт в 3D-моделировании?</button>
+          <div class="answer">
+            <div class="answer-content">
+              <p>Нет, базовый модуль подходит даже для новичков.</p>
+            </div>
+          </div>
+        </div>
+        <div class="item">
+          <button class="question">Можно ли оплатить частями?</button>
+          <div class="answer">
+            <div class="answer-content">
+              <p>Да, модули можно оплачивать по отдельности.</p>
+            </div>
+          </div>
+        </div>
+        <!-- Добавьте ещё вопросы при необходимости -->
+      </div>
     </section>
   </main>
 
