@@ -216,3 +216,29 @@ if (siteSearch && autocompleteList) {
    position: sticky; top: ... } 
    JS не обязателен для этого, 
    но можно добавить логику, если нужно более гибко. */
+
+// 1) Header shadow on scroll
+const mainHeader = document.getElementById('main-header');
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 10) {
+    mainHeader.classList.add('scrolled');
+  } else {
+    mainHeader.classList.remove('scrolled');
+  }
+});
+
+// 2) Fade-in sections
+const fadeEls = document.querySelectorAll('.fade-in');
+const observer = new IntersectionObserver((entries, obs) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('active');
+      obs.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.2 });
+
+fadeEls.forEach(el => observer.observe(el));
+
+// Остальные скрипты (countdown, scrollTopBtn etc.) как раньше ...
+
