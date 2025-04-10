@@ -3,16 +3,21 @@
 <head>
   <meta charset="UTF-8" />
   <title>Главная — Реверсивный инжиниринг</title>
-  <meta name="description" content="Главная страница курса «Реверсивный инжиниринг». Освойте 3D-сканирование и CAD-моделирование.">
+  <meta name="description" content="Главная страница курса «Реверсивный инжиниринг». Освойте 3D-сканирование и CAD-моделирование." />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- (23) Добавьте favicon и meta-иконки:
+       <link rel="icon" href="assets/images/favicon.ico" sizes="any">
+       <link rel="apple-touch-icon" href="assets/images/apple-touch-icon.png" sizes="180x180"> 
+       ... -->
 
   <!-- Подключаем общий CSS -->
   <link rel="stylesheet" href="assets/css/style.css" />
 </head>
 <body>
 
-  <!-- ШАПКА САЙТА (без изменений) -->
-  <header role="banner">
+  <!-- (3) При прокрутке header получает тень (JS + .scrolled или position: sticky) -->
+  <header role="banner" id="main-header">
     <a href="index.html" class="logo">RGSU / STEP_3D</a>
     <nav role="navigation" aria-label="Основная навигация">
       <ul id="nav-list">
@@ -29,50 +34,74 @@
     </div>
   </header>
 
-  <!-- ОСНОВНОЙ КОНТЕНТ (Hero, Countdown, Экскурсия, Финальный CTA) -->
-  <main role="main">
-    <section class="hero" style="
+  <main role="main" id="content-area">
+    <!-- (1) line-height, (10) заменяем громоздкие анимации на fade-in, (2) плавные hover, etc. -->
+
+    <!-- HERO. 
+         (12) Не используем перегруженный фон, 
+         (9) Можно выделить крупные цифры, если есть, 
+         (7) Различные веса шрифта -->
+    <section class="hero fade-in" style="
       background: linear-gradient(135deg, rgba(16,163,127,0.2) 0%, rgba(16,163,127,0) 70%);
       padding: 4rem 2rem;
       text-align: center;
-    ">
-      <h1 style="font-size: 2.2rem; margin-bottom: 1rem;">
+      ">
+      <h1 style="font-size: 2.2rem; margin-bottom: 1rem; font-weight:600;">
         Курс «Реверсивный инжиниринг»
-        <span class="tooltip" data-tooltip="Методы 3D-сканирования и CAD-моделирования.">?</span>
+        <span class="tooltip" data-tooltip="3D-сканирование и CAD-моделирование">?</span>
       </h1>
-      <ul style="list-style: disc; display: inline-block; text-align: left; margin-bottom: 1.5rem; margin-left:1.5rem;">
-        <li style="margin-bottom: 0.5rem;">Освойте 3D-сканирование за 2 недели</li>
-        <li style="margin-bottom: 0.5rem;">Поймите базовый CAD без спец. подготовки</li>
-        <li style="margin-bottom: 0.5rem;">Учитесь очно или дистанционно по выбору</li>
+
+      <!-- (2) Маркированный список с bullets — скомпонован
+           (5) Если была форма — сделали бы поля больше, но здесь формы нет -->
+
+      <ul style="
+        list-style: disc;
+        display: inline-block;
+        text-align: left;
+        margin:0 0 1.5rem 1.5rem;
+      ">
+        <li style="margin-bottom: 0.5rem;">3D-сканирование за 2 недели</li>
+        <li style="margin-bottom: 0.5rem;">Базовый CAD без спецподготовки</li>
+        <li style="margin-bottom: 0.5rem;">Очно или дистанционно</li>
       </ul>
-      <p style="max-width:600px; margin:0 auto 1.5rem;">
-        Получите полный набор навыков для работы в современных технологиях прототипирования
-        — от оцифровки реальных объектов до 3D-печати.
+
+      <p style="max-width:600px; margin:0 auto 2rem; line-height:1.7;">
+        Получите полный набор навыков: от оцифровки реальных объектов до 3D-печати
+        в современных производственных стандартах.
       </p>
-      <a href="contacts.html#registration" class="btn-accent" style="
-         font-size: 1.1rem;
-         padding: 0.9rem 2rem;
-         box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-       ">
+
+      <a href="contacts.html#registration" class="btn-accent cta-btn" style="font-size:1.1rem;">
         Записаться
       </a>
     </section>
 
+    <!-- (8) Горизонтальный разделитель (необязательно) -->
+    <hr style="max-width:80%; margin:2rem auto; border:0; border-top:1px solid #eee;">
+
+    <!-- Блок с обратным отсчётом 
+         (4) Секция fade-in, sticky heading — в contacts/program 
+         (14) Тонировка, не слишком яркие акценты
+         (16) Проверяем контраст текста -->
     <section id="countdown-section" class="section-content fade-in" style="
       background-color: rgba(16,163,127,0.05);
-      margin-top: 2rem;
       padding: 2rem 1rem;
       text-align: center;
     ">
-      <h2 style="font-size: 1.8rem; margin-bottom: 1rem;">До старта нового потока:</h2>
+      <h2 style="font-size:1.8rem; font-weight:600; margin-bottom: 1rem;">До старта нового потока:</h2>
       <p id="countdown-timer" style="font-size:1.4rem; margin-bottom:0.5rem;">Загрузка...</p>
       <p><em>Успейте подать заявку!</em></p>
     </section>
 
+    <!-- (8) hr для разделения -->
+    <hr style="max-width:80%; margin:2rem auto; border:0; border-top:1px solid #eee;">
+
+    <!-- Виртуальная экскурсия + (15) Единый стиль кнопок -->
     <section id="virtual-tour" class="section-content fade-in" style="margin-top:2rem;">
-      <h2 style="font-size: 1.8rem; margin-bottom: 1rem;">Виртуальная экскурсия</h2>
-      <p>
-        Осмотрите нашу лабораторию и оборудование в 360° формате:
+      <h2 style="font-size: 1.8rem; margin-bottom: 1rem; font-weight:600;">
+        Виртуальная экскурсия
+      </h2>
+      <p style="line-height:1.7;">
+        Осмотрите лабораторию и оборудование в формате 360°: 
         поверните камеру, чтобы увидеть 3D-принтеры, сканеры и зону прототипирования.
       </p>
       <div style="margin-top:1rem;">
@@ -81,47 +110,61 @@
           width="100%"
           height="500"
           loading="lazy"
-          style="border:none;">
-        </iframe>
+          style="border:none;"
+          ></iframe>
       </div>
       <p style="margin-top:1rem;">
-        <a href="program.html" class="btn-accent" style="font-size:0.9rem; padding:0.5rem 1rem;">
+        <a href="program.html" class="btn-accent cta-btn" style="font-size:0.9rem;">
           Узнать подробнее об оборудовании →
         </a>
       </p>
     </section>
 
-    <section class="section-content" style="text-align:center; margin-top:2rem;">
-      <h2 style="font-size: 1.8rem; margin-bottom: 1rem;">Готовы начать?</h2>
-      <p style="max-width: 600px; margin: 0 auto 1.5rem;">
-        Оставьте заявку, и мы свяжемся с вами, чтобы подобрать удобный формат обучения 
-        и рассказать о вариантах оплаты.
+    <hr style="max-width:80%; margin:2rem auto; border:0; border-top:1px solid #eee;">
+
+    <!-- Финальный CTA. (19) Проверка грамотности,  (21) Заголовок более говорящий -->
+    <section class="section-content fade-in" style="text-align:center; margin-top:2rem;">
+      <h2 style="font-size:1.8rem; margin-bottom: 1rem; font-weight:600;">
+        Готовы начать обучение?
+      </h2>
+      <p style="max-width: 600px; margin: 0 auto 1.5rem; line-height:1.7;">
+        Оставьте заявку, и мы подберём удобный формат обучения 
+        и расскажем о возможностях оплаты и индивидуального графика.
       </p>
-      <a href="contacts.html#registration" class="btn-accent" style="font-size:1.1rem; padding:0.8rem 2rem;">
+      <a href="contacts.html#registration" class="btn-accent cta-btn" style="font-size:1.1rem;">
         Подать заявку
       </a>
     </section>
   </main>
 
-  <!-- НОВЫЙ ПОДВАЛ (Корпоративный стиль, как у Microsoft/Apple) -->
+  <!-- (8) hr — можем не ставить, если уже есть достаточно разделителей -->
+
+  <!-- НОВЫЙ "КОРПОРАТИВНЫЙ" ПОДВАЛ (как у Microsoft/Apple), 
+       реализующий (7) шрифтовые веса, (15) единый стиль ссылок,
+       (10) лёгкие анимации hover, (9) нет громоздких фонов, 
+       (14) спокойные цвета. 
+       (25) Ссылки более точные и понятные. -->
   <footer class="site-footer" style="margin-top:2rem; background:#f0f0f0; color:#333;">
-    <!-- Верхняя часть: несколько колонок (4 шт.) -->
+    <!-- Верхняя часть подвала (колонки) -->
     <div class="footer-top" style="
-      display: flex;
-      flex-wrap: wrap;
-      gap: 2rem;
-      padding: 2rem 1rem;
-      max-width: 1200px;
-      margin: 0 auto;">
+      display:flex;
+      flex-wrap:wrap;
+      gap:2rem;
+      padding:2rem 1rem;
+      max-width:1200px;
+      margin:0 auto;">
       
+      <!-- (6) Иконки, если есть, должны быть одной серии 
+           (здесь пропускаем для краткости) -->
+
       <!-- Колонка 1: Модули (Продукты) -->
       <div class="footer-col" style="flex:1 1 200px;">
         <h3 style="margin-bottom:0.5rem; font-weight:600;">Модули</h3>
         <ul style="list-style:none; padding:0;">
-          <li><a href="program.html#modules-section" style="text-decoration:none; color:inherit;">Базовый модуль</a></li>
-          <li><a href="program.html#modules-section" style="text-decoration:none; color:inherit;">Углублённый</a></li>
-          <li><a href="program.html#modules-section" style="text-decoration:none; color:inherit;">Финальный проект</a></li>
-          <li><a href="program.html" style="text-decoration:none; color:inherit;">Спецкурсы</a></li>
+          <li><a href="program.html#modules-section">Базовый модуль</a></li>
+          <li><a href="program.html#modules-section">Углублённый</a></li>
+          <li><a href="program.html#modules-section">Финальный проект</a></li>
+          <li><a href="program.html">Спецкурсы</a></li>
         </ul>
       </div>
 
@@ -129,10 +172,10 @@
       <div class="footer-col" style="flex:1 1 200px;">
         <h3 style="margin-bottom:0.5rem; font-weight:600;">Поддержка</h3>
         <ul style="list-style:none; padding:0;">
-          <li><a href="contacts.html" style="text-decoration:none; color:inherit;">Связаться с нами</a></li>
-          <li><a href="contacts.html#faq" style="text-decoration:none; color:inherit;">FAQ</a></li>
-          <li><a href="contacts.html#registration" style="text-decoration:none; color:inherit;">Регистрация</a></li>
-          <li><a href="program.html#faq-section" style="text-decoration:none; color:inherit;">Частые вопросы</a></li>
+          <li><a href="contacts.html">Связаться с нами</a></li>
+          <li><a href="contacts.html#faq">FAQ</a></li>
+          <li><a href="contacts.html#registration">Регистрация</a></li>
+          <li><a href="program.html#faq-section">Частые вопросы</a></li>
         </ul>
       </div>
 
@@ -140,10 +183,10 @@
       <div class="footer-col" style="flex:1 1 200px;">
         <h3 style="margin-bottom:0.5rem; font-weight:600;">Компания</h3>
         <ul style="list-style:none; padding:0;">
-          <li><a href="program.html#intro-section" style="text-decoration:none; color:inherit;">О программе</a></li>
-          <li><a href="program.html#portfolio-section" style="text-decoration:none; color:inherit;">Портфолио работ</a></li>
-          <li><a href="contacts.html#locked" style="text-decoration:none; color:inherit;">Вакансии (пример)</a></li>
-          <li><a href="#" style="text-decoration:none; color:inherit;">Новости (пример)</a></li>
+          <li><a href="program.html#intro-section">О программе</a></li>
+          <li><a href="program.html#portfolio-section">Портфолио работ</a></li>
+          <li><a href="contacts.html#locked">Вакансии (пример)</a></li>
+          <li><a href="#">Новости (пример)</a></li>
         </ul>
       </div>
 
@@ -151,15 +194,15 @@
       <div class="footer-col" style="flex:1 1 200px;">
         <h3 style="margin-bottom:0.5rem; font-weight:600;">Юридическая информация</h3>
         <ul style="list-style:none; padding:0;">
-          <li><a href="#" style="text-decoration:none; color:inherit;">Пользовательское соглашение</a></li>
-          <li><a href="#" style="text-decoration:none; color:inherit;">Политика конфиденциальности</a></li>
-          <li><a href="#" style="text-decoration:none; color:inherit;">Обработка данных</a></li>
-          <li><a href="#" style="text-decoration:none; color:inherit;">Cookie-файлы</a></li>
+          <li><a href="#">Пользовательское соглашение</a></li>
+          <li><a href="#">Политика конфиденциальности</a></li>
+          <li><a href="#">Обработка данных</a></li>
+          <li><a href="#">Cookie-файлы</a></li>
         </ul>
       </div>
     </div>
 
-    <!-- Нижняя строка подвала: регион/язык, соцсети, копирайт -->
+    <!-- Нижняя часть футера -->
     <div class="footer-bottom" style="
       background:#e0e0e0;
       padding:1rem;
@@ -170,12 +213,12 @@
         margin:0 auto;
         display:flex;
         flex-wrap:wrap;
+        gap:1rem;
         justify-content:space-between;
         align-items:center;
-        gap:1rem;
       ">
         
-        <!-- Левая часть: регион/язык (пример) -->
+        <!-- (7), (24) regionSelect + соцсети + copyright -->
         <div style="flex:1;">
           <label for="regionSelect" style="margin-right:0.5rem;">Регион:</label>
           <select id="regionSelect" name="regionSelect" style="padding:0.3rem;">
@@ -185,25 +228,25 @@
           </select>
         </div>
 
-        <!-- Соцсети (п.8) -->
         <div style="flex:1; text-align:center;">
-          <a href="#" style="margin-right:0.5rem; text-decoration:none; color:inherit;">VK</a>
-          <a href="#" style="margin-right:0.5rem; text-decoration:none; color:inherit;">YouTube</a>
-          <a href="#" style="margin-right:0.5rem; text-decoration:none; color:inherit;">Telegram</a>
+          <a href="#" style="margin-right:0.5rem;">VK</a>
+          <a href="#" style="margin-right:0.5rem;">YouTube</a>
+          <a href="#" style="margin-right:0.5rem;">Telegram</a>
         </div>
 
-        <!-- Копирайт (п.9) -->
         <div style="flex:1; text-align:right;">
-          &copy; 2025 <a href="index.html" style="text-decoration:none; color:inherit;">RGSU / STEP_3D</a>. Все права защищены.
+          © 2025 <a href="index.html" style="text-decoration:none; color:inherit;">
+            RGSU / STEP_3D
+          </a>. Все права защищены.
         </div>
       </div>
     </div>
   </footer>
 
-  <!-- КНОПКА «НАВЕРХ» -->
+  <!-- (17) Увеличить «тап-зону» на мобильном -> в CSS к кнопкам/ссылкам -->
   <button id="scrollTopBtn">&#8679;</button>
 
-  <!-- Подключаем общий скрипт -->
+  <!-- Скрипты -->
   <script src="assets/js/script.js"></script>
 </body>
 </html>
