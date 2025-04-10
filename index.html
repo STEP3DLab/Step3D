@@ -11,7 +11,7 @@
 </head>
 <body>
 
-  <!-- ШАПКА САЙТА -->
+  <!-- ШАПКА САЙТА (без изменений) -->
   <header role="banner">
     <a href="index.html" class="logo">RGSU / STEP_3D</a>
     <nav role="navigation" aria-label="Основная навигация">
@@ -19,7 +19,6 @@
         <li><a href="index.html" class="active-link">Главная</a></li>
         <li><a href="program.html">О курсе</a></li>
         <li><a href="contacts.html">Контакты</a></li>
-        <!-- Личный кабинет -->
         <li><a href="#" id="login-link">Личный кабинет</a></li>
       </ul>
     </nav>
@@ -30,9 +29,8 @@
     </div>
   </header>
 
-  <!-- ОСНОВНОЙ КОНТЕНТ -->
+  <!-- ОСНОВНОЙ КОНТЕНТ (Hero, Countdown, Экскурсия, Финальный CTA) -->
   <main role="main">
-    <!-- HERO-СЕКЦИЯ с градиентом фона (п.1) и bullets (п.2) -->
     <section class="hero" style="
       background: linear-gradient(135deg, rgba(16,163,127,0.2) 0%, rgba(16,163,127,0) 70%);
       padding: 4rem 2rem;
@@ -51,32 +49,26 @@
         Получите полный набор навыков для работы в современных технологиях прототипирования
         — от оцифровки реальных объектов до 3D-печати.
       </p>
-
-      <!-- CTA-кнопка (п.5) — чуть больше и box-shadow при hover -->
       <a href="contacts.html#registration" class="btn-accent" style="
          font-size: 1.1rem;
          padding: 0.9rem 2rem;
          box-shadow: 0 4px 6px rgba(0,0,0,0.1);
        ">
-         Записаться
+        Записаться
       </a>
     </section>
 
-    <!-- ОБРАТНЫЙ ОТСЧЁТ: тонированный фон (п.4) + fade-in (п.3) -->
     <section id="countdown-section" class="section-content fade-in" style="
       background-color: rgba(16,163,127,0.05);
-      margin-top: 2rem; 
-      padding: 2rem 1rem; 
+      margin-top: 2rem;
+      padding: 2rem 1rem;
       text-align: center;
     ">
       <h2 style="font-size: 1.8rem; margin-bottom: 1rem;">До старта нового потока:</h2>
-      <p id="countdown-timer" style="font-size:1.4rem; margin-bottom:0.5rem;">
-        Загрузка...
-      </p>
+      <p id="countdown-timer" style="font-size:1.4rem; margin-bottom:0.5rem;">Загрузка...</p>
       <p><em>Успейте подать заявку!</em></p>
     </section>
 
-    <!-- ВИРТУАЛЬНАЯ ЭКСКУРСИЯ: fade-in + отступы (п.7), пояснение и ссылка (п.6, p.8) -->
     <section id="virtual-tour" class="section-content fade-in" style="margin-top:2rem;">
       <h2 style="font-size: 1.8rem; margin-bottom: 1rem;">Виртуальная экскурсия</h2>
       <p>
@@ -92,7 +84,6 @@
           style="border:none;">
         </iframe>
       </div>
-      <!-- Доп. ссылка (п.8) -->
       <p style="margin-top:1rem;">
         <a href="program.html" class="btn-accent" style="font-size:0.9rem; padding:0.5rem 1rem;">
           Узнать подробнее об оборудовании →
@@ -100,7 +91,6 @@
       </p>
     </section>
 
-    <!-- ФИНАЛЬНЫЙ CTA -->
     <section class="section-content" style="text-align:center; margin-top:2rem;">
       <h2 style="font-size: 1.8rem; margin-bottom: 1rem;">Готовы начать?</h2>
       <p style="max-width: 600px; margin: 0 auto 1.5rem;">
@@ -113,46 +103,107 @@
     </section>
   </main>
 
-  <!-- ПОДВАЛ (не меняем глобально, но оставляем доп. отступы (п.7, p.9) -->
-  <footer role="contentinfo" class="site-footer" style="margin-top:2rem;">
-    <div class="footer-top" style="padding: 2rem 1rem;">
-      <div class="footer-col">
-        <h3>О курсе</h3>
-        <p style="max-width:200px;">
-          Программа «Реверсивный инжиниринг» 
-          объединяет 3D-сканирование, CAD-моделирование и прототипирование 
-          по современным стандартам.
-        </p>
-      </div>
-      <div class="footer-col">
-        <h3>Быстрые ссылки</h3>
-        <ul class="footer-links">
-          <li><a href="program.html">Программа курса</a></li>
-          <li><a href="contacts.html#registration">Записаться</a></li>
-          <li><a href="contacts.html">Контакты</a></li>
+  <!-- НОВЫЙ ПОДВАЛ (Корпоративный стиль, как у Microsoft/Apple) -->
+  <footer class="site-footer" style="margin-top:2rem; background:#f0f0f0; color:#333;">
+    <!-- Верхняя часть: несколько колонок (4 шт.) -->
+    <div class="footer-top" style="
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      padding: 2rem 1rem;
+      max-width: 1200px;
+      margin: 0 auto;">
+      
+      <!-- Колонка 1: Модули (Продукты) -->
+      <div class="footer-col" style="flex:1 1 200px;">
+        <h3 style="margin-bottom:0.5rem; font-weight:600;">Модули</h3>
+        <ul style="list-style:none; padding:0;">
+          <li><a href="program.html#modules-section" style="text-decoration:none; color:inherit;">Базовый модуль</a></li>
+          <li><a href="program.html#modules-section" style="text-decoration:none; color:inherit;">Углублённый</a></li>
+          <li><a href="program.html#modules-section" style="text-decoration:none; color:inherit;">Финальный проект</a></li>
+          <li><a href="program.html" style="text-decoration:none; color:inherit;">Спецкурсы</a></li>
         </ul>
       </div>
-      <div class="footer-col">
-        <h3>Контакты</h3>
-        <p>
-          <strong>Адрес:</strong> Москва, ул. Беговая, д.12<br>
-          <strong>Тел.:</strong> <a href="tel:+79959009141">+7 (995) 900-91-41</a><br>
-          <strong>E-mail:</strong> <a href="mailto:info@step3d.tech">info@step3d.tech</a>
-        </p>
+
+      <!-- Колонка 2: Поддержка -->
+      <div class="footer-col" style="flex:1 1 200px;">
+        <h3 style="margin-bottom:0.5rem; font-weight:600;">Поддержка</h3>
+        <ul style="list-style:none; padding:0;">
+          <li><a href="contacts.html" style="text-decoration:none; color:inherit;">Связаться с нами</a></li>
+          <li><a href="contacts.html#faq" style="text-decoration:none; color:inherit;">FAQ</a></li>
+          <li><a href="contacts.html#registration" style="text-decoration:none; color:inherit;">Регистрация</a></li>
+          <li><a href="program.html#faq-section" style="text-decoration:none; color:inherit;">Частые вопросы</a></li>
+        </ul>
+      </div>
+
+      <!-- Колонка 3: Компания -->
+      <div class="footer-col" style="flex:1 1 200px;">
+        <h3 style="margin-bottom:0.5rem; font-weight:600;">Компания</h3>
+        <ul style="list-style:none; padding:0;">
+          <li><a href="program.html#intro-section" style="text-decoration:none; color:inherit;">О программе</a></li>
+          <li><a href="program.html#portfolio-section" style="text-decoration:none; color:inherit;">Портфолио работ</a></li>
+          <li><a href="contacts.html#locked" style="text-decoration:none; color:inherit;">Вакансии (пример)</a></li>
+          <li><a href="#" style="text-decoration:none; color:inherit;">Новости (пример)</a></li>
+        </ul>
+      </div>
+
+      <!-- Колонка 4: Юридическая информация -->
+      <div class="footer-col" style="flex:1 1 200px;">
+        <h3 style="margin-bottom:0.5rem; font-weight:600;">Юридическая информация</h3>
+        <ul style="list-style:none; padding:0;">
+          <li><a href="#" style="text-decoration:none; color:inherit;">Пользовательское соглашение</a></li>
+          <li><a href="#" style="text-decoration:none; color:inherit;">Политика конфиденциальности</a></li>
+          <li><a href="#" style="text-decoration:none; color:inherit;">Обработка данных</a></li>
+          <li><a href="#" style="text-decoration:none; color:inherit;">Cookie-файлы</a></li>
+        </ul>
       </div>
     </div>
 
-    <div class="footer-bottom" style="border-top:1px solid #ddd; padding:1rem; text-align:center; font-size:0.9rem;">
-      <p style="margin:0;">
-        &copy; 2025 <a href="index.html">RGSU / STEP_3D</a>. Все права защищены.
-      </p>
+    <!-- Нижняя строка подвала: регион/язык, соцсети, копирайт -->
+    <div class="footer-bottom" style="
+      background:#e0e0e0;
+      padding:1rem;
+      font-size:0.9rem;
+    ">
+      <div style="
+        max-width:1200px;
+        margin:0 auto;
+        display:flex;
+        flex-wrap:wrap;
+        justify-content:space-between;
+        align-items:center;
+        gap:1rem;
+      ">
+        
+        <!-- Левая часть: регион/язык (пример) -->
+        <div style="flex:1;">
+          <label for="regionSelect" style="margin-right:0.5rem;">Регион:</label>
+          <select id="regionSelect" name="regionSelect" style="padding:0.3rem;">
+            <option value="ru">Россия</option>
+            <option value="us">United States</option>
+            <option value="eu">Europe</option>
+          </select>
+        </div>
+
+        <!-- Соцсети (п.8) -->
+        <div style="flex:1; text-align:center;">
+          <a href="#" style="margin-right:0.5rem; text-decoration:none; color:inherit;">VK</a>
+          <a href="#" style="margin-right:0.5rem; text-decoration:none; color:inherit;">YouTube</a>
+          <a href="#" style="margin-right:0.5rem; text-decoration:none; color:inherit;">Telegram</a>
+        </div>
+
+        <!-- Копирайт (п.9) -->
+        <div style="flex:1; text-align:right;">
+          &copy; 2025 <a href="index.html" style="text-decoration:none; color:inherit;">RGSU / STEP_3D</a>. Все права защищены.
+        </div>
+      </div>
     </div>
   </footer>
 
   <!-- КНОПКА «НАВЕРХ» -->
   <button id="scrollTopBtn">&#8679;</button>
 
-  <!-- Скрипт -->
+  <!-- Подключаем общий скрипт -->
   <script src="assets/js/script.js"></script>
 </body>
 </html>
