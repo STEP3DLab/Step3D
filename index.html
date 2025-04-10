@@ -3,24 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Курс «Реверсивный инжиниринг» — Главная</title>
-
-  <!-- SEO -->
+  <title>Главная — Реверсивный инжиниринг</title>
   <meta name="description" content="Главная страница курса «Реверсивный инжиниринг».">
-  <!-- Open Graph (пример) -->
-  <meta property="og:title" content="Курс «Реверсивный инжиниринг» — RGSU / STEP_3D" />
-  <meta property="og:description" content="Получите навыки реверсивного инжиниринга, 3D-сканирования и прототипирования в РГСУ." />
-  <meta property="og:image" content="assets/images/og_image.jpg" />
-
-  <!-- (Пример для Google Analytics) -->
-  <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=UA-XXXXXXX-X"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){ dataLayer.push(arguments); }
-    gtag('js', new Date());
-    gtag('config', 'UA-XXXXXXX-X');
-  </script> -->
-
+  
   <link rel="stylesheet" href="assets/css/style.css" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
@@ -42,72 +27,41 @@
     </div>
   </header>
 
-  <!-- HERO SECTION + Lazy loading iframe -->
+  <!-- HERO SECTION -->
   <section class="hero">
     <h1>Курс «Реверсивный инжиниринг»</h1>
-    <p>Весенне-летняя сессия 2025 года. Получите навыки 3D-сканирования, CAD-моделирования и прототипирования.</p>
-    <a href="contacts.html#registration" class="btn-accent" onclick="gaEvent('Hero_CTA_Click')">Записаться на курс</a>
+    <p>Получите навыки 3D-сканирования, CAD-моделирования и прототипирования.</p>
+    <a href="contacts.html#registration" class="btn-accent">Записаться на курс</a>
+  </section>
 
-    <div class="video-container" data-appear>
-      <iframe 
-        src="https://www.youtube.com/embed/kMSxSgMUxMY" 
-        allowfullscreen 
-        loading="lazy">
-      </iframe>
+  <!-- Пример кнопки, вызывающей поп-ап (п.6) -->
+  <section class="section-content" style="text-align:center; margin-top:2rem;">
+    <button class="btn-accent" id="show-popup-btn">Показать поп-ап</button>
+  </section>
+
+  <!-- Поп-ап с оверлеем (скрыт по умолчанию) -->
+  <div class="overlay" id="popup-overlay">
+    <div class="popup">
+      <h3>Пример поп-апа</h3>
+      <p>Здесь можно показать крупное изображение, предупреждение или дополнительную информацию.</p>
+      <button class="btn-accent" id="close-popup-btn">Закрыть</button>
     </div>
-  </section>
+  </div>
 
-  <!-- Баннер со скидками (п.10) -->
-  <section class="cta-block" data-appear>
-    <h2>Специальные предложения</h2>
-    <p>Только этой весной: <strong>студентам +10% скидка</strong> на любой модуль!<br>При покупке полного курса (3 модуля) экономия ~17%.</p>
-    <a href="program.html#calc-price" class="btn-accent" onclick="gaEvent('Discount_Banner_Click')">Узнать подробнее</a>
-  </section>
-
-  <!-- Блок «Блог / Новости» (п.9) -->
-  <section id="blog" data-appear>
-    <h2>Наш блог</h2>
-    <div class="section-content">
-      <article>
-        <h3>Победа на чемпионате WorldSkills!</h3>
-        <p>Команда РГСУ заняла призовые места в направлении «Прототипирование», применяя методики реверсивного инжиниринга...</p>
-        <a href="#" onclick="gaEvent('Blog_ReadMore_Click')">Читать далее</a>
-      </article>
-
-      <article>
-        <h3>Новые 3D-сканеры RangeVision</h3>
-        <p>В нашу лабораторию поступило новое оборудование для высокоточного сканирования...</p>
-        <a href="#" onclick="gaEvent('Blog_ReadMore_Click')">Читать далее</a>
-      </article>
-    </div>
-  </section>
-
-  <!-- CTA-блок в конце страницы (п.3) -->
+  <!-- CTA-блок -->
   <section class="cta-block">
     <h2>Готовы начать обучение?</h2>
-    <p>Оставьте заявку в один клик.</p>
-    <a href="contacts.html#registration" class="btn-accent" onclick="gaEvent('Footer_CTA_Click')">Подать заявку</a>
+    <p>Оставьте заявку, и мы свяжемся с вами!</p>
+    <a href="contacts.html#registration" class="btn-accent">Подать заявку</a>
   </section>
 
   <footer>
-    <p>&copy; 2025 РГСУ и STEP_3Д. Все права защищены.</p>
+    <p>&copy; 2025 РГСУ и STEP_3Д</p>
   </footer>
 
-  <!-- Скрипты -->
-  <script src="assets/js/script.js"></script>
+  <!-- Кнопка "Наверх" (п.4) -->
+  <button id="scrollTopBtn">&#8679;</button>
 
-  <!-- Пример встроенного чат-виджета (п.1)
-       Здесь код Tawk.to (добавьте свой property ID) -->
-  <!-- <script type="text/javascript">
-  var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-  (function(){
-  var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-  s1.async=true;
-  s1.src='https://embed.tawk.to/YOUR_PROPERTY_ID/1gqoeXXXX';
-  s1.charset='UTF-8';
-  s1.setAttribute('crossorigin','*');
-  s0.parentNode.insertBefore(s1,s0);
-  })();
-  </script> -->
+  <script src="assets/js/script.js"></script>
 </body>
 </html>
