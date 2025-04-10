@@ -1,10 +1,13 @@
 :root {
+  /* (7) UI Kit / дизайн-система */
+  --primary-color: #10A37F;
   --accent-color: #10A37F;
+  --secondary-color: #EEE;
+  --error-color: #c0392b;
   --font-family: 'Inter', Arial, sans-serif;
   --text-color: #333;
-  --bg-color: #fff;
-  --light-bg-color: #f9f9f9;
-  --header-height: 70px; 
+  --bg-color: #FFF;
+  --header-height: 70px;
 }
 
 * {
@@ -16,24 +19,21 @@
 body {
   font-family: var(--font-family);
   color: var(--text-color);
-  background-color: var(--bg-color);
+  background: var(--bg-color);
   line-height: 1.5;
   overflow-x: hidden;
 }
 
-/* HEADER (sticky не всегда нужен, 
-   но при желании можно оставить) */
+/* Header, nav, burger (адаптив) — при желании объединить с предыдущим кодом */
 header {
-  position: sticky;
-  top: 0;
-  z-index: 999;
-  background-color: var(--bg-color);
   display: flex;
   align-items: center;
   justify-content: space-between;
   height: var(--header-height);
   padding: 0 1.5rem;
+  background: #fff;
   border-bottom: 1px solid #eee;
+  position: relative;
 }
 
 .logo {
@@ -43,13 +43,11 @@ header {
   text-decoration: none;
 }
 
-/* Навигация */
 nav ul {
   display: flex;
-  gap: 1rem;
   list-style: none;
+  gap: 1rem;
 }
-
 nav a {
   text-decoration: none;
   color: var(--text-color);
@@ -59,22 +57,15 @@ nav a {
 nav a:hover {
   color: var(--accent-color);
 }
-.nav-cta {
-  padding: 0.5rem 1rem;
-  background-color: var(--accent-color);
-  color: #fff;
-  border-radius: 4px;
-  transition: background-color 0.3s;
-}
-.nav-cta:hover {
-  background-color: #088265;
+nav a.active-link {
+  color: var(--accent-color);
+  font-weight: 600;
 }
 
-/* Burger */
 .burger {
   display: none;
   flex-direction: column;
-  gap: 5px;
+  gap: 4px;
   cursor: pointer;
 }
 .burger span {
@@ -84,14 +75,13 @@ nav a:hover {
   transition: 0.4s;
 }
 
-/* Адаптив для меню */
-@media screen and (max-width: 768px) {
+@media (max-width: 768px) {
   nav ul {
     position: absolute;
     top: var(--header-height);
     right: 0;
     flex-direction: column;
-    background-color: var(--bg-color);
+    background: #fff;
     width: 200px;
     border: 1px solid #ddd;
     padding: 1rem;
@@ -106,20 +96,18 @@ nav a:hover {
   }
 }
 
-/* Hero, секции, кнопки */
+/* Hero */
 .hero {
   padding: 4rem 2rem;
   text-align: center;
-  background: var(--light-bg-color);
+  background: #f9f9f9;
 }
 .hero h1 {
   font-size: 2rem;
   margin-bottom: 1rem;
 }
 .hero p {
-  max-width: 600px;
-  margin: 0 auto 1.5rem;
-  font-weight: 300;
+  margin-bottom: 1.5rem;
 }
 .btn-accent {
   display: inline-block;
@@ -128,72 +116,190 @@ nav a:hover {
   color: #fff;
   border-radius: 4px;
   text-decoration: none;
-  font-weight: 500;
   transition: background-color 0.3s;
 }
 .btn-accent:hover {
   background-color: #088265;
 }
 
-/* Общие стили секций */
-section {
-  padding: 3rem 2rem;
-  max-width: 1200px;
+/* Section */
+.section-content {
+  max-width: 1100px;
   margin: 0 auto;
+  padding: 2rem 1rem;
 }
 section h2 {
   font-size: 1.8rem;
-  margin-bottom: 1.5rem;
-  text-align: center;
-}
-.section-content {
-  max-width: 900px;
-  margin: 0 auto;
-  line-height: 1.7;
-}
-
-/* Пример сетки преимуществ */
-.advantages-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 1.5rem;
-}
-.advantage-card {
-  background-color: #fff;
-  border: 1px solid #eee;
-  border-radius: 8px;
-  padding: 1.5rem;
-  text-align: center;
-  transition: box-shadow 0.3s;
-}
-.advantage-card:hover {
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-}
-.advantage-card h3 {
-  margin-bottom: 0.5rem;
-  color: var(--accent-color);
-}
-
-/* Таблицы */
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin: 1.5rem 0;
-}
-table th, table td {
-  padding: 0.75rem;
-  border: 1px solid #ddd;
-  text-align: center;
-}
-table th {
-  background-color: #f0f0f0;
-}
-
-/* Аккордеон */
-.accordion .item {
   margin-bottom: 1rem;
+}
+
+/* Tooltip (п.1) */
+.tooltip {
+  position: relative;
+  cursor: help;
+  border-bottom: 1px dotted var(--accent-color);
+}
+.tooltip::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: 125%;
+  left: 0;
+  background: #444;
+  color: #fff;
+  padding: 0.5rem;
+  border-radius: 4px;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+}
+.tooltip:hover::after {
+  opacity: 1;
+}
+
+/* Микро-анимации (п.2) */
+.micro-anim {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.micro-anim:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+/* Портфолио (п.3) */
+.gallery-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1rem;
+}
+.gallery-item img {
+  width: 100%;
+  border-radius: 4px;
+}
+
+/* Floating action bar (п.4) */
+.floating-action-bar {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 999;
+}
+.fab-btn {
+  background: var(--accent-color);
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+.fab-menu {
+  display: none;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+.fab-menu a {
+  background: #fff;
+  color: var(--text-color);
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  text-decoration: none;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+}
+.fab.show .fab-menu {
+  display: flex;
+}
+
+/* Прогресс чтения (п.5) */
+#readingProgressBar {
+  position: fixed;
+  top: 0; left: 0;
+  height: 4px;
+  background: var(--accent-color);
+  width: 0%;
+  z-index: 999;
+}
+
+/* (6) "Отложить заявку" — кнопка уже есть, логика в JS. */
+
+/* (7) UI Kit — уже используем переменные, btn-accent, etc. */
+
+/* (8) Countdown — просто #countdown-timer можно увеличить размер */
+#countdown-timer {
+  font-size: 1.4rem;
+  margin-bottom: 0.5rem;
+}
+
+/* (9) Виртуальная экскурсия — стили для iframe, адаптив */
+#virtual-tour iframe {
+  border: none;
+  max-width: 100%;
+}
+
+/* (10) Личный кабинет/закрытый раздел */
+.locked-section[aria-hidden="true"] {
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+/* (11) ARIA в основном в HTML-разметке. */
+
+/* (12) Inline validation */
+input:invalid {
+  border: 1px solid var(--error-color);
+  animation: shake 0.3s;
+}
+@keyframes shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-3px); }
+  50% { transform: translateX(3px); }
+  75% { transform: translateX(-3px); }
+  100% { transform: translateX(0); }
+}
+
+/* (13) Поиск (autocomplete) */
+.search-block {
+  position: relative;
+  margin-top: 1rem;
+}
+.autocomplete-list {
+  position: absolute;
+  top: 3rem;
+  left: 0;
+  right: 0;
+  background: #fff;
   border: 1px solid #ddd;
-  border-radius: 6px;
+  max-height: 200px;
+  overflow-y: auto;
+  display: none;
+  z-index: 1000;
+}
+.autocomplete-list li {
+  padding: 0.5rem;
+  cursor: pointer;
+}
+.autocomplete-list li:hover {
+  background: var(--secondary-color);
+}
+
+/* (14) Sticky подзаголовки */
+.sticky-heading > h2 {
+  position: -webkit-sticky;
+  position: sticky;
+  top: calc(var(--header-height));
+  background: var(--bg-color);
+  padding: 0.5rem 0;
+  z-index: 50;
+  margin-bottom: 1rem;
+}
+
+/* Аккордеон (FAQ) из предыдущих версий */
+.accordion .item {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-bottom: 1rem;
 }
 .accordion .question {
   width: 100%;
@@ -203,25 +309,74 @@ table th {
   font-weight: 600;
   padding: 1rem;
   cursor: pointer;
-  transition: color 0.3s;
-}
-.accordion .question:hover {
-  color: var(--accent-color);
 }
 .accordion .answer {
   max-height: 0;
   overflow: hidden;
   transition: max-height 0.4s ease;
-  padding: 0 1rem; 
+  padding: 0 1rem;
 }
 .accordion .answer-content {
   padding-bottom: 1rem;
 }
 
-/* Мульти-шаговая форма */
-.multi-step-form {
-  max-width: 600px;
-  margin: 0 auto;
+/* Кнопка "Наверх" (из прошлых версий) */
+#scrollTopBtn {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  width: 40px;
+  height: 40px;
+  background-color: var(--accent-color);
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  z-index: 999;
+}
+#scrollTopBtn.showBtn {
+  display: flex;
+}
+#scrollTopBtn:hover {
+  background: #088265;
+}
+
+/* Формы (общие стили) */
+form {
+  margin-top: 1rem;
+}
+form label {
+  margin-top: 0.5rem;
+  display: block;
+}
+form input[type="text"],
+form input[type="tel"],
+form input[type="email"] {
+  width: 100%;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+.form-progress {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 1rem;
+}
+.step-indicator {
+  width: 33%;
+  text-align: center;
+  background: #eee;
+  padding: 0.5rem;
+  border-radius: 4px;
+}
+.step-indicator.active {
+  background: var(--accent-color);
+  color: #fff;
 }
 .form-step {
   display: none;
@@ -232,59 +387,16 @@ table th {
 .form-nav {
   margin-top: 1rem;
   display: flex;
-  justify-content: space-between;
+  gap: 1rem;
 }
 .form-nav button {
-  background-color: var(--accent-color);
+  background: var(--accent-color);
   color: #fff;
   border: none;
-  padding: 0.6rem 1.2rem;
+  padding: 0.5rem 1rem;
   border-radius: 4px;
   cursor: pointer;
 }
-
-/* Видео-контейнер (16:9) */
-.video-container {
-  position: relative;
-  padding-bottom: 56.25%;
-  height: 0;
-  overflow: hidden;
-  margin: 2rem 0;
-}
-.video-container iframe {
-  position: absolute;
-  top: 0; 
-  left: 0; 
-  width: 100%; 
-  height: 100%;
-  border: 0;
-}
-
-/* Анимации появления при скролле */
-[data-appear] {
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.8s ease, transform 0.8s ease;
-}
-[data-appear].active {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* Footer */
-footer {
-  background-color: var(--light-bg-color);
-  padding: 2rem;
-  text-align: center;
-  font-size: 0.9rem;
-  color: #666;
-}
-footer a {
-  color: var(--text-color);
-  text-decoration: none;
-  font-weight: 500;
-  transition: color 0.3s;
-}
-footer a:hover {
-  color: var(--accent-color);
+.form-nav button:hover {
+  background: #088265;
 }
