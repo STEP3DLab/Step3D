@@ -1,7 +1,6 @@
 // Бургер-меню
 const burgerBtn = document.getElementById('burger-btn');
 const navList = document.getElementById('nav-list');
-
 if (burgerBtn && navList) {
   burgerBtn.addEventListener('click', () => {
     navList.classList.toggle('show');
@@ -9,10 +8,9 @@ if (burgerBtn && navList) {
   });
 }
 
-// Анимация появления при скролле (IntersectionObserver)
+// Анимация появления (IntersectionObserver)
 const appearElements = document.querySelectorAll('[data-appear]');
 const options = { threshold: 0.2 };
-
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if(entry.isIntersecting) {
@@ -20,7 +18,6 @@ const observer = new IntersectionObserver((entries) => {
     }
   });
 }, options);
-
 appearElements.forEach(el => observer.observe(el));
 
 // FAQ-аккордеон
@@ -36,7 +33,7 @@ faqButtons.forEach(btn => {
   });
 });
 
-// Мульти-шаговая форма (если есть на странице)
+// Мульти-шаговая форма
 const step1 = document.getElementById('step-1');
 const step2 = document.getElementById('step-2');
 const step3 = document.getElementById('step-3');
@@ -46,35 +43,38 @@ const prev1 = document.getElementById('prev1');
 const next2 = document.getElementById('next2');
 const prev2 = document.getElementById('prev2');
 const submitForm = document.getElementById('submitForm');
+const thankYouMessage = document.getElementById('thankYouMessage');
 
-if (step1 && next1) {
+if (next1 && step1 && step2) {
   next1.addEventListener('click', () => {
     step1.classList.remove('active');
     step2.classList.add('active');
   });
 }
-if (prev1 && step2) {
+if (prev1 && step1 && step2) {
   prev1.addEventListener('click', () => {
     step2.classList.remove('active');
     step1.classList.add('active');
   });
 }
-if (next2 && step3) {
+if (next2 && step2 && step3) {
   next2.addEventListener('click', () => {
     step2.classList.remove('active');
     step3.classList.add('active');
   });
 }
-if (prev2 && step2) {
+if (prev2 && step2 && step3) {
   prev2.addEventListener('click', () => {
     step3.classList.remove('active');
     step2.classList.add('active');
   });
 }
-if (submitForm) {
+if (submitForm && thankYouMessage) {
   submitForm.addEventListener('click', (e) => {
     e.preventDefault();
-    alert('Заявка отправлена! Спасибо.');
-    // Здесь можно добавить логику отправки на сервер
+    // Скрываем последний шаг формы
+    step3.classList.remove('active');
+    // Показываем "спасибо"
+    thankYouMessage.style.display = 'block';
   });
 }
