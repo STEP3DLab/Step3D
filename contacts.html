@@ -3,11 +3,7 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Курс «Реверсивный инжиниринг» — Контакты</title>
-
-  <meta name="description" content="Контакты, карта, многошаговая форма записи на курс.">
-  <meta property="og:title" content="Контакты курса «Реверсивный инжиниринг»" />
-  <meta property="og:description" content="Оставьте заявку или свяжитесь с нами, чтобы узнать о курсе реверсивного инжиниринга." />
+  <title>Контакты — Реверсивный инжиниринг</title>
 
   <link rel="stylesheet" href="assets/css/style.css"/>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
@@ -33,119 +29,84 @@
   <section>
     <h2>Как нас найти</h2>
     <div class="section-content" data-appear>
-      <p><strong>Адрес:</strong> Москва, ул. Беговая, д. 12. (Лаборатория промдизайна и цех технопарка РГСУ)</p>
+      <p><strong>Адрес:</strong> Москва, ул. Беговая, д. 12</p>
       <p>Телефон: <a href="tel:+79959009141">+7 (995) 900-91-41</a><br>
          E-mail: <a href="mailto:info@step3d.tech">info@step3d.tech</a></p>
-
-      <!-- Ленивая загрузка карты (loading="lazy") -->
-      <div class="map-container" style="margin-top: 1.5rem;">
-        <iframe 
-          src="https://yandex.ru/map-widget/v1/-/CCU~PH0xNB" 
-          width="100%" 
-          height="400" 
-          frameborder="0" 
-          loading="lazy">
-        </iframe>
+      <!-- Карта с loading="lazy" -->
+      <div style="margin-top:1rem;">
+        <iframe src="..." width="100%" height="400" loading="lazy"></iframe>
       </div>
     </div>
   </section>
 
-  <!-- Расширенные отзывы -->
-  <section id="testimonials">
-    <h2>Отзывы выпускников</h2>
-    <div class="section-content testimonials" data-appear>
-      <div class="testimonial-item">
-        <p>«Отличное сочетание теории и практики! Успел защитить проект по автомобилестроению.»</p>
-        <div class="testimonial-author">— Дмитрий С.</div>
-      </div>
-      <div class="testimonial-item">
-        <p>«Преподаватели — практики, много реального опыта. Круто, что включён демонстрационный экзамен.»</p>
-        <div class="testimonial-author">— Ольга П.</div>
-      </div>
-    </div>
-  </section>
+  <!-- Отзывы и т.д. -->
 
-  <!-- Мульти-шаговая форма (с Formspree для e-mail подтверждения) -->
+  <!-- Многошаговая форма с прогресс-баром (п.2), placeholders (п.9), короткие вводные (п.10) -->
   <section id="registration">
     <h2>Записаться на курс</h2>
     <div class="section-content" data-appear>
 
-      <!-- 
-        Пример интеграции с Formspree:
-        1) Зарегистрируйтесь на formspree.io 
-        2) Замените URL на свой https://formspree.io/f/XXX
-        3) При отправке POST-запроса получите уведомление на e-mail
-      -->
-      <form id="multiForm" action="https://formspree.io/f/YOUR_ID" method="POST">
-        
+      <!-- Прогресс-бар (3 шага) -->
+      <div class="form-progress" id="form-progress">
+        <div class="step-indicator active" data-step="1">Шаг 1</div>
+        <div class="step-indicator" data-step="2">Шаг 2</div>
+        <div class="step-indicator" data-step="3">Шаг 3</div>
+      </div>
+
+      <form id="multiForm">
         <!-- Шаг 1 -->
         <div class="form-step active" id="step-1">
-          <p><strong>Шаг 1 из 3:</strong> Контактные данные</p>
+          <p><strong>Шаг 1 из 3:</strong> Введите контактные данные, чтобы мы могли связаться.</p>
           <label for="name">Ваше имя</label><br>
-          <input type="text" id="name" name="name" placeholder="Иван Иванов" style="width: 100%; padding: 0.5rem; margin-bottom: 1rem;" required><br>
+          <input type="text" id="name" name="name" placeholder="Иван Иванов" style="width:100%; padding:0.5rem; margin-bottom:1rem;" required><br>
 
           <label for="phone">Телефон</label><br>
-          <input type="tel" id="phone" name="phone" placeholder="+7 (___) ___-__-__" style="width: 100%; padding: 0.5rem; margin-bottom: 1rem;" required><br>
+          <input type="tel" id="phone" name="phone" placeholder="+7 (999) 000-00-00" style="width:100%; padding:0.5rem; margin-bottom:1rem;" required><br>
 
           <div class="form-nav">
-            <button type="button" id="next1" onclick="gaEvent('Form_Next1_Click')">Далее</button>
+            <button type="button" id="next1">Далее</button>
           </div>
         </div>
 
         <!-- Шаг 2 -->
         <div class="form-step" id="step-2">
-          <p><strong>Шаг 2 из 3:</strong> Выберите модули</p>
-          <label><input type="checkbox" name="modules" value="Базовый модуль"> Базовый модуль (48 ч.)</label><br>
-          <label><input type="checkbox" name="modules" value="Углублённый модуль"> Углублённый модуль (48 ч.)</label><br>
-          <label><input type="checkbox" name="modules" value="Финальный проект"> Финальный проект (48 ч.)</label><br>
+          <p><strong>Шаг 2 из 3:</strong> Выберите модули, которые вас интересуют. Это поможет нам ориентироваться в ваших целях.</p>
+          <label><input type="checkbox" name="modules" value="Базовый"> Базовый модуль</label><br>
+          <label><input type="checkbox" name="modules" value="Углублённый"> Углублённый модуль</label><br>
+          <label><input type="checkbox" name="modules" value="Финальный проект"> Финальный проект</label><br>
 
           <div class="form-nav">
             <button type="button" id="prev1">Назад</button>
-            <button type="button" id="next2" onclick="gaEvent('Form_Next2_Click')">Далее</button>
+            <button type="button" id="next2">Далее</button>
           </div>
         </div>
 
         <!-- Шаг 3 -->
         <div class="form-step" id="step-3">
-          <p><strong>Шаг 3 из 3:</strong> Подтверждение</p>
+          <p><strong>Шаг 3 из 3:</strong> Укажите e-mail, чтобы мы прислали вам подтверждение и детали курса.</p>
           <label for="email">E-mail</label><br>
-          <input type="email" id="email" name="_replyto" placeholder="example@mail.com" style="width: 100%; padding: 0.5rem; margin-bottom: 1rem;" required><br>
+          <input type="email" id="email" name="email" placeholder="example@mail.com" style="width:100%; padding:0.5rem; margin-bottom:1rem;" required><br>
 
-          <!-- Укажите хидден-поле Formspree для получения ответа на почту -->
-          <input type="hidden" name="_subject" value="Заявка на курс «Реверсивный инжиниринг»" />
-
-          <p>Проверьте данные и отправьте заявку. Мы пришлём подтверждение на почту.</p>
           <div class="form-nav">
             <button type="button" id="prev2">Назад</button>
-            <button type="submit" id="submitForm" onclick="gaEvent('Form_Submit_Click')">Отправить</button>
+            <button type="submit" id="submitForm">Отправить</button>
           </div>
         </div>
       </form>
 
-      <!-- Блок «спасибо» (скрытый, появляется JS) -->
-      <div class="thank-you" id="thankYouMessage" style="display: none; margin-top: 2rem;">
-        <h3>Спасибо за вашу заявку!</h3>
-        <p>Мы свяжемся с вами в ближайшее время. Можете <a href="program.html">посмотреть программу</a> или вернуться на <a href="index.html">главную</a>.</p>
+      <!-- Блок "спасибо" -->
+      <div class="thank-you" id="thankYouMessage" style="display:none; margin-top:2rem;">
+        <h3>Спасибо за заявку!</h3>
+        <p>Мы свяжемся с вами в ближайшее время.</p>
       </div>
-
     </div>
   </section>
 
-  <section class="cta-block">
-    <h2>Есть вопросы?</h2>
-    <p>Свяжитесь с нами любым удобным способом или оформите заявку выше.</p>
-    <a href="#registration" class="btn-accent" onclick="gaEvent('Contacts_CTA_Click')">Перейти к форме</a>
-  </section>
-
   <footer>
-    <p>&copy; 2025 РГСУ и STEP_3Д. Все права защищены.</p>
+    <p>&copy; 2025 РГСУ и STEP_3Д</p>
   </footer>
 
+  <button id="scrollTopBtn">&#8679;</button>
   <script src="assets/js/script.js"></script>
-  <!-- Чат-виджет (аналогично) -->
-  <!-- <script type="text/javascript">
-   // Tawk.to script ...
-  </script> -->
-
 </body>
 </html>
