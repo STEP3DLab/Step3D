@@ -30,30 +30,30 @@
 
   <!-- Основной контент -->
   <main id="content-area" role="main">
-    <!-- Контактная информация (без карты) -->
+    <!-- Блок контактов (без карты) -->
     <section class="section-content fade-in">
       <h2>Как нас найти</h2>
-      <!-- Слегка увеличены отступы и акценты в текстах -->
-      <p style="line-height:1.7; margin-bottom:1rem;">
+      <p style="margin-bottom: 1rem; line-height:1.7;">
         <strong>Адрес:</strong><br>
         Москва, ул. Беговая, д.12
       </p>
-      <p style="line-height:1.7; margin-bottom:1rem;">
-        <strong>Телефон:</strong> 
-        <a href="tel:+79959009141" style="font-weight:600; color:var(--accent-color);">+7 (995) 900-91-41</a>
+      <p style="margin-bottom: 1rem; line-height:1.7;">
+        <strong>Телефон:</strong>
+        <a href="tel:+79959009141" style="color: var(--accent-color); font-weight:600;">+7 (995) 900-91-41</a>
       </p>
       <p style="line-height:1.7;">
-        <strong>E-mail:</strong> 
-        <a href="mailto:info@step3d.tech" style="font-weight:600; color:var(--accent-color);">info@step3d.tech</a>
+        <strong>E-mail:</strong>
+        <a href="mailto:info@step3d.tech" style="color: var(--accent-color); font-weight:600;">info@step3d.tech</a>
       </p>
     </section>
 
     <hr style="max-width:80%; margin:2rem auto; border:0; border-top:1px solid #eee;">
 
-    <!-- Многошаговая форма заявки (дизайн слегка улучшен) -->
+    <!-- Многошаговая форма заявки -->
     <section id="registration" class="section-content fade-in">
       <h2>Записаться на курс</h2>
-      <!-- Прогресс-бар -->
+
+      <!-- Прогресс-бар формы -->
       <div class="form-progress" id="form-progress">
         <div class="step-indicator active" data-step="1">Шаг 1</div>
         <div class="step-indicator" data-step="2">Шаг 2</div>
@@ -63,7 +63,7 @@
       <form id="multiForm" novalidate>
         <!-- Шаг 1: Контактные данные -->
         <div class="form-step active" id="step-1">
-          <p><strong>Шаг 1:</strong> Укажите ваши контактные данные</p>
+          <p><strong>Шаг 1:</strong> Укажите ваши контактные данные.</p>
           <label for="name">Имя</label><br>
           <input type="text" id="name" name="name" placeholder="Иван Иванов" aria-required="true" /><br>
 
@@ -76,7 +76,7 @@
           </div>
         </div>
 
-        <!-- Шаг 2: Выбор модулей (пример) -->
+        <!-- Шаг 2: Выбор модулей -->
         <div class="form-step" id="step-2">
           <p><strong>Шаг 2:</strong> Выберите интересующие модули</p>
           <label><input type="checkbox" name="modules" value="Базовый"> Базовый модуль</label><br>
@@ -108,19 +108,22 @@
       </div>
     </section>
 
+    <!-- Дополнительная информация (рабочее время/условия) -->
     <section class="section-content fade-in" style="margin-top:2rem;">
-      <p style="text-align:center; font-size:0.9rem;">Наши специалисты ответят на ваш запрос в течение рабочего дня (9:00 – 18:00 МСК).</p>
+      <p style="text-align:center; font-size:0.9rem;">
+        Наши специалисты ответят на ваш запрос в течение рабочего дня (9:00 – 18:00 МСК).
+      </p>
     </section>
   </main>
 
-  <!-- Футер (одинаковый) -->
+  <!-- Футер (единообразный) -->
   <footer class="site-footer">
     <div class="footer-top">
       <div class="footer-col">
         <h3>Модули</h3>
         <ul>
           <li><a href="program.html#modules-section">Базовый модуль</a></li>
-          <li><a href="program.html#modules-section">Углублённый модуль</a></li>
+          <li><a href="program.html#modules-section">Углублённый</a></li>
           <li><a href="program.html#modules-section">Финальный проект</a></li>
           <li><a href="program.html">Спецкурсы</a></li>
         </ul>
