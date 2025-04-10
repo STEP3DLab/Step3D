@@ -1,4 +1,14 @@
-// Бургер-меню
+// Header: Добавление тени при скролле
+const mainHeader = document.getElementById('main-header');
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 10) {
+    mainHeader.classList.add('scrolled');
+  } else {
+    mainHeader.classList.remove('scrolled');
+  }
+});
+
+// Burger-menu
 const burgerBtn = document.getElementById('burger-btn');
 const navList = document.getElementById('nav-list');
 if (burgerBtn && navList) {
@@ -7,7 +17,7 @@ if (burgerBtn && navList) {
   });
 }
 
-// Кнопка "Наверх"
+// Scroll-to-Top
 const scrollTopBtn = document.getElementById('scrollTopBtn');
 window.addEventListener('scroll', () => {
   if (window.scrollY > 300) {
@@ -22,6 +32,18 @@ if (scrollTopBtn) {
   });
 }
 
+// Fade-in: Активируем эффекты при прокрутке для элементов с классом .fade-in
+const fadeEls = document.querySelectorAll('.fade-in');
+const fadeObserver = new IntersectionObserver((entries, observer) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('active');
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.2 });
+fadeEls.forEach(el => fadeObserver.observe(el));
+
 // FAQ-аккордеон
 const faqButtons = document.querySelectorAll('.question');
 faqButtons.forEach(btn => {
@@ -35,19 +57,10 @@ faqButtons.forEach(btn => {
   });
 });
 
-// Floating action bar
-const fab = document.getElementById('fab');
-const fabToggle = document.getElementById('fab-toggle');
-if (fabToggle && fab) {
-  fabToggle.addEventListener('click', () => {
-    fab.classList.toggle('show');
-  });
-}
-
-// Countdown (п.8)
+// Countdown
 const countdownTimerEl = document.getElementById('countdown-timer');
 if (countdownTimerEl) {
-  const targetDate = new Date('2025-05-19T10:00:00'); // пример
+  const targetDate = new Date('2025-05-19T10:00:00');
   function updateCountdown() {
     const now = new Date();
     const diff = targetDate - now;
@@ -65,7 +78,7 @@ if (countdownTimerEl) {
   setInterval(updateCountdown, 1000);
 }
 
-// Прогресс чтения (п.5)
+// Прогресс чтения (для program.html, если используется, здесь мы пример общий)
 const readingProgressBar = document.getElementById('readingProgressBar');
 const contentArea = document.getElementById('content-area');
 if (readingProgressBar && contentArea) {
@@ -77,168 +90,15 @@ if (readingProgressBar && contentArea) {
   });
 }
 
-// "Отложить заявку" (p.6)
-const saveForLaterBtn = document.getElementById('saveForLaterBtn');
-if (saveForLaterBtn) {
-  saveForLaterBtn.addEventListener('click', () => {
-    const nameVal = document.getElementById('name').value;
-    const phoneVal = document.getElementById('phone').value;
-    const data = { name: nameVal, phone: phoneVal, timestamp: Date.now() };
-    localStorage.setItem('savedApplication', JSON.stringify(data));
-    alert('Заявка отложена! Вы сможете вернуться к заполнению позже.');
+// Floating action bar
+const fab = document.getElementById('fab');
+const fabToggle = document.getElementById('fab-toggle');
+if (fabToggle && fab) {
+  fabToggle.addEventListener('click', () => {
+    fab.classList.toggle('show');
   });
 }
 
-// Если в localStorage есть сохранённая заявка, восстанавливаем
-const multiForm = document.getElementById('multiForm');
-if (multiForm) {
-  const saved = localStorage.getItem('savedApplication');
-  if (saved) {
-    const savedObj = JSON.parse(saved);
-    if (savedObj.name) document.getElementById('name').value = savedObj.name;
-    if (savedObj.phone) document.getElementById('phone').value = savedObj.phone;
-  }
-}
-
-// Многошаговая форма + inline validation
-const step1 = document.getElementById('step-1');
-const step2 = document.getElementById('step-2');
-const step3 = document.getElementById('step-3');
-const next1 = document.getElementById('next1');
-const next2 = document.getElementById('next2');
-const prev1 = document.getElementById('prev1');
-const prev2 = document.getElementById('prev2');
-const submitForm = document.getElementById('submitForm');
-const thankYouMessage = document.getElementById('thankYouMessage');
-const stepIndicators = document.querySelectorAll('.step-indicator');
-
-function updateProgressBar(step) {
-  stepIndicators.forEach(si => si.classList.remove('active'));
-  const current = document.querySelector(`.step-indicator[data-step="${step}"]`);
-  if (current) current.classList.add('active');
-}
-
-function validateStep1() {
-  const nameVal = (document.getElementById('name')?.value || '').trim();
-  const phoneVal = (document.getElementById('phone')?.value || '').trim();
-  if (!nameVal || !phoneVal) {
-    alert('Пожалуйста, заполните имя и телефон.');
-    return false;
-  }
-  return true;
-}
-
-if (next1 && step1 && step2) {
-  next1.addEventListener('click', () => {
-    if (!validateStep1()) return;
-    step1.classList.remove('active');
-    step2.classList.add('active');
-    updateProgressBar(2);
-  });
-}
-if (prev1 && step1 && step2) {
-  prev1.addEventListener('click', () => {
-    step2.classList.remove('active');
-    step1.classList.add('active');
-    updateProgressBar(1);
-  });
-}
-if (next2 && step2 && step3) {
-  next2.addEventListener('click', () => {
-    // Доп. валидация шаг 2 (опционально)
-    step2.classList.remove('active');
-    step3.classList.add('active');
-    updateProgressBar(3);
-  });
-}
-if (prev2 && step2 && step3) {
-  prev2.addEventListener('click', () => {
-    step3.classList.remove('active');
-    step2.classList.add('active');
-    updateProgressBar(2);
-  });
-}
-if (submitForm && thankYouMessage && multiForm) {
-  submitForm.addEventListener('click', (e) => {
-    e.preventDefault();
-    const emailVal = (document.getElementById('email')?.value || '').trim();
-    if (!emailVal) {
-      alert('Пожалуйста, введите e-mail!');
-      return;
-    }
-    // Скрыть форму, показать "спасибо"
-    multiForm.style.display = 'none';
-    thankYouMessage.style.display = 'block';
-    // Очистить localStorage, чтобы заявка не восстанавливалась повторно
-    localStorage.removeItem('savedApplication');
-  });
-}
-
-// (13) Поиск по сайту (autocomplete)
-const siteSearch = document.getElementById('site-search');
-const autocompleteList = document.getElementById('autocomplete-list');
-const siteData = [
-  '3D-сканирование',
-  'CAD-моделирование',
-  'Реверсивный инжиниринг',
-  'Финальный проект',
-  'WorldSkills',
-  'Прототипирование',
-  'Аддитивные технологии',
-  'Базовый модуль',
-  'Углублённый модуль',
-  'Компетенции',
-  'Чемпионат',
-  'Лаборатория'
-];
-if (siteSearch && autocompleteList) {
-  siteSearch.addEventListener('input', () => {
-    const query = siteSearch.value.toLowerCase();
-    if (!query) {
-      autocompleteList.style.display = 'none';
-      return;
-    }
-    const results = siteData.filter(item => 
-      item.toLowerCase().includes(query)
-    );
-    autocompleteList.innerHTML = results.map(r => `<li>${r}</li>`).join('');
-    autocompleteList.style.display = results.length ? 'block' : 'none';
-  });
-  autocompleteList.addEventListener('click', (e) => {
-    if (e.target.tagName === 'LI') {
-      siteSearch.value = e.target.textContent;
-      autocompleteList.style.display = 'none';
-    }
-  });
-}
-
-/* (14) Sticky subheadings — уже реализовано через CSS: .sticky-heading > h2 {
-   position: sticky; top: ... } 
-   JS не обязателен для этого, 
-   но можно добавить логику, если нужно более гибко. */
-
-// 1) Header shadow on scroll
-const mainHeader = document.getElementById('main-header');
-window.addEventListener('scroll', () => {
-  if (window.scrollY > 10) {
-    mainHeader.classList.add('scrolled');
-  } else {
-    mainHeader.classList.remove('scrolled');
-  }
-});
-
-// 2) Fade-in sections
-const fadeEls = document.querySelectorAll('.fade-in');
-const observer = new IntersectionObserver((entries, obs) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('active');
-      obs.unobserve(entry.target);
-    }
-  });
-}, { threshold: 0.2 });
-
-fadeEls.forEach(el => observer.observe(el));
-
-// Остальные скрипты (countdown, scrollTopBtn etc.) как раньше ...
-
+/* Дополнительно можно добавить обработку для восстановления состояния "Отложенной заявки" в multiForm,
+   если используется в другой странице (contacts.html) */
+// (Если используется форма с сохранением данных, логика уже описана в contacts.html)
