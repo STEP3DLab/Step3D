@@ -6,8 +6,7 @@
   <meta name="description" content="Главная страница курса «Реверсивный инжиниринг»." />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- ARIA (п.11): role="main", role="banner", и т.д. -->
-  <!-- UI Kit (п.7): используем CSS-переменные в style.css -->
+  <!-- Подключаем общий CSS -->
   <link rel="stylesheet" href="assets/css/style.css" />
 </head>
 <body>
@@ -19,7 +18,7 @@
         <li><a href="index.html">Главная</a></li>
         <li><a href="program.html">О курсе</a></li>
         <li><a href="contacts.html">Контакты</a></li>
-        <!-- (10) Личный кабинет (упрощённая ссылка) -->
+        <!-- Пример «Личный кабинет» (пока без реальной авторизации) -->
         <li><a href="#" id="login-link">Личный кабинет</a></li>
       </ul>
     </nav>
@@ -30,17 +29,17 @@
     </div>
   </header>
 
-  <!-- HERO SECTION с тултипом (п.1) -->
+  <!-- HERO SECTION c tooltip (п.1) -->
   <main role="main">
     <section class="hero">
-      <h1>Курс «Реверсивный инжиниринг» <span class="tooltip" data-tooltip="Методы 3D-сканирования и CAD-моделирования.">?</span></h1>
-      <p>Получите навыки 3D-сканирования, CAD-моделирования и прототипирования.</p>
+      <h1>Курс «Реверсивный инжиниринг» <span class="tooltip" data-tooltip="Комплекс 3D-сканирования, CAD и прототипирования.">?</span></h1>
+      <p>Получите навыки реверсивного инжиниринга, 3D-сканирования и CAD-моделирования.</p>
       <a href="contacts.html#registration" class="btn-accent">Записаться</a>
     </section>
 
     <!-- (8) Countdown -->
     <section id="countdown-section">
-      <h2>До старта нового потока осталось:</h2>
+      <h2>До старта нового потока:</h2>
       <div class="section-content">
         <p id="countdown-timer">Загрузка...</p>
         <p><em>Успейте подать заявку!</em></p>
@@ -51,10 +50,11 @@
     <section id="virtual-tour">
       <h2>Виртуальная экскурсия</h2>
       <div class="section-content">
-        <p>Посмотрите 360°-тур по нашей лаборатории или короткое видео:</p>
-        <!-- Пример 360 embed, можно заменить на iframe сервиса -->
-        <iframe src="https://kuula.co/share/7qvjn?fs=1&vr=0&zoom=1&thumbs=1&chromeless=0&logo=1" 
-                width="100%" height="500" loading="lazy">
+        <p>Осмотрите лабораторию в 360° формате:</p>
+        <!-- Пример iframe, замените ссылку на реальный 360- или видео -->
+        <iframe 
+          src="https://kuula.co/share/7qvjn?fs=1&vr=0&zoom=1&thumbs=1&chromeless=0&logo=1"
+          width="100%" height="500" loading="lazy">
         </iframe>
       </div>
     </section>
@@ -64,21 +64,20 @@
     <p>&copy; 2025 РГСУ и STEP_3Д</p>
   </footer>
 
-  <!-- (4) Плавающая панель (floating action bar) -->
+  <!-- (4) Плавающая action-bar -->
   <div class="floating-action-bar" id="fab">
-    <button class="fab-btn" id="fab-toggle">
-      ☰
-    </button>
+    <button class="fab-btn" id="fab-toggle">☰</button>
     <div class="fab-menu" id="fab-menu">
       <a href="contacts.html#registration">Записаться</a>
-      <a href="program.html#faq">FAQ</a>
-      <a href="#" id="to-portfolio">Портфолио</a>
+      <a href="program.html#faq-section">FAQ</a>
+      <a href="program.html#portfolio-section" id="to-portfolio">Портфолио</a>
     </div>
   </div>
 
-  <!-- Кнопка "Наверх" (из прошлых улучшений) -->
+  <!-- Кнопка "Наверх" -->
   <button id="scrollTopBtn">&#8679;</button>
 
+  <!-- Скрипт -->
   <script src="assets/js/script.js"></script>
 </body>
 </html>
