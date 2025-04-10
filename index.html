@@ -1,24 +1,29 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <title>О курсе — Реверсивный инжиниринг</title>
-  <meta name="description" content="Описание программы курса, структура, модули и часто задаваемые вопросы по обучению в направлении «Реверсивный инжиниринг».">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <title>Главная — Реверсивный инжиниринг</title>
+  <meta name="description" content="Главная страница курса «Реверсивный инжиниринг». Освойте 3D-сканирование и CAD-моделирование." />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- Подключение общего стиля (в нем определены классы sticky-heading, fade-in, micro-anim, grid-раскладка и т.д.) -->
+  <!-- Favicon и Apple touch icon (опционально) -->
+  <!-- <link rel="icon" href="assets/images/favicon.ico" sizes="any"> -->
+  <!-- <link rel="apple-touch-icon" href="assets/images/apple-touch-icon.png" sizes="180x180"> -->
+
+  <!-- Подключаем общий CSS -->
   <link rel="stylesheet" href="assets/css/style.css" />
 </head>
 <body>
 
-  <!-- Шапка страницы (без значительных изменений) -->
-  <header role="banner">
+  <!-- ШАПКА -->
+  <header role="banner" id="main-header">
     <a href="index.html" class="logo">RGSU / STEP_3D</a>
     <nav role="navigation" aria-label="Основная навигация">
       <ul id="nav-list">
-        <li><a href="index.html">Главная</a></li>
-        <li><a href="program.html" class="active-link">О курсе</a></li>
+        <li><a href="index.html" class="active-link">Главная</a></li>
+        <li><a href="program.html">О курсе</a></li>
         <li><a href="contacts.html">Контакты</a></li>
+        <li><a href="#" id="login-link">Личный кабинет</a></li>
       </ul>
     </nav>
     <div class="burger" id="burger-btn">
@@ -28,132 +33,123 @@
     </div>
   </header>
 
-  <!-- Основной контент -->
+  <!-- ОСНОВНОЙ КОНТЕНТ -->
   <main id="content-area" role="main">
-    <!-- 1. Sticky-подзаголовки и улучшенная типографика -->
-    <section id="intro-section" class="section-content sticky-heading fade-in">
-      <h2>Формат и структура обучения</h2>
-      <p>
-        Курс «Реверсивный инжиниринг» предлагает очно-дистанционный формат, охватывающий от 48 до 144 академических часов. Каждая из частей обучения структурирована по модулям, что позволяет выбрать индивидуальную траекторию и глубину изучения темы.
+    <!-- HERO -->
+    <section class="hero fade-in" style="background: linear-gradient(135deg, rgba(16,163,127,0.2) 0%, rgba(16,163,127,0) 70%); padding: 4rem 2rem; text-align: center;">
+      <h1 style="font-size: 2.2rem; margin-bottom: 1rem; font-weight:600;">
+        Курс «Реверсивный инжиниринг»
+        <span class="tooltip" data-tooltip="3D-сканирование и CAD-моделирование">?</span>
+      </h1>
+      <ul style="list-style: disc; display: inline-block; text-align: left; margin: 0 0 1.5rem 1.5rem;">
+        <li style="margin-bottom: 0.5rem;">Освойте 3D-сканирование за 2 недели</li>
+        <li style="margin-bottom: 0.5rem;">Базовый CAD без спец. подготовки</li>
+        <li style="margin-bottom: 0.5rem;">Обучение очно или дистанционно</li>
+      </ul>
+      <p style="max-width:600px; margin:0 auto 2rem; line-height:1.7;">
+        Получите полный набор навыков от оцифровки реальных объектов до 3D-печати с современными производственными стандартами.
+      </p>
+      <a href="contacts.html#registration" class="btn-accent cta-btn" style="font-size:1.1rem; padding: 0.9rem 2rem; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+        Записаться
+      </a>
+    </section>
+
+    <hr style="max-width:80%; margin:2rem auto; border:0; border-top:1px solid #eee;">
+
+    <!-- Блок отсчёта -->
+    <section id="countdown-section" class="section-content fade-in" style="background-color: rgba(16,163,127,0.05); padding: 2rem 1rem; text-align: center;">
+      <h2 style="font-size:1.8rem; font-weight:600; margin-bottom: 1rem;">До старта нового потока:</h2>
+      <p id="countdown-timer" style="font-size:1.4rem; margin-bottom:0.5rem;">Загрузка...</p>
+      <p><em>Успейте подать заявку!</em></p>
+    </section>
+
+    <hr style="max-width:80%; margin:2rem auto; border:0; border-top:1px solid #eee;">
+
+    <!-- Виртуальная экскурсия -->
+    <section id="virtual-tour" class="section-content fade-in" style="margin-top:2rem;">
+      <h2 style="font-size: 1.8rem; margin-bottom: 1rem; font-weight:600;">Виртуальная экскурсия</h2>
+      <p style="line-height:1.7;">
+        Осмотрите лабораторию и оборудование в 360° формате: поверните камеру, чтобы увидеть 3D-принтеры, сканеры и зону прототипирования.
+      </p>
+      <div style="margin-top:1rem;">
+        <iframe src="https://kuula.co/share/7qvjn?fs=1&vr=0&zoom=1&thumbs=1&chromeless=0&logo=1" width="100%" height="500" loading="lazy" style="border:none;"></iframe>
+      </div>
+      <p style="margin-top:1rem;">
+        <a href="program.html" class="btn-accent cta-btn" style="font-size:0.9rem; padding:0.5rem 1rem;">Узнать подробнее об оборудовании →</a>
       </p>
     </section>
 
-    <!-- 2. Карточки модулей курса в едином дизайне -->
-    <section id="modules-section" class="section-content fade-in sticky-heading">
-      <h2>Модули курса</h2>
-      <div class="advantages-grid">
-        <!-- Карточка базового модуля -->
-        <div class="advantage-card micro-anim">
-          <img src="assets/images/icons/icon-basic.svg" alt="Базовый модуль" class="icon">
-          <h3>Базовый модуль</h3>
-          <p>
-            48 часов. Получите базовые навыки реверсивного инжиниринга, освоив основы 3D-сканирования и CAD-моделирования.
-          </p>
-        </div>
-        <!-- Карточка углубленного модуля -->
-        <div class="advantage-card micro-anim">
-          <img src="assets/images/icons/icon-advanced.svg" alt="Углублённый модуль" class="icon">
-          <h3>Углублённый модуль</h3>
-          <p>
-            48 часов. Изучите продвинутые методики моделирования, работают с промышленным оборудованием и специализированным ПО.
-          </p>
-        </div>
-        <!-- Карточка финального проекта -->
-        <div class="advantage-card micro-anim">
-          <img src="assets/images/icons/icon-final.svg" alt="Финальный проект" class="icon">
-          <h3>Финальный проект</h3>
-          <p>
-            48 часов. Итоговое задание, включающее защиту проекта и демонстрационный экзамен с выдачей сертификата.
-          </p>
-        </div>
-      </div>
+    <hr style="max-width:80%; margin:2rem auto; border:0; border-top:1px solid #eee;">
+
+    <!-- Финальный CTA -->
+    <section class="section-content fade-in" style="text-align:center; margin-top:2rem;">
+      <h2 style="font-size:1.8rem; margin-bottom: 1rem; font-weight:600;">Готовы начать обучение?</h2>
+      <p style="max-width: 600px; margin: 0 auto 1.5rem; line-height:1.7;">
+        Оставьте заявку, и мы свяжемся с вами, чтобы подобрать удобный формат обучения и рассказать об оплате.
+      </p>
+      <a href="contacts.html#registration" class="btn-accent cta-btn" style="font-size:1.1rem; padding:0.8rem 2rem;">Подать заявку</a>
     </section>
-
-    <!-- 3. FAQ секция с аккордеоном -->
-    <section id="faq-section" class="section-content fade-in sticky-heading">
-      <h2>Часто задаваемые вопросы</h2>
-      <!-- Улучшаем подачу через нумерованные списки или аккордеон -->
-      <div class="accordion">
-        <div class="item">
-          <button class="question">Нужен ли опыт в 3D-моделировании?</button>
-          <div class="answer">
-            <div class="answer-content">
-              <p>
-                Нет. Курс начинается с основ, поэтому даже новички смогут быстро освоить базовый материал.
-              </p>
-            </div>
-          </div>
-        </div>
-        <div class="item">
-          <button class="question">Можно ли оплачивать модули по отдельности?</button>
-          <div class="answer">
-            <div class="answer-content">
-              <p>
-                Да, каждый модуль можно оплачивать отдельно. Кроме того, предусмотрены скидки при пакетном обучении.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Дополнительные улучшения: плавные разделители (hr) можно добавить между секциями,
-         увеличение отступов для удобства чтения и оптимизации длины строки. -->
-
   </main>
 
-  <!-- Футер с корпоративным дизайном (см. прошлый пример) -->
-  <footer class="site-footer">
-    <div class="footer-top">
-      <div class="footer-col">
-        <h3>Модули</h3>
-        <ul>
-          <li><a href="#modules-section">Базовый модуль</a></li>
-          <li><a href="#modules-section">Углублённый модуль</a></li>
-          <li><a href="#modules-section">Финальный проект</a></li>
+  <!-- Футер -->
+  <footer class="site-footer" style="background:#f0f0f0; color:#333;">
+    <div class="footer-top" style="display:flex; flex-wrap:wrap; gap:2rem; padding:2rem 1rem; max-width:1200px; margin:0 auto;">
+      <!-- Колонка 1: Модули -->
+      <div class="footer-col" style="flex:1 1 200px;">
+        <h3 style="margin-bottom:0.5rem; font-weight:600;">Модули</h3>
+        <ul style="list-style:none; padding:0;">
+          <li><a href="program.html#modules-section">Базовый модуль</a></li>
+          <li><a href="program.html#modules-section">Углублённый</a></li>
+          <li><a href="program.html#modules-section">Финальный проект</a></li>
           <li><a href="program.html">Спецкурсы</a></li>
         </ul>
       </div>
-      <div class="footer-col">
-        <h3>Поддержка</h3>
-        <ul>
-          <li><a href="contacts.html">Связь с нами</a></li>
-          <li><a href="#faq-section">FAQ</a></li>
+      <!-- Колонка 2: Поддержка -->
+      <div class="footer-col" style="flex:1 1 200px;">
+        <h3 style="margin-bottom:0.5rem; font-weight:600;">Поддержка</h3>
+        <ul style="list-style:none; padding:0;">
+          <li><a href="contacts.html">Связаться с нами</a></li>
+          <li><a href="contacts.html#faq">FAQ</a></li>
+          <li><a href="contacts.html#registration">Регистрация</a></li>
         </ul>
       </div>
-      <div class="footer-col">
-        <h3>Компания</h3>
-        <ul>
-          <li><a href="#intro-section">О программе</a></li>
-          <li><a href="#portfolio-section">Портфолио работ</a></li>
+      <!-- Колонка 3: Компания -->
+      <div class="footer-col" style="flex:1 1 200px;">
+        <h3 style="margin-bottom:0.5rem; font-weight:600;">Компания</h3>
+        <ul style="list-style:none; padding:0;">
+          <li><a href="program.html#intro-section">О программе</a></li>
+          <li><a href="program.html#portfolio-section">Портфолио работ</a></li>
           <li><a href="#">Новости</a></li>
         </ul>
       </div>
-      <div class="footer-col">
-        <h3>Юридическая информация</h3>
-        <ul>
+      <!-- Колонка 4: Юридическая информация -->
+      <div class="footer-col" style="flex:1 1 200px;">
+        <h3 style="margin-bottom:0.5rem; font-weight:600;">Юридическая информация</h3>
+        <ul style="list-style:none; padding:0;">
           <li><a href="#">Пользовательское соглашение</a></li>
           <li><a href="#">Политика конфиденциальности</a></li>
           <li><a href="#">Cookie-файлы</a></li>
         </ul>
       </div>
     </div>
-    <div class="footer-bottom">
-      <div>
-        <label for="regionSelect">Регион:</label>
-        <select id="regionSelect" name="regionSelect">
-          <option value="ru">Россия</option>
-          <option value="us">United States</option>
-          <option value="eu">Europe</option>
-        </select>
-      </div>
-      <div>
-        <a href="#">VK</a>
-        <a href="#">YouTube</a>
-        <a href="#">Telegram</a>
-      </div>
-      <div>
-        &copy; 2025 <a href="index.html">RGSU / STEP_3D</a>. Все права защищены.
+    <div class="footer-bottom" style="background:#e0e0e0; padding:1rem; font-size:0.9rem;">
+      <div style="max-width:1200px; margin:0 auto; display:flex; flex-wrap:wrap; gap:1rem; justify-content:space-between; align-items:center;">
+        <div style="flex:1;">
+          <label for="regionSelect" style="margin-right:0.5rem;">Регион:</label>
+          <select id="regionSelect" name="regionSelect" style="padding:0.3rem;">
+            <option value="ru">Россия</option>
+            <option value="us">United States</option>
+            <option value="eu">Europe</option>
+          </select>
+        </div>
+        <div style="flex:1; text-align:center;">
+          <a href="#" style="margin-right:0.5rem;">VK</a>
+          <a href="#" style="margin-right:0.5rem;">YouTube</a>
+          <a href="#" style="margin-right:0.5rem;">Telegram</a>
+        </div>
+        <div style="flex:1; text-align:right;">
+          &copy; 2025 <a href="index.html" style="text-decoration:none; color:inherit;">RGSU / STEP3D</a>. Все права защищены.
+        </div>
       </div>
     </div>
   </footer>
@@ -161,7 +157,7 @@
   <!-- Кнопка "Наверх" -->
   <button id="scrollTopBtn">&#8679;</button>
 
-  <!-- Скрипты -->
+  <!-- Подключение скриптов -->
   <script src="assets/js/script.js"></script>
 </body>
 </html>
