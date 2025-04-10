@@ -1,151 +1,546 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Step3D</title>
-    <style>
-        body {
-            font-family: 'Montserrat', sans-serif;
-            background-color: #f4f4f4;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Курс «Реверсивный инжиниринг» — РГСУ и STEP_3D</title>
+  <!-- Подключение шрифта (пример: Inter) -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+  <!-- Стили (можно вынести в отдельный файл) -->
+  <style>
+    :root {
+      /* Можно вынести акцентный цвет в переменную, чтобы при необходимости быстро менять бренд */
+      --accent-color: #10A37F; 
+      --font-family: 'Inter', Helvetica, Arial, sans-serif;
+      --text-color: #333;
+      --bg-color: #fff;
+      --light-bg-color: #f9f9f9;
+    }
 
-        .container {
-            width: 90%;
-            max-width: 600px;
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-        button {
-            padding: 10px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-            width: 100%;
-        }
+    body {
+      font-family: var(--font-family);
+      color: var(--text-color);
+      background-color: var(--bg-color);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
 
-        button:hover {
-            background-color: #45a049;
-        }
+    header {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 2rem;
+      border-bottom: 1px solid #eee;
+      position: relative;
+      z-index: 10;
+      background-color: var(--bg-color);
+    }
 
-        input, select {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-        }
+    /* Логотип (текстом для примера) */
+    .logo {
+      font-weight: 600;
+      font-size: 1.2rem;
+      color: var(--accent-color);
+    }
 
-        h2 {
-            text-align: center;
-        }
+    /* Навигация */
+    nav ul {
+      display: flex;
+      gap: 1.5rem;
+      list-style: none;
+    }
 
-        #orderData {
-            margin-top: 20px;
-            background-color: #f9f9f9;
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-        }
-    </style>
+    nav a {
+      text-decoration: none;
+      color: var(--text-color);
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+
+    nav a:hover {
+      color: var(--accent-color);
+    }
+
+    /* Кнопка-бургер для мобильного */
+    .burger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+    }
+
+    .burger span {
+      display: block;
+      width: 25px;
+      height: 3px;
+      background-color: var(--text-color);
+      transition: all 0.4s;
+    }
+
+    /* Герой-секция (Hero) */
+    .hero {
+      padding: 4rem 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      background: var(--light-bg-color);
+    }
+
+    .hero h1 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    .hero p {
+      max-width: 600px;
+      margin-bottom: 1.5rem;
+      font-weight: 300;
+    }
+
+    .btn-accent {
+      display: inline-block;
+      padding: 0.75rem 1.5rem;
+      background-color: var(--accent-color);
+      color: #fff;
+      border-radius: 4px;
+      text-decoration: none;
+      font-weight: 500;
+      transition: background-color 0.3s;
+    }
+
+    .btn-accent:hover {
+      background-color: #088265; /* оттенок для hover */
+    }
+
+    /* Общий стиль секций */
+    section {
+      padding: 3rem 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    section h2 {
+      font-size: 1.8rem;
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+
+    section p {
+      margin-bottom: 1rem;
+    }
+
+    /* Для длинных текстов сделаем блочную ширину, чтобы читалось комфортнее */
+    .section-content {
+      max-width: 900px;
+      margin: 0 auto;
+      line-height: 1.7;
+    }
+
+    /* Пример стиля для таблиц */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1.5rem 0;
+    }
+
+    table th, table td {
+      padding: 0.75rem;
+      border: 1px solid #ddd;
+      text-align: center;
+    }
+
+    table th {
+      background-color: #f0f0f0;
+    }
+
+    /* Адаптивная верстка: медиазапросы */
+    @media screen and (max-width: 768px) {
+      nav ul {
+        position: absolute;
+        top: 70px;
+        right: 0;
+        flex-direction: column;
+        background-color: var(--bg-color);
+        width: 200px;
+        border: 1px solid #ddd;
+        padding: 1rem;
+        transform: translateX(100%);
+        transition: transform 0.4s;
+      }
+
+      nav ul.show {
+        transform: translateX(0);
+      }
+
+      .burger {
+        display: flex;
+      }
+    }
+
+    /* Пример небольшого эффекта появления при скролле (по желанию) */
+    [data-appear] {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    [data-appear].active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Футер */
+    footer {
+      background-color: var(--light-bg-color);
+      padding: 2rem;
+      text-align: center;
+      font-size: 0.9rem;
+      color: #666;
+    }
+
+    footer a {
+      color: var(--text-color);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+
+    footer a:hover {
+      color: var(--accent-color);
+    }
+  </style>
 </head>
 <body>
 
-<div class="container">
-    <h2>Загрузка 3D-модели и настройки печати</h2>
+  <!-- Шапка сайта -->
+  <header>
+    <div class="logo">RGSU / STEP_3D</div>
+    <div class="burger" id="burger-btn">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <nav>
+      <ul id="nav-list">
+        <li><a href="#about">О курсе</a></li>
+        <li><a href="#format">Формат</a></li>
+        <li><a href="#advantages">Преимущества</a></li>
+        <li><a href="#pricing">Стоимость</a></li>
+        <li><a href="#calendar">Календарь</a></li>
+        <li><a href="#contacts">Контакты</a></li>
+      </ul>
+    </nav>
+  </header>
 
-    <button onclick="fetchOrderData()">Получить данные о заказах</button>
-    <button onclick="sendOrderData(['1', 'John Doe', 'Pending', '100'])">Добавить заказ</button>
-    
-    <form id="uploadForm">
-        <input type="file" id="fileInput" />
-        <select id="profile">
-            <option value="fast">Быстрый</option>
-            <option value="standard">Стандартный</option>
-            <option value="high">Качественный</option>
-        </select>
-        <button type="submit">Загрузить модель</button>
-    </form>
+  <!-- Герой-секция с призывом к действию -->
+  <section class="hero">
+    <h1>Курс «Реверсивный инжиниринг»</h1>
+    <p>
+      Весенне-летняя сессия 2025 года. Запишитесь на обучение по современным стандартам цифрового производства.
+    </p>
+    <a href="#registration" class="btn-accent">Записаться на курс</a>
+  </section>
 
-    <div id="orderData"></div>
-</div>
+  <!-- О КУРСЕ -->
+  <section id="about">
+    <h2>О курсе</h2>
+    <div class="section-content" data-appear>
+      <p>
+        Курс разработан с участием экспертов и чемпионов WorldSkills и БРИКС и соответствует
+        актуальным стандартам цифрового производства. Он охватывает:
+      </p>
+      <ul>
+        <li>Реверсивный инжиниринг и его применение в промышленности;</li>
+        <li>3D-сканирование объектов различной сложности;</li>
+        <li>Построение CAD-моделей на основе сканов;</li>
+        <li>Подготовку моделей к 3D-печати и прототипированию.</li>
+      </ul>
+      <p>
+        Обучение проходит на базе лаборатории промышленного дизайна и инжиниринга технопарка РГСУ в партнёрстве с ООО «СТЕП_3Д».
+      </p>
+    </div>
+  </section>
 
-<script>
-    // URL для взаимодействия с Google Apps Script
-    const url = 'https://script.google.com/macros/s/AKfycbzks4jH57f-VHXB-FO4aaW1bK8IzXK0H4ViNTOtQtQd2B5-0BUOkypDRtHi0VgylYTo/exec';
+  <!-- ФОРМАТ И СТРУКТУРА ОБУЧЕНИЯ -->
+  <section id="format">
+    <h2>Формат и структура обучения</h2>
+    <div class="section-content" data-appear>
+      <p>
+        Программа стартует <strong>19 мая 2025 года</strong> и реализуется в формате очно-дистанционного интенсива.
+        Продолжительность — от 48 до 144 академических часов. Каждый модуль рассчитан на 48 часов, возможна индивидуальная траектория.
+      </p>
+      <p>
+        График занятий:
+        <ul>
+          <li><strong>Понедельник</strong>: с 10:00 до 18:00</li>
+          <li><strong>Суббота</strong>: с 12:00 до 17:00</li>
+        </ul>
+      </p>
+    </div>
+  </section>
 
-    // Функция для получения данных о заказах
-    function fetchOrderData() {
-        fetch(url)
-            .then(response => response.json())
-            .then(data => {
-                console.log('Order Data:', data);
-                displayOrderData(data);
-            })
-            .catch(error => {
-                console.error('Error fetching order data:', error);
-            });
-    }
+  <!-- ПРЕИМУЩЕСТВА ДЛЯ УЧАСТНИКОВ -->
+  <section id="advantages">
+    <h2>Преимущества</h2>
+    <div class="section-content" data-appear>
+      <ul>
+        <li>Использование актуального ПО: Autodesk, Geomagic, T-Flex CAD, Компас 3D и др.</li>
+        <li>Работа с 3D-сканерами RangeVision Helix и Spectrum, а также 3D-принтерами PICASO 3D, Raise3D, Anycubic, Formlabs;</li>
+        <li>Сертификат и демонстрационный экзамен включены в стоимость;</li>
+        <li>Возможность пройти отдельный модуль или весь курс целиком.</li>
+      </ul>
+    </div>
+  </section>
 
-    // Функция для отправки данных о заказе
-    function sendOrderData(orderData) {
-        fetch(url, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ orderData: orderData })
-        })
-        .then(response => response.json())
-        .then(data => {
-            console.log('Order successfully sent:', data);
-        })
-        .catch(error => {
-            console.error('Error sending order data:', error);
-        });
-    }
+  <!-- ВАРИАНТЫ УЧАСТИЯ -->
+  <section>
+    <h2>Варианты участия</h2>
+    <div class="section-content" data-appear>
+      <table>
+        <thead>
+          <tr>
+            <th>Траектория</th>
+            <th>Недели</th>
+            <th>Цель</th>
+            <th>Подходит для</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Чемпионат</td>
+            <td>1, 2, 3</td>
+            <td>Развитие соревновательных навыков</td>
+            <td>Студенты, участники конкурсов</td>
+          </tr>
+          <tr>
+            <td>Углублённый курс CAD/3D</td>
+            <td>1, 2, 5, 6</td>
+            <td>Практическое изучение технологий</td>
+            <td>Преподаватели, инженеры</td>
+          </tr>
+          <tr>
+            <td>Финальный проект</td>
+            <td>1, 4, 7–8</td>
+            <td>Выполнение итогового задания и защита</td>
+            <td>Выпускники, специалисты</td>
+          </tr>
+          <tr>
+            <td>Полный курс</td>
+            <td>1–10</td>
+            <td>Полный цикл и сертификация</td>
+            <td>Все категории</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
 
-    // Отображение данных о заказах на странице
-    function displayOrderData(data) {
-        const orderDataDiv = document.getElementById('orderData');
-        orderDataDiv.innerHTML = ''; // Очистить предыдущие данные
+  <!-- СТОИМОСТЬ ОБУЧЕНИЯ -->
+  <section id="pricing">
+    <h2>Стоимость обучения</h2>
+    <div class="section-content" data-appear>
+      <table>
+        <thead>
+          <tr>
+            <th>Модулей</th>
+            <th>Часов</th>
+            <th>Стоимость (₽)</th>
+            <th>Экономия</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>48</td>
+            <td>68 000</td>
+            <td>—</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>96</td>
+            <td>120 000</td>
+            <td>~12%</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>144</td>
+            <td>168 000</td>
+            <td>~17%</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>Включено: обучение, материалы, оборудование, ПО, демонстрационный экзамен, сертификат.</p>
+    </div>
+  </section>
 
-        if (data && data.length > 0) {
-            data.forEach(order => {
-                const orderElement = document.createElement('div');
-                orderElement.textContent = `ID: ${order[0]}, Имя: ${order[1]}, Статус: ${order[2]}, Цена: ${order[3]}`;
-                orderDataDiv.appendChild(orderElement);
-            });
-        } else {
-            orderDataDiv.textContent = 'Нет данных для отображения.';
-        }
-    }
+  <!-- КАЛЕНДАРЬ -->
+  <section id="calendar">
+    <h2>Календарь</h2>
+    <div class="section-content" data-appear>
+      <table>
+        <thead>
+          <tr>
+            <th>Неделя</th>
+            <th>Даты</th>
+            <th>Содержание</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>19–25 мая</td>
+            <td>Базовый модуль</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>26 мая – 1 июня</td>
+            <td>Проектные задания, кейсы</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>2–8 июня</td>
+            <td>Чемпионат</td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td>9–15 июня</td>
+            <td>Консультации, закрепление материала</td>
+          </tr>
+          <tr>
+            <td>5</td>
+            <td>16–22 июня</td>
+            <td>Углублённые модули по CAD и 3D</td>
+          </tr>
+          <tr>
+            <td>6</td>
+            <td>23–29 июня</td>
+            <td>Индустриальные кейсы</td>
+          </tr>
+          <tr>
+            <td>7–8</td>
+            <td>30 июня – 13 июля</td>
+            <td>Подготовка и сдача демо-экзамена</td>
+          </tr>
+          <tr>
+            <td>9</td>
+            <td>14–20 июля</td>
+            <td>Модули по выбору</td>
+          </tr>
+          <tr>
+            <td>10</td>
+            <td>21–27 июля</td>
+            <td>Консультации, сертификация</td>
+          </tr>
+          <tr>
+            <td>11</td>
+            <td>28 июля – 3 авг.</td>
+            <td>Вторая волна: базовый+углублённый модуль</td>
+          </tr>
+          <tr>
+            <td>12</td>
+            <td>4–10 августа</td>
+            <td>Вторая волна: чемпионат и экзамен</td>
+          </tr>
+          <tr>
+            <td>13</td>
+            <td>11–17 августа</td>
+            <td>Итоги, выдача сертификатов</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
 
-    // Обработка формы загрузки модели
-    document.getElementById('uploadForm').addEventListener('submit', function(event) {
-        event.preventDefault();
+  <!-- ПРЕПОДАВАТЕЛИ КУРСА (просто перечисление) -->
+  <section>
+    <h2>Преподаватели курса</h2>
+    <div class="section-content" data-appear>
+      <p><strong>В.К. Ганьшин</strong> — кандидат технических наук, РГСУ. Руководит блоком по реверсивному инжинирингу и демонстрационному экзамену.</p>
+      <p><strong>Х.А. Понкратова</strong> — гендиректор STEP_3Д. Ведёт вводные модули, курирует партнёрства и предпринимательскую часть.</p>
+      <p><strong>А. Рекут</strong> — заведующий лабораторией промдизайна РГСУ. Руководит практическими модулями по оборудованию.</p>
+      <p><strong>М. Бакин</strong> — методист STEP_3Д. Отвечает за учебно-методическое сопровождение и координацию.</p>
+      <p><strong>И. Вакин</strong> — преподаватель-практик. Ведёт лабораторные занятия и консультации по 3D-печати и технике.</p>
+    </div>
+  </section>
+
+  <!-- РЕГИСТРАЦИЯ / CTA -->
+  <section id="registration">
+    <h2>Записаться на курс</h2>
+    <div class="section-content" data-appear>
+      <p>Оставьте заявку, и мы свяжемся с вами для уточнения деталей обучения:</p>
+      <!-- Форма может быть реальной или просто декоративной -->
+      <form>
+        <label for="name">Ваше имя</label><br />
+        <input type="text" id="name" name="name" placeholder="Иван Иванов" style="width: 100%; padding: 0.5rem; margin-bottom: 1rem;" required />
         
-        const fileInput = document.getElementById('fileInput');
-        const profileSelect = document.getElementById('profile');
+        <label for="phone">Телефон</label><br />
+        <input type="tel" id="phone" name="phone" placeholder="+7 (___) ___-__-__" style="width: 100%; padding: 0.5rem; margin-bottom: 1rem;" required />
+        
+        <label for="email">E-mail</label><br />
+        <input type="email" id="email" name="email" placeholder="example@mail.com" style="width: 100%; padding: 0.5rem; margin-bottom: 1rem;" required />
+        
+        <button type="submit" class="btn-accent">Отправить заявку</button>
+      </form>
+    </div>
+  </section>
 
-        const fileName = fileInput.files[0] ? fileInput.files[0].name : 'Не выбран файл';
-        const selectedProfile = profileSelect.value;
+  <!-- Контакты и адрес -->
+  <section id="contacts">
+    <h2>Контакты и адрес</h2>
+    <div class="section-content" data-appear>
+      <p><strong>Москва, ул. Беговая, д. 12</strong><br />
+         Лаборатория промышленного дизайна и цех высокотехнологического оборудования (Технопарк РГСУ)</p>
+      <p><strong>ООО «СТЕП_3Д»</strong> (ИНН/КПП: 9725161467 / 772501001)</p>
+      <p>Телефон: <a href="tel:+79959009141">+7 (995) 900-91-41</a><br />
+         E-mail: <a href="mailto:info@step3d.tech">info@step3d.tech</a><br />
+         Сайт: <a href="https://step3d.tech" target="_blank">www.step3d.tech</a></p>
+      <p>С уважением,<br />
+         <strong>Ганьшин Владимир Константинович</strong> — Руководитель технопарка ФГБОУ ВО РГСУ<br />
+         <strong>Христина Анатольевна Понкратова</strong> — Генеральный директор ООО «СТЕП_3Д»</p>
+      <p>#мечтай #учись #твори #вдохновляй</p>
+    </div>
+  </section>
 
-        // Здесь можно добавить логику для загрузки модели на сервер или Google Drive.
-        alert(`Загружена модель: ${fileName}, Профиль: ${selectedProfile}`);
+  <!-- Футер -->
+  <footer>
+    <p>&copy; 2025 РГСУ и STEP_3D. Все права защищены.</p>
+  </footer>
+
+  <!-- Небольшой скрипт для мобильного меню и эффекта появления -->
+  <script>
+    // Бургер-меню
+    const burgerBtn = document.getElementById('burger-btn');
+    const navList = document.getElementById('nav-list');
+
+    burgerBtn.addEventListener('click', () => {
+      navList.classList.toggle('show');
+      burgerBtn.classList.toggle('active');
     });
-</script>
 
+    // Эффект появления элементов при скролле (простейший)
+    const appearElements = document.querySelectorAll('[data-appear]');
+    const options = {
+      threshold: 0.2
+    };
+
+    const observer = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if(entry.isIntersecting) {
+          entry.target.classList.add('active');
+        }
+      });
+    }, options);
+
+    appearElements.forEach(el => {
+      observer.observe(el);
+    });
+  </script>
 </body>
 </html>
