@@ -331,3 +331,44 @@ footer a {
 footer a:hover {
   color: var(--accent-color);
 }
+:root {
+  --accent-color: #10A37F;
+  --font-family: 'Inter', Arial, sans-serif;
+  --text-color: #333;
+  --bg-color: #fff;
+  --light-bg-color: #f9f9f9;
+  --header-height: 70px;
+}
+
+body {
+  font-family: var(--font-family);
+  line-height: 1.5;
+  background: var(--bg-color);
+  color: var(--text-color);
+}
+
+/* Пример для ленивой загрузки изображений:
+   <img src="..." loading="lazy" alt="..."> */
+
+/* Шапка, меню, бургер, hero, section, cta-block и т.д. — 
+   аналогично ранее показанному */
+
+/* Калькулятор цены */
+#price-calc label {
+  display: block;
+  margin-bottom: 0.5rem;
+}
+#calc-total {
+  font-size: 1.2rem;
+  color: var(--accent-color);
+}
+
+/* Мульти-шаговая форма */
+.multi-step-form .form-step {
+  display: none;
+}
+.multi-step-form .form-step.active {
+  display: block;
+}
+/* ... остальная стилизация ... */
+
