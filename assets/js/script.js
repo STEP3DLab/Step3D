@@ -32,7 +32,7 @@ if (scrollTopBtn) {
   });
 }
 
-// Fade-in эффекты для элементов с классом .fade-in
+// Fade-in эффекты для .fade-in
 const fadeEls = document.querySelectorAll('.fade-in');
 const fadeObserver = new IntersectionObserver((entries, observer) => {
   entries.forEach(entry => {
@@ -57,7 +57,7 @@ faqButtons.forEach(btn => {
   });
 });
 
-// Countdown
+// Countdown (index.html)
 const countdownTimerEl = document.getElementById('countdown-timer');
 if (countdownTimerEl) {
   const targetDate = new Date('2025-05-19T10:00:00');
@@ -78,7 +78,7 @@ if (countdownTimerEl) {
   setInterval(updateCountdown, 1000);
 }
 
-// Прогресс чтения (если используется)
+// Прогресс чтения (если нужно)
 const readingProgressBar = document.getElementById('readingProgressBar');
 const contentArea = document.getElementById('content-area');
 if (readingProgressBar && contentArea) {
@@ -87,15 +87,6 @@ if (readingProgressBar && contentArea) {
     const docHeight = contentArea.scrollHeight - window.innerHeight;
     const progress = (scrollTop / docHeight) * 100;
     readingProgressBar.style.width = progress + '%';
-  });
-}
-
-// Floating action bar (если используется)
-const fab = document.getElementById('fab');
-const fabToggle = document.getElementById('fab-toggle');
-if (fabToggle && fab) {
-  fabToggle.addEventListener('click', () => {
-    fab.classList.toggle('show');
   });
 }
 
