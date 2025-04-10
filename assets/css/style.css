@@ -483,3 +483,148 @@ form input[type="email"] {
     font-size: 0.9rem;
   }
 }
+:root {
+  --accent-color: #10A37F;
+  --text-color: #333;
+  --bg-color: #fff;
+  --secondary-bg: #f0f0f0;
+
+  /* (7) Разные веса — подключение шрифта: 
+     font-weight:300,400,600... (в HTML <link ...> or import) */
+}
+
+/* (1) Увеличенная межстрочная */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', Arial, sans-serif;
+  color: var(--text-color);
+  background: var(--bg-color);
+  line-height: 1.6; /* базовое line-height */
+}
+
+/* (2) Плавные transitions на ссылки */
+a {
+  transition: color 0.3s, background-color 0.3s;
+  text-decoration: none;
+  color: var(--text-color);
+}
+a:hover {
+  color: var(--accent-color);
+}
+
+/* Header, nav-list, etc. */
+
+header {
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 70px;
+  padding: 0 1.5rem;
+  background: #fff;
+  border-bottom: 1px solid #eee;
+  transition: box-shadow 0.3s;
+}
+header.scrolled {
+  /* (3) Лёгкая тень при скролле */
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* Burger, nav, etc. */
+
+/* (15) Единый стиль кнопок .btn-accent, .cta-btn */
+.cta-btn {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  background-color: var(--accent-color);
+  color: #fff;
+  border-radius: 4px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s, box-shadow 0.3s;
+}
+.cta-btn:hover {
+  background-color: #088265;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15); 
+}
+
+/* (5) Если была форма input -> height:44px min 
+   ... */
+
+/* (4) Sticky subheadings (уже в program.html, not in index.html) */
+
+/* (8) HR разделители */
+hr {
+  border: none;
+  border-top: 1px solid #eee;
+}
+
+/* Fade-in классы (10) Убираем громоздкие анимации, ставим лёгкие */
+.fade-in {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+.fade-in.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* (11) Выравнивание карточек (на program.html), not in index, etc. */
+
+/* (13) Hover эффекты на карточках преимуществ, etc.
+   .advantage-card:hover { transform: scale(1.02); } */
+
+/* (17) «Тап-зона» на мобильном
+   Usually we do that for .cta-btn or a, 
+   but it's partially covered by bigger line-height 
+   or bigger padding. 
+*/
+
+/* FOOTER-колонки (уже показывали). 
+   (2) Плавные transitions, (7) шрифтовые веса, etc. */
+.site-footer {
+  background: #f0f0f0;
+  color: #333;
+  margin-top: 2rem;
+  font-size: 0.95rem;
+}
+
+/* (24) Кастомный скроллбар (осторожно). 
+   Только для Chrome/Safari:
+   html::-webkit-scrollbar {
+     width: 8px;
+   }
+   html::-webkit-scrollbar-track {
+     background: #f0f0f0;
+   }
+   html::-webkit-scrollbar-thumb {
+     background: #ccc;
+     border-radius: 4px;
+   }
+   html::-webkit-scrollbar-thumb:hover {
+     background: #bbb;
+   }
+*/
+
+/* (16) Контраст. 
+   Убедитесь, что все тексты >4.5:1, 
+   etc. - это проверяется вручную. */
+
+/* (14) Если есть второстепенные акценты, 
+   делаем их более мягкими (#ccc, #ddd). */
+
+/* (20) Responsive images: 
+   .responsive-img { max-width: 100%; height: auto; } 
+   <img src="..." srcset="..." sizes="..." ...> 
+*/
+
+/* (25) Линки - уже заменили "Подробнее" на конкретику. 
+   No new code needed. */
+
+/* (3) JavaScript: при scroll > 10px => header.classList.add('scrolled') 
+   => box-shadow 
+*/
