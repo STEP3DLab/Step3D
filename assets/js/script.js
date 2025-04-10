@@ -1,4 +1,4 @@
-// Header: добавление тени при скролле
+// Добавление тени в header при скролле
 const mainHeader = document.getElementById('main-header');
 window.addEventListener('scroll', () => {
   if (window.scrollY > 10) {
@@ -32,7 +32,7 @@ if (scrollTopBtn) {
   });
 }
 
-// Fade-in эффекты с помощью IntersectionObserver
+// Fade-in эффекты для элементов с классом .fade-in
 const fadeEls = document.querySelectorAll('.fade-in');
 const fadeObserver = new IntersectionObserver((entries, observer) => {
   entries.forEach(entry => {
@@ -90,7 +90,7 @@ if (readingProgressBar && contentArea) {
   });
 }
 
-// Floating action bar
+// Floating action bar (если используется)
 const fab = document.getElementById('fab');
 const fabToggle = document.getElementById('fab-toggle');
 if (fabToggle && fab) {
@@ -122,7 +122,7 @@ if (multiForm) {
   }
 }
 
-// Многошаговая форма и progress bar
+// Многошаговая форма + progress bar
 const step1 = document.getElementById('step-1');
 const step2 = document.getElementById('step-2');
 const step3 = document.getElementById('step-3');
@@ -139,7 +139,6 @@ function updateProgressBar(step) {
   const current = document.querySelector(`.step-indicator[data-step="${step}"]`);
   if (current) current.classList.add('active');
 }
-
 function validateStep1() {
   const nameVal = (document.getElementById('name')?.value || '').trim();
   const phoneVal = (document.getElementById('phone')?.value || '').trim();
@@ -149,7 +148,6 @@ function validateStep1() {
   }
   return true;
 }
-
 if (next1 && step1 && step2) {
   next1.addEventListener('click', () => {
     if (!validateStep1()) return;
