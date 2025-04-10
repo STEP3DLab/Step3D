@@ -11,7 +11,7 @@
 </head>
 <body>
 
-  <!-- ШАПКА -->
+  <!-- Шапка -->
   <header role="banner" id="main-header">
     <a href="index.html" class="logo">RGSU / STEP3D</a>
     <nav role="navigation" aria-label="Основная навигация">
@@ -28,9 +28,9 @@
     </div>
   </header>
 
-  <!-- Основной контент страницы -->
-  <main role="main" id="content-area">
-    <!-- Контактные данные и карта -->
+  <!-- Основной контент -->
+  <main id="content-area" role="main">
+    <!-- Контактная информация и карта -->
     <section class="section-content fade-in">
       <h2>Как нас найти</h2>
       <p><strong>Адрес:</strong> Москва, ул. Беговая, д.12</p>
@@ -42,7 +42,7 @@
         <strong>E-mail:</strong>
         <a href="mailto:info@step3d.tech">info@step3d.tech</a>
       </p>
-      <!-- Карта -->
+      <!-- Карта (используется lazy-loading) -->
       <div style="margin-top:1rem;">
         <iframe src="https://yandex.ru/map-widget/v1/..." width="100%" height="400" loading="lazy" style="border:none;" title="Карта проезда"></iframe>
       </div>
@@ -53,7 +53,7 @@
     <!-- Многошаговая форма заявки -->
     <section id="registration" class="section-content fade-in">
       <h2>Записаться на курс</h2>
-      <!-- Прогресс-бар формы -->
+      <!-- Прогресс-бар -->
       <div class="form-progress" id="form-progress">
         <div class="step-indicator active" data-step="1">Шаг 1</div>
         <div class="step-indicator" data-step="2">Шаг 2</div>
@@ -65,19 +65,18 @@
         <div class="form-step active" id="step-1">
           <p><strong>Шаг 1:</strong> Введите ваши контактные данные.</p>
           <label for="name">Имя</label><br>
-          <input type="text" id="name" name="name" placeholder="Иван Иванов" aria-required="true"/><br>
+          <input type="text" id="name" name="name" placeholder="Иван Иванов" aria-required="true" /><br>
 
           <label for="phone">Телефон</label><br>
-          <input type="tel" id="phone" name="phone" placeholder="+7 (999) 000-00-00" aria-required="true"/><br>
+          <input type="tel" id="phone" name="phone" placeholder="+7 (999) 000-00-00" aria-required="true" /><br>
 
           <div class="form-nav">
             <button type="button" id="next1" class="cta-btn">Далее</button>
-            <!-- Кнопка "Отложить заявку" сохраняет введенные данные в localStorage -->
             <button type="button" id="saveForLaterBtn" class="cta-btn">Отложить</button>
           </div>
         </div>
 
-        <!-- Шаг 2: Выбор модулей (необязательно, для примера) -->
+        <!-- Шаг 2: Выбор модулей -->
         <div class="form-step" id="step-2">
           <p><strong>Шаг 2:</strong> Выберите модули, которые вас интересуют.</p>
           <label><input type="checkbox" name="modules" value="Базовый"> Базовый модуль</label><br>
@@ -90,11 +89,11 @@
           </div>
         </div>
 
-        <!-- Шаг 3: Контактная информация -->
+        <!-- Шаг 3: E-mail -->
         <div class="form-step" id="step-3">
           <p><strong>Шаг 3:</strong> Укажите ваш E-mail для подтверждения заявки.</p>
           <label for="email">E-mail</label><br>
-          <input type="email" id="email" name="email" placeholder="example@mail.com" aria-required="true"/><br>
+          <input type="email" id="email" name="email" placeholder="example@mail.com" aria-required="true" /><br>
 
           <div class="form-nav">
             <button type="button" id="prev2" class="cta-btn">Назад</button>
@@ -103,20 +102,19 @@
         </div>
       </form>
 
-      <!-- Область для сообщения "Спасибо" (появляется после отправки) -->
       <div class="thank-you" id="thankYouMessage" style="display:none; margin-top:2rem;">
         <h3>Спасибо за заявку!</h3>
         <p>Мы свяжемся с вами в ближайшее время.</p>
       </div>
     </section>
 
-    <!-- (Дополнительно) Можно добавить небольшую поясняющую заметку о рабочем времени -->
+    <!-- Дополнительная информация -->
     <section class="section-content fade-in">
       <p style="text-align:center; font-size:0.9rem;">Мы работаем с 9:00 до 18:00 по МСК. Ответим на ваш запрос в течение рабочего дня.</p>
     </section>
   </main>
 
-  <!-- Футер (одинаковый на всех страницах) -->
+  <!-- Футер (единый на всех страницах) -->
   <footer class="site-footer">
     <div class="footer-top">
       <div class="footer-col">
@@ -168,7 +166,7 @@
         <a href="#">Telegram</a>
       </div>
       <div style="text-align:right;">
-        &copy; 2025 <a href="index.html">RGSU / STEP3D</a>. Все права защищены.
+        &copy; 2025 <a href="index.html" style="text-decoration:none; color:inherit;">RGSU / STEP3D</a>. Все права защищены.
       </div>
     </div>
   </footer>
