@@ -6,29 +6,26 @@
   <title>Курс «Реверсивный инжиниринг» — Главная</title>
 
   <!-- SEO -->
-  <meta name="description" content="Главная страница курса «Реверсивный инжиниринг». Получите навыки 3D-сканирования, CAD-моделирования и прототипирования.">
+  <meta name="description" content="Главная страница курса «Реверсивный инжиниринг».">
   <!-- Open Graph (пример) -->
-  <meta property="og:title" content="Курс «Реверсивный инжиниринг»" />
-  <meta property="og:description" content="Получите навыки реверсивного инжиниринга, 3D-сканирования и прототипирования в РГСУ / STEP_3D." />
+  <meta property="og:title" content="Курс «Реверсивный инжиниринг» — RGSU / STEP_3D" />
+  <meta property="og:description" content="Получите навыки реверсивного инжиниринга, 3D-сканирования и прототипирования в РГСУ." />
   <meta property="og:image" content="assets/images/og_image.jpg" />
 
-  <!-- (Закомментированный шаблон для Google Analytics)
-  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-XXXXX-X"></script>
+  <!-- (Пример для Google Analytics) -->
+  <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=UA-XXXXXXX-X"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
+    function gtag(){ dataLayer.push(arguments); }
     gtag('js', new Date());
-    gtag('config', 'UA-XXXXX-X');
-  </script>
-  -->
+    gtag('config', 'UA-XXXXXXX-X');
+  </script> -->
 
-  <!-- Подключаем общий CSS -->
   <link rel="stylesheet" href="assets/css/style.css" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
 <body>
 
-  <!-- Header (общий шаблон) -->
   <header>
     <a href="index.html" class="logo">RGSU / STEP_3D</a>
     <nav>
@@ -45,55 +42,72 @@
     </div>
   </header>
 
-  <!-- HERO SECTION -->
+  <!-- HERO SECTION + Lazy loading iframe -->
   <section class="hero">
     <h1>Курс «Реверсивный инжиниринг»</h1>
     <p>Весенне-летняя сессия 2025 года. Получите навыки 3D-сканирования, CAD-моделирования и прототипирования.</p>
-    <a href="contacts.html#registration" class="btn-accent">Записаться на курс</a>
+    <a href="contacts.html#registration" class="btn-accent" onclick="gaEvent('Hero_CTA_Click')">Записаться на курс</a>
 
-    <!-- Пример видео -->
     <div class="video-container" data-appear>
-      <iframe src="https://www.youtube.com/embed/kMSxSgMUxMY" allowfullscreen></iframe>
+      <iframe 
+        src="https://www.youtube.com/embed/kMSxSgMUxMY" 
+        allowfullscreen 
+        loading="lazy">
+      </iframe>
     </div>
   </section>
 
-  <!-- Краткий блок «Почему это важно» -->
-  <section>
-    <h2>Почему это важно?</h2>
-    <div class="section-content" data-appear>
-      <p>Реверсивный инжиниринг — один из ключевых инструментов в современном цифровом производстве. Научившись сканировать реальные объекты и готовить их к 3D-печати, вы сможете создавать и модернизировать изделия для инженерии, дизайна и прототипирования.</p>
-      <p>Подробнее о программе, стоимости и FAQ читайте на странице <a href="program.html">«О курсе»</a>.</p>
-      <p>Или сразу переходите к <a href="contacts.html#registration">записи</a>, если уже уверены!</p>
+  <!-- Баннер со скидками (п.10) -->
+  <section class="cta-block" data-appear>
+    <h2>Специальные предложения</h2>
+    <p>Только этой весной: <strong>студентам +10% скидка</strong> на любой модуль!<br>При покупке полного курса (3 модуля) экономия ~17%.</p>
+    <a href="program.html#calc-price" class="btn-accent" onclick="gaEvent('Discount_Banner_Click')">Узнать подробнее</a>
+  </section>
+
+  <!-- Блок «Блог / Новости» (п.9) -->
+  <section id="blog" data-appear>
+    <h2>Наш блог</h2>
+    <div class="section-content">
+      <article>
+        <h3>Победа на чемпионате WorldSkills!</h3>
+        <p>Команда РГСУ заняла призовые места в направлении «Прототипирование», применяя методики реверсивного инжиниринга...</p>
+        <a href="#" onclick="gaEvent('Blog_ReadMore_Click')">Читать далее</a>
+      </article>
+
+      <article>
+        <h3>Новые 3D-сканеры RangeVision</h3>
+        <p>В нашу лабораторию поступило новое оборудование для высокоточного сканирования...</p>
+        <a href="#" onclick="gaEvent('Blog_ReadMore_Click')">Читать далее</a>
+      </article>
     </div>
   </section>
 
-  <!-- Секция с отзывами (возможно, выдержка) -->
-  <section>
-    <h2>Отзывы</h2>
-    <div class="section-content testimonials" data-appear>
-      <div class="testimonial-item">
-        <p>«Отличный курс! Наконец разобрался в нюансах 3D-сканирования, сразу нашёл применение в реальных проектах.»</p>
-        <div class="testimonial-author">— Иван П.</div>
-      </div>
-      <p>
-        Больше отзывов и результатов обучения смотрите <a href="contacts.html#testimonials">здесь</a>.
-      </p>
-    </div>
-  </section>
-
-  <!-- CTA-блок в конце страницы -->
+  <!-- CTA-блок в конце страницы (п.3) -->
   <section class="cta-block">
     <h2>Готовы начать обучение?</h2>
     <p>Оставьте заявку в один клик.</p>
-    <a href="contacts.html#registration" class="btn-accent">Подать заявку</a>
+    <a href="contacts.html#registration" class="btn-accent" onclick="gaEvent('Footer_CTA_Click')">Подать заявку</a>
   </section>
 
-  <!-- FOOTER -->
   <footer>
     <p>&copy; 2025 РГСУ и STEP_3Д. Все права защищены.</p>
   </footer>
 
   <!-- Скрипты -->
   <script src="assets/js/script.js"></script>
+
+  <!-- Пример встроенного чат-виджета (п.1)
+       Здесь код Tawk.to (добавьте свой property ID) -->
+  <!-- <script type="text/javascript">
+  var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+  (function(){
+  var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+  s1.async=true;
+  s1.src='https://embed.tawk.to/YOUR_PROPERTY_ID/1gqoeXXXX';
+  s1.charset='UTF-8';
+  s1.setAttribute('crossorigin','*');
+  s0.parentNode.insertBefore(s1,s0);
+  })();
+  </script> -->
 </body>
 </html>
