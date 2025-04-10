@@ -2,14 +2,33 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Курс «Реверсивный инжиниринг» | Программа</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Курс «Реверсивный инжиниринг» — Главная</title>
 
+  <!-- SEO -->
+  <meta name="description" content="Главная страница курса «Реверсивный инжиниринг». Получите навыки 3D-сканирования, CAD-моделирования и прототипирования.">
+  <!-- Open Graph (пример) -->
+  <meta property="og:title" content="Курс «Реверсивный инжиниринг»" />
+  <meta property="og:description" content="Получите навыки реверсивного инжиниринга, 3D-сканирования и прототипирования в РГСУ / STEP_3D." />
+  <meta property="og:image" content="assets/images/og_image.jpg" />
+
+  <!-- (Закомментированный шаблон для Google Analytics)
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-XXXXX-X"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-XXXXX-X');
+  </script>
+  -->
+
+  <!-- Подключаем общий CSS -->
   <link rel="stylesheet" href="assets/css/style.css" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
 <body>
 
+  <!-- Header (общий шаблон) -->
   <header>
     <a href="index.html" class="logo">RGSU / STEP_3D</a>
     <nav>
@@ -26,110 +45,55 @@
     </div>
   </header>
 
+  <!-- HERO SECTION -->
+  <section class="hero">
+    <h1>Курс «Реверсивный инжиниринг»</h1>
+    <p>Весенне-летняя сессия 2025 года. Получите навыки 3D-сканирования, CAD-моделирования и прототипирования.</p>
+    <a href="contacts.html#registration" class="btn-accent">Записаться на курс</a>
+
+    <!-- Пример видео -->
+    <div class="video-container" data-appear>
+      <iframe src="https://www.youtube.com/embed/kMSxSgMUxMY" allowfullscreen></iframe>
+    </div>
+  </section>
+
+  <!-- Краткий блок «Почему это важно» -->
   <section>
-    <h2>Формат, структура и преимущества</h2>
+    <h2>Почему это важно?</h2>
     <div class="section-content" data-appear>
+      <p>Реверсивный инжиниринг — один из ключевых инструментов в современном цифровом производстве. Научившись сканировать реальные объекты и готовить их к 3D-печати, вы сможете создавать и модернизировать изделия для инженерии, дизайна и прототипирования.</p>
+      <p>Подробнее о программе, стоимости и FAQ читайте на странице <a href="program.html">«О курсе»</a>.</p>
+      <p>Или сразу переходите к <a href="contacts.html#registration">записи</a>, если уже уверены!</p>
+    </div>
+  </section>
+
+  <!-- Секция с отзывами (возможно, выдержка) -->
+  <section>
+    <h2>Отзывы</h2>
+    <div class="section-content testimonials" data-appear>
+      <div class="testimonial-item">
+        <p>«Отличный курс! Наконец разобрался в нюансах 3D-сканирования, сразу нашёл применение в реальных проектах.»</p>
+        <div class="testimonial-author">— Иван П.</div>
+      </div>
       <p>
-        Программа стартует <strong>19 мая 2025 года</strong> и реализуется в формате очно-дистанционного интенсива.
-        Продолжительность — от 48 до 144 академических часов. Каждый модуль рассчитан на 48 часов, возможна индивидуальная траектория.
-      </p>
-      <p>
-        График занятий:
-        <ul>
-          <li><strong>Понедельник:</strong> с 10:00 до 18:00</li>
-          <li><strong>Суббота:</strong> с 12:00 до 17:00</li>
-        </ul>
+        Больше отзывов и результатов обучения смотрите <a href="contacts.html#testimonials">здесь</a>.
       </p>
     </div>
   </section>
 
-  <section>
-    <h2>Преимущества курса</h2>
-    <div class="section-content advantages-grid" data-appear>
-      <div class="advantage-card">
-        <h3>Актуальное ПО</h3>
-        <p>Autodesk, Geomagic, T-Flex CAD, Компас 3D и др.</p>
-      </div>
-      <div class="advantage-card">
-        <h3>Современное оборудование</h3>
-        <p>3D-сканеры RangeVision, 3D-принтеры PICASO 3D, Raise3D, Anycubic, Formlabs.</p>
-      </div>
-      <div class="advantage-card">
-        <h3>Сертификация и экзамен</h3>
-        <p>Официальный документ об окончании курса и демонстрационный экзамен включены.</p>
-      </div>
-      <div class="advantage-card">
-        <h3>Гибкий формат</h3>
-        <p>Возможность пройти отдельный модуль или полный курс (48–144 часов).</p>
-      </div>
-    </div>
+  <!-- CTA-блок в конце страницы -->
+  <section class="cta-block">
+    <h2>Готовы начать обучение?</h2>
+    <p>Оставьте заявку в один клик.</p>
+    <a href="contacts.html#registration" class="btn-accent">Подать заявку</a>
   </section>
 
-  <!-- Расписание, стоимость, FAQ можно тоже здесь -->
-  <section>
-    <h2>Стоимость обучения</h2>
-    <div class="section-content" data-appear>
-      <table>
-        <thead>
-          <tr>
-            <th>Модулей</th>
-            <th>Часов</th>
-            <th>Стоимость (₽)</th>
-            <th>Экономия</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>1</td>
-            <td>48</td>
-            <td>68 000</td>
-            <td>—</td>
-          </tr>
-          <tr>
-            <td>2</td>
-            <td>96</td>
-            <td>120 000</td>
-            <td>~12%</td>
-          </tr>
-          <tr>
-            <td>3</td>
-            <td>144</td>
-            <td>168 000</td>
-            <td>~17%</td>
-          </tr>
-        </tbody>
-      </table>
-      <p>Включено: обучение, материалы, оборудование, ПО, демонстрационный экзамен, сертификат.</p>
-    </div>
-  </section>
-
-  <section>
-    <h2>FAQ</h2>
-    <div class="section-content accordion" data-appear>
-      <div class="item">
-        <button class="question">Какие документы нужны для зачисления?</button>
-        <div class="answer">
-          <div class="answer-content">
-            <p>Необходимы паспорт, СНИЛС и при необходимости справка с места учёбы/работы.</p>
-          </div>
-        </div>
-      </div>
-      <div class="item">
-        <button class="question">Можно ли оплатить частями?</button>
-        <div class="answer">
-          <div class="answer-content">
-            <p>Да, доступна рассрочка. Свяжитесь с нами для уточнения плана платежей.</p>
-          </div>
-        </div>
-      </div>
-      <!-- ... добавляйте вопросы по мере необходимости -->
-    </div>
-  </section>
-
+  <!-- FOOTER -->
   <footer>
     <p>&copy; 2025 РГСУ и STEP_3Д. Все права защищены.</p>
   </footer>
 
+  <!-- Скрипты -->
   <script src="assets/js/script.js"></script>
 </body>
 </html>
