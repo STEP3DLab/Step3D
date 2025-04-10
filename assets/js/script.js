@@ -32,7 +32,7 @@ if (scrollTopBtn) {
   });
 }
 
-// Fade-in эффекты через IntersectionObserver
+// Fade-in эффекты с помощью IntersectionObserver
 const fadeEls = document.querySelectorAll('.fade-in');
 const fadeObserver = new IntersectionObserver((entries, observer) => {
   entries.forEach(entry => {
@@ -111,7 +111,7 @@ if (saveForLaterBtn) {
   });
 }
 
-// Если в localStorage есть сохранённая заявка, восстанавливаем данные формы
+// Восстановление данных формы из localStorage
 const multiForm = document.getElementById('multiForm');
 if (multiForm) {
   const saved = localStorage.getItem('savedApplication');
@@ -139,6 +139,7 @@ function updateProgressBar(step) {
   const current = document.querySelector(`.step-indicator[data-step="${step}"]`);
   if (current) current.classList.add('active');
 }
+
 function validateStep1() {
   const nameVal = (document.getElementById('name')?.value || '').trim();
   const phoneVal = (document.getElementById('phone')?.value || '').trim();
@@ -186,7 +187,6 @@ if (submitForm && thankYouMessage && multiForm) {
       alert('Пожалуйста, введите e-mail!');
       return;
     }
-    // Скрыть форму, показать "Спасибо" и очистить сохранение
     multiForm.style.display = 'none';
     thankYouMessage.style.display = 'block';
     localStorage.removeItem('savedApplication');
