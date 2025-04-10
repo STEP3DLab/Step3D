@@ -3,15 +3,17 @@
 <head>
   <meta charset="UTF-8" />
   <title>Контакты — Реверсивный инжиниринг</title>
-  <meta name="description" content="Контакты, адрес, заявка, карта, многошаговая форма." />
+  <meta name="description" content="Контакты, адрес, заявка на курс «Реверсивный инжиниринг», карта и информация для связи." />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+  <!-- Подключение общего стиля -->
   <link rel="stylesheet" href="assets/css/style.css" />
 </head>
 <body>
 
-  <header role="banner">
-    <a href="index.html" class="logo">RGSU / STEP_3D</a>
+  <!-- ШАПКА -->
+  <header role="banner" id="main-header">
+    <a href="index.html" class="logo">RGSU / STEP3D</a>
     <nav role="navigation" aria-label="Основная навигация">
       <ul id="nav-list">
         <li><a href="index.html">Главная</a></li>
@@ -26,29 +28,42 @@
     </div>
   </header>
 
-  <main role="main">
-    <section class="section-content">
+  <!-- Основной контент страницы -->
+  <main role="main" id="content-area">
+    <!-- Контактные данные и карта -->
+    <section class="section-content fade-in">
       <h2>Как нас найти</h2>
-      <p><strong>Адрес:</strong> Москва, ул. Беговая, д. 12</p>
-      <p>Телефон: <a href="tel:+79959009141">+7 (995) 900-91-41</a><br>
-         E-mail: <a href="mailto:info@step3d.tech">info@step3d.tech</a></p>
-      <!-- Карта, пример -->
-      <iframe src="https://yandex.ru/map-widget/v1/..." width="100%" height="400" loading="lazy"></iframe>
+      <p><strong>Адрес:</strong> Москва, ул. Беговая, д.12</p>
+      <p>
+        <strong>Телефон:</strong>
+        <a href="tel:+79959009141">+7 (995) 900-91-41</a>
+      </p>
+      <p>
+        <strong>E-mail:</strong>
+        <a href="mailto:info@step3d.tech">info@step3d.tech</a>
+      </p>
+      <!-- Карта -->
+      <div style="margin-top:1rem;">
+        <iframe src="https://yandex.ru/map-widget/v1/..." width="100%" height="400" loading="lazy" style="border:none;" title="Карта проезда"></iframe>
+      </div>
     </section>
 
-    <!-- Многошаговая форма (inline-валидация, "Отложить") -->
-    <section id="registration" class="section-content">
+    <hr style="max-width:80%; margin:2rem auto; border:0; border-top:1px solid #eee;">
+
+    <!-- Многошаговая форма заявки -->
+    <section id="registration" class="section-content fade-in">
       <h2>Записаться на курс</h2>
+      <!-- Прогресс-бар формы -->
       <div class="form-progress" id="form-progress">
         <div class="step-indicator active" data-step="1">Шаг 1</div>
         <div class="step-indicator" data-step="2">Шаг 2</div>
         <div class="step-indicator" data-step="3">Шаг 3</div>
       </div>
 
-      <form id="multiForm">
-        <!-- Шаг 1 -->
+      <form id="multiForm" novalidate>
+        <!-- Шаг 1: Контактные данные -->
         <div class="form-step active" id="step-1">
-          <p><strong>Шаг 1:</strong> Введите имя и телефон</p>
+          <p><strong>Шаг 1:</strong> Введите ваши контактные данные.</p>
           <label for="name">Имя</label><br>
           <input type="text" id="name" name="name" placeholder="Иван Иванов" aria-required="true"/><br>
 
@@ -56,56 +71,112 @@
           <input type="tel" id="phone" name="phone" placeholder="+7 (999) 000-00-00" aria-required="true"/><br>
 
           <div class="form-nav">
-            <button type="button" id="next1">Далее</button>
-            <!-- (6) Отложить заявку -->
-            <button type="button" id="saveForLaterBtn">Отложить</button>
+            <button type="button" id="next1" class="cta-btn">Далее</button>
+            <!-- Кнопка "Отложить заявку" сохраняет введенные данные в localStorage -->
+            <button type="button" id="saveForLaterBtn" class="cta-btn">Отложить</button>
           </div>
         </div>
 
-        <!-- Шаг 2 -->
+        <!-- Шаг 2: Выбор модулей (необязательно, для примера) -->
         <div class="form-step" id="step-2">
-          <p><strong>Шаг 2:</strong> Какие модули вас интересуют?</p>
+          <p><strong>Шаг 2:</strong> Выберите модули, которые вас интересуют.</p>
           <label><input type="checkbox" name="modules" value="Базовый"> Базовый модуль</label><br>
           <label><input type="checkbox" name="modules" value="Углублённый"> Углублённый модуль</label><br>
           <label><input type="checkbox" name="modules" value="Финальный"> Финальный проект</label><br>
 
           <div class="form-nav">
-            <button type="button" id="prev1">Назад</button>
-            <button type="button" id="next2">Далее</button>
+            <button type="button" id="prev1" class="cta-btn">Назад</button>
+            <button type="button" id="next2" class="cta-btn">Далее</button>
           </div>
         </div>
 
-        <!-- Шаг 3 -->
+        <!-- Шаг 3: Контактная информация -->
         <div class="form-step" id="step-3">
-          <p><strong>Шаг 3:</strong> Укажите e-mail</p>
+          <p><strong>Шаг 3:</strong> Укажите ваш E-mail для подтверждения заявки.</p>
           <label for="email">E-mail</label><br>
           <input type="email" id="email" name="email" placeholder="example@mail.com" aria-required="true"/><br>
 
           <div class="form-nav">
-            <button type="button" id="prev2">Назад</button>
-            <button type="submit" id="submitForm">Отправить</button>
+            <button type="button" id="prev2" class="cta-btn">Назад</button>
+            <button type="submit" id="submitForm" class="cta-btn">Отправить</button>
           </div>
         </div>
       </form>
 
+      <!-- Область для сообщения "Спасибо" (появляется после отправки) -->
       <div class="thank-you" id="thankYouMessage" style="display:none; margin-top:2rem;">
         <h3>Спасибо за заявку!</h3>
         <p>Мы свяжемся с вами в ближайшее время.</p>
       </div>
     </section>
 
-    <!-- (10) Пример "Закрытый раздел" -->
-    <section class="locked-section" aria-hidden="true">
-      <h2>Закрытый раздел</h2>
-      <p>Доступен только авторизованным пользователям.</p>
+    <!-- (Дополнительно) Можно добавить небольшую поясняющую заметку о рабочем времени -->
+    <section class="section-content fade-in">
+      <p style="text-align:center; font-size:0.9rem;">Мы работаем с 9:00 до 18:00 по МСК. Ответим на ваш запрос в течение рабочего дня.</p>
     </section>
   </main>
 
-  <footer role="contentinfo">
-    <p>&copy; 2025 РГСУ и STEP_3Д</p>
+  <!-- Футер (одинаковый на всех страницах) -->
+  <footer class="site-footer">
+    <div class="footer-top">
+      <div class="footer-col">
+        <h3>Модули</h3>
+        <ul>
+          <li><a href="program.html#modules-section">Базовый модуль</a></li>
+          <li><a href="program.html#modules-section">Углублённый модуль</a></li>
+          <li><a href="program.html#modules-section">Финальный проект</a></li>
+          <li><a href="program.html">Спецкурсы</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h3>Поддержка</h3>
+        <ul>
+          <li><a href="contacts.html">Связаться с нами</a></li>
+          <li><a href="contacts.html#faq">FAQ</a></li>
+          <li><a href="contacts.html#registration">Регистрация</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h3>Компания</h3>
+        <ul>
+          <li><a href="program.html#intro-section">О программе</a></li>
+          <li><a href="program.html#portfolio-section">Портфолио работ</a></li>
+          <li><a href="#">Новости</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h3>Юридическая информация</h3>
+        <ul>
+          <li><a href="#">Пользовательское соглашение</a></li>
+          <li><a href="#">Политика конфиденциальности</a></li>
+          <li><a href="#">Cookie-файлы</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>
+        <label for="regionSelect">Регион:</label>
+        <select id="regionSelect" name="regionSelect">
+          <option value="ru">Россия</option>
+          <option value="us">United States</option>
+          <option value="eu">Europe</option>
+        </select>
+      </div>
+      <div style="text-align:center;">
+        <a href="#">VK</a>
+        <a href="#">YouTube</a>
+        <a href="#">Telegram</a>
+      </div>
+      <div style="text-align:right;">
+        &copy; 2025 <a href="index.html">RGSU / STEP3D</a>. Все права защищены.
+      </div>
+    </div>
   </footer>
 
+  <!-- Кнопка "Наверх" -->
   <button id="scrollTopBtn">&#8679;</button>
+
+  <!-- Скрипты -->
   <script src="assets/js/script.js"></script>
 </body>
 </html>
