@@ -6,19 +6,20 @@
   <meta name="description" content="Главная страница курса «Реверсивный инжиниринг»." />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- Подключаем общий CSS -->
+  <!-- Подключаем общий CSS (без новых файлов) -->
   <link rel="stylesheet" href="assets/css/style.css" />
 </head>
 <body>
 
+  <!-- ШАПКА САЙТА -->
   <header role="banner">
     <a href="index.html" class="logo">RGSU / STEP_3D</a>
     <nav role="navigation" aria-label="Основная навигация">
       <ul id="nav-list">
-        <li><a href="index.html">Главная</a></li>
+        <li><a href="index.html" class="active-link">Главная</a></li>
         <li><a href="program.html">О курсе</a></li>
         <li><a href="contacts.html">Контакты</a></li>
-        <!-- Пример «Личный кабинет» (пока без реальной авторизации) -->
+        <!-- Личный кабинет (предположим, пока без реализации авторизации) -->
         <li><a href="#" id="login-link">Личный кабинет</a></li>
       </ul>
     </nav>
@@ -29,55 +30,103 @@
     </div>
   </header>
 
-  <!-- HERO SECTION c tooltip (п.1) -->
+  <!-- ОСНОВНОЙ КОНТЕНТ -->
   <main role="main">
+    <!-- HERO-СЕКЦИЯ (минимально доработанная верстка) -->
     <section class="hero">
-      <h1>Курс «Реверсивный инжиниринг» <span class="tooltip" data-tooltip="Комплекс 3D-сканирования, CAD и прототипирования.">?</span></h1>
-      <p>Получите навыки реверсивного инжиниринга, 3D-сканирования и CAD-моделирования.</p>
+      <h1>Курс «Реверсивный инжиниринг» 
+        <span class="tooltip" data-tooltip="Методы 3D-сканирования и CAD-моделирования.">?</span>
+      </h1>
+      <p>
+        Получите навыки 3D-сканирования, CAD-моделирования и прототипирования
+        в современном формате очно-дистанционного обучения.
+      </p>
+      <!-- CTA-кнопка -->
       <a href="contacts.html#registration" class="btn-accent">Записаться</a>
     </section>
 
-    <!-- (8) Countdown -->
-    <section id="countdown-section">
+    <!-- ОБРАТНЫЙ ОТСЧЁТ ДО СТАРТА КУРСА -->
+    <section id="countdown-section" class="section-content">
       <h2>До старта нового потока:</h2>
-      <div class="section-content">
-        <p id="countdown-timer">Загрузка...</p>
-        <p><em>Успейте подать заявку!</em></p>
-      </div>
+      <p id="countdown-timer" style="font-size:1.4rem; margin-bottom:0.5rem;">Загрузка...</p>
+      <p><em>Успейте подать заявку!</em></p>
     </section>
 
-    <!-- (9) Виртуальная экскурсия -->
-    <section id="virtual-tour">
+    <!-- ВИРТУАЛЬНАЯ ЭКСКУРСИЯ (360 или видео) -->
+    <section id="virtual-tour" class="section-content">
       <h2>Виртуальная экскурсия</h2>
-      <div class="section-content">
-        <p>Осмотрите лабораторию в 360° формате:</p>
-        <!-- Пример iframe, замените ссылку на реальный 360- или видео -->
-        <iframe 
+      <p>
+        Осмотрите нашу лабораторию и оборудование в формате 360°, 
+        чтобы оценить базу и условия для обучения:
+      </p>
+      <!-- Пример iframe 360-тура (замените на свою ссылку) -->
+      <div style="margin-top:1rem;">
+        <iframe
           src="https://kuula.co/share/7qvjn?fs=1&vr=0&zoom=1&thumbs=1&chromeless=0&logo=1"
-          width="100%" height="500" loading="lazy">
+          width="100%"
+          height="500"
+          loading="lazy"
+          style="border: none;">
         </iframe>
       </div>
     </section>
+
+    <!-- CTA-БЛОК (ЗАКЛЮЧИТЕЛЬНЫЙ ПРИЗЫВ) -->
+    <section class="section-content" style="text-align:center;">
+      <h2>Готовы начать?</h2>
+      <p>Оставьте заявку и мы свяжемся для уточнения деталей!</p>
+      <a href="contacts.html#registration" class="btn-accent">Подать заявку</a>
+    </section>
   </main>
 
-  <footer role="contentinfo">
-    <p>&copy; 2025 РГСУ и STEP_3Д</p>
+  <!-- ПОДВАЛ (FOOTER) -->
+  <footer role="contentinfo" class="site-footer">
+    <div class="footer-top">
+      <!-- Колонка №1: кратко о курсе -->
+      <div class="footer-col">
+        <h3>О курсе</h3>
+        <p style="max-width:200px;">
+          Программа «Реверсивный инжиниринг» 
+          объединяет 3D-сканирование, 
+          CAD-моделирование и прототипирование 
+          по современным стандартам.
+        </p>
+      </div>
+      <!-- Колонка №2: быстрые ссылки -->
+      <div class="footer-col">
+        <h3>Быстрые ссылки</h3>
+        <ul class="footer-links">
+          <li><a href="program.html">Программа курса</a></li>
+          <li><a href="contacts.html#registration">Записаться</a></li>
+          <li><a href="contacts.html">Контакты</a></li>
+        </ul>
+      </div>
+      <!-- Колонка №3: Контакты -->
+      <div class="footer-col">
+        <h3>Контакты</h3>
+        <p>
+          <strong>Адрес:</strong> Москва, ул. Беговая, д.12<br>
+          <strong>Тел.:</strong> <a href="tel:+79959009141">+7 (995) 900-91-41</a><br>
+          <strong>E-mail:</strong> <a href="mailto:info@step3d.tech">info@step3d.tech</a>
+        </p>
+      </div>
+    </div>
+
+    <!-- Нижняя строка подвала -->
+    <div class="footer-bottom">
+      <p>
+        &copy; 2025 
+        <a href="index.html">RGSU / STEP_3D</a>. 
+        Все права защищены.
+      </p>
+      <!-- Можно добавить социальные иконки или ссылки -->
+    </div>
   </footer>
 
-  <!-- (4) Плавающая action-bar -->
-  <div class="floating-action-bar" id="fab">
-    <button class="fab-btn" id="fab-toggle">☰</button>
-    <div class="fab-menu" id="fab-menu">
-      <a href="contacts.html#registration">Записаться</a>
-      <a href="program.html#faq-section">FAQ</a>
-      <a href="program.html#portfolio-section" id="to-portfolio">Портфолио</a>
-    </div>
-  </div>
-
-  <!-- Кнопка "Наверх" -->
+  <!-- КНОПКА «НАВЕРХ» -->
   <button id="scrollTopBtn">&#8679;</button>
 
-  <!-- Скрипт -->
+  <!-- Подключаем общий скрипт -->
   <script src="assets/js/script.js"></script>
 </body>
 </html>
