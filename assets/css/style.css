@@ -112,7 +112,8 @@ nav a.active-link {
 .hero p {
   margin-bottom: 1.5rem;
   max-width: 600px;
-  margin: 0 auto;
+  margin-left: auto;
+  margin-right: auto;
   line-height: 1.7;
 }
 .hero ul {
@@ -139,7 +140,7 @@ nav a.active-link {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
-/* Section Контент */
+/* Section Content */
 .section-content {
   max-width: 1100px;
   margin: 0 auto;
@@ -175,13 +176,13 @@ section h2 {
   opacity: 1;
 }
 
-/* Микро-анимации */
+/* Micro-animations */
 .micro-anim {
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 .micro-anim:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 /* Fade-in */
@@ -195,7 +196,7 @@ section h2 {
   transform: translateY(0);
 }
 
-/* Accordion для FAQ */
+/* Accordion for FAQ */
 .accordion .item {
   border: 1px solid #ddd;
   border-radius: 4px;
@@ -224,7 +225,7 @@ section h2 {
   padding-bottom: 1rem;
 }
 
-/* Footer (единый футер на всех страницах) */
+/* Footer */
 .site-footer {
   background: var(--secondary-bg);
   color: var(--text-color);
@@ -287,7 +288,7 @@ section h2 {
   color: var(--accent-color);
 }
 
-/* Кнопка "Наверх" */
+/* Scroll-to-Top */
 #scrollTopBtn {
   position: fixed;
   bottom: 2rem;
@@ -312,7 +313,7 @@ section h2 {
   background-color: #088265;
 }
 
-/* Дополнительные стили адаптивности */
+/* Responsive styles */
 @media (max-width: 480px) {
   .hero h1 {
     font-size: 1.6rem;
