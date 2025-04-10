@@ -1,25 +1,22 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8" />
   <title>О курсе — Реверсивный инжиниринг</title>
-  <meta name="description" content="Описание программы, преимущества, стоимость, FAQ.">
-
+  <meta name="description" content="Описание программы, преимущества, портфолио работ, FAQ." />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
   <link rel="stylesheet" href="assets/css/style.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
 <body>
 
-  <header>
+  <header role="banner">
     <a href="index.html" class="logo">RGSU / STEP_3D</a>
-    <nav>
+    <nav role="navigation">
       <ul id="nav-list">
         <li><a href="index.html">Главная</a></li>
-        <li><a href="#modules" data-spy="modules">Модули</a></li>
-        <li><a href="#faq" data-spy="faq">FAQ</a></li>
-        <li><a href="#success-stories" data-spy="success">Истории успеха</a></li>
-        <li><a href="contacts.html" class="nav-cta">Контакты</a></li>
+        <li><a href="program.html" class="active-link">О курсе</a></li>
+        <li><a href="contacts.html">Контакты</a></li>
       </ul>
     </nav>
     <div class="burger" id="burger-btn">
@@ -29,97 +26,57 @@
     </div>
   </header>
 
-  <section id="format">
-    <h2>Формат и структура обучения</h2>
-    <div class="section-content" data-appear>
-      <p>Программа стартует 19 мая 2025, длится от 48 до 144 часов...</p>
-    </div>
-  </section>
+  <!-- (5) Прогресс-бар чтения (reading progress) -->
+  <div id="readingProgressBar"></div>
 
-  <!-- Блок с иконками (п.7) -->
-  <section id="modules">
-    <h2>Модули курса</h2>
-    <div class="section-content advantages-grid" data-appear>
-      <div class="advantage-card">
-        <!-- Пример иконки -->
-        <img src="assets/images/icon-basic.svg" alt="Иконка базового модуля" class="icon">
-        <h3>Базовый модуль</h3>
-        <p>48 часов. Основы реверсивного инжиниринга, простые 3D-сканы, базовый CAD.</p>
+  <main role="main" id="content-area">
+    <section class="section-content sticky-heading" id="intro-section">
+      <h2>Формат и структура обучения</h2>
+      <p>Большой текст... [При прокрутке “h2” можно сделать position: sticky;]</p>
+      
+      <!-- (13) Поиск по сайту (автокомплит) -->
+      <div class="search-block">
+        <label for="site-search">Поиск по сайту:</label><br>
+        <input type="text" id="site-search" placeholder="Введите ключевое слово..." />
+        <ul class="autocomplete-list" id="autocomplete-list"></ul>
       </div>
-      <div class="advantage-card">
-        <img src="assets/images/icon-advanced.svg" alt="Иконка углубленного модуля" class="icon">
-        <h3>Углублённый модуль</h3>
-        <p>48 часов. Сложные объекты, продвинутое CAD-моделирование, промышленное оборудование.</p>
-      </div>
-      <div class="advantage-card">
-        <img src="assets/images/icon-final.svg" alt="Иконка финального проекта" class="icon">
-        <h3>Финальный проект</h3>
-        <p>48 часов. Итоговое задание, защита проекта, демонстрационный экзамен.</p>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <section>
-    <h2>Стоимость обучения</h2>
-    <div class="section-content" data-appear>
-      <p>1 модуль – 68 000 ₽, 2 модуля – 120 000 ₽, 3 модуля – 168 000 ₽.</p>
-      <!-- ... калькулятор цены (если есть), таблицы и т.д. ... -->
-    </div>
-  </section>
+    <!-- (14) Sticky-подзаголовок — можно задать класс sticky-heading -->
+    <section class="section-content sticky-heading" id="modules-section">
+      <h2>Модули курса</h2>
+      <p>Описание модулей, расписание, стоимость...</p>
+      <p class="micro-anim">Элемент с небольшой анимацией при наведении (п.2)</p>
+    </section>
 
-  <!-- FAQ c подсчётом вопросов (п.8) -->
-  <section id="faq" itemscope itemtype="https://schema.org/FAQPage">
-    <!-- JS потом добавит сюда (n вопросов) -->
-    <h2>Частые вопросы</h2>
-    <div class="section-content accordion" data-appear>
-      <div class="item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
-        <button class="question" itemprop="name">Нужен ли опыт в 3D-моделировании?</button>
-        <div class="answer" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-          <div class="answer-content" itemprop="text">
-            <p>Базовые навыки полезны, но в Базовом модуле даются основы.</p>
-          </div>
+    <!-- (3) Портфолио (галерея работ) -->
+    <section class="section-content sticky-heading" id="portfolio-section">
+      <h2>Портфолио работ студентов</h2>
+      <div class="gallery-container">
+        <div class="gallery-item micro-anim">
+          <img src="assets/images/gallery/work1.jpg" alt="Проект №1"/>
+          <p>Описание проекта</p>
         </div>
-      </div>
-      <div class="item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
-        <button class="question" itemprop="name">Можно ли оплатить частями?</button>
-        <div class="answer" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-          <div class="answer-content" itemprop="text">
-            <p>Да, возможно оплачивать каждый модуль отдельно.</p>
-          </div>
+        <div class="gallery-item micro-anim">
+          <img src="assets/images/gallery/work2.jpg" alt="Проект №2"/>
+          <p>Описание проекта</p>
         </div>
+        <!-- ... -->
       </div>
-      <div class="item">
-        <button class="question">Как происходит практика?</button>
-        <div class="answer">
-          <div class="answer-content">
-            <p>Практические занятия проводятся в лаборатории, где есть всё необходимое оборудование.</p>
-          </div>
-        </div>
-      </div>
-      <!-- ... -->
-    </div>
-  </section>
+    </section>
 
-  <section id="success-stories">
-    <h2>Истории успеха</h2>
-    <div class="section-content" data-appear>
-      <p>Здесь примеры, как выпускники внедрили реверсивный инжиниринг на предприятиях.</p>
-    </div>
-  </section>
+    <section class="section-content sticky-heading" id="faq-section">
+      <h2>FAQ</h2>
+      <p>Частые вопросы о курсе...</p>
+      <!-- ... аккордеон, и т.д. -->
+    </section>
+  </main>
 
-  <section class="cta-block">
-    <h2>Есть вопросы?</h2>
-    <p>Обратитесь к нам или оформите заявку!</p>
-    <a href="contacts.html#registration" class="btn-accent">Записаться</a>
-  </section>
-
-  <footer>
+  <footer role="contentinfo">
     <p>&copy; 2025 РГСУ и STEP_3Д</p>
   </footer>
 
-  <!-- Кнопка "Наверх" -->
   <button id="scrollTopBtn">&#8679;</button>
-
   <script src="assets/js/script.js"></script>
 </body>
 </html>
