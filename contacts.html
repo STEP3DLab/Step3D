@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <title>Контакты — Реверсивный инжиниринг</title>
-  <meta name="description" content="Контакты, адрес, заявка на курс «Реверсивный инжиниринг», карта и информация для связи." />
+  <meta name="description" content="Контакты, адрес, заявка на курс «Реверсивный инжиниринг», и информация для связи." />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <!-- Подключение общего стиля -->
@@ -30,27 +30,27 @@
 
   <!-- Основной контент -->
   <main id="content-area" role="main">
-    <!-- Контактная информация и карта -->
+    <!-- Контактная информация (без карты) -->
     <section class="section-content fade-in">
       <h2>Как нас найти</h2>
-      <p><strong>Адрес:</strong> Москва, ул. Беговая, д.12</p>
-      <p>
-        <strong>Телефон:</strong>
-        <a href="tel:+79959009141">+7 (995) 900-91-41</a>
+      <!-- Слегка увеличены отступы и акценты в текстах -->
+      <p style="line-height:1.7; margin-bottom:1rem;">
+        <strong>Адрес:</strong><br>
+        Москва, ул. Беговая, д.12
       </p>
-      <p>
-        <strong>E-mail:</strong>
-        <a href="mailto:info@step3d.tech">info@step3d.tech</a>
+      <p style="line-height:1.7; margin-bottom:1rem;">
+        <strong>Телефон:</strong> 
+        <a href="tel:+79959009141" style="font-weight:600; color:var(--accent-color);">+7 (995) 900-91-41</a>
       </p>
-      <!-- Карта (используется lazy-loading) -->
-      <div style="margin-top:1rem;">
-        <iframe src="https://yandex.ru/map-widget/v1/..." width="100%" height="400" loading="lazy" style="border:none;" title="Карта проезда"></iframe>
-      </div>
+      <p style="line-height:1.7;">
+        <strong>E-mail:</strong> 
+        <a href="mailto:info@step3d.tech" style="font-weight:600; color:var(--accent-color);">info@step3d.tech</a>
+      </p>
     </section>
 
     <hr style="max-width:80%; margin:2rem auto; border:0; border-top:1px solid #eee;">
 
-    <!-- Многошаговая форма заявки -->
+    <!-- Многошаговая форма заявки (дизайн слегка улучшен) -->
     <section id="registration" class="section-content fade-in">
       <h2>Записаться на курс</h2>
       <!-- Прогресс-бар -->
@@ -63,7 +63,7 @@
       <form id="multiForm" novalidate>
         <!-- Шаг 1: Контактные данные -->
         <div class="form-step active" id="step-1">
-          <p><strong>Шаг 1:</strong> Введите ваши контактные данные.</p>
+          <p><strong>Шаг 1:</strong> Укажите ваши контактные данные</p>
           <label for="name">Имя</label><br>
           <input type="text" id="name" name="name" placeholder="Иван Иванов" aria-required="true" /><br>
 
@@ -76,9 +76,9 @@
           </div>
         </div>
 
-        <!-- Шаг 2: Выбор модулей -->
+        <!-- Шаг 2: Выбор модулей (пример) -->
         <div class="form-step" id="step-2">
-          <p><strong>Шаг 2:</strong> Выберите модули, которые вас интересуют.</p>
+          <p><strong>Шаг 2:</strong> Выберите интересующие модули</p>
           <label><input type="checkbox" name="modules" value="Базовый"> Базовый модуль</label><br>
           <label><input type="checkbox" name="modules" value="Углублённый"> Углублённый модуль</label><br>
           <label><input type="checkbox" name="modules" value="Финальный"> Финальный проект</label><br>
@@ -91,7 +91,7 @@
 
         <!-- Шаг 3: E-mail -->
         <div class="form-step" id="step-3">
-          <p><strong>Шаг 3:</strong> Укажите ваш E-mail для подтверждения заявки.</p>
+          <p><strong>Шаг 3:</strong> Укажите ваш E-mail</p>
           <label for="email">E-mail</label><br>
           <input type="email" id="email" name="email" placeholder="example@mail.com" aria-required="true" /><br>
 
@@ -108,13 +108,12 @@
       </div>
     </section>
 
-    <!-- Дополнительная информация -->
-    <section class="section-content fade-in">
-      <p style="text-align:center; font-size:0.9rem;">Мы работаем с 9:00 до 18:00 по МСК. Ответим на ваш запрос в течение рабочего дня.</p>
+    <section class="section-content fade-in" style="margin-top:2rem;">
+      <p style="text-align:center; font-size:0.9rem;">Наши специалисты ответят на ваш запрос в течение рабочего дня (9:00 – 18:00 МСК).</p>
     </section>
   </main>
 
-  <!-- Футер (единый на всех страницах) -->
+  <!-- Футер (одинаковый) -->
   <footer class="site-footer">
     <div class="footer-top">
       <div class="footer-col">
