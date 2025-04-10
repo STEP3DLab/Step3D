@@ -2,22 +2,25 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Главная — Реверсивный инжиниринг</title>
-  <meta name="description" content="Главная страница курса «Реверсивный инжиниринг».">
-  
+  <meta name="description" content="Главная страница курса «Реверсивный инжиниринг»." />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- ARIA (п.11): role="main", role="banner", и т.д. -->
+  <!-- UI Kit (п.7): используем CSS-переменные в style.css -->
   <link rel="stylesheet" href="assets/css/style.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
 <body>
 
-  <header>
+  <header role="banner">
     <a href="index.html" class="logo">RGSU / STEP_3D</a>
-    <nav>
+    <nav role="navigation" aria-label="Основная навигация">
       <ul id="nav-list">
         <li><a href="index.html">Главная</a></li>
         <li><a href="program.html">О курсе</a></li>
-        <li><a href="contacts.html" class="nav-cta">Контакты</a></li>
+        <li><a href="contacts.html">Контакты</a></li>
+        <!-- (10) Личный кабинет (упрощённая ссылка) -->
+        <li><a href="#" id="login-link">Личный кабинет</a></li>
       </ul>
     </nav>
     <div class="burger" id="burger-btn">
@@ -27,39 +30,53 @@
     </div>
   </header>
 
-  <!-- HERO SECTION -->
-  <section class="hero">
-    <h1>Курс «Реверсивный инжиниринг»</h1>
-    <p>Получите навыки 3D-сканирования, CAD-моделирования и прототипирования.</p>
-    <a href="contacts.html#registration" class="btn-accent">Записаться на курс</a>
-  </section>
+  <!-- HERO SECTION с тултипом (п.1) -->
+  <main role="main">
+    <section class="hero">
+      <h1>Курс «Реверсивный инжиниринг» <span class="tooltip" data-tooltip="Методы 3D-сканирования и CAD-моделирования.">?</span></h1>
+      <p>Получите навыки 3D-сканирования, CAD-моделирования и прототипирования.</p>
+      <a href="contacts.html#registration" class="btn-accent">Записаться</a>
+    </section>
 
-  <!-- Пример кнопки, вызывающей поп-ап (п.6) -->
-  <section class="section-content" style="text-align:center; margin-top:2rem;">
-    <button class="btn-accent" id="show-popup-btn">Показать поп-ап</button>
-  </section>
+    <!-- (8) Countdown -->
+    <section id="countdown-section">
+      <h2>До старта нового потока осталось:</h2>
+      <div class="section-content">
+        <p id="countdown-timer">Загрузка...</p>
+        <p><em>Успейте подать заявку!</em></p>
+      </div>
+    </section>
 
-  <!-- Поп-ап с оверлеем (скрыт по умолчанию) -->
-  <div class="overlay" id="popup-overlay">
-    <div class="popup">
-      <h3>Пример поп-апа</h3>
-      <p>Здесь можно показать крупное изображение, предупреждение или дополнительную информацию.</p>
-      <button class="btn-accent" id="close-popup-btn">Закрыть</button>
-    </div>
-  </div>
+    <!-- (9) Виртуальная экскурсия -->
+    <section id="virtual-tour">
+      <h2>Виртуальная экскурсия</h2>
+      <div class="section-content">
+        <p>Посмотрите 360°-тур по нашей лаборатории или короткое видео:</p>
+        <!-- Пример 360 embed, можно заменить на iframe сервиса -->
+        <iframe src="https://kuula.co/share/7qvjn?fs=1&vr=0&zoom=1&thumbs=1&chromeless=0&logo=1" 
+                width="100%" height="500" loading="lazy">
+        </iframe>
+      </div>
+    </section>
+  </main>
 
-  <!-- CTA-блок -->
-  <section class="cta-block">
-    <h2>Готовы начать обучение?</h2>
-    <p>Оставьте заявку, и мы свяжемся с вами!</p>
-    <a href="contacts.html#registration" class="btn-accent">Подать заявку</a>
-  </section>
-
-  <footer>
+  <footer role="contentinfo">
     <p>&copy; 2025 РГСУ и STEP_3Д</p>
   </footer>
 
-  <!-- Кнопка "Наверх" (п.4) -->
+  <!-- (4) Плавающая панель (floating action bar) -->
+  <div class="floating-action-bar" id="fab">
+    <button class="fab-btn" id="fab-toggle">
+      ☰
+    </button>
+    <div class="fab-menu" id="fab-menu">
+      <a href="contacts.html#registration">Записаться</a>
+      <a href="program.html#faq">FAQ</a>
+      <a href="#" id="to-portfolio">Портфолио</a>
+    </div>
+  </div>
+
+  <!-- Кнопка "Наверх" (из прошлых улучшений) -->
   <button id="scrollTopBtn">&#8679;</button>
 
   <script src="assets/js/script.js"></script>
