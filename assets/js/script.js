@@ -1,4 +1,4 @@
-// Burger-menu 
+// Бургер-меню
 const burgerBtn = document.getElementById('burger-btn');
 const navList = document.getElementById('nav-list');
 if (burgerBtn && navList) {
@@ -7,7 +7,7 @@ if (burgerBtn && navList) {
   });
 }
 
-// Кнопка "Наверх" (из предыдущих)
+// Кнопка "Наверх"
 const scrollTopBtn = document.getElementById('scrollTopBtn');
 window.addEventListener('scroll', () => {
   if (window.scrollY > 300) {
@@ -22,20 +22,32 @@ if (scrollTopBtn) {
   });
 }
 
-// (4) Floating action bar
+// FAQ-аккордеон
+const faqButtons = document.querySelectorAll('.question');
+faqButtons.forEach(btn => {
+  btn.addEventListener('click', () => {
+    const answer = btn.nextElementSibling;
+    if (answer.style.maxHeight) {
+      answer.style.maxHeight = null;
+    } else {
+      answer.style.maxHeight = answer.scrollHeight + 'px';
+    }
+  });
+});
+
+// Floating action bar
 const fab = document.getElementById('fab');
 const fabToggle = document.getElementById('fab-toggle');
-const fabMenu = document.getElementById('fab-menu');
 if (fabToggle && fab) {
   fabToggle.addEventListener('click', () => {
     fab.classList.toggle('show');
   });
 }
 
-// (8) Countdown
+// Countdown (п.8)
 const countdownTimerEl = document.getElementById('countdown-timer');
 if (countdownTimerEl) {
-  const targetDate = new Date('2025-05-19T10:00:00'); // пример: 19 мая 2025
+  const targetDate = new Date('2025-05-19T10:00:00'); // пример
   function updateCountdown() {
     const now = new Date();
     const diff = targetDate - now;
@@ -53,9 +65,9 @@ if (countdownTimerEl) {
   setInterval(updateCountdown, 1000);
 }
 
-// (5) Reading progress bar
+// Прогресс чтения (п.5)
 const readingProgressBar = document.getElementById('readingProgressBar');
-const contentArea = document.getElementById('content-area'); // program.html
+const contentArea = document.getElementById('content-area');
 if (readingProgressBar && contentArea) {
   window.addEventListener('scroll', () => {
     const scrollTop = window.scrollY;
@@ -65,7 +77,7 @@ if (readingProgressBar && contentArea) {
   });
 }
 
-// (6) "Отложить заявку" — localStorage
+// "Отложить заявку" (p.6)
 const saveForLaterBtn = document.getElementById('saveForLaterBtn');
 if (saveForLaterBtn) {
   saveForLaterBtn.addEventListener('click', () => {
@@ -73,11 +85,11 @@ if (saveForLaterBtn) {
     const phoneVal = document.getElementById('phone').value;
     const data = { name: nameVal, phone: phoneVal, timestamp: Date.now() };
     localStorage.setItem('savedApplication', JSON.stringify(data));
-    alert('Заявка отложена! Можете вернуться позже.');
+    alert('Заявка отложена! Вы сможете вернуться к заполнению позже.');
   });
 }
 
-// При загрузке формы можно проверить, не сохранена ли заявка
+// Если в localStorage есть сохранённая заявка, восстанавливаем
 const multiForm = document.getElementById('multiForm');
 if (multiForm) {
   const saved = localStorage.getItem('savedApplication');
@@ -88,7 +100,7 @@ if (multiForm) {
   }
 }
 
-// Многошаговая форма + inline validation (12)
+// Многошаговая форма + inline validation
 const step1 = document.getElementById('step-1');
 const step2 = document.getElementById('step-2');
 const step3 = document.getElementById('step-3');
@@ -105,10 +117,10 @@ function updateProgressBar(step) {
   const current = document.querySelector(`.step-indicator[data-step="${step}"]`);
   if (current) current.classList.add('active');
 }
-// Пример inline-валидации
+
 function validateStep1() {
-  const nameVal = document.getElementById('name').value.trim();
-  const phoneVal = document.getElementById('phone').value.trim();
+  const nameVal = (document.getElementById('name')?.value || '').trim();
+  const phoneVal = (document.getElementById('phone')?.value || '').trim();
   if (!nameVal || !phoneVal) {
     alert('Пожалуйста, заполните имя и телефон.');
     return false;
@@ -133,7 +145,7 @@ if (prev1 && step1 && step2) {
 }
 if (next2 && step2 && step3) {
   next2.addEventListener('click', () => {
-    // здесь можно проверить чекбоксы при желании
+    // Доп. валидация шаг 2 (опционально)
     step2.classList.remove('active');
     step3.classList.add('active');
     updateProgressBar(3);
@@ -149,23 +161,22 @@ if (prev2 && step2 && step3) {
 if (submitForm && thankYouMessage && multiForm) {
   submitForm.addEventListener('click', (e) => {
     e.preventDefault();
-    const emailVal = document.getElementById('email').value.trim();
+    const emailVal = (document.getElementById('email')?.value || '').trim();
     if (!emailVal) {
-      alert('Укажите e-mail!');
+      alert('Пожалуйста, введите e-mail!');
       return;
     }
     // Скрыть форму, показать "спасибо"
     multiForm.style.display = 'none';
     thankYouMessage.style.display = 'block';
-    // Очистить localStorage
+    // Очистить localStorage, чтобы заявка не восстанавливалась повторно
     localStorage.removeItem('savedApplication');
   });
 }
 
-// (13) Автокомплит поиск
+// (13) Поиск по сайту (autocomplete)
 const siteSearch = document.getElementById('site-search');
 const autocompleteList = document.getElementById('autocomplete-list');
-// Пример статических данных (в реальном случае — fetch или lunr.js)
 const siteData = [
   '3D-сканирование',
   'CAD-моделирование',
@@ -175,7 +186,10 @@ const siteData = [
   'Прототипирование',
   'Аддитивные технологии',
   'Базовый модуль',
-  'Углублённый модуль'
+  'Углублённый модуль',
+  'Компетенции',
+  'Чемпионат',
+  'Лаборатория'
 ];
 if (siteSearch && autocompleteList) {
   siteSearch.addEventListener('input', () => {
@@ -187,11 +201,9 @@ if (siteSearch && autocompleteList) {
     const results = siteData.filter(item => 
       item.toLowerCase().includes(query)
     );
-    // Показать результаты
     autocompleteList.innerHTML = results.map(r => `<li>${r}</li>`).join('');
     autocompleteList.style.display = results.length ? 'block' : 'none';
   });
-  // Клик по варианту
   autocompleteList.addEventListener('click', (e) => {
     if (e.target.tagName === 'LI') {
       siteSearch.value = e.target.textContent;
@@ -200,5 +212,7 @@ if (siteSearch && autocompleteList) {
   });
 }
 
-// (14) Sticky subheadings — реализовано через CSS position: sticky, 
-// логика в HTML (class="sticky-heading"). JS дополнительный не обязателен.
+/* (14) Sticky subheadings — уже реализовано через CSS: .sticky-heading > h2 {
+   position: sticky; top: ... } 
+   JS не обязателен для этого, 
+   но можно добавить логику, если нужно более гибко. */
