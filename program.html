@@ -3,16 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <title>О курсе — Реверсивный инжиниринг</title>
-  <meta name="description" content="Программа обучения, преимущества, портфолио, часто задаваемые вопросы." />
+  <meta name="description" content="Описание программы курса, преимущества, структура и вопросы.">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <link rel="stylesheet" href="assets/css/style.css" />
 </head>
 <body>
 
+  <!-- Шапка (оставляем без изменений) -->
   <header role="banner">
     <a href="index.html" class="logo">RGSU / STEP_3D</a>
-    <nav role="navigation" aria-label="Основная навигация">
+    <nav role="navigation">
       <ul id="nav-list">
         <li><a href="index.html">Главная</a></li>
         <li><a href="program.html" class="active-link">О курсе</a></li>
@@ -26,89 +26,106 @@
     </div>
   </header>
 
-  <!-- (5) Прогресс чтения -->
-  <div id="readingProgressBar"></div>
-
   <main role="main" id="content-area">
-    <!-- (14) Sticky-подзаголовок -->
-    <section class="section-content sticky-heading" id="intro-section">
+    <!-- sticky-heading: заголовок секции остается на виду при прокрутке -->
+    <section id="intro-section" class="section-content sticky-heading fade-in">
       <h2>Формат и структура обучения</h2>
-      <p>Наша программа стартует в очно-дистанционном формате, длительность от 48 до 144 часов...</p>
-
-      <!-- (13) Поиск по сайту (автокомплит) -->
-      <div class="search-block">
-        <label for="site-search">Поиск по сайту:</label><br>
-        <input type="text" id="site-search" placeholder="Введите ключевое слово..." />
-        <ul class="autocomplete-list" id="autocomplete-list"></ul>
-      </div>
+      <p>
+        Курс стартует в очно-дистанционном формате и охватывает от 48 до 144 академических часов. 
+        Каждая часть обучения систематизирована в виде модулей, позволяющих выбрать индивидуальную траекторию.
+      </p>
     </section>
 
-    <section class="section-content sticky-heading" id="modules-section">
-      <h2>Модули курса</h2>
-      <p>Мы предлагаем 3 основных модуля: базовый, углублённый и финальный проект.</p>
-      <div class="advantages-grid micro-anim">
-        <div class="advantage-card">
-          <img src="assets/images/icons/icon-basic.svg" alt="Базовый модуль" class="icon">
+    <!-- Карточки модулей с единым дизайном -->
+    <section id="modules-section" class="section-content fade-in">
+      <h2 class="sticky-heading">Модули курса</h2>
+      <div class="advantages-grid">
+        <!-- Карточка базового модуля -->
+        <div class="advantage-card micro-anim">
+          <img src="assets/images/icons/icon-basic.svg" alt="Иконка базового модуля" class="icon">
           <h3>Базовый модуль</h3>
-          <p>48 часов. Основы реверсивного инжиниринга, простые 3D-сканы, базовый CAD.</p>
+          <p>48 часов. Основы реверсивного инжиниринга и 3D-сканирования для новичков.</p>
         </div>
-        <div class="advantage-card">
-          <img src="assets/images/icons/icon-advanced.svg" alt="Углублённый модуль" class="icon">
+        <!-- Карточка углубленного модуля -->
+        <div class="advantage-card micro-anim">
+          <img src="assets/images/icons/icon-advanced.svg" alt="Иконка углубленного модуля" class="icon">
           <h3>Углублённый модуль</h3>
-          <p>48 часов. Сложные объекты, продвинутое CAD, промышленное оборудование.</p>
+          <p>48 часов. Применение продвинутых методов CAD-моделирования в промышленном дизайне.</p>
         </div>
-        <div class="advantage-card">
-          <img src="assets/images/icons/icon-final.svg" alt="Финальный проект" class="icon">
+        <!-- Карточка финального проекта -->
+        <div class="advantage-card micro-anim">
+          <img src="assets/images/icons/icon-final.svg" alt="Иконка финального проекта" class="icon">
           <h3>Финальный проект</h3>
-          <p>48 часов. Итоговое задание, защита проекта, демонстрационный экзамен.</p>
+          <p>48 часов. Итоговое задание по защите проекта и демонстрационному экзамену.</p>
         </div>
       </div>
     </section>
 
-    <!-- (3) Портфолио (галерея) -->
-    <section class="section-content sticky-heading" id="portfolio-section">
-      <h2>Портфолио работ студентов</h2>
-      <div class="gallery-container">
-        <div class="gallery-item micro-anim">
-          <img src="assets/images/gallery/work1.jpg" alt="Проект 1">
-          <p>Проект №1: деталь для промышленного оборудования.</p>
-        </div>
-        <div class="gallery-item micro-anim">
-          <img src="assets/images/gallery/work2.jpg" alt="Проект 2">
-          <p>Проект №2: сканирование сложной геометрии для машины.</p>
-        </div>
-        <!-- Дополните своими примерами -->
-      </div>
-    </section>
-
-    <!-- FAQ (аккордеон) -->
-    <section class="section-content sticky-heading" id="faq-section">
-      <h2>FAQ</h2>
-      <p>Ниже ответы на некоторые часто задаваемые вопросы.</p>
-      <div class="accordion" data-appear>
+    <!-- FAQ секция -->
+    <section id="faq-section" class="section-content fade-in sticky-heading">
+      <h2>Часто задаваемые вопросы</h2>
+      <div class="accordion">
         <div class="item">
           <button class="question">Нужен ли опыт в 3D-моделировании?</button>
           <div class="answer">
             <div class="answer-content">
-              <p>Нет, базовый модуль подходит даже для новичков.</p>
+              <p>Нет, курс начинается с базовых принципов, так что даже новички легко освоят материал.</p>
             </div>
           </div>
         </div>
         <div class="item">
-          <button class="question">Можно ли оплатить частями?</button>
+          <button class="question">Можно ли оплачивать модули по отдельности?</button>
           <div class="answer">
             <div class="answer-content">
-              <p>Да, модули можно оплачивать по отдельности.</p>
+              <p>Да, каждый модуль можно оплачивать отдельно, а также предусмотрены скидки для пакетного обучения.</p>
             </div>
           </div>
         </div>
-        <!-- Добавьте ещё вопросы при необходимости -->
       </div>
     </section>
+
+    <!-- Дополнительно можно добавить: небольшую навигацию по странице (breadcrumb) -->
+    
   </main>
 
-  <footer role="contentinfo">
-    <p>&copy; 2025 РГСУ и STEP_3Д</p>
+  <!-- Футер оставляем базовым, как пример корпоративного подвала (см. предыдущий код) -->
+  <footer class="site-footer">
+    <!-- Здесь, например, многоколоночное меню, как показано в предыдущем примере -->
+    <div class="footer-top">
+      <div class="footer-col">
+        <h3>Модули</h3>
+        <ul>
+          <li><a href="#modules-section">Базовый модуль</a></li>
+          <li><a href="#modules-section">Углублённый</a></li>
+          <li><a href="#modules-section">Финальный проект</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h3>Поддержка</h3>
+        <ul>
+          <li><a href="contacts.html">Связь с нами</a></li>
+          <li><a href="#faq-section">FAQ</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h3>Компания</h3>
+        <ul>
+          <li><a href="#intro-section">О курсе</a></li>
+          <li><a href="#">Новости</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h3>Юридическая информация</h3>
+        <ul>
+          <li><a href="#">Пользовательское соглашение</a></li>
+          <li><a href="#">Политика конфиденциальности</a></li>
+          <li><a href="#">Cookie-файлы</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 RGSU / STEP_3D. Все права защищены.</p>
+    </div>
   </footer>
 
   <button id="scrollTopBtn">&#8679;</button>
