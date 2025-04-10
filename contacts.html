@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Курс «Реверсивный инжиниринг» | Контакты</title>
+
+  <link rel="stylesheet" href="assets/css/style.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <header>
+    <a href="index.html" class="logo">RGSU / STEP_3D</a>
+    <nav>
+      <ul id="nav-list">
+        <li><a href="index.html">Главная</a></li>
+        <li><a href="program.html">О курсе</a></li>
+        <li><a href="contacts.html" class="nav-cta">Контакты</a></li>
+      </ul>
+    </nav>
+    <div class="burger" id="burger-btn">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </header>
+
+  <section>
+    <h2>Контакты</h2>
+    <div class="section-content" data-appear>
+      <p><strong>Москва, ул. Беговая, д. 12</strong><br>
+         Лаборатория промышленного дизайна и цех высокотехнологического оборудования (Технопарк РГСУ)
+      </p>
+      <p><strong>ООО «СТЕП_3Д»</strong> (ИНН/КПП: 9725161467 / 772501001)</p>
+      <p>Телефон: <a href="tel:+79959009141">+7 (995) 900-91-41</a><br>
+         E-mail: <a href="mailto:info@step3d.tech">info@step3d.tech</a><br>
+         Сайт: <a href="https://step3d.tech" target="_blank">www.step3d.tech</a></p>
+      <p>С уважением,<br>
+        <strong>Ганьшин Владимир Константинович</strong> — Руководитель технопарка ФГБОУ ВО РГСУ<br>
+        <strong>Христина Анатольевна Понкратова</strong> — Генеральный директор ООО «СТЕП_3Д»</p>
+      <p>#мечтай #учись #твори #вдохновляй</p>
+    </div>
+  </section>
+
+  <!-- Мульти-шаговая ФОРМА РЕГИСТРАЦИИ (пример) -->
+  <section id="registration">
+    <h2>Записаться на курс</h2>
+    <div class="section-content" data-appear>
+      <div class="multi-step-form">
+        <!-- Шаг 1 -->
+        <div class="form-step active" id="step-1">
+          <p><strong>Шаг 1 из 3:</strong> Контактные данные</p>
+          <label for="name">Ваше имя</label><br>
+          <input type="text" id="name" name="name" placeholder="Иван Иванов" style="width: 100%; padding: 0.5rem; margin-bottom: 1rem;" required><br>
+
+          <label for="phone">Телефон</label><br>
+          <input type="tel" id="phone" name="phone" placeholder="+7 (___) ___-__-__" style="width: 100%; padding: 0.5rem; margin-bottom: 1rem;" required><br>
+
+          <div class="form-nav">
+            <button id="next1">Далее</button>
+          </div>
+        </div>
+
+        <!-- Шаг 2 -->
+        <div class="form-step" id="step-2">
+          <p><strong>Шаг 2 из 3:</strong> Выберите модули</p>
+          <label><input type="checkbox" name="modules" value="base"> Базовый модуль (48 ч.)</label><br>
+          <label><input type="checkbox" name="modules" value="advanced"> Углублённый модуль (48 ч.)</label><br>
+          <label><input type="checkbox" name="modules" value="project"> Финальный проект (48 ч.)</label><br>
+
+          <div class="form-nav">
+            <button id="prev1">Назад</button>
+            <button id="next2">Далее</button>
+          </div>
+        </div>
+
+        <!-- Шаг 3 -->
+        <div class="form-step" id="step-3">
+          <p><strong>Шаг 3 из 3:</strong> Подтверждение</p>
+          <label for="email">E-mail</label><br>
+          <input type="email" id="email" name="email" placeholder="example@mail.com" style="width: 100%; padding: 0.5rem; margin-bottom: 1rem;" required><br>
+
+          <p>Проверьте данные и отправьте заявку.</p>
+          <div class="form-nav">
+            <button id="prev2">Назад</button>
+            <button id="submitForm">Отправить</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 РГСУ и STEP_3Д. Все права защищены.</p>
+  </footer>
+
+  <script src="assets/js/script.js"></script>
+</body>
+</html>
