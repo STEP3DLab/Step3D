@@ -279,4 +279,32 @@ input:invalid {
   padding: 0.5rem 1rem;
   z-index: 50;
 }
+/* Для плавной анимации появления секций (п.3) */
+.fade-in {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+.fade-in.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Кнопка CTA при hover (п.5) - box-shadow */
+.btn-accent:hover {
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+/* Адаптив для Hero (п.10) */
+@media (max-width: 480px) {
+  .hero h1 {
+    font-size: 1.6rem !important;
+  }
+  .hero ul {
+    margin-left: 1rem !important;
+  }
+  .hero p {
+    font-size: 0.9rem;
+  }
+}
 
