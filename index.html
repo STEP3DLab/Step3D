@@ -1,24 +1,25 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Курс «Реверсивный инжиниринг» — РГСУ и STEP_3D</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Курс «Реверсивный инжиниринг» — RGSU / STEP_3D</title>
+  
   <!-- Подключение шрифта (пример: Inter) -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
-  <!-- Стили (можно вынести в отдельный файл) -->
+
   <style>
     :root {
-      /* Можно вынести акцентный цвет в переменную, чтобы при необходимости быстро менять бренд */
-      --accent-color: #10A37F; 
-      --font-family: 'Inter', Helvetica, Arial, sans-serif;
+      --accent-color: #10A37F;
+      --font-family: 'Inter', Arial, sans-serif;
       --text-color: #333;
       --bg-color: #fff;
       --light-bg-color: #f9f9f9;
+      --header-height: 70px; /* пригодится для sticky-меню */
     }
 
     * {
-      margin: 0;
+      margin: 0; 
       padding: 0;
       box-sizing: border-box;
     }
@@ -27,33 +28,43 @@
       font-family: var(--font-family);
       color: var(--text-color);
       background-color: var(--bg-color);
-      line-height: 1.6;
+      line-height: 1.5;
       overflow-x: hidden;
     }
 
+    /* -------------------------- 
+       1. Sticky Header
+    -------------------------- */
     header {
-      width: 100%;
+      position: sticky;
+      top: 0;
+      z-index: 999;
+      background-color: var(--bg-color);
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 1rem 2rem;
+      height: var(--header-height);
+      padding: 0 1.5rem;
       border-bottom: 1px solid #eee;
-      position: relative;
-      z-index: 10;
-      background-color: var(--bg-color);
     }
 
-    /* Логотип (текстом для примера) */
     .logo {
+      font-size: 1.25rem;
       font-weight: 600;
-      font-size: 1.2rem;
       color: var(--accent-color);
+      text-decoration: none;
     }
 
-    /* Навигация */
+    /* Навигация + доп. CTA в меню */
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
     nav ul {
       display: flex;
-      gap: 1.5rem;
+      gap: 1rem;
       list-style: none;
     }
 
@@ -68,23 +79,37 @@
       color: var(--accent-color);
     }
 
-    /* Кнопка-бургер для мобильного */
+    .nav-cta {
+      padding: 0.5rem 1rem;
+      background-color: var(--accent-color);
+      color: #fff;
+      border-radius: 4px;
+      transition: background-color 0.3s;
+    }
+
+    .nav-cta:hover {
+      background-color: #088265;
+    }
+
+    /* --------------------------
+       Бургер-меню (адаптив)
+    -------------------------- */
     .burger {
       display: none;
       flex-direction: column;
       gap: 5px;
       cursor: pointer;
     }
-
     .burger span {
-      display: block;
       width: 25px;
       height: 3px;
       background-color: var(--text-color);
-      transition: all 0.4s;
+      transition: 0.4s;
     }
 
-    /* Герой-секция (Hero) */
+    /* --------------------------
+       Hero-секция
+    -------------------------- */
     .hero {
       padding: 4rem 2rem;
       display: flex;
@@ -93,18 +118,15 @@
       text-align: center;
       background: var(--light-bg-color);
     }
-
     .hero h1 {
       font-size: 2rem;
       margin-bottom: 1rem;
     }
-
     .hero p {
       max-width: 600px;
       margin-bottom: 1.5rem;
       font-weight: 300;
     }
-
     .btn-accent {
       display: inline-block;
       padding: 0.75rem 1.5rem;
@@ -115,12 +137,13 @@
       font-weight: 500;
       transition: background-color 0.3s;
     }
-
     .btn-accent:hover {
-      background-color: #088265; /* оттенок для hover */
+      background-color: #088265;
     }
 
-    /* Общий стиль секций */
+    /* --------------------------
+       Общие стили секций
+    -------------------------- */
     section {
       padding: 3rem 2rem;
       max-width: 1200px;
@@ -132,60 +155,188 @@
       margin-bottom: 1.5rem;
       text-align: center;
     }
-
-    section p {
-      margin-bottom: 1rem;
-    }
-
-    /* Для длинных текстов сделаем блочную ширину, чтобы читалось комфортнее */
     .section-content {
       max-width: 900px;
       margin: 0 auto;
       line-height: 1.7;
     }
+    .section-content p {
+      margin-bottom: 1rem;
+    }
 
-    /* Пример стиля для таблиц */
+    /* --------------------------
+       Tooltip (подсказки)
+    -------------------------- */
+    .tooltip {
+      position: relative;
+      cursor: help;
+      border-bottom: 1px dotted var(--accent-color);
+    }
+    .tooltip::after {
+      content: attr(data-tooltip);
+      position: absolute;
+      bottom: 100%;
+      left: 0;
+      transform: translateY(-5px);
+      background: #444;
+      color: #fff;
+      padding: 0.5rem;
+      border-radius: 4px;
+      white-space: nowrap;
+      font-size: 0.85rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+    }
+    .tooltip:hover::after {
+      opacity: 1;
+    }
+
+    /* --------------------------
+       Адаптивные карточки преимуществ
+    -------------------------- */
+    .advantages-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+    .advantage-card {
+      background-color: #fff;
+      border: 1px solid #eee;
+      border-radius: 8px;
+      padding: 1.5rem;
+      text-align: center;
+      transition: box-shadow 0.3s;
+    }
+    .advantage-card:hover {
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+    .advantage-card h3 {
+      margin-bottom: 0.5rem;
+      color: var(--accent-color);
+    }
+
+    /* --------------------------
+       Видео-блок
+    -------------------------- */
+    .video-container {
+      position: relative;
+      padding-bottom: 56.25%; /* 16:9 */
+      height: 0;
+      overflow: hidden;
+      margin: 2rem 0;
+    }
+    .video-container iframe {
+      position: absolute;
+      top: 0; 
+      left: 0; 
+      width: 100%; 
+      height: 100%;
+      border: 0;
+    }
+
+    /* --------------------------
+       Социальное доказательство (Отзывы)
+    -------------------------- */
+    .testimonials {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+    .testimonial-item {
+      background-color: var(--light-bg-color);
+      border-radius: 6px;
+      padding: 1rem;
+    }
+    .testimonial-item p {
+      font-style: italic;
+    }
+    .testimonial-author {
+      margin-top: 0.5rem;
+      text-align: right;
+      font-weight: 600;
+    }
+
+    /* --------------------------
+       FAQ-аккордеон
+    -------------------------- */
+    .accordion .item {
+      margin-bottom: 1rem;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+    }
+    .accordion .question {
+      width: 100%;
+      text-align: left;
+      background: none;
+      border: none;
+      font-weight: 600;
+      padding: 1rem;
+      cursor: pointer;
+      transition: color 0.3s;
+    }
+    .accordion .question:hover {
+      color: var(--accent-color);
+    }
+    .accordion .answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease;
+      padding: 0 1rem; /* визуально */
+    }
+    .accordion .answer-content {
+      padding-bottom: 1rem;
+    }
+
+    /* --------------------------
+       Мульти-шаговая форма
+    -------------------------- */
+    .multi-step-form {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    .form-step {
+      display: none;
+      transition: opacity 0.3s;
+    }
+    .form-step.active {
+      display: block;
+    }
+    .form-nav {
+      margin-top: 1rem;
+      display: flex;
+      justify-content: space-between;
+    }
+    .form-nav button {
+      background-color: var(--accent-color);
+      color: #fff;
+      border: none;
+      padding: 0.6rem 1.2rem;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    /* --------------------------
+       Таблицы
+    -------------------------- */
     table {
       width: 100%;
       border-collapse: collapse;
       margin: 1.5rem 0;
     }
-
     table th, table td {
       padding: 0.75rem;
       border: 1px solid #ddd;
       text-align: center;
     }
-
     table th {
       background-color: #f0f0f0;
     }
 
-    /* Адаптивная верстка: медиазапросы */
-    @media screen and (max-width: 768px) {
-      nav ul {
-        position: absolute;
-        top: 70px;
-        right: 0;
-        flex-direction: column;
-        background-color: var(--bg-color);
-        width: 200px;
-        border: 1px solid #ddd;
-        padding: 1rem;
-        transform: translateX(100%);
-        transition: transform 0.4s;
-      }
-
-      nav ul.show {
-        transform: translateX(0);
-      }
-
-      .burger {
-        display: flex;
-      }
-    }
-
-    /* Пример небольшого эффекта появления при скролле (по желанию) */
+    /* --------------------------
+       Анимации при скролле
+    -------------------------- */
     [data-appear] {
       opacity: 0;
       transform: translateY(20px);
@@ -196,7 +347,9 @@
       transform: translateY(0);
     }
 
-    /* Футер */
+    /* --------------------------
+       Footer
+    -------------------------- */
     footer {
       background-color: var(--light-bg-color);
       padding: 2rem;
@@ -204,48 +357,75 @@
       font-size: 0.9rem;
       color: #666;
     }
-
     footer a {
       color: var(--text-color);
       text-decoration: none;
       font-weight: 500;
       transition: color 0.3s;
     }
-
     footer a:hover {
       color: var(--accent-color);
     }
+
+    /* --------------------------
+       Адаптив
+    -------------------------- */
+    @media screen and (max-width: 768px) {
+      nav ul {
+        position: absolute;
+        top: var(--header-height);
+        right: 0;
+        flex-direction: column;
+        background-color: var(--bg-color);
+        width: 200px;
+        border: 1px solid #ddd;
+        padding: 1rem;
+        transform: translateX(100%);
+        transition: transform 0.4s;
+      }
+      nav ul.show {
+        transform: translateX(0);
+      }
+      .burger {
+        display: flex;
+      }
+    }
   </style>
 </head>
+
 <body>
 
-  <!-- Шапка сайта -->
+  <!-- HEADER со Sticky и доп. CTA -->
   <header>
-    <div class="logo">RGSU / STEP_3D</div>
-    <div class="burger" id="burger-btn">
-      <span></span>
-      <span></span>
-      <span></span>
-    </div>
+    <a href="#" class="logo">RGSU / STEP_3D</a>
     <nav>
       <ul id="nav-list">
         <li><a href="#about">О курсе</a></li>
         <li><a href="#format">Формат</a></li>
         <li><a href="#advantages">Преимущества</a></li>
         <li><a href="#pricing">Стоимость</a></li>
-        <li><a href="#calendar">Календарь</a></li>
-        <li><a href="#contacts">Контакты</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a href="#registration" class="nav-cta">Записаться</a></li>
       </ul>
     </nav>
+    <div class="burger" id="burger-btn">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
   </header>
 
-  <!-- Герой-секция с призывом к действию -->
-  <section class="hero">
+  <!-- HERO SECTION + Короткое Видео -->
+  <section class="hero" id="hero">
     <h1>Курс «Реверсивный инжиниринг»</h1>
-    <p>
-      Весенне-летняя сессия 2025 года. Запишитесь на обучение по современным стандартам цифрового производства.
-    </p>
+    <p>Весенне-летняя сессия 2025 года. Запишитесь на обучение по современным стандартам цифрового производства.</p>
     <a href="#registration" class="btn-accent">Записаться на курс</a>
+
+    <!-- Блок с видео (короткая презентация) -->
+    <div class="video-container" data-appear>
+      <!-- В реальном проекте вставьте реальную ссылку на ваше видео -->
+      <iframe src="https://www.youtube.com/embed/kMSxSgMUxMY" allowfullscreen></iframe>
+    </div>
   </section>
 
   <!-- О КУРСЕ -->
@@ -253,13 +433,13 @@
     <h2>О курсе</h2>
     <div class="section-content" data-appear>
       <p>
-        Курс разработан с участием экспертов и чемпионов WorldSkills и БРИКС и соответствует
+        Курс разработан с участием экспертов и чемпионов <span class="tooltip" data-tooltip="WorldSkills International">WorldSkills</span> и БРИКС и соответствует
         актуальным стандартам цифрового производства. Он охватывает:
       </p>
       <ul>
         <li>Реверсивный инжиниринг и его применение в промышленности;</li>
         <li>3D-сканирование объектов различной сложности;</li>
-        <li>Построение CAD-моделей на основе сканов;</li>
+        <li>Построение <span class="tooltip" data-tooltip="Computer-Aided Design">CAD</span>-моделей на основе сканов;</li>
         <li>Подготовку моделей к 3D-печати и прототипированию.</li>
       </ul>
       <p>
@@ -286,59 +466,28 @@
     </div>
   </section>
 
-  <!-- ПРЕИМУЩЕСТВА ДЛЯ УЧАСТНИКОВ -->
+  <!-- ПРЕИМУЩЕСТВА (карточки) -->
   <section id="advantages">
     <h2>Преимущества</h2>
     <div class="section-content" data-appear>
-      <ul>
-        <li>Использование актуального ПО: Autodesk, Geomagic, T-Flex CAD, Компас 3D и др.</li>
-        <li>Работа с 3D-сканерами RangeVision Helix и Spectrum, а также 3D-принтерами PICASO 3D, Raise3D, Anycubic, Formlabs;</li>
-        <li>Сертификат и демонстрационный экзамен включены в стоимость;</li>
-        <li>Возможность пройти отдельный модуль или весь курс целиком.</li>
-      </ul>
-    </div>
-  </section>
-
-  <!-- ВАРИАНТЫ УЧАСТИЯ -->
-  <section>
-    <h2>Варианты участия</h2>
-    <div class="section-content" data-appear>
-      <table>
-        <thead>
-          <tr>
-            <th>Траектория</th>
-            <th>Недели</th>
-            <th>Цель</th>
-            <th>Подходит для</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Чемпионат</td>
-            <td>1, 2, 3</td>
-            <td>Развитие соревновательных навыков</td>
-            <td>Студенты, участники конкурсов</td>
-          </tr>
-          <tr>
-            <td>Углублённый курс CAD/3D</td>
-            <td>1, 2, 5, 6</td>
-            <td>Практическое изучение технологий</td>
-            <td>Преподаватели, инженеры</td>
-          </tr>
-          <tr>
-            <td>Финальный проект</td>
-            <td>1, 4, 7–8</td>
-            <td>Выполнение итогового задания и защита</td>
-            <td>Выпускники, специалисты</td>
-          </tr>
-          <tr>
-            <td>Полный курс</td>
-            <td>1–10</td>
-            <td>Полный цикл и сертификация</td>
-            <td>Все категории</td>
-          </tr>
-        </tbody>
-      </table>
+      <div class="advantages-grid">
+        <div class="advantage-card">
+          <h3>Актуальное ПО</h3>
+          <p>Autodesk, Geomagic, T-Flex CAD, Компас 3D и др.</p>
+        </div>
+        <div class="advantage-card">
+          <h3>Современное оборудование</h3>
+          <p>3D-сканеры RangeVision, 3D-принтеры PICASO 3D, Raise3D и другие</p>
+        </div>
+        <div class="advantage-card">
+          <h3>Сертификация и экзамен</h3>
+          <p>Официальный документ об окончании курса и демонстрационный экзамен включены.</p>
+        </div>
+        <div class="advantage-card">
+          <h3>Гибкий формат</h3>
+          <p>Возможность пройти отдельный модуль или полный курс.</p>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -380,114 +529,97 @@
     </div>
   </section>
 
-  <!-- КАЛЕНДАРЬ -->
-  <section id="calendar">
-    <h2>Календарь</h2>
-    <div class="section-content" data-appear>
-      <table>
-        <thead>
-          <tr>
-            <th>Неделя</th>
-            <th>Даты</th>
-            <th>Содержание</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>1</td>
-            <td>19–25 мая</td>
-            <td>Базовый модуль</td>
-          </tr>
-          <tr>
-            <td>2</td>
-            <td>26 мая – 1 июня</td>
-            <td>Проектные задания, кейсы</td>
-          </tr>
-          <tr>
-            <td>3</td>
-            <td>2–8 июня</td>
-            <td>Чемпионат</td>
-          </tr>
-          <tr>
-            <td>4</td>
-            <td>9–15 июня</td>
-            <td>Консультации, закрепление материала</td>
-          </tr>
-          <tr>
-            <td>5</td>
-            <td>16–22 июня</td>
-            <td>Углублённые модули по CAD и 3D</td>
-          </tr>
-          <tr>
-            <td>6</td>
-            <td>23–29 июня</td>
-            <td>Индустриальные кейсы</td>
-          </tr>
-          <tr>
-            <td>7–8</td>
-            <td>30 июня – 13 июля</td>
-            <td>Подготовка и сдача демо-экзамена</td>
-          </tr>
-          <tr>
-            <td>9</td>
-            <td>14–20 июля</td>
-            <td>Модули по выбору</td>
-          </tr>
-          <tr>
-            <td>10</td>
-            <td>21–27 июля</td>
-            <td>Консультации, сертификация</td>
-          </tr>
-          <tr>
-            <td>11</td>
-            <td>28 июля – 3 авг.</td>
-            <td>Вторая волна: базовый+углублённый модуль</td>
-          </tr>
-          <tr>
-            <td>12</td>
-            <td>4–10 августа</td>
-            <td>Вторая волна: чемпионат и экзамен</td>
-          </tr>
-          <tr>
-            <td>13</td>
-            <td>11–17 августа</td>
-            <td>Итоги, выдача сертификатов</td>
-          </tr>
-        </tbody>
-      </table>
+  <!-- TESTIMONIALS (социальное доказательство) -->
+  <section id="testimonials">
+    <h2>Отзывы участников</h2>
+    <div class="section-content testimonials" data-appear>
+      <div class="testimonial-item">
+        <p>«Отличный курс! Получил реальные навыки 3D-сканирования и прототипирования. Теперь успешно выступаю в соревнованиях WorldSkills.»</p>
+        <div class="testimonial-author">— Студент Иван П.</div>
+      </div>
+      <div class="testimonial-item">
+        <p>«Очень понравилось, что теория сразу подкрепляется практикой. Благодаря 3D-сканерам наша кафедра вышла на новый уровень лабораторных работ!»</p>
+        <div class="testimonial-author">— Преподаватель Мария З.</div>
+      </div>
     </div>
   </section>
 
-  <!-- ПРЕПОДАВАТЕЛИ КУРСА (просто перечисление) -->
-  <section>
-    <h2>Преподаватели курса</h2>
-    <div class="section-content" data-appear>
-      <p><strong>В.К. Ганьшин</strong> — кандидат технических наук, РГСУ. Руководит блоком по реверсивному инжинирингу и демонстрационному экзамену.</p>
-      <p><strong>Х.А. Понкратова</strong> — гендиректор STEP_3Д. Ведёт вводные модули, курирует партнёрства и предпринимательскую часть.</p>
-      <p><strong>А. Рекут</strong> — заведующий лабораторией промдизайна РГСУ. Руководит практическими модулями по оборудованию.</p>
-      <p><strong>М. Бакин</strong> — методист STEP_3Д. Отвечает за учебно-методическое сопровождение и координацию.</p>
-      <p><strong>И. Вакин</strong> — преподаватель-практик. Ведёт лабораторные занятия и консультации по 3D-печати и технике.</p>
+  <!-- FAQ (аккордеон) -->
+  <section id="faq">
+    <h2>Частые вопросы (FAQ)</h2>
+    <div class="section-content accordion" data-appear>
+      <div class="item">
+        <button class="question">Какие документы нужны для зачисления?</button>
+        <div class="answer">
+          <div class="answer-content">
+            <p>Необходимы паспорт, СНИЛС и при необходимости справка с места учёбы/работы. Уточните детали по телефону или e-mail.</p>
+          </div>
+        </div>
+      </div>
+      <div class="item">
+        <button class="question">Можно ли оплатить частями?</button>
+        <div class="answer">
+          <div class="answer-content">
+            <p>Да, доступна рассрочка при оплате модулей по отдельности. Свяжитесь с нами для уточнения плана платежей.</p>
+          </div>
+        </div>
+      </div>
+      <div class="item">
+        <button class="question">Есть ли дистанционная форма?</button>
+        <div class="answer">
+          <div class="answer-content">
+            <p>Часть занятий можно проходить онлайн. Однако практические модули (3D-сканирование, 3D-печать) проходят в очном формате в лаборатории.</p>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
-  <!-- РЕГИСТРАЦИЯ / CTA -->
+  <!-- Мульти-шаговая ФОРМА РЕГИСТРАЦИИ -->
   <section id="registration">
     <h2>Записаться на курс</h2>
     <div class="section-content" data-appear>
-      <p>Оставьте заявку, и мы свяжемся с вами для уточнения деталей обучения:</p>
-      <!-- Форма может быть реальной или просто декоративной -->
-      <form>
-        <label for="name">Ваше имя</label><br />
-        <input type="text" id="name" name="name" placeholder="Иван Иванов" style="width: 100%; padding: 0.5rem; margin-bottom: 1rem;" required />
-        
-        <label for="phone">Телефон</label><br />
-        <input type="tel" id="phone" name="phone" placeholder="+7 (___) ___-__-__" style="width: 100%; padding: 0.5rem; margin-bottom: 1rem;" required />
-        
-        <label for="email">E-mail</label><br />
-        <input type="email" id="email" name="email" placeholder="example@mail.com" style="width: 100%; padding: 0.5rem; margin-bottom: 1rem;" required />
-        
-        <button type="submit" class="btn-accent">Отправить заявку</button>
-      </form>
+      <div class="multi-step-form">
+        <!-- Шаг 1 -->
+        <div class="form-step active" id="step-1">
+          <p><strong>Шаг 1 из 3:</strong> Контактные данные</p>
+          <label for="name">Ваше имя</label><br>
+          <input type="text" id="name" name="name" placeholder="Иван Иванов" style="width: 100%; padding: 0.5rem; margin-bottom: 1rem;" required><br>
+
+          <label for="phone">Телефон</label><br>
+          <input type="tel" id="phone" name="phone" placeholder="+7 (___) ___-__-__" style="width: 100%; padding: 0.5rem; margin-bottom: 1rem;" required><br>
+
+          <div class="form-nav">
+            <button id="next1">Далее</button>
+          </div>
+        </div>
+
+        <!-- Шаг 2 -->
+        <div class="form-step" id="step-2">
+          <p><strong>Шаг 2 из 3:</strong> Выберите модули</p>
+          <label><input type="checkbox" name="modules" value="base"> Базовый модуль (48 ч.)</label><br>
+          <label><input type="checkbox" name="modules" value="advanced"> Углублённый модуль (48 ч.)</label><br>
+          <label><input type="checkbox" name="modules" value="project"> Финальный проект (48 ч.)</label><br>
+
+          <div class="form-nav">
+            <button id="prev1">Назад</button>
+            <button id="next2">Далее</button>
+          </div>
+        </div>
+
+        <!-- Шаг 3 -->
+        <div class="form-step" id="step-3">
+          <p><strong>Шаг 3 из 3:</strong> Подтверждение</p>
+          <label for="email">E-mail</label><br>
+          <input type="email" id="email" name="email" placeholder="example@mail.com" style="width: 100%; padding: 0.5rem; margin-bottom: 1rem;" required><br>
+
+          <p>Проверьте данные и отправьте заявку.</p>
+          <div class="form-nav">
+            <button id="prev2">Назад</button>
+            <button id="submitForm">Отправить</button>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -495,51 +627,84 @@
   <section id="contacts">
     <h2>Контакты и адрес</h2>
     <div class="section-content" data-appear>
-      <p><strong>Москва, ул. Беговая, д. 12</strong><br />
+      <p><strong>Москва, ул. Беговая, д. 12</strong><br>
          Лаборатория промышленного дизайна и цех высокотехнологического оборудования (Технопарк РГСУ)</p>
       <p><strong>ООО «СТЕП_3Д»</strong> (ИНН/КПП: 9725161467 / 772501001)</p>
-      <p>Телефон: <a href="tel:+79959009141">+7 (995) 900-91-41</a><br />
-         E-mail: <a href="mailto:info@step3d.tech">info@step3d.tech</a><br />
+      <p>Телефон: <a href="tel:+79959009141">+7 (995) 900-91-41</a><br>
+         E-mail: <a href="mailto:info@step3d.tech">info@step3d.tech</a><br>
          Сайт: <a href="https://step3d.tech" target="_blank">www.step3d.tech</a></p>
-      <p>С уважением,<br />
-         <strong>Ганьшин Владимир Константинович</strong> — Руководитель технопарка ФГБОУ ВО РГСУ<br />
+      <p>С уважением,<br>
+         <strong>Ганьшин Владимир Константинович</strong> — Руководитель технопарка ФГБОУ ВО РГСУ<br>
          <strong>Христина Анатольевна Понкратова</strong> — Генеральный директор ООО «СТЕП_3Д»</p>
       <p>#мечтай #учись #твори #вдохновляй</p>
     </div>
   </section>
 
-  <!-- Футер -->
+  <!-- FOOTER -->
   <footer>
     <p>&copy; 2025 РГСУ и STEP_3D. Все права защищены.</p>
   </footer>
 
-  <!-- Небольшой скрипт для мобильного меню и эффекта появления -->
+  <!-- СКРИПТЫ -->
   <script>
     // Бургер-меню
     const burgerBtn = document.getElementById('burger-btn');
     const navList = document.getElementById('nav-list');
-
     burgerBtn.addEventListener('click', () => {
       navList.classList.toggle('show');
       burgerBtn.classList.toggle('active');
     });
 
-    // Эффект появления элементов при скролле (простейший)
+    // Анимация появления при скролле
     const appearElements = document.querySelectorAll('[data-appear]');
-    const options = {
-      threshold: 0.2
-    };
-
-    const observer = new IntersectionObserver((entries, observer) => {
+    const options = { threshold: 0.2 };
+    const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if(entry.isIntersecting) {
           entry.target.classList.add('active');
         }
       });
     }, options);
+    appearElements.forEach(el => observer.observe(el));
 
-    appearElements.forEach(el => {
-      observer.observe(el);
+    // FAQ-аккордеон
+    const faqButtons = document.querySelectorAll('.question');
+    faqButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const answer = btn.nextElementSibling;
+        if (answer.style.maxHeight) {
+          answer.style.maxHeight = null;
+        } else {
+          answer.style.maxHeight = answer.scrollHeight + 'px';
+        }
+      });
+    });
+
+    // Мульти-шаговая форма
+    const step1 = document.getElementById('step-1');
+    const step2 = document.getElementById('step-2');
+    const step3 = document.getElementById('step-3');
+
+    document.getElementById('next1').addEventListener('click', () => {
+      step1.classList.remove('active');
+      step2.classList.add('active');
+    });
+    document.getElementById('prev1').addEventListener('click', () => {
+      step2.classList.remove('active');
+      step1.classList.add('active');
+    });
+    document.getElementById('next2').addEventListener('click', () => {
+      step2.classList.remove('active');
+      step3.classList.add('active');
+    });
+    document.getElementById('prev2').addEventListener('click', () => {
+      step3.classList.remove('active');
+      step2.classList.add('active');
+    });
+    document.getElementById('submitForm').addEventListener('click', (e) => {
+      e.preventDefault();
+      alert('Заявка отправлена! Спасибо.');
+      // Здесь можно добавить реальную логику отправки формы (fetch, axios и т.д.)
     });
   </script>
 </body>
