@@ -1,13 +1,8 @@
 :root {
-  /* (7) UI Kit / дизайн-система */
-  --primary-color: #10A37F;
   --accent-color: #10A37F;
-  --secondary-color: #EEE;
-  --error-color: #c0392b;
-  --font-family: 'Inter', Arial, sans-serif;
   --text-color: #333;
-  --bg-color: #FFF;
-  --header-height: 70px;
+  --bg-color: #fff;
+  --secondary-bg: #f0f0f0;
 }
 
 * {
@@ -17,23 +12,28 @@
 }
 
 body {
-  font-family: var(--font-family);
+  font-family: 'Inter', Arial, sans-serif;
   color: var(--text-color);
   background: var(--bg-color);
-  line-height: 1.5;
-  overflow-x: hidden;
+  line-height: 1.6;
 }
 
-/* Header, nav, burger (адаптив) — при желании объединить с предыдущим кодом */
+/* Header */
 header {
+  position: sticky;
+  top: 0;
+  z-index: 999;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: var(--header-height);
+  height: 70px;
   padding: 0 1.5rem;
   background: #fff;
   border-bottom: 1px solid #eee;
-  position: relative;
+  transition: box-shadow 0.3s;
+}
+header.scrolled {
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
 .logo {
@@ -45,14 +45,14 @@ header {
 
 nav ul {
   display: flex;
-  list-style: none;
   gap: 1rem;
+  list-style: none;
 }
 nav a {
   text-decoration: none;
   color: var(--text-color);
   font-weight: 500;
-  transition: color 0.3s;
+  transition: color 0.3s, background-color 0.3s;
 }
 nav a:hover {
   color: var(--accent-color);
@@ -62,6 +62,7 @@ nav a.active-link {
   font-weight: 600;
 }
 
+/* Burger */
 .burger {
   display: none;
   flex-direction: column;
@@ -78,7 +79,7 @@ nav a.active-link {
 @media (max-width: 768px) {
   nav ul {
     position: absolute;
-    top: var(--header-height);
+    top: 70px;
     right: 0;
     flex-direction: column;
     background: #fff;
@@ -100,29 +101,37 @@ nav a.active-link {
 .hero {
   padding: 4rem 2rem;
   text-align: center;
-  background: #f9f9f9;
+  background: linear-gradient(135deg, rgba(16,163,127,0.2) 0%, rgba(16,163,127,0) 70%);
 }
 .hero h1 {
-  font-size: 2rem;
+  font-size: 2.2rem;
   margin-bottom: 1rem;
+  font-weight: 600;
 }
 .hero p {
   margin-bottom: 1.5rem;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.7;
 }
-.btn-accent {
+.btn-accent, .cta-btn {
   display: inline-block;
   padding: 0.75rem 1.5rem;
   background-color: var(--accent-color);
   color: #fff;
   border-radius: 4px;
+  font-weight: 500;
   text-decoration: none;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s, box-shadow 0.3s;
+  cursor: pointer;
 }
-.btn-accent:hover {
+.btn-accent:hover, .cta-btn:hover {
   background-color: #088265;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
 }
 
-/* Section */
+/* Section контент */
 .section-content {
   max-width: 1100px;
   margin: 0 auto;
@@ -131,9 +140,10 @@ nav a.active-link {
 section h2 {
   font-size: 1.8rem;
   margin-bottom: 1rem;
+  font-weight: 600;
 }
 
-/* Tooltip (п.1) */
+/* Tooltip */
 .tooltip {
   position: relative;
   cursor: help;
@@ -157,7 +167,7 @@ section h2 {
   opacity: 1;
 }
 
-/* Микро-анимации (п.2) */
+/* Микро-анимации */
 .micro-anim {
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
@@ -166,136 +176,18 @@ section h2 {
   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
 
-/* Портфолио (п.3) */
-.gallery-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 1rem;
+/* Fade-in */
+.fade-in {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
 }
-.gallery-item img {
-  width: 100%;
-  border-radius: 4px;
-}
-
-/* Floating action bar (п.4) */
-.floating-action-bar {
-  position: fixed;
-  bottom: 2rem;
-  right: 2rem;
-  z-index: 999;
-}
-.fab-btn {
-  background: var(--accent-color);
-  color: #fff;
-  border: none;
-  border-radius: 50%;
-  width: 50px;
-  height: 50px;
-  font-size: 1.5rem;
-  cursor: pointer;
-}
-.fab-menu {
-  display: none;
-  flex-direction: column;
-  gap: 0.5rem;
-  margin-top: 0.5rem;
-}
-.fab-menu a {
-  background: #fff;
-  color: var(--text-color);
-  padding: 0.5rem 1rem;
-  border-radius: 4px;
-  text-decoration: none;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
-}
-.fab.show .fab-menu {
-  display: flex;
+.fade-in.active {
+  opacity: 1;
+  transform: translateY(0);
 }
 
-/* Прогресс чтения (п.5) */
-#readingProgressBar {
-  position: fixed;
-  top: 0; left: 0;
-  height: 4px;
-  background: var(--accent-color);
-  width: 0%;
-  z-index: 999;
-}
-
-/* (6) "Отложить заявку" — кнопка уже есть, логика в JS. */
-
-/* (7) UI Kit — уже используем переменные, btn-accent, etc. */
-
-/* (8) Countdown — просто #countdown-timer можно увеличить размер */
-#countdown-timer {
-  font-size: 1.4rem;
-  margin-bottom: 0.5rem;
-}
-
-/* (9) Виртуальная экскурсия — стили для iframe, адаптив */
-#virtual-tour iframe {
-  border: none;
-  max-width: 100%;
-}
-
-/* (10) Личный кабинет/закрытый раздел */
-.locked-section[aria-hidden="true"] {
-  opacity: 0.4;
-  pointer-events: none;
-}
-
-/* (11) ARIA в основном в HTML-разметке. */
-
-/* (12) Inline validation */
-input:invalid {
-  border: 1px solid var(--error-color);
-  animation: shake 0.3s;
-}
-@keyframes shake {
-  0% { transform: translateX(0); }
-  25% { transform: translateX(-3px); }
-  50% { transform: translateX(3px); }
-  75% { transform: translateX(-3px); }
-  100% { transform: translateX(0); }
-}
-
-/* (13) Поиск (autocomplete) */
-.search-block {
-  position: relative;
-  margin-top: 1rem;
-}
-.autocomplete-list {
-  position: absolute;
-  top: 3rem;
-  left: 0;
-  right: 0;
-  background: #fff;
-  border: 1px solid #ddd;
-  max-height: 200px;
-  overflow-y: auto;
-  display: none;
-  z-index: 1000;
-}
-.autocomplete-list li {
-  padding: 0.5rem;
-  cursor: pointer;
-}
-.autocomplete-list li:hover {
-  background: var(--secondary-color);
-}
-
-/* (14) Sticky подзаголовки */
-.sticky-heading > h2 {
-  position: -webkit-sticky;
-  position: sticky;
-  top: calc(var(--header-height));
-  background: var(--bg-color);
-  padding: 0.5rem 0;
-  z-index: 50;
-  margin-bottom: 1rem;
-}
-
-/* Аккордеон (FAQ) из предыдущих версий */
+/* Accordion для FAQ */
 .accordion .item {
   border: 1px solid #ddd;
   border-radius: 4px;
@@ -320,7 +212,70 @@ input:invalid {
   padding-bottom: 1rem;
 }
 
-/* Кнопка "Наверх" (из прошлых версий) */
+/* Footer */
+.site-footer {
+  background: #f0f0f0;
+  color: #333;
+  margin-top: 2rem;
+  font-size: 0.95rem;
+}
+.footer-top {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  padding: 2rem 1rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.footer-col {
+  flex: 1 1 200px;
+}
+.footer-col h3 {
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+.footer-col ul {
+  list-style: none;
+  padding: 0;
+}
+.footer-col li {
+  margin-bottom: 0.5rem;
+}
+.footer-col a {
+  text-decoration: none;
+  color: inherit;
+  transition: color 0.3s;
+}
+.footer-col a:hover {
+  color: var(--accent-color);
+}
+.footer-bottom {
+  background: #e0e0e0;
+  padding: 1rem;
+  font-size: 0.9rem;
+}
+.footer-bottom > div {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: space-between;
+  align-items: center;
+}
+.footer-bottom select {
+  padding: 0.3rem;
+}
+.footer-bottom a {
+  text-decoration: none;
+  color: inherit;
+  margin-right: 0.5rem;
+}
+.footer-bottom a:hover {
+  color: var(--accent-color);
+}
+
+/* Кнопка "Наверх" */
 #scrollTopBtn {
   position: fixed;
   bottom: 2rem;
@@ -331,11 +286,11 @@ input:invalid {
   color: #fff;
   border: none;
   border-radius: 4px;
-  cursor: pointer;
   display: none;
   align-items: center;
   justify-content: center;
   font-size: 1.5rem;
+  cursor: pointer;
   z-index: 999;
 }
 #scrollTopBtn.showBtn {
@@ -345,286 +300,15 @@ input:invalid {
   background: #088265;
 }
 
-/* Формы (общие стили) */
-form {
-  margin-top: 1rem;
-}
-form label {
-  margin-top: 0.5rem;
-  display: block;
-}
-form input[type="text"],
-form input[type="tel"],
-form input[type="email"] {
-  width: 100%;
-  padding: 0.5rem;
-  margin-bottom: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-.form-progress {
-  display: flex;
-  justify-content: space-around;
-  margin-bottom: 1rem;
-}
-.step-indicator {
-  width: 33%;
-  text-align: center;
-  background: #eee;
-  padding: 0.5rem;
-  border-radius: 4px;
-}
-.step-indicator.active {
-  background: var(--accent-color);
-  color: #fff;
-}
-.form-step {
-  display: none;
-}
-.form-step.active {
-  display: block;
-}
-.form-nav {
-  margin-top: 1rem;
-  display: flex;
-  gap: 1rem;
-}
-.form-nav button {
-  background: var(--accent-color);
-  color: #fff;
-  border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 4px;
-  cursor: pointer;
-}
-.form-nav button:hover {
-  background: #088265;
-}
-.site-footer {
-  background: #f0f0f0;
-  padding: 2rem 1rem;
-  color: #666;
-  margin-top: 2rem;
-}
-
-.footer-top {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 2rem;
-  margin-bottom: 1.5rem;
-}
-
-.footer-col {
-  flex: 1 1 200px;
-}
-
-.footer-col h3 {
-  margin-bottom: 0.5rem;
-  font-size: 1.1rem;
-}
-
-.footer-links {
-  list-style: none;
-  padding: 0;
-}
-.footer-links li {
-  margin-bottom: 0.3rem;
-}
-.footer-links a {
-  color: #333;
-  text-decoration: none;
-  transition: color 0.3s;
-}
-.footer-links a:hover {
-  color: var(--accent-color);
-}
-
-.footer-bottom {
-  border-top: 1px solid #ddd;
-  padding-top: 1rem;
-  text-align: center;
-  font-size: 0.9rem;
-}
-.footer-bottom p {
-  margin: 0;
-}
-.footer-bottom a {
-  color: var(--accent-color);
-  text-decoration: none;
-}
-.footer-bottom a:hover {
-  text-decoration: underline;
-}
-/* Для плавной анимации появления секций (п.3) */
-.fade-in {
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.8s ease, transform 0.8s ease;
-}
-.fade-in.active {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* Кнопка CTA при hover (п.5) - box-shadow */
-.btn-accent:hover {
-  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-}
-
-/* Адаптив для Hero (п.10) */
+/* Дополнительные стили для адаптивности */
 @media (max-width: 480px) {
   .hero h1 {
-    font-size: 1.6rem !important;
+    font-size: 1.6rem;
   }
   .hero ul {
-    margin-left: 1rem !important;
+    margin-left: 1rem;
   }
   .hero p {
     font-size: 0.9rem;
   }
 }
-:root {
-  --accent-color: #10A37F;
-  --text-color: #333;
-  --bg-color: #fff;
-  --secondary-bg: #f0f0f0;
-
-  /* (7) Разные веса — подключение шрифта: 
-     font-weight:300,400,600... (в HTML <link ...> or import) */
-}
-
-/* (1) Увеличенная межстрочная */
-body {
-  margin: 0;
-  padding: 0;
-  font-family: 'Inter', Arial, sans-serif;
-  color: var(--text-color);
-  background: var(--bg-color);
-  line-height: 1.6; /* базовое line-height */
-}
-
-/* (2) Плавные transitions на ссылки */
-a {
-  transition: color 0.3s, background-color 0.3s;
-  text-decoration: none;
-  color: var(--text-color);
-}
-a:hover {
-  color: var(--accent-color);
-}
-
-/* Header, nav-list, etc. */
-
-header {
-  position: sticky;
-  top: 0;
-  z-index: 999;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 70px;
-  padding: 0 1.5rem;
-  background: #fff;
-  border-bottom: 1px solid #eee;
-  transition: box-shadow 0.3s;
-}
-header.scrolled {
-  /* (3) Лёгкая тень при скролле */
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-}
-
-/* Burger, nav, etc. */
-
-/* (15) Единый стиль кнопок .btn-accent, .cta-btn */
-.cta-btn {
-  display: inline-block;
-  padding: 0.75rem 1.5rem;
-  background-color: var(--accent-color);
-  color: #fff;
-  border-radius: 4px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background-color 0.3s, box-shadow 0.3s;
-}
-.cta-btn:hover {
-  background-color: #088265;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.15); 
-}
-
-/* (5) Если была форма input -> height:44px min 
-   ... */
-
-/* (4) Sticky subheadings (уже в program.html, not in index.html) */
-
-/* (8) HR разделители */
-hr {
-  border: none;
-  border-top: 1px solid #eee;
-}
-
-/* Fade-in классы (10) Убираем громоздкие анимации, ставим лёгкие */
-.fade-in {
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.8s ease, transform 0.8s ease;
-}
-.fade-in.active {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* (11) Выравнивание карточек (на program.html), not in index, etc. */
-
-/* (13) Hover эффекты на карточках преимуществ, etc.
-   .advantage-card:hover { transform: scale(1.02); } */
-
-/* (17) «Тап-зона» на мобильном
-   Usually we do that for .cta-btn or a, 
-   but it's partially covered by bigger line-height 
-   or bigger padding. 
-*/
-
-/* FOOTER-колонки (уже показывали). 
-   (2) Плавные transitions, (7) шрифтовые веса, etc. */
-.site-footer {
-  background: #f0f0f0;
-  color: #333;
-  margin-top: 2rem;
-  font-size: 0.95rem;
-}
-
-/* (24) Кастомный скроллбар (осторожно). 
-   Только для Chrome/Safari:
-   html::-webkit-scrollbar {
-     width: 8px;
-   }
-   html::-webkit-scrollbar-track {
-     background: #f0f0f0;
-   }
-   html::-webkit-scrollbar-thumb {
-     background: #ccc;
-     border-radius: 4px;
-   }
-   html::-webkit-scrollbar-thumb:hover {
-     background: #bbb;
-   }
-*/
-
-/* (16) Контраст. 
-   Убедитесь, что все тексты >4.5:1, 
-   etc. - это проверяется вручную. */
-
-/* (14) Если есть второстепенные акценты, 
-   делаем их более мягкими (#ccc, #ddd). */
-
-/* (20) Responsive images: 
-   .responsive-img { max-width: 100%; height: auto; } 
-   <img src="..." srcset="..." sizes="..." ...> 
-*/
-
-/* (25) Линки - уже заменили "Подробнее" на конкретику. 
-   No new code needed. */
-
-/* (3) JavaScript: при scroll > 10px => header.classList.add('scrolled') 
-   => box-shadow 
-*/
