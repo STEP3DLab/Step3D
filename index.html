@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>STEP 3D</title>
+  <meta name="description" content="STEP 3D - ваш проводник в мир 3D технологий. Проекты, курсы и контакты."/>
+  <meta property="og:title" content="STEP 3D"/>
+  <meta property="og:description" content="Ваш проводник в мир 3D-технологий"/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:url" content="https://step3d.tech"/>
+  <meta property="og:image" content="assets/logo.svg"/>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.4.4/dist/tailwind.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    html { scroll-behavior: smooth; }
+  </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+  <header class="fixed top-0 left-0 w-full bg-gray-50 shadow z-50">
+    <div class="container mx-auto flex items-center justify-between p-4">
+      <a href="#hero" class="flex items-center space-x-2">
+        <img src="assets/logo.svg" alt="STEP 3D" class="w-8 h-8">
+        <span class="font-bold">STEP 3D</span>
+      </a>
+      <button id="menu-btn" class="md:hidden text-gray-800">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
+      </button>
+      <nav id="menu" class="hidden md:flex space-x-6">
+        <a href="#projects" class="hover:text-orange-500">Проекты</a>
+        <a href="#courses" class="hover:text-orange-500">Курсы</a>
+        <a href="#contacts" class="hover:text-orange-500">Контакты</a>
+      </nav>
+    </div>
+  </header>
+
+  <section id="hero" class="h-screen bg-[#1E1E1E] text-white flex flex-col items-center justify-center text-center space-y-6 pt-20">
+    <img src="assets/logo.svg" alt="STEP 3D" class="w-24 h-24 animate-pulse">
+    <h1 class="text-4xl md:text-6xl font-bold">Ваш проводник в мир 3D-технологий</h1>
+    <div class="space-x-4">
+      <a href="#projects" class="bg-[#FF6B00] text-white px-6 py-3 rounded-2xl shadow hover:bg-orange-600 transition">Проекты</a>
+      <a href="#courses" class="bg-white text-gray-900 px-6 py-3 rounded-2xl shadow hover:bg-gray-200 transition">Курсы</a>
+      <a href="#contacts" class="border border-white px-6 py-3 rounded-2xl hover:bg-white hover:text-gray-900 transition">Контакты</a>
+    </div>
+  </section>
+
+  <section id="mission" class="py-20 bg-gray-50 text-center">
+    <div class="container mx-auto px-4">
+      <h2 class="text-3xl font-bold mb-4">Наша миссия</h2>
+      <p class="text-lg max-w-2xl mx-auto">Сделать 3D-услуги доступными каждому, развивая технологии и обучение для специалистов нового поколения.</p>
+    </div>
+  </section>
+
+  <section id="projects" class="py-20 bg-[#F7F7F7]">
+    <div class="container mx-auto px-4">
+      <h2 class="text-3xl font-bold mb-8 text-center">Проекты</h2>
+      <div id="projects-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+    </div>
+  </section>
+
+  <section id="courses" class="py-20 bg-gray-50">
+    <div class="container mx-auto px-4">
+      <h2 class="text-3xl font-bold mb-8 text-center">Курсы и мастер-классы</h2>
+      <div id="courses-container" class="max-w-xl mx-auto"></div>
+    </div>
+  </section>
+
+  <section id="contacts" class="py-20 bg-[#F7F7F7]">
+    <div class="container mx-auto px-4 text-center space-y-2">
+      <h2 class="text-3xl font-bold mb-4">Контакты</h2>
+      <p>Телефон: <a href="tel:+79959009141" class="text-orange-600 hover:underline">+7 (995) 900-91-41</a></p>
+      <p>Email: <a href="mailto:info@step3d.tech" class="text-orange-600 hover:underline">info@step3d.tech</a></p>
+      <p>Telegram: <a href="https://t.me/step3d" class="text-orange-600 hover:underline">@step3d</a></p>
+    </div>
+  </section>
+
+  <footer class="py-4 bg-gray-800 text-white text-center">
+    © STEP_3D | Lab
+  </footer>
+
+<script type="module" src="js/main.js"></script>
+</body>
+</html>
