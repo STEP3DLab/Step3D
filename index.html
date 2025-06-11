@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Codex Style Page</title>
+  <title>STEP_3D — агрегатор 3D‑услуг</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
@@ -148,79 +148,69 @@
 </head>
 <body>
   <header>
-    <a href="#" class="logo">Codex</a>
+    <a href="#" class="logo">STEP_3D</a>
     <nav>
-      <a href="#features">Features</a>
-      <a href="#docs">Docs</a>
-      <a href="#pricing">Pricing</a>
-      <a href="#signup" class="cta-button">Get Started</a>
+      <a href="#features">Возможности</a>
+      <a href="#docs">Пример</a>
+      <a href="#pricing">Тарифы</a>
+      <a href="https://web.telegram.org/#/@step_3d_bot" class="cta-button">Запустить бот</a>
     </nav>
   </header>
   <section class="hero">
-    <h1>Улучшите свой код с помощью Codex</h1>
-    <p>Используйте мощь AI, чтобы создавать, завершать и улучшать ваш код прямо в IDE или приложении.</p>
-    <a href="#" class="cta-button">Попробовать Codex</a>
+    <h1>Все 3D‑услуги в одном месте</h1>
+    <p>STEP_3D оценивает задачи по 3D‑сканированию, моделированию и печати и подбирает исполнителей за пару минут.</p>
+    <a href="https://web.telegram.org/#/@step_3d_bot" class="cta-button">Открыть STEP_3D_bot</a>
   </section>
   <section id="features" class="features">
     <div class="feature-card">
-      <h3>Автодополнение кода</h3>
-      <p>Пишите меньше, делайте больше. Codex предлагает завершения кода в реальном времени.</p>
+      <h3>Быстрая оценка проектов</h3>
+      <p>AI‑модуль STEP_3D рассчитывает трудоёмкость 3D‑задачи всего за 1–2 минуты.</p>
     </div>
     <div class="feature-card">
-      <h3>Генерация функций</h3>
-      <p>Опишите свою функцию на естественном языке, и Codex создаст её для вас.</p>
+      <h3>Подбор исполнителей</h3>
+      <p>Система автоматически выбирает оптимального специалиста из сообщества STEP_3D.</p>
     </div>
     <div class="feature-card">
-      <h3>Рефакторинг</h3>
-      <p>Поддерживайте чистоту кода с автоматизированными предложениями по рефакторингу.</p>
+      <h3>Безопасная сделка</h3>
+      <p>Оплата и качество контролируются платформой, чтобы вы получили нужный результат.</p>
     </div>
   </section>
   <section id="docs" class="docs">
     <h2>Пример использования</h2>
     <div class="code-sample">
-<pre><code>// Инициализация Codex в вашем проекте
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
-
-async function generateFunction(prompt) {
-  const response = await openai.chat.completions.create({
-    model: 'codex',
-    messages: [{ role: 'user', content: prompt }],
-  });
-  console.log(response.choices[0].message.content);
-}
-</code></pre>
+<pre><code># Отправка задачи в STEP_3D_bot
+curl -X POST https://api.step3d.tech/estimate \
+  -H "Authorization: Bearer &lt;TOKEN&gt;" \
+  -d "task=3D-моделирование корпуса"</code></pre>
     </div>
   </section>
   <section id="pricing" class="pricing">
     <h2>Цены</h2>
     <div class="pricing-cards">
       <div class="plan-card">
-        <h3>Бесплатный</h3>
-        <div class="price">$0<span style="font-size:16px">/мес</span></div>
+        <h3>Разово</h3>
+        <div class="price">≈3 000<span style="font-size:16px">/заказ</span></div>
         <ul>
-          <li>1000 токенов в месяц</li>
-          <li>Доступ к базовым функциям</li>
+          <li>Оценка проекта за 1‑2 минуты</li>
+          <li>Подбор исполнителя</li>
         </ul>
-        <a href="#" class="cta-button">Зарегистрироваться</a>
+        <a href="https://web.telegram.org/#/@step_3d_bot" class="cta-button">Создать заказ</a>
       </div>
       <div class="plan-card">
-        <h3>Профессионал</h3>
-        <div class="price">$20<span style="font-size:16px">/мес</span></div>
+        <h3>Для бизнеса</h3>
+        <div class="price">по запросу</div>
         <ul>
-          <li>100k токенов</li>
-          <li>Приоритетная поддержка</li>
+          <li>Персональный менеджер</li>
+          <li>Интеграция с вашим процессом</li>
         </ul>
-        <a href="#" class="cta-button">Начать</a>
+        <a href="mailto:info@step3d.tech" class="cta-button">Связаться</a>
       </div>
     </div>
   </section>
   <footer>
-    <a href="#">Privacy</a> |
-    <a href="#">Terms</a> |
-    <a href="#">Contact</a>
-    <p>© 2025 OpenAI. Все права защищены.</p>
+    <a href="mailto:info@step3d.tech">info@step3d.tech</a> |
+    <a href="https://t.me/step_3d_bot">Telegram</a>
+    <p>© 2024 STEP_3D. Все права защищены.</p>
   </footer>
 </body>
 </html>
