@@ -2,84 +2,225 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>STEP 3D</title>
-  <meta name="description" content="STEP 3D - ваш проводник в мир 3D технологий. Проекты, курсы и контакты."/>
-  <meta property="og:title" content="STEP 3D"/>
-  <meta property="og:description" content="Ваш проводник в мир 3D-технологий"/>
-  <meta property="og:type" content="website"/>
-  <meta property="og:url" content="https://step3d.tech"/>
-  <meta property="og:image" content="assets/logo.svg"/>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.4.4/dist/tailwind.min.css" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <title>Codex Style Page</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    body { font-family: 'Inter', sans-serif; }
-    html { scroll-behavior: smooth; }
+    :root {
+      --bg: #FFFFFF;
+      --text: #111827;
+      --subtext: #6B7280;
+      --primary: #4F46E5;
+      --button-text: #FFFFFF;
+      --border: #E5E7EB;
+      --code-bg: #F3F4F6;
+      --font: 'Inter', sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--font); color: var(--text); background: var(--bg); }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 24px 48px;
+    }
+    .logo { font-size: 24px; font-weight: 700; color: var(--text); text-decoration: none; }
+    nav a {
+      margin-left: 24px;
+      font-size: 16px;
+      color: var(--subtext);
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .hero {
+      text-align: center;
+      padding: 100px 24px;
+    }
+    .hero h1 {
+      font-size: 48px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      color: var(--text);
+    }
+    .hero p {
+      font-size: 18px;
+      color: var(--subtext);
+      max-width: 600px;
+      margin: 0 auto 32px;
+    }
+    .cta-button {
+      background-color: var(--primary);
+      color: var(--button-text);
+      font-size: 16px;
+      font-weight: 600;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+    }
+    .features, .docs, .pricing {
+      padding: 80px 24px;
+      text-align: center;
+    }
+    .features {
+      display: flex;
+      justify-content: center;
+      gap: 32px;
+      flex-wrap: wrap;
+    }
+    .feature-card {
+      max-width: 300px;
+      text-align: left;
+    }
+    .feature-card h3 {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    .feature-card p {
+      font-size: 14px;
+      color: var(--subtext);
+    }
+    .docs h2, .pricing h2 {
+      font-size: 32px;
+      font-weight: 700;
+      margin-bottom: 24px;
+    }
+    .code-sample {
+      background-color: var(--code-bg);
+      padding: 24px;
+      border-radius: 8px;
+      text-align: left;
+      max-width: 600px;
+      margin: 0 auto;
+      font-family: monospace;
+      font-size: 14px;
+      overflow-x: auto;
+    }
+    .pricing-cards {
+      display: flex;
+      justify-content: center;
+      gap: 32px;
+      flex-wrap: wrap;
+    }
+    .plan-card {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+      max-width: 280px;
+      text-align: left;
+    }
+    .plan-card h3 {
+      font-size: 24px;
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+    .plan-card .price {
+      font-size: 32px;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+    .plan-card ul {
+      list-style: none;
+      margin-bottom: 24px;
+      padding-left: 0;
+    }
+    .plan-card li {
+      font-size: 14px;
+      color: var(--subtext);
+      margin-bottom: 8px;
+    }
+    .plan-card .cta-button {
+      width: 100%;
+      text-align: center;
+    }
+    footer {
+      text-align: center;
+      padding: 40px 24px;
+      font-size: 14px;
+      color: var(--subtext);
+      border-top: 1px solid var(--border);
+    }
+    footer a { color: var(--subtext); text-decoration: none; margin: 0 8px; }
   </style>
 </head>
-<body class="bg-[#343541] text-gray-200">
-  <header class="fixed top-0 left-0 w-full bg-[#343541] border-b border-gray-700 z-50">
-    <div class="container mx-auto flex items-center justify-between p-4">
-      <a href="#hero" class="flex items-center space-x-2">
-        <img src="assets/logo.svg" alt="STEP 3D" class="w-8 h-8">
-        <span class="font-bold">STEP 3D</span>
-      </a>
-      <button id="menu-btn" class="md:hidden text-gray-200">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
-      </button>
-      <nav id="menu" class="hidden md:flex space-x-6">
-        <a href="#projects" class="hover:text-[#19C37D]">Проекты</a>
-        <a href="#courses" class="hover:text-[#19C37D]">Курсы</a>
-        <a href="#contacts" class="hover:text-[#19C37D]">Контакты</a>
-      </nav>
-    </div>
+<body>
+  <header>
+    <a href="#" class="logo">Codex</a>
+    <nav>
+      <a href="#features">Features</a>
+      <a href="#docs">Docs</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#signup" class="cta-button">Get Started</a>
+    </nav>
   </header>
-
-  <section id="hero" class="h-screen bg-gradient-to-b from-[#343541] to-[#1E1E1E] text-white flex flex-col items-center justify-center text-center space-y-6 pt-20">
-    <img src="assets/logo.svg" alt="STEP 3D" class="w-24 h-24 animate-pulse">
-    <h1 class="text-4xl md:text-6xl font-bold">Ваш проводник в мир 3D-технологий</h1>
-    <div class="space-x-4">
-      <a href="#projects" class="bg-[#19C37D] text-white px-6 py-3 rounded-2xl shadow hover:bg-[#1EBE6A] transition">Проекты</a>
-      <a href="#courses" class="bg-gray-700 text-white px-6 py-3 rounded-2xl shadow hover:bg-gray-600 transition">Курсы</a>
-      <a href="#contacts" class="border border-gray-400 px-6 py-3 rounded-2xl hover:bg-gray-700 transition">Контакты</a>
+  <section class="hero">
+    <h1>Улучшите свой код с помощью Codex</h1>
+    <p>Используйте мощь AI, чтобы создавать, завершать и улучшать ваш код прямо в IDE или приложении.</p>
+    <a href="#" class="cta-button">Попробовать Codex</a>
+  </section>
+  <section id="features" class="features">
+    <div class="feature-card">
+      <h3>Автодополнение кода</h3>
+      <p>Пишите меньше, делайте больше. Codex предлагает завершения кода в реальном времени.</p>
+    </div>
+    <div class="feature-card">
+      <h3>Генерация функций</h3>
+      <p>Опишите свою функцию на естественном языке, и Codex создаст её для вас.</p>
+    </div>
+    <div class="feature-card">
+      <h3>Рефакторинг</h3>
+      <p>Поддерживайте чистоту кода с автоматизированными предложениями по рефакторингу.</p>
     </div>
   </section>
+  <section id="docs" class="docs">
+    <h2>Пример использования</h2>
+    <div class="code-sample">
+<pre><code>// Инициализация Codex в вашем проекте
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY,
+});
 
-  <section id="mission" class="py-20 bg-[#202123] text-center">
-    <div class="container mx-auto px-4">
-      <h2 class="text-3xl font-bold mb-4">Наша миссия</h2>
-      <p class="text-lg max-w-2xl mx-auto">Сделать 3D-услуги доступными каждому, развивая технологии и обучение для специалистов нового поколения.</p>
+async function generateFunction(prompt) {
+  const response = await openai.chat.completions.create({
+    model: 'codex',
+    messages: [{ role: 'user', content: prompt }],
+  });
+  console.log(response.choices[0].message.content);
+}
+</code></pre>
     </div>
   </section>
-
-  <section id="projects" class="py-20 bg-[#343541]">
-    <div class="container mx-auto px-4">
-      <h2 class="text-3xl font-bold mb-8 text-center">Проекты</h2>
-      <div id="projects-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+  <section id="pricing" class="pricing">
+    <h2>Цены</h2>
+    <div class="pricing-cards">
+      <div class="plan-card">
+        <h3>Бесплатный</h3>
+        <div class="price">$0<span style="font-size:16px">/мес</span></div>
+        <ul>
+          <li>1000 токенов в месяц</li>
+          <li>Доступ к базовым функциям</li>
+        </ul>
+        <a href="#" class="cta-button">Зарегистрироваться</a>
+      </div>
+      <div class="plan-card">
+        <h3>Профессионал</h3>
+        <div class="price">$20<span style="font-size:16px">/мес</span></div>
+        <ul>
+          <li>100k токенов</li>
+          <li>Приоритетная поддержка</li>
+        </ul>
+        <a href="#" class="cta-button">Начать</a>
+      </div>
     </div>
   </section>
-
-  <section id="courses" class="py-20 bg-[#202123]">
-    <div class="container mx-auto px-4">
-      <h2 class="text-3xl font-bold mb-8 text-center">Курсы и мастер-классы</h2>
-      <div id="courses-container" class="max-w-xl mx-auto"></div>
-    </div>
-  </section>
-
-  <section id="contacts" class="py-20 bg-[#343541]">
-    <div class="container mx-auto px-4 text-center space-y-2">
-      <h2 class="text-3xl font-bold mb-4">Контакты</h2>
-      <p>Телефон: <a href="tel:+79959009141" class="text-[#19C37D] hover:underline">+7 (995) 900-91-41</a></p>
-      <p>Email: <a href="mailto:info@step3d.tech" class="text-[#19C37D] hover:underline">info@step3d.tech</a></p>
-      <p>Telegram: <a href="https://t.me/step3d" class="text-[#19C37D] hover:underline">@step3d</a></p>
-    </div>
-  </section>
-
-  <footer class="py-4 bg-[#202123] text-white text-center">
-    © STEP_3D | Lab
+  <footer>
+    <a href="#">Privacy</a> |
+    <a href="#">Terms</a> |
+    <a href="#">Contact</a>
+    <p>© 2025 OpenAI. Все права защищены.</p>
   </footer>
-
-<script type="module" src="js/main.js"></script>
 </body>
 </html>
