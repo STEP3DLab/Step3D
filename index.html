@@ -3,214 +3,128 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>STEP_3D — агрегатор 3D‑услуг</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --bg: #FFFFFF;
-      --text: #111827;
-      --subtext: #6B7280;
-      --primary: #4F46E5;
-      --button-text: #FFFFFF;
-      --border: #E5E7EB;
-      --code-bg: #F3F4F6;
-      --font: 'Inter', sans-serif;
-    }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: var(--font); color: var(--text); background: var(--bg); }
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 24px 48px;
-    }
-    .logo { font-size: 24px; font-weight: 700; color: var(--text); text-decoration: none; }
-    nav a {
-      margin-left: 24px;
-      font-size: 16px;
-      color: var(--subtext);
-      text-decoration: none;
-      font-weight: 500;
-    }
-    .hero {
-      text-align: center;
-      padding: 100px 24px;
-    }
-    .hero h1 {
-      font-size: 48px;
-      font-weight: 700;
-      margin-bottom: 16px;
-      color: var(--text);
-    }
-    .hero p {
-      font-size: 18px;
-      color: var(--subtext);
-      max-width: 600px;
-      margin: 0 auto 32px;
-    }
-    .cta-button {
-      background-color: var(--primary);
-      color: var(--button-text);
-      font-size: 16px;
-      font-weight: 600;
-      padding: 12px 24px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      text-decoration: none;
-      display: inline-block;
-    }
-    .features, .docs, .pricing {
-      padding: 80px 24px;
-      text-align: center;
-    }
-    .features {
-      display: flex;
-      justify-content: center;
-      gap: 32px;
-      flex-wrap: wrap;
-    }
-    .feature-card {
-      max-width: 300px;
-      text-align: left;
-    }
-    .feature-card h3 {
-      font-size: 20px;
-      font-weight: 600;
-      margin-bottom: 8px;
-    }
-    .feature-card p {
-      font-size: 14px;
-      color: var(--subtext);
-    }
-    .docs h2, .pricing h2 {
-      font-size: 32px;
-      font-weight: 700;
-      margin-bottom: 24px;
-    }
-    .code-sample {
-      background-color: var(--code-bg);
-      padding: 24px;
-      border-radius: 8px;
-      text-align: left;
-      max-width: 600px;
-      margin: 0 auto;
-      font-family: monospace;
-      font-size: 14px;
-      overflow-x: auto;
-    }
-    .pricing-cards {
-      display: flex;
-      justify-content: center;
-      gap: 32px;
-      flex-wrap: wrap;
-    }
-    .plan-card {
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 24px;
-      max-width: 280px;
-      text-align: left;
-    }
-    .plan-card h3 {
-      font-size: 24px;
-      font-weight: 600;
-      margin-bottom: 16px;
-    }
-    .plan-card .price {
-      font-size: 32px;
-      font-weight: 700;
-      margin-bottom: 16px;
-    }
-    .plan-card ul {
-      list-style: none;
-      margin-bottom: 24px;
-      padding-left: 0;
-    }
-    .plan-card li {
-      font-size: 14px;
-      color: var(--subtext);
-      margin-bottom: 8px;
-    }
-    .plan-card .cta-button {
-      width: 100%;
-      text-align: center;
-    }
-    footer {
-      text-align: center;
-      padding: 40px 24px;
-      font-size: 14px;
-      color: var(--subtext);
-      border-top: 1px solid var(--border);
-    }
-    footer a { color: var(--subtext); text-decoration: none; margin: 0 8px; }
-  </style>
+  <title>Тарифы и услуги</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <header>
-    <a href="#" class="logo">STEP_3D</a>
-    <nav>
-      <a href="#features">Возможности</a>
-      <a href="#docs">Пример</a>
-      <a href="#pricing">Тарифы</a>
-      <a href="https://web.telegram.org/#/@step_3d_bot" class="cta-button">Запустить бот</a>
+  <header class="header" aria-label="Главное меню">
+    <a href="#hero" class="logo" aria-label="На главную">
+      <svg width="48" height="48" viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+        <circle cx="24" cy="24" r="24" fill="#ffce00"/>
+        <rect x="8" y="14" width="32" height="6" fill="#000"/>
+        <rect x="8" y="28" width="32" height="6" fill="#000"/>
+      </svg>
+    </a>
+    <nav class="nav" aria-label="Основная">
+      <a href="#tariffs">Тарифы</a>
+      <a href="#services">Услуги</a>
+      <a href="#support">Поддержка</a>
+      <a href="#payment">Оплата</a>
     </nav>
+    <button id="login-btn" class="login-btn" aria-label="Личный кабинет">Личный кабинет</button>
   </header>
-  <section class="hero">
-    <h1>Все 3D‑услуги в одном месте</h1>
-    <p>STEP_3D оценивает задачи по 3D‑сканированию, моделированию и печати и подбирает исполнителей за пару минут.</p>
-    <a href="https://web.telegram.org/#/@step_3d_bot" class="cta-button">Открыть STEP_3D_bot</a>
-  </section>
-  <section id="features" class="features">
-    <div class="feature-card">
-      <h3>Быстрая оценка проектов</h3>
-      <p>AI‑модуль STEP_3D рассчитывает трудоёмкость 3D‑задачи всего за 1–2 минуты.</p>
-    </div>
-    <div class="feature-card">
-      <h3>Подбор исполнителей</h3>
-      <p>Система автоматически выбирает оптимального специалиста из сообщества STEP_3D.</p>
-    </div>
-    <div class="feature-card">
-      <h3>Безопасная сделка</h3>
-      <p>Оплата и качество контролируются платформой, чтобы вы получили нужный результат.</p>
+
+  <section id="hero" class="hero">
+    <h1>Быстрый интернет и выгодные тарифы</h1>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</p>
+    <div class="hero-actions">
+      <a href="#tariffs" class="btn primary">Выбрать тариф</a>
+      <a href="#services" class="btn outline">Подробнее</a>
     </div>
   </section>
-  <section id="docs" class="docs">
-    <h2>Пример использования</h2>
-    <div class="code-sample">
-<pre><code># Отправка задачи в STEP_3D_bot
-curl -X POST https://api.step3d.tech/estimate \
-  -H "Authorization: Bearer &lt;TOKEN&gt;" \
-  -d "task=3D-моделирование корпуса"</code></pre>
-    </div>
-  </section>
-  <section id="pricing" class="pricing">
-    <h2>Цены</h2>
-    <div class="pricing-cards">
-      <div class="plan-card">
-        <h3>Разово</h3>
-        <div class="price">≈3 000<span style="font-size:16px">/заказ</span></div>
-        <ul>
-          <li>Оценка проекта за 1‑2 минуты</li>
-          <li>Подбор исполнителя</li>
-        </ul>
-        <a href="https://web.telegram.org/#/@step_3d_bot" class="cta-button">Создать заказ</a>
+
+  <section id="tariffs" class="products" aria-label="Популярные продукты">
+    <h2>Популярные продукты</h2>
+    <div class="product-grid">
+      <div class="card">
+        <div class="icon" aria-hidden="true"></div>
+        <h3>Тариф A</h3>
+        <p>Краткое описание тарифа.</p>
+        <span class="price">от 399 ₽/мес</span>
+        <button class="btn connect">Подключить</button>
       </div>
-      <div class="plan-card">
-        <h3>Для бизнеса</h3>
-        <div class="price">по запросу</div>
-        <ul>
-          <li>Персональный менеджер</li>
-          <li>Интеграция с вашим процессом</li>
-        </ul>
-        <a href="mailto:info@step3d.tech" class="cta-button">Связаться</a>
+      <div class="card">
+        <div class="icon" aria-hidden="true"></div>
+        <h3>Тариф B</h3>
+        <p>Краткое описание тарифа.</p>
+        <span class="price">от 499 ₽/мес</span>
+        <button class="btn connect">Подключить</button>
+      </div>
+      <div class="card">
+        <div class="icon" aria-hidden="true"></div>
+        <h3>Тариф C</h3>
+        <p>Краткое описание тарифа.</p>
+        <span class="price">от 599 ₽/мес</span>
+        <button class="btn connect">Подключить</button>
+      </div>
+      <div class="card">
+        <div class="icon" aria-hidden="true"></div>
+        <h3>Тариф D</h3>
+        <p>Краткое описание тарифа.</p>
+        <span class="price">от 399 ₽/мес</span>
+        <button class="btn connect">Подключить</button>
+      </div>
+      <div class="card">
+        <div class="icon" aria-hidden="true"></div>
+        <h3>Тариф E</h3>
+        <p>Краткое описание тарифа.</p>
+        <span class="price">от 499 ₽/мес</span>
+        <button class="btn connect">Подключить</button>
+      </div>
+      <div class="card">
+        <div class="icon" aria-hidden="true"></div>
+        <h3>Тариф F</h3>
+        <p>Краткое описание тарифа.</p>
+        <span class="price">от 599 ₽/мес</span>
+        <button class="btn connect">Подключить</button>
       </div>
     </div>
   </section>
-  <footer>
-    <a href="mailto:info@step3d.tech">info@step3d.tech</a> |
-    <a href="https://t.me/step_3d_bot">Telegram</a>
-    <p>© 2024 STEP_3D. Все права защищены.</p>
+
+  <section id="services" class="advantages" aria-label="Преимущества">
+    <h2>Преимущества</h2>
+    <div class="adv-grid">
+      <div class="adv-item">
+        <div class="icon small" aria-hidden="true"></div>
+        <p>Сеть 4G/5G</p>
+      </div>
+      <div class="adv-item">
+        <div class="icon small" aria-hidden="true"></div>
+        <p>Круглосуточная поддержка</p>
+      </div>
+      <div class="adv-item">
+        <div class="icon small" aria-hidden="true"></div>
+        <p>Бонусы и акции</p>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer" aria-label="Футер">
+    <div class="footer-col">
+      <h3>Помощь</h3>
+      <ul>
+        <li><a href="#support">FAQ</a></li>
+        <li><a href="#support">Чат поддержки</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h3>Компания</h3>
+      <ul>
+        <li><a href="#">О нас</a></li>
+        <li><a href="#">Вакансии</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h3>Соцсети</h3>
+      <ul>
+        <li><a href="#">VK</a></li>
+        <li><a href="#">YouTube</a></li>
+      </ul>
+    </div>
+    <div class="copyright">© 2025</div>
   </footer>
+
+  <script src="script.js"></script>
 </body>
 </html>
