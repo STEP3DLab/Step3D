@@ -12,6 +12,7 @@ initConfig().then(cfg => {
 
 // Глобальные переменные сцены Three.js
 let scene, camera, renderer, controls, mesh;
+let gridHelper, axesHelper;
 
 /**
  * Создаёт сцену Three.js внутри элемента с указанным id.
@@ -39,6 +40,12 @@ export function init(canvasId) {
     renderer.setPixelRatio(window.devicePixelRatio);
     renderer.setSize(container.clientWidth, container.clientHeight);
     container.appendChild(renderer.domElement);
+
+    // вспомогательная сетка и оси для ориентира
+    gridHelper = new THREE.GridHelper(200, 50);
+    axesHelper = new THREE.AxesHelper(100);
+    scene.add(gridHelper);
+    scene.add(axesHelper);
 
     const dirLight = new THREE.DirectionalLight(0xffffff, 0.8);
     dirLight.position.set(5, 10, 7.5);
@@ -112,4 +119,47 @@ function fitCameraToGeometry(geometry) {
     camera.updateProjectionMatrix();
 }
 
-export { THREE };
+// Сброс камеры на исходное положение относительно модели
+export function resetView() {
+    if (mesh) {
+        fitCameraToGeometry(mesh.geometry);
+        controls.target.set(0, 0, 0);
+        controls.update();
+    }
+}
+
+// Изменяет цвет материала модели
+export function setMeshColor(hex) {
+    if (mesh && mesh.material) {
+        mesh.material.color.set(hex);
+    }
+}
+
+// Переключает режим отображения каркаса
+export function setWireframe(enabled) {
+    if (mesh && mesh.material) {
+        mesh.material.wireframe = enabled;
+    }
+}
+
+// Показывает или скрывает сетку и оси
+export function showHelpers(show) {
+    if (!scene) return;
+    if (show) {
+        if (gridHelper && axesHelper) {
+            scene.add(gridHelper);
+            scene.add(axesHelper);
+        }
+    } else {
+        if (gridHelper) scene.remove(gridHelper);
+        if (axesHelper) scene.remove(axesHelper);
+    }
+}
+
+export {
+    THREE,
+    resetView,
+    setMeshColor,
+    setWireframe,
+    showHelpers
+};
