@@ -1,4 +1,3 @@
-import { loadFile } from './fileManager.js';
 import { calculateCost } from './calculator.js';
 import config from './config.json' assert { type: 'json' };
 import * as THREE from 'https://unpkg.com/three@0.152.2/build/three.module.js';
@@ -7,11 +6,6 @@ import { OrbitControls } from 'https://unpkg.com/three@0.152.2/examples/jsm/cont
 console.log('Viewer initialized');
 console.log('Current material prices:', config.prices);
 
-// Example usage
-// loadFile('path/to/model.stl').then(model => {
-//     const cost = calculateCost(model);
-//     console.log('Model cost', cost);
-// });
 
 let scene, camera, renderer, controls, mesh;
 
