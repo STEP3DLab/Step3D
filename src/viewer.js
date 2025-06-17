@@ -1,24 +1,32 @@
+// Инициализация 3D‑просмотра и загрузка моделей
 import { initConfig } from './calculator.js';
 import * as THREE from 'https://unpkg.com/three@0.152.2/build/three.module.js';
 import { OrbitControls } from 'https://unpkg.com/three@0.152.2/examples/jsm/controls/OrbitControls.js';
 
+// При инициализации выводим в консоль текущие цены материалов
 console.log('Viewer initialized');
 initConfig().then(cfg => {
     console.log('Current material prices:', cfg.materials);
 });
 
 
+// Глобальные переменные сцены Three.js
 let scene, camera, renderer, controls, mesh;
 
+/**
+ * Создаёт сцену Three.js внутри элемента с указанным id.
+ */
 export function init(canvasId) {
     const container = document.getElementById(canvasId);
     if (!container) {
         throw new Error(`Container with id "${canvasId}" not found`);
     }
 
+    // создаём сцену и задаём белый фон
     scene = new THREE.Scene();
     scene.background = new THREE.Color(0xffffff);
 
+    // настраиваем камеру
     camera = new THREE.PerspectiveCamera(
         45,
         container.clientWidth / container.clientHeight,
@@ -37,14 +45,17 @@ export function init(canvasId) {
     scene.add(dirLight);
     scene.add(new THREE.AmbientLight(0xffffff, 0.3));
 
+    // подключаем орбитальные контролы для вращения модели мышью
     controls = new OrbitControls(camera, renderer.domElement);
     controls.update();
 
     window.addEventListener('resize', onWindowResize);
 
+    // запускаем рендер‑цикл
     animate();
 }
 
+// Подгоняем размер холста при изменении размеров окна
 function onWindowResize() {
     if (!renderer) return;
     const container = renderer.domElement.parentElement;
@@ -53,6 +64,7 @@ function onWindowResize() {
     renderer.setSize(container.clientWidth, container.clientHeight);
 }
 
+// Цикл рендера сцены
 function animate() {
     requestAnimationFrame(animate);
     if (controls) controls.update();
@@ -61,6 +73,9 @@ function animate() {
     }
 }
 
+/**
+ * Добавляет меш с геометрией на сцену и выставляет камеру.
+ */
 export function loadMesh(geometry) {
     if (!scene) {
         throw new Error('Viewer not initialized. Call init() first.');
@@ -70,6 +85,7 @@ export function loadMesh(geometry) {
         scene.remove(mesh);
     }
 
+    // вычисляем границы модели
     geometry.computeBoundingBox();
     geometry.computeBoundingSphere();
 
@@ -86,6 +102,7 @@ export function loadMesh(geometry) {
     controls.update();
 }
 
+// Располагает камеру так, чтобы модель полностью помещалась в кадр
 function fitCameraToGeometry(geometry) {
     const radius = geometry.boundingSphere.radius;
     const distance = radius / Math.sin(THREE.MathUtils.degToRad(camera.fov / 2));

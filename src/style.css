@@ -1,3 +1,4 @@
+/* Основные стили страницы и панели инструментов */
 body {
     font-family: Inter, Arial, sans-serif;
     margin: 0;
@@ -22,6 +23,7 @@ body {
     box-shadow: -1px 0 4px rgba(0, 0, 0, .05);
 }
 
+/* Поля ввода и списки материалов */
 input,
 select {
     width: 100%;
@@ -41,6 +43,7 @@ select {
     margin-top: 12px;
 }
 
+/* Простой стиль для шапки и подвала */
 header {
     padding: 16px;
     background: #fff;
