@@ -38,6 +38,7 @@
 * 🏷️ Per‑material pricing via a JSON config
 * 💸 Instant cost estimate & currency formatting
 * 📑 Ready for GitHub Pages deploy via `gh‑pages`
+* 📴 Works offline — Three.js modules are bundled locally
 
 ## Screenshots
 
