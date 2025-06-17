@@ -109,6 +109,16 @@ export function loadMesh(geometry) {
     controls.update();
 }
 
+// Удаляет текущую модель со сцены
+export function clearMesh() {
+    if (mesh) {
+        scene.remove(mesh);
+        mesh.geometry.dispose();
+        if (mesh.material) mesh.material.dispose();
+        mesh = null;
+    }
+}
+
 // Располагает камеру так, чтобы модель полностью помещалась в кадр
 function fitCameraToGeometry(geometry) {
     const radius = geometry.boundingSphere.radius;
@@ -161,5 +171,6 @@ export {
     resetView,
     setMeshColor,
     setWireframe,
-    showHelpers
+    showHelpers,
+    clearMesh
 };

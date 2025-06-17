@@ -137,3 +137,32 @@ footer {
     display: block;
     margin-top: 12px;
 }
+
+#fileName {
+    margin-top: 8px;
+    font-size: 14px;
+    word-break: break-all;
+}
+
+#togglePanel {
+    width: auto;
+    margin-left: auto;
+}
+
+#panel.hidden {
+    display: none;
+}
+
+@media (max-width: 600px) {
+    #main {
+        flex-direction: column;
+    }
+    #viewer {
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+        height: 60vh;
+    }
+    #togglePanel {
+        margin-top: 10px;
+    }
+}
