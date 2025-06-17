@@ -1,6 +1,12 @@
 {
+  "version": "1.0.0",
+  "homepage": "https://step3dlab.github.io/Step3D",
   "scripts": {
     "dev": "http-server public -c-1",
-    "deploy": "npx gh-pages -d public"
+    "predeploy": "echo Nothing to build",
+    "deploy": "gh-pages -d public"
+  },
+  "devDependencies": {
+    "gh-pages": "^6.3.0"
   }
 }
