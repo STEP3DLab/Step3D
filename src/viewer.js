@@ -1,7 +1,8 @@
 // Инициализация 3D‑просмотра и загрузка моделей
 import { initConfig } from './calculator.js';
-import * as THREE from 'https://unpkg.com/three@0.152.2/build/three.module.js';
-import { OrbitControls } from 'https://unpkg.com/three@0.152.2/examples/jsm/controls/OrbitControls.js';
+// Используем локальные копии модулей Three.js, чтобы работать без доступа к CDN
+import * as THREE from './libs/three.module.js';
+import { OrbitControls } from './libs/OrbitControls.js';
 
 // При инициализации выводим в консоль текущие цены материалов
 console.log('Viewer initialized');
