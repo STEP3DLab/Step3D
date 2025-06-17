@@ -29,3 +29,8 @@ select {
     margin: 10px;
     text-align: center;
 }
+
+#error {
+    color: red;
+    margin-top: 12px;
+}
