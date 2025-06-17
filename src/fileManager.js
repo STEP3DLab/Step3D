@@ -12,22 +12,37 @@ const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50MB
 // Промис загрузки конфигурации, чтобы не делать это каждый раз
 const configReady = initConfig();
 
+function showLoading(show) {
+    const el = document.getElementById('loading');
+    if (el) {
+        if (show) {
+            el.classList.add('show');
+        } else {
+            el.classList.remove('show');
+        }
+    }
+}
+
 // Загружает файл по ссылке (не используется напрямую)
 export async function loadFile(path) {
     clearError();
+    showLoading(true);
     try {
         const res = await fetch(path);
         if (!res.ok) {
             showError('Не удалось загрузить файл');
+            showLoading(false);
             return;
         }
         const blob = await res.blob();
         const name = path.split('/').pop() || 'model';
         const file = new File([blob], name);
         await handleFile(file);
+        showLoading(false);
     } catch (err) {
         console.error('Failed to load remote file', err);
         showError('Ошибка загрузки файла');
+        showLoading(false);
     }
 }
 
@@ -54,7 +69,13 @@ export function init(inputId, dropZoneId) {
     if (dropZone) {
         ['dragover', 'dragenter'].forEach(type => {
             dropZone.addEventListener(type, (e) => {
-                e.preventDefault(); // не даём браузеру открыть файл
+                e.preventDefault();
+                dropZone.classList.add('dragover');
+            });
+        });
+        ['dragleave', 'drop'].forEach(type => {
+            dropZone.addEventListener(type, () => {
+                dropZone.classList.remove('dragover');
             });
         });
 
@@ -85,6 +106,7 @@ export async function handleFile(file) {
         return;
     }
 
+    showLoading(true);
     const reader = new FileReader();
 
     // после чтения файла парсим его содержимое
@@ -119,8 +141,10 @@ export async function handleFile(file) {
             const price = calcPrice({ volume_cm3: volume, material });
             updateResult(volume, price); // выводим результат пользователю
             sendToSheets({ volume_cm3: volume, price, material });
+            showLoading(false);
         } else {
             showError('Не удалось загрузить модель');
+            showLoading(false);
         }
     };
 
