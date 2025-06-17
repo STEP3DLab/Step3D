@@ -1,5 +1,6 @@
 {
   "scripts": {
-    "dev": "http-server public -c-1"
+    "dev": "http-server public -c-1",
+    "deploy": "npx gh-pages -d public"
   }
 }

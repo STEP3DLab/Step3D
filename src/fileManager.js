@@ -2,6 +2,7 @@ import { loadMesh } from './viewer.js';
 import { STLLoader } from 'https://unpkg.com/three@0.152.2/examples/jsm/loaders/STLLoader.js';
 import { OBJLoader } from 'https://unpkg.com/three@0.152.2/examples/jsm/loaders/OBJLoader.js';
 import { initConfig, calcPrice, formatPrice } from './calculator.js';
+import { sendToSheets } from './sheets.js';
 
 const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50MB
 const configReady = initConfig();
@@ -84,6 +85,7 @@ export async function handleFile(file) {
             await configReady;
             const price = calcPrice({ volume_cm3: volume, material });
             updateResult(volume, price);
+            sendToSheets({ volume_cm3: volume, price, material });
         } else {
             showError('Не удалось загрузить модель');
         }
