@@ -1,8 +1,9 @@
 // Работа с файлами моделей и расчётом стоимости
 import { loadMesh } from './viewer.js';
 // Загрузчики STL и OBJ из CDN Three.js
-import { STLLoader } from 'https://unpkg.com/three@0.152.2/examples/jsm/loaders/STLLoader.js';
-import { OBJLoader } from 'https://unpkg.com/three@0.152.2/examples/jsm/loaders/OBJLoader.js';
+// Используем локальные версии загрузчиков STL и OBJ
+import { STLLoader } from './libs/STLLoader.js';
+import { OBJLoader } from './libs/OBJLoader.js';
 // Функции калькулятора и отправки данных
 import { initConfig, calcPrice, formatPrice } from './calculator.js';
 import { sendToSheets } from './sheets.js';
