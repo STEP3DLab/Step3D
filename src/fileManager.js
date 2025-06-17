@@ -57,6 +57,9 @@ export function handleFile(file) {
 
         if (geometry) {
             loadMesh(geometry);
+            const volume = computeVolume(geometry);
+            const price = estimatePlaCost(volume);
+            updateResult(volume, price);
         } else {
             console.error('Unsupported file format:', extension);
         }
@@ -69,6 +72,42 @@ export function handleFile(file) {
     } else {
         console.error('Unsupported file format:', extension);
     }
+}
+
+function computeVolume(geometry) {
+    const g = geometry.index ? geometry.toNonIndexed() : geometry;
+    const pos = g.attributes.position.array;
+    let volume = 0;
+    for (let i = 0; i < pos.length; i += 9) {
+        const ax = pos[i], ay = pos[i + 1], az = pos[i + 2];
+        const bx = pos[i + 3], by = pos[i + 4], bz = pos[i + 5];
+        const cx = pos[i + 6], cy = pos[i + 7], cz = pos[i + 8];
+        volume += ax * (by * cz - bz * cy) +
+                  ay * (bz * cx - bx * cz) +
+                  az * (bx * cy - by * cx);
+    }
+    const mm3 = Math.abs(volume) / 6.0;
+    return mm3 / 1000.0; // convert to cm^3
+}
+
+function estimatePlaCost(volumeCm3) {
+    const density = 1.24; // g/cm^3
+    const priceKg = 2000; // RUB per kg
+    const infill = 0.2;
+    const laborRate = 200; // RUB per hour
+
+    const mass = volumeCm3 * density * infill; // in grams
+    const material = (mass / 1000) * priceKg;
+    const timeHours = (volumeCm3 * infill) / 10; // very rough estimate
+    const labor = timeHours * laborRate;
+    return Math.round(material + labor);
+}
+
+function updateResult(volumeCm3, priceRub) {
+    const volEl = document.getElementById('volume');
+    const priceEl = document.getElementById('price');
+    if (volEl) volEl.textContent = `Объём: ${volumeCm3.toFixed(2)} см³`;
+    if (priceEl) priceEl.textContent = `Стоимость: ${priceRub} ₽`;
 }
 
 export { handleFile };
