@@ -24,6 +24,9 @@
             <option value="ABS">ABS</option>
         </select>
         <input type="number" id="scaleFactor" value="1" min="0.1" step="0.1" placeholder="Scale">
+        <input type="color" id="colorPicker" value="#cccccc">
+        <label><input type="checkbox" id="wireframe"> Wireframe</label>
+        <button id="resetView">Reset view</button>
         <p id="error" style="display:none"></p>
         <p id="volume"></p>
         <p id="price"></p>
@@ -35,12 +38,28 @@
         <a href="offer.html">Публичная оферта</a>
     </footer>
     <script type="module">
-        import { init as initViewer } from '../src/viewer.js';
+        import {
+            init as initViewer,
+            resetView,
+            setMeshColor,
+            setWireframe
+        } from '../src/viewer.js';
         import { init as initFile } from '../src/fileManager.js';
 
         /* Запускаем инициализацию просмотра и обработку файлов */
         initViewer('viewer');
         initFile('fileInput', 'drop-zone');
+
+        // обработчики дополнительных элементов управления
+        document.getElementById('colorPicker').addEventListener('input', (e) => {
+            setMeshColor(e.target.value);
+        });
+        document.getElementById('wireframe').addEventListener('change', (e) => {
+            setWireframe(e.target.checked);
+        });
+        document.getElementById('resetView').addEventListener('click', () => {
+            resetView();
+        });
     </script>
 </body>
 </html>
