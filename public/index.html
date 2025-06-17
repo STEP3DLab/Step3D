@@ -7,8 +7,12 @@
     <link rel="stylesheet" href="../src/style.css">
 </head>
 <body>
-    <div id="viewer"></div>
-    <div id="panel">
+    <header>
+        <img id="logo" src="../assets/logo.svg" alt="Step3D Logo">
+    </header>
+    <main id="main">
+        <div id="viewer"></div>
+        <div id="panel">
         <input type="file" id="fileInput" accept=".stl,.obj">
         <div id="drop-zone">Drop STL/OBJ here</div>
         <select id="material">
@@ -20,6 +24,11 @@
         <p id="volume"></p>
         <p id="price"></p>
     </div>
+    </main>
+    <footer>
+        <a href="privacy.html">Политика конфиденциальности</a> |
+        <a href="offer.html">Публичная оферта</a>
+    </footer>
     <script type="module">
         import { init as initViewer } from '../src/viewer.js';
         import { init as initFile } from '../src/fileManager.js';
