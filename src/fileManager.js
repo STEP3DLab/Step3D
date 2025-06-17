@@ -1,6 +1,10 @@
 import { loadMesh } from './viewer.js';
 import { STLLoader } from 'https://unpkg.com/three@0.152.2/examples/jsm/loaders/STLLoader.js';
 import { OBJLoader } from 'https://unpkg.com/three@0.152.2/examples/jsm/loaders/OBJLoader.js';
+import { initConfig, calcPrice, formatPrice } from './calculator.js';
+
+const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50MB
+const configReady = initConfig();
 
 export async function loadFile(path) {
     console.log(`Loading file: ${path}`);
@@ -37,11 +41,22 @@ export function init(inputId, dropZoneId) {
     }
 }
 
-export function handleFile(file) {
+export async function handleFile(file) {
+    clearError();
     const extension = file.name.split('.').pop().toLowerCase();
+
+    if (!['stl', 'obj'].includes(extension)) {
+        showError('Неподдерживаемый формат файла');
+        return;
+    }
+    if (file.size > MAX_FILE_SIZE) {
+        showError('Файл слишком большой');
+        return;
+    }
+
     const reader = new FileReader();
 
-    reader.onload = (event) => {
+    reader.onload = async (event) => {
         let geometry;
         if (extension === 'stl') {
             const loader = new STLLoader();
@@ -56,12 +71,21 @@ export function handleFile(file) {
         }
 
         if (geometry) {
+            const scaleInput = document.getElementById('scaleFactor');
+            const scale = parseFloat(scaleInput?.value) || 1;
+            geometry.scale(scale, scale, scale);
+
             loadMesh(geometry);
             const volume = computeVolume(geometry);
-            const price = estimatePlaCost(volume);
+
+            const materialSelect = document.getElementById('material');
+            const material = materialSelect ? materialSelect.value : 'PLA';
+
+            await configReady;
+            const price = calcPrice({ volume_cm3: volume, material });
             updateResult(volume, price);
         } else {
-            console.error('Unsupported file format:', extension);
+            showError('Не удалось загрузить модель');
         }
     };
 
@@ -90,24 +114,27 @@ function computeVolume(geometry) {
     return mm3 / 1000.0; // convert to cm^3
 }
 
-function estimatePlaCost(volumeCm3) {
-    const density = 1.24; // g/cm^3
-    const priceKg = 2000; // RUB per kg
-    const infill = 0.2;
-    const laborRate = 200; // RUB per hour
-
-    const mass = volumeCm3 * density * infill; // in grams
-    const material = (mass / 1000) * priceKg;
-    const timeHours = (volumeCm3 * infill) / 10; // very rough estimate
-    const labor = timeHours * laborRate;
-    return Math.round(material + labor);
-}
-
 function updateResult(volumeCm3, priceRub) {
     const volEl = document.getElementById('volume');
     const priceEl = document.getElementById('price');
     if (volEl) volEl.textContent = `Объём: ${volumeCm3.toFixed(2)} см³`;
-    if (priceEl) priceEl.textContent = `Стоимость: ${priceRub} ₽`;
+    if (priceEl) priceEl.textContent = `Стоимость: ${formatPrice(priceRub)}`;
+}
+
+function showError(msg) {
+    const errEl = document.getElementById('error');
+    if (errEl) {
+        errEl.textContent = msg;
+        errEl.style.display = 'block';
+    }
+}
+
+function clearError() {
+    const errEl = document.getElementById('error');
+    if (errEl) {
+        errEl.textContent = '';
+        errEl.style.display = 'none';
+    }
 }
 
 export { handleFile };
