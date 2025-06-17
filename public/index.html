@@ -8,7 +8,16 @@
 </head>
 <body>
     <div id="viewer"></div>
-    <div id="panel"></div>
-    <script type="module" src="../src/viewer.js"></script>
+    <div id="panel">
+        <input type="file" id="file-input" accept=".stl,.obj">
+        <div id="drop-zone">Drop STL/OBJ here</div>
+    </div>
+    <script type="module">
+        import { init as initViewer } from '../src/viewer.js';
+        import { init as initFile } from '../src/fileManager.js';
+
+        initViewer('viewer');
+        initFile('file-input', 'drop-zone');
+    </script>
 </body>
 </html>

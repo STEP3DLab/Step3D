@@ -12,3 +12,10 @@
     background-color: #ffffff;
     border-left: 1px solid #ddd;
 }
+
+#drop-zone {
+    border: 2px dashed #ccc;
+    padding: 20px;
+    margin: 10px;
+    text-align: center;
+}
