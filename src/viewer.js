@@ -1,10 +1,11 @@
-import { calculateCost } from './calculator.js';
-import config from './config.json' assert { type: 'json' };
+import { initConfig } from './calculator.js';
 import * as THREE from 'https://unpkg.com/three@0.152.2/build/three.module.js';
 import { OrbitControls } from 'https://unpkg.com/three@0.152.2/examples/jsm/controls/OrbitControls.js';
 
 console.log('Viewer initialized');
-console.log('Current material prices:', config.prices);
+initConfig().then(cfg => {
+    console.log('Current material prices:', cfg.materials);
+});
 
 
 let scene, camera, renderer, controls, mesh;
