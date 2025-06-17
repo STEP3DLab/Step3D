@@ -1,0 +1,14 @@
+#viewer {
+    width: 70%;
+    height: 100vh;
+    float: left;
+    background-color: #f0f0f0;
+}
+
+#panel {
+    width: 30%;
+    height: 100vh;
+    float: right;
+    background-color: #ffffff;
+    border-left: 1px solid #ddd;
+}
