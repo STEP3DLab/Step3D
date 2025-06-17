@@ -12,6 +12,7 @@
     <header>
         <!-- Логотип в шапке -->
         <img id="logo" src="../assets/logo.svg" alt="Step3D Logo">
+        <button id="togglePanel">Hide panel</button>
     </header>
     <main id="main">
         <div id="viewer">
@@ -21,6 +22,7 @@
         <!-- Выбор файла и настройка печати -->
         <label class="theme-switch"><input type="checkbox" id="themeToggle"> Dark mode</label>
         <input type="file" id="fileInput" accept=".stl,.obj">
+        <p id="fileName"></p>
         <div id="drop-zone">Прикрепите 3D-модель</div>
         <input type="url" id="urlInput" placeholder="Model URL">
         <button id="loadUrl">Load from URL</button>
@@ -33,9 +35,11 @@
         <label><input type="checkbox" id="wireframe"> Wireframe</label>
         <label><input type="checkbox" id="helpers" checked> Helpers</label>
         <button id="resetView">Reset view</button>
+        <button id="clearModel">Clear model</button>
         <p id="error" style="display:none"></p>
         <p id="volume"></p>
         <p id="price"></p>
+        <button id="copyPrice">Copy price</button>
     </div>
     </main>
     <footer>
@@ -49,13 +53,33 @@
             resetView,
             setMeshColor,
             setWireframe,
-            showHelpers
+            showHelpers,
+            clearMesh
         } from '../src/viewer.js';
         import { init as initFile, loadFile } from '../src/fileManager.js';
 
         /* Запускаем инициализацию просмотра и обработку файлов */
         initViewer('viewer');
         initFile('fileInput', 'drop-zone');
+
+        const panel = document.getElementById('panel');
+        const toggleBtn = document.getElementById('togglePanel');
+        toggleBtn.addEventListener('click', () => {
+            panel.classList.toggle('hidden');
+            toggleBtn.textContent = panel.classList.contains('hidden') ? 'Show panel' : 'Hide panel';
+        });
+
+        document.getElementById('clearModel').addEventListener('click', () => {
+            clearMesh();
+            document.getElementById('fileName').textContent = '';
+            document.getElementById('volume').textContent = '';
+            document.getElementById('price').textContent = '';
+        });
+
+        document.getElementById('copyPrice').addEventListener('click', () => {
+            const price = document.getElementById('price').textContent;
+            if (price) navigator.clipboard.writeText(price);
+        });
 
         // обработчики дополнительных элементов управления
         document.getElementById('colorPicker').addEventListener('input', (e) => {

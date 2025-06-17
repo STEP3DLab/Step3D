@@ -12,6 +12,11 @@ const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50MB
 // Промис загрузки конфигурации, чтобы не делать это каждый раз
 const configReady = initConfig();
 
+function updateFileName(name) {
+    const el = document.getElementById('fileName');
+    if (el) el.textContent = name;
+}
+
 function showLoading(show) {
     const el = document.getElementById('loading');
     if (el) {
@@ -94,6 +99,7 @@ export function init(inputId, dropZoneId) {
  */
 export async function handleFile(file) {
     clearError();
+    updateFileName(file.name);
     const extension = file.name.split('.').pop().toLowerCase(); // расширение файла
 
     // поддерживаются только STL и OBJ
