@@ -2,7 +2,7 @@
 :root {
     --bg: #f7f7f8;
     --text: #202123;
-    --panel-bg: #fff;
+    --panel-bg: #ffffff;
     --border: #e0e0e0;
     --accent: #10a37f;
     --accent-hover: #0d8b68;
@@ -19,12 +19,12 @@ body {
 }
 
 body.dark {
-    --bg: #202124;
+    --bg: #202123;
     --text: #e0e0e0;
-    --panel-bg: #2a2a2b;
-    --border: #555;
-    --accent: #4caf50;
-    --accent-hover: #43a047;
+    --panel-bg: #2a2b2f;
+    --border: #444;
+    --accent: #19c37d;
+    --accent-hover: #0fa36b;
 }
 
 #main {
@@ -33,17 +33,17 @@ body.dark {
 }
 
 #viewer {
-    flex: 3;
+    flex: 1;
     background: var(--panel-bg);
-    border-right: 1px solid var(--border);
     position: relative;
 }
 
 #panel {
-    flex: 1;
+    width: 280px;
     padding: 24px;
-    box-shadow: -1px 0 4px rgba(0, 0, 0, .05);
     background: var(--panel-bg);
+    border-right: 1px solid var(--border);
+    overflow-y: auto;
 }
 
 /* Поля ввода и списки материалов */
@@ -98,22 +98,34 @@ button:hover {
 }
 
 /* Простой стиль для шапки и подвала */
+#logo {
+    height: 36px;
+    margin-right: 12px;
+}
+
 header {
-    padding: 16px;
-    background: var(--panel-bg);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 16px 24px;
+    background: #202123;
+    color: #fff;
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
     border-bottom: 1px solid var(--border);
 }
 
-#logo {
-    height: 40px;
+header h1 {
+    font-size: 1.25rem;
+    margin: 0;
+    font-weight: 600;
 }
+
 
 footer {
     text-align: center;
-    padding: 10px;
+    padding: 12px 16px;
     font-size: 14px;
-    background: #f9f9f9;
+    background: var(--panel-bg);
     border-top: 1px solid var(--border);
 }
 
@@ -147,6 +159,11 @@ footer {
 #togglePanel {
     width: auto;
     margin-left: auto;
+    background: var(--accent);
+    color: #fff;
+    padding: 6px 12px;
+    border: none;
+    border-radius: 4px;
 }
 
 #panel.hidden {
