@@ -14,7 +14,21 @@ const configReady = initConfig();
 
 // Загружает файл по ссылке (не используется напрямую)
 export async function loadFile(path) {
-    console.log(`Loading file: ${path}`);
+    clearError();
+    try {
+        const res = await fetch(path);
+        if (!res.ok) {
+            showError('Не удалось загрузить файл');
+            return;
+        }
+        const blob = await res.blob();
+        const name = path.split('/').pop() || 'model';
+        const file = new File([blob], name);
+        await handleFile(file);
+    } catch (err) {
+        console.error('Failed to load remote file', err);
+        showError('Ошибка загрузки файла');
+    }
 }
 
 /**
