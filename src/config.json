@@ -3,5 +3,6 @@
     "PLA": {"density": 1.24, "priceKg": 1500},
     "ABS": {"density": 1.04, "priceKg": 1700}
   },
-  "laborRate": 200
+  "laborRate": 200,
+  "googleScriptUrl": ""
 }
