@@ -20,6 +20,7 @@
         <!-- Выбор файла и настройка печати -->
         <label class="theme-switch"><input type="checkbox" id="themeToggle"> Dark mode</label>
         <input type="file" id="fileInput" accept=".stl,.obj">
+        <button id="uploadBtn">Загрузить 3D-модель</button>
         <p id="fileName"></p>
         <div id="drop-zone">Прикрепите 3D-модель</div>
         <input type="url" id="urlInput" placeholder="Model URL">
@@ -62,6 +63,9 @@
         /* Запускаем инициализацию просмотра и обработку файлов */
         initViewer('viewer');
         initFile('fileInput', 'drop-zone');
+        document.getElementById('uploadBtn').addEventListener('click', () => {
+            document.getElementById('fileInput').click();
+        });
 
         const panel = document.getElementById('panel');
         const toggleBtn = document.getElementById('togglePanel');

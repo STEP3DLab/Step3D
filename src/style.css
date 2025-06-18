@@ -156,6 +156,10 @@ footer {
     word-break: break-all;
 }
 
+#fileInput {
+    display: none;
+}
+
 #togglePanel {
     width: auto;
     margin-left: auto;
