@@ -106,6 +106,7 @@ button:hover {
 #sun {
     height: 36px;
     margin-left: 12px;
+    transition: transform 0.2s ease;
 }
 
 header {

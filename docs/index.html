@@ -115,6 +115,12 @@
             document.body.classList.toggle('dark', themeToggle.checked);
             localStorage.setItem('theme', themeToggle.checked ? 'dark' : 'light');
         });
+
+        const sunIcon = document.getElementById('sun');
+        document.addEventListener('mousemove', (e) => {
+            const xRatio = e.clientX / window.innerWidth - 0.5;
+            sunIcon.style.transform = `rotate(${xRatio * 20}deg)`;
+        });
     </script>
 </body>
 </html>
