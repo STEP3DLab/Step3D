@@ -103,6 +103,11 @@ button:hover {
     margin-right: 12px;
 }
 
+#sun {
+    height: 36px;
+    margin-left: 12px;
+}
+
 header {
     display: flex;
     align-items: center;
