@@ -13,7 +13,7 @@ initConfig().then(cfg => {
 
 // Глобальные переменные сцены Three.js
 let scene, camera, renderer, controls, mesh;
-let gridHelper, axesHelper;
+let gridHelper, axesHelper, sun;
 
 /**
  * Создаёт сцену Three.js внутри элемента с указанным id.
@@ -51,6 +51,12 @@ export function init(canvasId) {
     const dirLight = new THREE.DirectionalLight(0xffffff, 0.8);
     dirLight.position.set(5, 10, 7.5);
     scene.add(dirLight);
+    // добавляем простую сферу, изображающую солнце
+    const sunGeom = new THREE.SphereGeometry(0.2, 16, 16);
+    const sunMat = new THREE.MeshBasicMaterial({ color: 0xffff00 });
+    sun = new THREE.Mesh(sunGeom, sunMat);
+    sun.position.copy(dirLight.position);
+    scene.add(sun);
     scene.add(new THREE.AmbientLight(0xffffff, 0.3));
 
     // подключаем орбитальные контролы для вращения модели мышью
