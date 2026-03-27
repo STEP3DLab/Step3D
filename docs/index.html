@@ -82,6 +82,21 @@
       overflow-x: hidden;
     }
 
+    body.light {
+      --bg: #eff5ff;
+      --panel: rgba(255, 255, 255, 0.95);
+      --text: #10264b;
+      --text-soft: #243f67;
+      --muted: #456286;
+      --line: rgba(15, 57, 110, 0.12);
+      background: linear-gradient(180deg, #f5f9ff 0%, #eaf2ff 100%);
+    }
+
+    body.reduce-motion * {
+      animation: none !important;
+      transition: none !important;
+    }
+
     body::before,
     body::after {
       content: "";
@@ -263,6 +278,88 @@
       background: transparent;
       border-color: rgba(114, 232, 255, 0.18);
       color: #d6ebff;
+    }
+
+    .control-btn {
+      min-height: 46px;
+      font-size: 13px;
+    }
+
+    .skip-link {
+      position: absolute;
+      left: -9999px;
+      top: 0;
+      z-index: 90;
+      background: #fff;
+      color: #111;
+      padding: 10px 14px;
+      border-radius: 12px;
+    }
+
+    .skip-link:focus {
+      left: 12px;
+      top: 12px;
+    }
+
+    .scroll-progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      z-index: 70;
+      background: rgba(255,255,255,0.08);
+    }
+
+    .scroll-progress span {
+      display: block;
+      width: 0;
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    }
+
+    .back-to-top {
+      position: fixed;
+      right: 20px;
+      bottom: 86px;
+      width: 46px;
+      height: 46px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(7, 16, 29, 0.85);
+      color: var(--text);
+      border-radius: 14px;
+      cursor: pointer;
+      z-index: 70;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity var(--transition), transform var(--transition);
+    }
+
+    .back-to-top.show {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 22px;
+      transform: translateX(-50%) translateY(20px);
+      padding: 12px 16px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(7,16,29,0.94);
+      color: #fff;
+      font-size: 14px;
+      opacity: 0;
+      z-index: 80;
+      pointer-events: none;
+      transition: opacity .2s ease, transform .2s ease;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
     }
 
     .site-header {
@@ -668,6 +765,56 @@
 
     .services-grid {
       grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .services-tools {
+      margin-bottom: 16px;
+      padding: 16px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .services-search {
+      display: grid;
+      gap: 8px;
+      font-size: 14px;
+      color: var(--text-soft);
+      font-weight: 600;
+    }
+
+    .services-search input {
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 12px;
+      background: rgba(255,255,255,0.04);
+      padding: 12px 14px;
+      color: var(--text);
+    }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .chip {
+      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.04);
+      color: var(--text-soft);
+      border-radius: 999px;
+      min-height: 40px;
+      padding: 0 14px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .chip.is-active {
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: #031123;
+    }
+
+    .services-meta {
+      color: var(--muted);
+      font-size: 14px;
     }
 
     .service-card {
@@ -1130,7 +1277,38 @@
       line-height: 1.65;
     }
 
-    .faq-wrap {
+    .field-hint {
+      display: flex;
+      justify-content: flex-end;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .form-progress {
+      height: 8px;
+      border-radius: 999px;
+      overflow: hidden;
+      background: rgba(255,255,255,0.06);
+    }
+
+    .form-progress span {
+      display: block;
+      width: 0;
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      transition: width var(--transition);
+    }
+
+    .consent {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .faq-wrap,
+    .faq-list {
       display: grid;
       gap: 12px;
     }
@@ -1293,7 +1471,7 @@
 
     @media (max-width: 980px) {
       .nav,
-      .header-actions .btn {
+      .header-actions .btn:not(.control-btn) {
         display: none;
       }
 
@@ -1397,6 +1575,10 @@
   </style>
 </head>
 <body>
+  <a class="skip-link" href="#mainContent">Перейти к контенту</a>
+  <div class="scroll-progress" aria-hidden="true"><span id="scrollProgress"></span></div>
+  <button class="back-to-top" id="backToTop" aria-label="Наверх">↑</button>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
   <header class="site-header" id="siteHeader">
     <div class="container header-inner">
       <a class="brand" href="#top" aria-label="На главную STEP_3D">
@@ -1413,10 +1595,13 @@
         <a href="#cases">Кейсы</a>
         <a href="#education">Обучение</a>
         <a href="#trust">О компании</a>
+        <a href="#faq">FAQ</a>
         <a href="#contacts">Контакты</a>
       </nav>
 
       <div class="header-actions">
+        <button class="btn btn-secondary control-btn" id="themeToggle" type="button" aria-pressed="false">Тема</button>
+        <button class="btn btn-secondary control-btn" id="motionToggle" type="button" aria-pressed="false">Меньше анимации</button>
         <a class="btn btn-secondary" href="https://t.me/step_3d_mngr" target="_blank" rel="noopener">Telegram</a>
         <a class="btn btn-primary" href="#contacts">Отправить задачу</a>
         <button class="menu-toggle" id="menuToggle" aria-label="Открыть меню" aria-expanded="false">☰</button>
@@ -1424,7 +1609,7 @@
     </div>
   </header>
 
-  <main id="top">
+  <main id="mainContent" tabindex="-1">
     <section class="hero section-tight">
       <div class="container hero-shell">
         <div class="hero-copy reveal">
@@ -1596,8 +1781,22 @@
           <p class="subtitle">На сайте оставлены только те направления, которые поддерживают главное позиционирование STEP_3D как инженерно-производственной студии полного цикла.</p>
         </div>
 
+        <div class="services-tools card reveal">
+          <label class="services-search" for="serviceSearch">Быстрый поиск по услугам
+            <input id="serviceSearch" type="search" placeholder="Например: реверс, печать, CAD" />
+          </label>
+          <div class="chips" role="group" aria-label="Фильтр услуг">
+            <button type="button" class="chip is-active" data-filter="all">Все</button>
+            <button type="button" class="chip" data-filter="scan">Сканирование</button>
+            <button type="button" class="chip" data-filter="model">Моделирование</button>
+            <button type="button" class="chip" data-filter="reverse">Реверс</button>
+            <button type="button" class="chip" data-filter="print">Печать</button>
+          </div>
+          <div class="services-meta">Найдено: <strong id="serviceCount">4</strong></div>
+        </div>
+
         <div class="grid services-grid">
-          <article class="card service-card reveal">
+          <article class="card service-card reveal" data-category="scan">
             <div class="service-icon">◎</div>
             <h3>3D-сканирование</h3>
             <p>Оцифровка объектов и деталей для анализа геометрии, восстановления формы и запуска дальнейшей инженерной работы.</p>
@@ -1607,7 +1806,7 @@
               <li>Основа для реверса и проверки</li>
             </ul>
           </article>
-          <article class="card service-card reveal">
+          <article class="card service-card reveal" data-category="model">
             <div class="service-icon">▣</div>
             <h3>3D-моделирование</h3>
             <p>Создание цифровых моделей по образцу, чертежу, эскизу или исходным данным для визуализации и производства.</p>
@@ -1617,7 +1816,7 @@
               <li>Оптимизация формы и сборки</li>
             </ul>
           </article>
-          <article class="card service-card reveal">
+          <article class="card service-card reveal" data-category="reverse">
             <div class="service-icon">⟐</div>
             <h3>Реверсивный инжиниринг</h3>
             <p>Перевод реального изделия или сетки в инженерную CAD-модель с логикой размеров, поверхностей и параметров.</p>
@@ -1627,7 +1826,7 @@
               <li>Подготовка под фрезеровку, литье и печать</li>
             </ul>
           </article>
-          <article class="card service-card reveal">
+          <article class="card service-card reveal" data-category="print">
             <div class="service-icon">◫</div>
             <h3>3D-печать</h3>
             <p>Единичные изделия, прототипы, малые серии, проверочные образцы и элементы для дальнейшей сборки или демонстрации.</p>
@@ -1637,6 +1836,38 @@
               <li>Подготовка модели к печати</li>
             </ul>
           </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="faq">
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="eyebrow">FAQ</span>
+          <h2 class="title">Быстрые ответы перед стартом проекта</h2>
+          <p class="subtitle">Частые вопросы, которые помогают быстрее согласовать формат работы.</p>
+        </div>
+        <div class="faq-list reveal">
+          <details class="faq-item" open>
+            <summary>Сколько времени занимает первая оценка?</summary>
+            <p>Обычно в течение рабочего дня, а для кратких задач — до 1-2 часов.</p>
+          </details>
+          <details class="faq-item">
+            <summary>Можно ли прийти только с фото детали?</summary>
+            <p>Да, для старта подойдут фото, размеры, эскиз или пример из каталога.</p>
+          </details>
+          <details class="faq-item">
+            <summary>Вы работаете с единичными заказами?</summary>
+            <p>Да, от единичных прототипов до малых серий и оснастки.</p>
+          </details>
+          <details class="faq-item">
+            <summary>Какие форматы выдаете?</summary>
+            <p>STL, STEP, чертежи, визуализации и физические изделия — по согласованному сценарию.</p>
+          </details>
+          <details class="faq-item">
+            <summary>Что нужно для точного расчета?</summary>
+            <p>Цель проекта, срок, ограничения, исходники и требуемый формат результата.</p>
+          </details>
         </div>
       </div>
     </section>
@@ -1688,8 +1919,11 @@
             </div>
             <div class="field">
               <label for="short-task">Описание задачи</label>
-              <textarea id="short-task" name="task" placeholder="Кратко опишите, что нужно сделать"></textarea>
+              <textarea id="short-task" name="task" maxlength="500" placeholder="Кратко опишите, что нужно сделать"></textarea>
+              <div class="field-hint"><span id="taskCounter">0 / 500</span></div>
             </div>
+            <div class="form-progress"><span id="formProgress"></span></div>
+            <label class="consent"><input type="checkbox" required /> Согласен(а) на обработку персональных данных</label>
             <div class="btn-row">
               <button class="btn btn-primary" type="submit">Отправить заявку</button>
               <a class="btn btn-secondary" href="https://t.me/step_3d_mngr" target="_blank" rel="noopener">Обсудить в Telegram</a>
@@ -1712,6 +1946,7 @@
               <label for="full-task">Описание задачи</label>
               <textarea id="full-task" name="full_task" placeholder="Что есть на входе, что нужно получить на выходе, какие есть ограничения и условия"></textarea>
             </div>
+            <label class="consent"><input type="checkbox" required /> Согласен(а) на обработку персональных данных</label>
             <div class="btn-row">
               <button class="btn btn-primary" type="submit">Отправить расширенную заявку</button>
               <a class="btn btn-secondary" href="mailto:hello@example.com">Отправить материалы по e-mail</a>
@@ -1766,9 +2001,24 @@
   </div>
 
   <script>
-    const siteHeader = document.getElementById('siteHeader');
-    const menuToggle = document.getElementById('menuToggle');
-    const navLinks = document.querySelectorAll('#siteNav a');
+    const qs = (s, root = document) => root.querySelector(s);
+    const qsa = (s, root = document) => [...root.querySelectorAll(s)];
+
+    const siteHeader = qs('#siteHeader');
+    const menuToggle = qs('#menuToggle');
+    const navLinks = qsa('#siteNav a');
+    const sections = qsa('main section[id]');
+    const backToTop = qs('#backToTop');
+    const scrollProgress = qs('#scrollProgress');
+    const toast = qs('#toast');
+
+    const showToast = (msg) => {
+      if (!toast) return;
+      toast.textContent = msg;
+      toast.classList.add('show');
+      clearTimeout(showToast.timer);
+      showToast.timer = setTimeout(() => toast.classList.remove('show'), 2200);
+    };
 
     if (menuToggle) {
       menuToggle.addEventListener('click', () => {
@@ -1777,66 +2027,155 @@
       });
     }
 
-    navLinks.forEach(link => {
+    navLinks.forEach((link) => {
       link.addEventListener('click', () => {
         siteHeader.classList.remove('is-open');
-        if (menuToggle) menuToggle.setAttribute('aria-expanded', 'false');
+        menuToggle?.setAttribute('aria-expanded', 'false');
       });
     });
-
-    const sections = Array.from(document.querySelectorAll('main section[id]'));
-    const navMap = new Map(Array.from(navLinks).map(link => [link.getAttribute('href').slice(1), link]));
 
     const setActiveLink = () => {
       let current = sections[0]?.id;
       const offset = window.scrollY + 140;
-      sections.forEach(section => {
+      sections.forEach((section) => {
         if (offset >= section.offsetTop) current = section.id;
       });
-      navLinks.forEach(link => link.classList.remove('is-active'));
-      if (navMap.has(current)) navMap.get(current).classList.add('is-active');
+      navLinks.forEach((link) => {
+        const sectionId = link.getAttribute('href')?.slice(1);
+        link.classList.toggle('is-active', sectionId === current);
+      });
+
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = max > 0 ? (window.scrollY / max) * 100 : 0;
+      if (scrollProgress) scrollProgress.style.width = `${progress}%`;
+      if (backToTop) backToTop.classList.toggle('show', window.scrollY > 500);
     };
 
     window.addEventListener('scroll', setActiveLink, { passive: true });
     setActiveLink();
 
-    const revealItems = document.querySelectorAll('.reveal');
-    const revealObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
+    backToTop?.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    const revealItems = qsa('.reveal');
+    if ('IntersectionObserver' in window) {
+      const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
           entry.target.classList.add('is-visible');
           revealObserver.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.14 });
+        });
+      }, { threshold: 0.14 });
+      revealItems.forEach((item) => revealObserver.observe(item));
+    } else {
+      revealItems.forEach((item) => item.classList.add('is-visible'));
+    }
 
-    revealItems.forEach(item => revealObserver.observe(item));
-
-    const tabs = document.querySelectorAll('.form-tab');
+    const tabs = qsa('.form-tab');
     const panes = {
-      short: document.getElementById('form-short'),
-      full: document.getElementById('form-full')
+      short: qs('#form-short'),
+      full: qs('#form-full')
     };
 
-    tabs.forEach(tab => {
+    tabs.forEach((tab) => {
       tab.addEventListener('click', () => {
         const key = tab.dataset.tab;
-        tabs.forEach(btn => {
+        tabs.forEach((btn) => {
           btn.classList.remove('is-active');
           btn.setAttribute('aria-selected', 'false');
         });
         tab.classList.add('is-active');
         tab.setAttribute('aria-selected', 'true');
 
-        Object.values(panes).forEach(pane => pane.classList.remove('is-active'));
-        if (panes[key]) panes[key].classList.add('is-active');
+        Object.values(panes).forEach((pane) => pane.classList.remove('is-active'));
+        panes[key]?.classList.add('is-active');
       });
     });
 
-    document.querySelectorAll('form').forEach(form => {
+    const themeToggle = qs('#themeToggle');
+    const motionToggle = qs('#motionToggle');
+    const savedTheme = localStorage.getItem('siteTheme');
+    if (savedTheme === 'light') document.body.classList.add('light');
+    themeToggle?.setAttribute('aria-pressed', String(document.body.classList.contains('light')));
+    themeToggle?.addEventListener('click', () => {
+      document.body.classList.toggle('light');
+      const isLight = document.body.classList.contains('light');
+      themeToggle.setAttribute('aria-pressed', String(isLight));
+      localStorage.setItem('siteTheme', isLight ? 'light' : 'dark');
+      showToast(isLight ? 'Включена светлая тема' : 'Включена темная тема');
+    });
+
+    if (localStorage.getItem('reduceMotion') === '1') document.body.classList.add('reduce-motion');
+    motionToggle?.setAttribute('aria-pressed', String(document.body.classList.contains('reduce-motion')));
+    motionToggle?.addEventListener('click', () => {
+      document.body.classList.toggle('reduce-motion');
+      const reduced = document.body.classList.contains('reduce-motion');
+      motionToggle.setAttribute('aria-pressed', String(reduced));
+      localStorage.setItem('reduceMotion', reduced ? '1' : '0');
+    });
+
+    const chips = qsa('.chip');
+    const serviceCards = qsa('.service-card');
+    const serviceSearch = qs('#serviceSearch');
+    const serviceCount = qs('#serviceCount');
+
+    const filterServices = () => {
+      const activeFilter = qs('.chip.is-active')?.dataset.filter || 'all';
+      const term = (serviceSearch?.value || '').toLowerCase().trim();
+      let visible = 0;
+      serviceCards.forEach((card) => {
+        const category = card.dataset.category || '';
+        const text = card.textContent.toLowerCase();
+        const byCategory = activeFilter === 'all' || category === activeFilter;
+        const byText = !term || text.includes(term);
+        const show = byCategory && byText;
+        card.classList.toggle('hide', !show);
+        if (show) visible += 1;
+      });
+      if (serviceCount) serviceCount.textContent = String(visible);
+    };
+
+    chips.forEach((chip) => chip.addEventListener('click', () => {
+      chips.forEach((item) => item.classList.remove('is-active'));
+      chip.classList.add('is-active');
+      filterServices();
+    }));
+    serviceSearch?.addEventListener('input', filterServices);
+    filterServices();
+
+    const shortTask = qs('#short-task');
+    const taskCounter = qs('#taskCounter');
+    const formProgress = qs('#formProgress');
+    const shortForm = qs('#form-short');
+
+    const updateTaskCounter = () => {
+      if (!shortTask || !taskCounter) return;
+      const max = shortTask.maxLength || 500;
+      taskCounter.textContent = `${shortTask.value.length} / ${max}`;
+    };
+
+    const updateProgress = () => {
+      if (!shortForm || !formProgress) return;
+      const fields = qsa('input, textarea', shortForm).filter((field) => field.type !== 'checkbox');
+      const filled = fields.filter((field) => field.value.trim().length > 0).length;
+      const percent = (filled / fields.length) * 100;
+      formProgress.style.width = `${percent}%`;
+    };
+
+    qsa('input, textarea', shortForm || document).forEach((field) => {
+      field.addEventListener('input', () => {
+        updateTaskCounter();
+        updateProgress();
+      });
+    });
+    updateTaskCounter();
+    updateProgress();
+
+    document.querySelectorAll('form').forEach((form) => {
       form.addEventListener('submit', (event) => {
         event.preventDefault();
-        alert('Демо-режим: подключите реальную отправку формы, уведомления и аналитику перед публикацией.');
+        showToast('Демо-режим: подключите реальную отправку формы перед публикацией.');
       });
     });
   </script>
