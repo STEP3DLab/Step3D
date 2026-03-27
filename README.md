@@ -24,6 +24,8 @@ Step3D/
 │   ├── index.html
 │   ├── styles.css
 │   ├── main.js
+│   ├── robots.txt
+│   ├── sitemap.xml
 │   └── assets/
 │       └── logo.svg
 ├── index.html
@@ -54,6 +56,11 @@ npm run deploy
 
 ## Что нужно подставить вручную
 
-- Подтверждённые контакты компании (телефон, email, Telegram).
 - Реальные кейсы с фактами, сроками и изображениями.
 - Юридически выверенные тексты оферты и политики под ваши реквизиты.
+- Полноценную серверную обработку формы (CRM/API, антиспам, уведомления).
+
+## SEO и индексация
+
+- В `docs/index.html` добавлены Open Graph/Twitter мета-теги и canonical URL.
+- Добавлены `docs/robots.txt` и `docs/sitemap.xml` для публикации на GitHub Pages.
