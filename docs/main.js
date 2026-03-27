@@ -138,10 +138,10 @@ qsa('.case-more').forEach((button) => {
     const expanded = !extra.hasAttribute('hidden');
     if (expanded) {
       extra.setAttribute('hidden', '');
-      button.textContent = 'Подробнее';
+      button.textContent = 'Показать результат';
     } else {
       extra.removeAttribute('hidden');
-      button.textContent = 'Свернуть';
+      button.textContent = 'Скрыть';
     }
   });
 });
@@ -215,15 +215,15 @@ leadForm?.addEventListener('submit', async (event) => {
 
   const isValid = requiredFields.every((field) => validateField(field));
   if (!isValid) {
-    formStatus.textContent = 'Проверьте обязательные поля: есть незаполненные или некорректные значения.';
+    formStatus.textContent = 'Проверьте форму: обязательные поля заполнены не полностью или с ошибками.';
     formStatus.className = 'error';
-    showToast('Нужно заполнить форму корректно.');
+    showToast('Исправьте поля формы.');
     return;
   }
 
   submitButton.disabled = true;
-  submitButton.textContent = 'Отправка...';
-  formStatus.textContent = 'Отправляем данные...';
+  submitButton.textContent = 'Отправляем...';
+  formStatus.textContent = 'Передаём данные инженеру...';
   formStatus.className = '';
 
   await new Promise((resolve) => setTimeout(resolve, 850));
@@ -232,11 +232,11 @@ leadForm?.addEventListener('submit', async (event) => {
   requiredFields.forEach((field) => field.classList.remove('is-invalid'));
   updateTaskCounter();
 
-  formStatus.textContent = 'Спасибо! Заявка отправлена. Мы свяжемся с вами в рабочее время.';
+  formStatus.textContent = 'Заявка принята. Ответ инженера поступит в рабочее время.';
   formStatus.className = 'success';
   submitButton.disabled = false;
-  submitButton.textContent = 'Отправить заявку';
-  showToast('Заявка успешно отправлена.');
+  submitButton.textContent = 'Отправить инженеру';
+  showToast('Заявка принята.');
   updateFormProgress();
   qs('#successModal')?.showModal();
 });
@@ -263,7 +263,7 @@ qsa('.copy-chip').forEach((btn) => {
     const value = btn.getAttribute('data-copy');
     if (!value || !navigator.clipboard) return;
     await navigator.clipboard.writeText(value);
-    showToast('Контакт скопирован в буфер.');
+    showToast('Контакт скопирован.');
   });
 });
 
