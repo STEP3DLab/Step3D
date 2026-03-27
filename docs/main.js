@@ -29,6 +29,8 @@ if (menuToggle && mainNav) {
 const progressBar = qs('#scrollProgressBar');
 const sections = qsa('main section[id]');
 const navLinks = qsa('.main-nav a[href^="#"]');
+const siteHeader = qs('.site-header');
+const backToTop = qs('#backToTop');
 
 const updateScrollState = () => {
   const max = document.documentElement.scrollHeight - window.innerHeight;
@@ -44,10 +46,17 @@ const updateScrollState = () => {
     const href = link.getAttribute('href')?.replace('#', '');
     link.classList.toggle('active', href === activeId);
   });
+
+  siteHeader?.classList.toggle('is-scrolled', window.scrollY > 16);
+  backToTop?.classList.toggle('show', window.scrollY > 520);
 };
 
 window.addEventListener('scroll', updateScrollState, { passive: true });
 updateScrollState();
+
+backToTop?.addEventListener('click', () => {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
 
 const revealItems = qsa('.reveal');
 if ('IntersectionObserver' in window && revealItems.length > 0) {
@@ -88,6 +97,18 @@ chips.forEach((chip) => {
     });
   });
 });
+
+
+const taskField = qs('#task');
+const taskCounter = qs('#taskCounter');
+
+const updateTaskCounter = () => {
+  if (!taskField || !taskCounter) return;
+  taskCounter.textContent = `${taskField.value.length} / ${taskField.maxLength || 500}`;
+};
+
+taskField?.addEventListener('input', updateTaskCounter);
+updateTaskCounter();
 
 const leadForm = qs('#lead-form');
 const formStatus = qs('#formStatus');
@@ -132,6 +153,7 @@ leadForm?.addEventListener('submit', async (event) => {
 
   leadForm.reset();
   requiredFields.forEach((field) => field.classList.remove('is-invalid'));
+  updateTaskCounter();
 
   formStatus.textContent = 'Спасибо! Заявка отправлена. Мы свяжемся с вами в рабочее время.';
   formStatus.className = 'success';
