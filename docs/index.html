@@ -2,8 +2,8 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="STEP_3D — инженерная студия полного цикла: 3D-сканирование, реверсивный инжиниринг, 3D-печать и подготовка к производству." />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="STEP_3D — инженерная студия: 3D-сканирование, реверсивный инжиниринг, 3D-печать, прототипирование и подготовка к производству." />
   <title>STEP_3D — инженерная студия полного цикла</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -11,67 +11,66 @@
   <link rel="stylesheet" href="./styles.css" />
 </head>
 <body>
+  <a class="skip-link" href="#main-content">Перейти к содержимому</a>
   <div class="scroll-progress" aria-hidden="true"><span id="scrollProgressBar"></span></div>
 
   <header class="site-header" id="top">
     <div class="container header-inner">
       <a class="brand" href="#hero" aria-label="STEP_3D, на главную">
-        <img src="./assets/logo.svg" alt="Логотип STEP_3D" />
+        <img src="./assets/logo.svg" alt="Логотип STEP_3D" width="34" height="34" />
         <span>STEP_3D</span>
       </a>
-      <button class="menu-toggle" id="menuToggle" aria-expanded="false" aria-controls="mainNav">Меню</button>
+      <button class="menu-toggle" id="menuToggle" type="button" aria-expanded="false" aria-controls="mainNav">Меню</button>
       <nav class="main-nav" id="mainNav" aria-label="Основная навигация">
         <a href="#services">Услуги</a>
-        <a href="#process">Как работаем</a>
+        <a href="#process">Процесс</a>
         <a href="#cases">Кейсы</a>
+        <a href="#faq">FAQ</a>
         <a href="#contacts">Контакты</a>
         <a class="btn btn-sm" href="#lead-form">Оставить заявку</a>
       </nav>
     </div>
   </header>
 
-  <aside class="section-rail" aria-label="Навигация по разделам">
-    <a href="#hero" data-rail="hero"><span>Старт</span></a>
-    <a href="#services" data-rail="services"><span>Услуги</span></a>
-    <a href="#process" data-rail="process"><span>Процесс</span></a>
-    <a href="#cases" data-rail="cases"><span>Кейсы</span></a>
-    <a href="#contacts" data-rail="contacts"><span>Контакты</span></a>
-  </aside>
-
-  <main>
+  <main id="main-content">
     <section class="hero section" id="hero">
       <div class="container hero-grid">
-        <div class="hero-copy glass">
+        <div class="hero-copy panel">
           <p class="kicker">Инженерная студия полного цикла</p>
-          <h1>От 3D‑сканирования до готовой детали — точно, быстро, под задачу производства.</h1>
-          <p class="lead">STEP_3D закрывает сложные технические задачи: реверсивный инжиниринг, подготовка CAD-моделей, печать прототипов и мастер‑моделей, сопровождение до серийного запуска.</p>
+          <h1>Решаем сложные инженерные задачи от сканирования до запуска в производство.</h1>
+          <p class="lead">STEP_3D помогает быстро восстановить геометрию деталей, подготовить CAD и получить рабочий прототип. Работаем с реальными допусками, материалами и производственными ограничениями.</p>
           <div class="cta-row">
-            <a class="btn" href="#lead-form">Получить предварительную оценку</a>
-            <a class="btn btn-ghost" href="#cases">Смотреть кейсы</a>
+            <a class="btn" href="#lead-form">Получить оценку за 24 часа</a>
+            <a class="btn btn-ghost" href="#services">Посмотреть услуги</a>
           </div>
-          <ul class="hero-metrics" aria-label="Ключевые показатели">
-            <li><strong>24 ч</strong><span>на первичную оценку</span></li>
-            <li><strong>±0,03 мм</strong><span>точность сканирования</span></li>
-            <li><strong>200+</strong><span>проектов в инженерных нишах</span></li>
+          <ul class="hero-metrics" aria-label="Показатели STEP_3D">
+            <li><strong>24 часа</strong><span>на первичную оценку проекта</span></li>
+            <li><strong>±0,03 мм</strong><span>точность 3D-сканирования</span></li>
+            <li><strong>200+</strong><span>выполненных инженерных задач</span></li>
           </ul>
         </div>
-        <div class="hero-visual glass" aria-hidden="true">
-          <div class="pulse"></div>
-          <div class="ring ring-lg"></div>
-          <div class="ring ring-md"></div>
-          <div class="ring ring-sm"></div>
-        </div>
+        <aside class="hero-note panel" aria-label="Что получает заказчик">
+          <h2>Что вы получаете на выходе</h2>
+          <ul class="check-list">
+            <li>Понятный план работ и сроки до старта.</li>
+            <li>CAD-модели и документацию в согласованном формате.</li>
+            <li>Прототипы для проверки до запуска в серию.</li>
+            <li>Инженерные рекомендации по технологичности.</li>
+          </ul>
+        </aside>
       </div>
     </section>
 
     <section class="section" id="benefits">
       <div class="container">
-        <h2>Почему с нами удобно работать инженерам и производству</h2>
-        <div class="cards-grid benefits-grid">
-          <article class="card glass"><h3>Техническая глубина</h3><p>Работаем с допусками, посадками и реальными ограничениями производства, а не только с визуальной геометрией.</p></article>
-          <article class="card glass"><h3>Единый контур работ</h3><p>Сканирование, моделирование, прототип и подготовка к производству — в одной команде без потери данных между этапами.</p></article>
-          <article class="card glass"><h3>Прозрачные сроки</h3><p>Фиксируем этапы, контрольные точки и формат выдачи результата до старта проекта.</p></article>
-          <article class="card glass"><h3>Коммуникация по делу</h3><p>Объясняем решения простым языком, быстро согласуем изменения, даём понятный статус по каждому этапу.</p></article>
+        <div class="section-head">
+          <h2>Почему STEP_3D выбирают инженеры и производственные команды</h2>
+        </div>
+        <div class="cards-grid four-up">
+          <article class="card panel"><h3>Техническая точность</h3><p>Работаем в логике производства: посадки, допуски, контроль геометрии и эксплуатационные нагрузки.</p></article>
+          <article class="card panel"><h3>Один подрядчик на весь цикл</h3><p>Сканирование, реверс, моделирование, печать и подготовка к выпуску — без потери данных между этапами.</p></article>
+          <article class="card panel"><h3>Прозрачная коммуникация</h3><p>Даём понятный статус по этапам и быстро согласуем изменения без затяжных итераций.</p></article>
+          <article class="card panel"><h3>Гибкость под задачу</h3><p>Подбираем технологию и формат работ под сроки, бюджет и требования вашей отрасли.</p></article>
         </div>
       </div>
     </section>
@@ -79,65 +78,60 @@
     <section class="section" id="services">
       <div class="container">
         <div class="section-head">
-          <h2>Услуги STEP_3D</h2>
-          <p>Выберите направление, чтобы быстро сфокусироваться на релевантных работах.</p>
+          <h2>Услуги</h2>
+          <p>Закрываем как отдельные этапы, так и полный инженерный цикл.</p>
         </div>
-        <div class="filters" role="toolbar" aria-label="Фильтр услуг" id="serviceFilters">
-          <button class="filter active" data-filter="all">Все</button>
-          <button class="filter" data-filter="scan">Сканирование</button>
-          <button class="filter" data-filter="cad">CAD и реверс</button>
-          <button class="filter" data-filter="print">Печать и прототипы</button>
-          <button class="filter" data-filter="production">Подготовка к производству</button>
-        </div>
-        <div class="cards-grid" id="servicesGrid">
-          <article class="card glass service-card" data-filter="scan"><h3>3D-сканирование</h3><p>Оцифровываем детали и узлы с высокой точностью для контроля геометрии, восстановления документации и последующей доработки.</p></article>
-          <article class="card glass service-card" data-filter="cad"><h3>Реверсивный инжиниринг</h3><p>Восстанавливаем параметрические модели по физическим образцам и облакам точек, подготавливаем полный CAD-комплект.</p></article>
-          <article class="card glass service-card" data-filter="cad"><h3>3D-моделирование</h3><p>Проектируем детали и сборки под конкретный технологический процесс: фрезеровка, литьё, печать, гибридные подходы.</p></article>
-          <article class="card glass service-card" data-filter="print"><h3>3D-печать</h3><p>Производим функциональные и демонстрационные образцы, подбираем материал под механические и температурные требования.</p></article>
-          <article class="card glass service-card" data-filter="print"><h3>Прототипирование и мастер-модели</h3><p>Создаём проверочные прототипы и мастер-модели для отработки конструкции и передачи в дальнейшее производство.</p></article>
-          <article class="card glass service-card" data-filter="production"><h3>Подготовка к производству</h3><p>Проводим инженерную адаптацию моделей: допуски, технологичность, комплект КД/ТД и рекомендации по запуску в серию.</p></article>
-          <article class="card glass service-card" data-filter="production"><h3>Технические консультации</h3><p>Разбираем сложные задачи: как оптимизировать конструкцию, сократить цикл и снизить риски на этапе изготовления.</p></article>
+        <div class="cards-grid">
+          <article class="card panel service-card"><h3>3D-сканирование</h3><p>Оцифровка деталей и узлов для контроля геометрии, восстановления документации и последующей доработки.</p></article>
+          <article class="card panel service-card"><h3>Реверсивный инжиниринг</h3><p>Восстановление параметрических CAD-моделей по физическим образцам и облакам точек.</p></article>
+          <article class="card panel service-card"><h3>3D-моделирование</h3><p>Проектирование деталей и сборок под фрезеровку, литьё, 3D-печать и комбинированные процессы.</p></article>
+          <article class="card panel service-card"><h3>3D-печать и прототипирование</h3><p>Изготовление функциональных и демонстрационных образцов для проверки конструкции.</p></article>
+          <article class="card panel service-card"><h3>Мастер-модели</h3><p>Подготовка мастер-моделей для производства, литья и тиражирования.</p></article>
+          <article class="card panel service-card"><h3>Подготовка к производству</h3><p>Инженерная адаптация под технологию изготовления: КД, ТД и рекомендации по запуску.</p></article>
         </div>
       </div>
     </section>
 
     <section class="section" id="process">
       <div class="container">
-        <h2>Как мы работаем</h2>
+        <div class="section-head">
+          <h2>Как мы работаем</h2>
+          <p>Процесс выстроен так, чтобы вы всегда понимали текущий статус и следующий шаг.</p>
+        </div>
         <ol class="timeline">
-          <li class="glass"><h3>1. Бриф и входные данные</h3><p>Уточняем задачу, ограничения, конечный формат результата и целевые сроки.</p></li>
-          <li class="glass"><h3>2. Экспресс-аудит</h3><p>Проверяем применимость технологий, формируем несколько вариантов реализации с рисками и стоимостью.</p></li>
-          <li class="glass"><h3>3. Инженерная реализация</h3><p>Выполняем сканирование, моделирование и подготовку прототипа с промежуточными точками согласования.</p></li>
-          <li class="glass"><h3>4. Передача результата</h3><p>Передаём модели, документацию, рекомендации по выпуску и при необходимости сопровождаем запуск.</p></li>
+          <li class="panel"><h3>01 — Бриф</h3><p>Получаем задачу, исходные данные, требования к срокам и результату.</p></li>
+          <li class="panel"><h3>02 — Техническая оценка</h3><p>Предлагаем вариант реализации, сроки и диапазон бюджета.</p></li>
+          <li class="panel"><h3>03 — Реализация</h3><p>Выполняем сканирование, CAD, прототипирование и проверки по согласованному плану.</p></li>
+          <li class="panel"><h3>04 — Передача и сопровождение</h3><p>Передаём комплект результатов и при необходимости сопровождаем внедрение.</p></li>
         </ol>
       </div>
     </section>
 
     <section class="section" id="estimator">
       <div class="container">
-        <div class="estimator glass">
+        <div class="estimator panel">
           <div>
-            <h2>Быстрая предварительная оценка</h2>
-            <p>Оцените диапазон бюджета за минуту. Финальная стоимость зависит от геометрии и допусков.</p>
+            <h2>Предварительная оценка</h2>
+            <p>Быстрый ориентир по бюджету до детального расчёта.</p>
           </div>
-          <form id="estimateForm" class="estimate-form">
-            <label>Тип задачи
-              <select id="estimateType" required>
-                <option value="scan">3D-сканирование</option>
-                <option value="reverse">Реверсивный инжиниринг</option>
-                <option value="print">3D-печать</option>
-                <option value="full">Полный цикл</option>
-              </select>
-            </label>
-            <label>Срочность
-              <select id="estimateUrgency" required>
-                <option value="standard">Стандарт</option>
-                <option value="urgent">Срочно (до 72 часов)</option>
-              </select>
-            </label>
-            <label>Количество деталей
-              <input id="estimateQty" type="number" min="1" value="1" required />
-            </label>
+          <form id="estimateForm" class="estimate-form" novalidate>
+            <label for="estimateType">Тип задачи</label>
+            <select id="estimateType" required>
+              <option value="scan">3D-сканирование</option>
+              <option value="reverse">Реверсивный инжиниринг</option>
+              <option value="print">3D-печать</option>
+              <option value="full">Полный цикл</option>
+            </select>
+
+            <label for="estimateUrgency">Срочность</label>
+            <select id="estimateUrgency" required>
+              <option value="standard">Стандартная</option>
+              <option value="urgent">Срочная (до 72 часов)</option>
+            </select>
+
+            <label for="estimateQty">Количество деталей</label>
+            <input id="estimateQty" type="number" inputmode="numeric" min="1" value="1" required />
+
             <button class="btn" type="submit">Рассчитать</button>
             <p id="estimateResult" aria-live="polite"></p>
           </form>
@@ -149,18 +143,24 @@
       <div class="container">
         <div class="section-head">
           <h2>Кейсы</h2>
-          <p>Несколько типовых задач, с которыми к нам приходят заказчики.</p>
+          <p>Типовые задачи, которые мы закрываем для клиентов.</p>
         </div>
-        <div class="filters" id="caseFilters" role="toolbar" aria-label="Фильтр кейсов">
-          <button class="filter active" data-case="all">Все</button>
-          <button class="filter" data-case="industry">Промышленность</button>
-          <button class="filter" data-case="auto">Авто</button>
-          <button class="filter" data-case="r-and-d">R&D</button>
-        </div>
-        <div class="cards-grid" id="casesGrid">
-          <article class="card glass case-card" data-case="industry"><h3>Импортозамещение кронштейна линии</h3><p>Сняли геометрию изношенной детали, восстановили CAD и подготовили обновлённую версию под серийное изготовление.</p><button class="link-btn" data-modal="case1">Подробнее</button></article>
-          <article class="card glass case-card" data-case="auto"><h3>Корпус датчика для спецтехники</h3><p>Сделали реверс старого корпуса, оптимизировали конструкцию и напечатали рабочие образцы для стендовых испытаний.</p><button class="link-btn" data-modal="case2">Подробнее</button></article>
-          <article class="card glass case-card" data-case="r-and-d"><h3>Прототип узла для НИОКР</h3><p>Спроектировали и изготовили прототип за 5 дней, что позволило заказчику пройти этап внутренней валидации без сдвига сроков.</p><button class="link-btn" data-modal="case3">Подробнее</button></article>
+        <div class="cards-grid three-up">
+          <article class="card panel case-card">
+            <p class="case-tag">Промышленность</p>
+            <h3>Восстановление импортного кронштейна</h3>
+            <p>Сняли геометрию, создали CAD и подготовили обновлённую версию под серийное изготовление без остановки линии.</p>
+          </article>
+          <article class="card panel case-card">
+            <p class="case-tag">Авто</p>
+            <h3>Корпус датчика для спецтехники</h3>
+            <p>Провели реверс старой детали, усилили конструкцию и напечатали рабочие образцы для стендовых испытаний.</p>
+          </article>
+          <article class="card panel case-card">
+            <p class="case-tag">R&D</p>
+            <h3>Прототип узла для НИОКР</h3>
+            <p>Спроектировали и изготовили функциональный прототип за 5 дней для внутренней валидации решения.</p>
+          </article>
         </div>
       </div>
     </section>
@@ -169,51 +169,54 @@
       <div class="container">
         <h2>Для кого</h2>
         <div class="cards-grid three-up">
-          <article class="card glass"><h3>Производственные компании</h3><p>Когда нужно восстановить деталь, модернизировать узел или сократить простой оборудования.</p></article>
-          <article class="card glass"><h3>Конструкторские отделы</h3><p>Когда нужна быстрая инженерная поддержка без расширения штатной команды.</p></article>
-          <article class="card glass"><h3>R&D и стартапы</h3><p>Когда важны скорость итераций, верификация гипотез и подготовка прототипа к тиражированию.</p></article>
+          <article class="card panel"><h3>Производственные компании</h3><p>Если нужно сократить простой, восстановить деталь или ускорить запуск модернизации.</p></article>
+          <article class="card panel"><h3>Конструкторские отделы</h3><p>Когда нужна сильная инженерная поддержка без расширения штата.</p></article>
+          <article class="card panel"><h3>R&D-команды</h3><p>Когда важна скорость итераций и быстрый переход от гипотезы к рабочему образцу.</p></article>
         </div>
       </div>
     </section>
 
     <section class="section" id="trust">
-      <div class="container trust-box glass">
-        <h2>Почему нам доверяют</h2>
-        <ul>
-          <li>Фокус на инженерном результате: учитываем дальнейшую технологию изготовления.</li>
-          <li>Стабильное качество данных: аккуратная работа с облаками точек и CAD-источниками.</li>
-          <li>Конфиденциальность: работаем с NDA и внутренними регламентами заказчика.</li>
-          <li>Предсказуемость: фиксируем объём, сроки и формат передачи до старта работ.</li>
-        </ul>
+      <div class="container">
+        <div class="trust-box panel">
+          <h2>Почему нам доверяют</h2>
+          <ul>
+            <li>Погружаемся в задачу как инженерный партнёр, а не как «сервис по файлам».</li>
+            <li>Фиксируем объём, сроки и формат результата до начала работ.</li>
+            <li>Работаем в режиме NDA и соблюдаем требования по конфиденциальности.</li>
+            <li>Ориентируемся на практический результат: чтобы решение реально производилось и работало.</li>
+          </ul>
+        </div>
       </div>
     </section>
 
     <section class="section" id="contacts">
       <div class="container contacts-grid">
-        <div>
-          <h2>Связаться с STEP_3D</h2>
-          <p>Отправьте задачу и исходные данные — в течение рабочего дня вернёмся с планом действий и предварительной оценкой.</p>
-          <!-- TODO: Replace with confirmed company contacts -->
+        <article class="panel contact-panel">
+          <h2>Контакты</h2>
+          <p>Пришлите описание задачи и исходные данные. В течение рабочего дня вернёмся с планом и предварительной оценкой.</p>
           <ul class="contact-list">
             <li><strong>Telegram:</strong> @step3d_studio</li>
             <li><strong>E-mail:</strong> hello@step3d.studio</li>
-            <li><strong>Телефон:</strong> +7 (000) 000-00-00</li>
-            <li><strong>Адрес:</strong> Москва, инженерный кластер STEP_3D</li>
+            <li><strong>Телефон:</strong> +7 (999) 000-00-00</li>
+            <li><strong>Локация:</strong> Москва</li>
           </ul>
-        </div>
-        <form class="glass lead-form" id="lead-form">
-          <h3>Заявка на проект</h3>
-          <label>Имя
-            <input type="text" name="name" required />
-          </label>
-          <label>Контакт для связи
-            <input type="text" name="contact" required />
-          </label>
-          <label>Кратко о задаче
-            <textarea name="task" rows="4" required></textarea>
-          </label>
+        </article>
+
+        <form class="panel lead-form" id="lead-form" novalidate>
+          <h2>Заявка на проект</h2>
+          <label for="name">Имя</label>
+          <input id="name" name="name" type="text" autocomplete="name" required />
+
+          <label for="contact">Контакт для связи</label>
+          <input id="contact" name="contact" type="text" autocomplete="email" required />
+
+          <label for="task">Кратко о задаче</label>
+          <textarea id="task" name="task" rows="4" required></textarea>
+
           <button class="btn" type="submit">Отправить заявку</button>
-          <p class="form-note">Нажимая кнопку, вы соглашаетесь на обработку данных для обратной связи.</p>
+          <p class="form-note">Нажимая кнопку, вы соглашаетесь с <a href="../privacy.html">политикой конфиденциальности</a>.</p>
+          <p id="formStatus" aria-live="polite"></p>
         </form>
       </div>
     </section>
@@ -221,22 +224,22 @@
     <section class="section" id="faq">
       <div class="container">
         <h2>FAQ</h2>
-        <div class="faq-list" id="faqList">
-          <details class="glass">
-            <summary>Какие форматы файлов вы принимаете?</summary>
-            <p>Работаем с STL, STEP, IGES, OBJ, а также с облаками точек. При необходимости поможем конвертировать исходники.</p>
+        <div class="faq-list">
+          <details class="panel">
+            <summary>Какие файлы можно отправить для оценки?</summary>
+            <p>Подойдут STEP, IGES, STL, OBJ, сканы и даже фото детали с размерами. Если формат нестандартный, подскажем как подготовить данные.</p>
           </details>
-          <details class="glass">
-            <summary>Можно ли заказать только часть цикла?</summary>
-            <p>Да. Вы можете заказать отдельный этап: сканирование, CAD, печать, консультацию или подготовку КД.</p>
+          <details class="panel">
+            <summary>Можно ли заказать только один этап?</summary>
+            <p>Да, можно заказать отдельно сканирование, реверс, моделирование, печать или подготовку к производству.</p>
           </details>
-          <details class="glass">
-            <summary>Как быстро вы даёте оценку?</summary>
-            <p>Первичную оценку обычно отправляем в течение 24 часов после получения вводных.</p>
+          <details class="panel">
+            <summary>Как быстро получите ответ?</summary>
+            <p>Первичный ответ обычно даём в течение 24 часов в рабочие дни.</p>
           </details>
-          <details class="glass">
+          <details class="panel">
             <summary>Подписываете NDA?</summary>
-            <p>Да, по запросу работаем в режиме NDA и соблюдаем требования по безопасности данных.</p>
+            <p>Да, работаем с NDA и внутренними регламентами заказчика.</p>
           </details>
         </div>
       </div>
@@ -245,24 +248,23 @@
 
   <footer class="site-footer">
     <div class="container footer-grid">
-      <p>© 2026 STEP_3D — инженерная студия полного цикла.</p>
-      <div class="footer-links">
+      <div>
+        <p>© 2026 STEP_3D</p>
+        <p class="footer-muted">Инженерная студия полного цикла.</p>
+      </div>
+      <nav class="footer-links" aria-label="Дополнительная навигация">
         <a href="#services">Услуги</a>
         <a href="#cases">Кейсы</a>
         <a href="#contacts">Контакты</a>
-      </div>
+        <a href="../offer.html">Оферта</a>
+        <a href="../privacy.html">Политика</a>
+      </nav>
     </div>
   </footer>
 
   <div class="mobile-cta">
     <a href="#lead-form" class="btn">Оставить заявку</a>
   </div>
-
-  <dialog id="caseModal" class="case-modal" aria-labelledby="caseModalTitle">
-    <button id="closeCaseModal" class="close-modal" aria-label="Закрыть">×</button>
-    <h3 id="caseModalTitle"></h3>
-    <p id="caseModalText"></p>
-  </dialog>
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
