@@ -49,6 +49,24 @@ const updateScrollState = () => {
 window.addEventListener('scroll', updateScrollState, { passive: true });
 updateScrollState();
 
+const revealItems = qsa('.reveal');
+if ('IntersectionObserver' in window && revealItems.length > 0) {
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      entry.target.classList.add('in-view');
+      revealObserver.unobserve(entry.target);
+    });
+  }, { threshold: 0.16, rootMargin: '0px 0px -5% 0px' });
+
+  revealItems.forEach((item, idx) => {
+    item.style.transitionDelay = `${Math.min(0.28, idx * 0.03)}s`;
+    revealObserver.observe(item);
+  });
+} else {
+  revealItems.forEach((item) => item.classList.add('in-view'));
+}
+
 const estimateForm = qs('#estimateForm');
 const estimateResult = qs('#estimateResult');
 const basePrice = {
