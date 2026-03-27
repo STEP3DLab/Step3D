@@ -1,10 +1,10 @@
 {
-  "version": "1.0.0",
+  "version": "2.0.0",
   "homepage": "https://step3dlab.github.io/Step3D",
   "scripts": {
-    "dev": "http-server public -c-1",
-    "predeploy": "echo Nothing to build",
-    "deploy": "gh-pages -d public"
+    "dev": "python3 -m http.server 8080",
+    "predeploy": "echo Static site in docs/",
+    "deploy": "gh-pages -d docs"
   },
   "devDependencies": {
     "gh-pages": "^6.3.0"
