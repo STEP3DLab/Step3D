@@ -12,6 +12,12 @@
 </head>
 <body>
   <a class="skip-link" href="#main-content">Перейти к содержимому</a>
+  <div class="topbar" role="status" aria-live="polite">
+    <div class="container topbar-inner">
+      <p><strong>Новый UX-поток:</strong> экспресс-оценка проекта за 3 шага + ориентир стоимости в реальном времени.</p>
+      <a href="#estimator">Попробовать калькулятор</a>
+    </div>
+  </div>
   <div class="bg-grid" aria-hidden="true"></div>
   <div class="bg-glow bg-glow-a" aria-hidden="true"></div>
   <div class="bg-glow bg-glow-b" aria-hidden="true"></div>
@@ -33,8 +39,27 @@
         <a href="#contacts">Контакты</a>
         <a class="btn btn-sm" href="#lead-form">Оставить заявку</a>
       </nav>
+      <button class="icon-btn" id="themeToggle" type="button" aria-label="Переключить тему">◐</button>
+      <button class="icon-btn" id="a11yToggle" type="button" aria-label="Открыть панель доступности">A11Y</button>
     </div>
   </header>
+
+  <aside class="quick-nav panel" aria-label="Быстрая навигация по разделам">
+    <a href="#hero" data-quick-link="hero">Старт</a>
+    <a href="#services" data-quick-link="services">Услуги</a>
+    <a href="#cases" data-quick-link="cases">Кейсы</a>
+    <a href="#estimator" data-quick-link="estimator">Калькулятор</a>
+    <a href="#contacts" data-quick-link="contacts">Контакты</a>
+  </aside>
+
+  <section class="a11y-panel panel" id="a11yPanel" aria-label="Панель доступности" hidden>
+    <h2>Комфорт просмотра</h2>
+    <div class="a11y-actions">
+      <button class="chip" id="fontInc" type="button">A+</button>
+      <button class="chip" id="fontDec" type="button">A-</button>
+      <button class="chip" id="motionToggle" type="button">Меньше анимаций</button>
+    </div>
+  </section>
 
   <main id="main-content">
     <section class="hero section" id="hero">
@@ -135,16 +160,28 @@
             <p class="case-tag">Промышленность</p>
             <h3>Восстановление импортного кронштейна</h3>
             <p>Сняли геометрию, перестроили CAD и выпустили адаптированную версию под локальное производство.</p>
+            <button class="link-arrow case-more" type="button">Подробнее</button>
+            <div class="case-extra" hidden>
+              <p>Результат: минус 18 дней к простою и снижение стоимости единицы детали на 31%.</p>
+            </div>
           </article>
           <article class="card panel case-card reveal" data-category="reverse print">
             <p class="case-tag">Спецтехника</p>
             <h3>Корпус датчика под стендовые испытания</h3>
             <p>Реверс старой детали, усиление конструкции и серия прототипов для проверки на вибрации.</p>
+            <button class="link-arrow case-more" type="button">Подробнее</button>
+            <div class="case-extra" hidden>
+              <p>Внедрили 3 итерации за 9 дней вместо классического цикла в 3–4 недели.</p>
+            </div>
           </article>
           <article class="card panel case-card reveal" data-category="print">
             <p class="case-tag">R&amp;D</p>
             <h3>Прототип узла за 5 дней</h3>
             <p>Спроектировали и напечатали функциональный прототип для внутренних тестов и защиты проекта.</p>
+            <button class="link-arrow case-more" type="button">Подробнее</button>
+            <div class="case-extra" hidden>
+              <p>Команда заказчика прошла инвестиционный комитет без переноса сроков.</p>
+            </div>
           </article>
         </div>
       </div>
@@ -182,6 +219,32 @@
       </div>
     </section>
 
+    <section class="section" id="estimator">
+      <div class="container">
+        <div class="section-head reveal">
+          <h2>Калькулятор проекта</h2>
+          <p>Оцените ориентир по срокам и бюджету в течение 30 секунд — это помогает быстрее согласовать внутренний запуск.</p>
+        </div>
+        <div class="estimator-grid">
+          <form class="panel estimator reveal" id="estimatorForm">
+            <label for="complexity">Сложность геометрии</label>
+            <input id="complexity" name="complexity" type="range" min="1" max="5" value="3" />
+            <label for="urgency">Срочность</label>
+            <input id="urgency" name="urgency" type="range" min="1" max="5" value="2" />
+            <label for="parts">Количество деталей</label>
+            <input id="parts" name="parts" type="range" min="1" max="50" value="10" />
+          </form>
+          <aside class="panel estimator-result reveal" aria-live="polite">
+            <h3>Ориентир расчёта</h3>
+            <p><strong id="estimateBudget">~ 180 000 ₽</strong></p>
+            <p>Срок: <strong id="estimateTime">12 рабочих дней</strong></p>
+            <p>Риск-профиль: <strong id="estimateRisk">Средний</strong></p>
+            <a class="btn btn-sm" href="#lead-form">Зафиксировать оценку с инженером</a>
+          </aside>
+        </div>
+      </div>
+    </section>
+
     <section class="section" id="testimonials">
       <div class="container">
         <div class="section-head reveal">
@@ -202,6 +265,10 @@
           <h2>FAQ</h2>
           <p>Коротко отвечаем на ключевые вопросы перед стартом проекта.</p>
         </div>
+        <label class="faq-search-wrap" for="faqSearch">
+          <span>Быстрый поиск по вопросам</span>
+          <input id="faqSearch" type="search" placeholder="Например: NDA, сроки, форматы файлов..." />
+        </label>
         <div class="faq-list">
           <details class="panel reveal">
             <summary>Какие данные можно отправить для оценки?</summary>
@@ -238,6 +305,8 @@
 
         <form class="panel lead-form reveal" id="lead-form" novalidate>
           <h2>Заявка на проект</h2>
+          <div class="form-progress" aria-hidden="true"><span id="formProgressBar"></span></div>
+          <p class="field-hint" id="formProgressText">Заполнено 0 из 4 обязательных полей</p>
           <label for="name">Имя</label>
           <input id="name" name="name" type="text" autocomplete="name" placeholder="Как к вам обращаться" required />
           <small class="field-hint">Минимум 2 символа.</small>
@@ -245,6 +314,7 @@
           <label for="contact">Контакт для связи</label>
           <input id="contact" name="contact" type="text" autocomplete="email" placeholder="Telegram, email или телефон" required />
           <small class="field-hint">Укажите канал, где вам удобно получить ответ.</small>
+          <button class="chip copy-chip" type="button" data-copy="hello@step3d.studio">Скопировать e-mail</button>
 
           <label for="service">Интересующая услуга</label>
           <select id="service" name="service" required>
@@ -295,6 +365,14 @@
   <button class="back-to-top" id="backToTop" type="button" aria-label="Вернуться наверх">↑</button>
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <dialog class="success-modal" id="successModal">
+    <h2>Заявка отправлена ✅</h2>
+    <p>Следующий шаг: инженер свяжется с вами и подтвердит план работ.</p>
+    <div class="modal-actions">
+      <a class="btn btn-sm" href="https://t.me/step3d_studio" target="_blank" rel="noopener noreferrer">Открыть Telegram</a>
+      <button class="btn btn-sm btn-ghost" id="closeModal" type="button">Закрыть</button>
+    </div>
+  </dialog>
 
   <script src="./main.js" defer></script>
 </body>

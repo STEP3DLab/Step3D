@@ -12,6 +12,9 @@ const showToast = (text) => {
 
 const menuToggle = qs('#menuToggle');
 const mainNav = qs('#mainNav');
+const themeToggle = qs('#themeToggle');
+const a11yToggle = qs('#a11yToggle');
+const a11yPanel = qs('#a11yPanel');
 if (menuToggle && mainNav) {
   menuToggle.addEventListener('click', () => {
     const opened = mainNav.classList.toggle('open');
@@ -26,9 +29,34 @@ if (menuToggle && mainNav) {
   });
 }
 
+const savedTheme = localStorage.getItem('theme');
+if (savedTheme === 'dark') document.body.classList.add('dark');
+themeToggle?.addEventListener('click', () => {
+  document.body.classList.toggle('dark');
+  localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light');
+});
+
+a11yToggle?.addEventListener('click', () => {
+  if (!a11yPanel) return;
+  a11yPanel.hidden = !a11yPanel.hidden;
+});
+
+qs('#fontInc')?.addEventListener('click', () => {
+  const current = Number(getComputedStyle(document.body).getPropertyValue('--font-scale')) || 1;
+  document.body.style.setProperty('--font-scale', String(Math.min(1.25, current + 0.05)));
+});
+qs('#fontDec')?.addEventListener('click', () => {
+  const current = Number(getComputedStyle(document.body).getPropertyValue('--font-scale')) || 1;
+  document.body.style.setProperty('--font-scale', String(Math.max(0.9, current - 0.05)));
+});
+qs('#motionToggle')?.addEventListener('click', () => {
+  document.body.classList.toggle('reduce-motion');
+});
+
 const progressBar = qs('#scrollProgressBar');
 const sections = qsa('main section[id]');
 const navLinks = qsa('.main-nav a[href^="#"]');
+const quickLinks = qsa('[data-quick-link]');
 const siteHeader = qs('.site-header');
 const backToTop = qs('#backToTop');
 
@@ -43,6 +71,10 @@ const updateScrollState = () => {
   }
 
   navLinks.forEach((link) => {
+    const href = link.getAttribute('href')?.replace('#', '');
+    link.classList.toggle('active', href === activeId);
+  });
+  quickLinks.forEach((link) => {
     const href = link.getAttribute('href')?.replace('#', '');
     link.classList.toggle('active', href === activeId);
   });
@@ -98,9 +130,45 @@ chips.forEach((chip) => {
   });
 });
 
+qsa('.case-more').forEach((button) => {
+  button.addEventListener('click', () => {
+    const card = button.closest('.case-card');
+    const extra = qs('.case-extra', card || document);
+    if (!extra) return;
+    const expanded = !extra.hasAttribute('hidden');
+    if (expanded) {
+      extra.setAttribute('hidden', '');
+      button.textContent = 'Подробнее';
+    } else {
+      extra.removeAttribute('hidden');
+      button.textContent = 'Свернуть';
+    }
+  });
+});
+
+const estimatorForm = qs('#estimatorForm');
+const estimateBudget = qs('#estimateBudget');
+const estimateTime = qs('#estimateTime');
+const estimateRisk = qs('#estimateRisk');
+const updateEstimator = () => {
+  if (!estimatorForm || !estimateBudget || !estimateTime || !estimateRisk) return;
+  const complexity = Number(qs('#complexity')?.value || 3);
+  const urgency = Number(qs('#urgency')?.value || 2);
+  const parts = Number(qs('#parts')?.value || 10);
+  const budget = 40000 + complexity * 22000 + urgency * 15000 + parts * 2800;
+  const days = Math.max(3, Math.round((complexity * 4 + parts * 0.45) - urgency * 1.5));
+  const riskLevel = complexity >= 4 || urgency >= 4 ? 'Повышенный' : parts > 30 ? 'Средний+' : 'Средний';
+  estimateBudget.textContent = `~ ${budget.toLocaleString('ru-RU')} ₽`;
+  estimateTime.textContent = `${days} рабочих дней`;
+  estimateRisk.textContent = riskLevel;
+};
+qsa('input', estimatorForm || document).forEach((input) => input.addEventListener('input', updateEstimator));
+updateEstimator();
 
 const taskField = qs('#task');
 const taskCounter = qs('#taskCounter');
+const formProgressBar = qs('#formProgressBar');
+const formProgressText = qs('#formProgressText');
 
 const updateTaskCounter = () => {
   if (!taskField || !taskCounter) return;
@@ -114,6 +182,13 @@ const leadForm = qs('#lead-form');
 const formStatus = qs('#formStatus');
 const submitButton = qs('#formSubmit');
 const requiredFields = qsa('input[required], textarea[required], select[required]', leadForm || document);
+const updateFormProgress = () => {
+  if (!formProgressBar || !formProgressText || requiredFields.length === 0) return;
+  const done = requiredFields.filter((field) => field.value.trim().length > 0).length;
+  const percent = (done / requiredFields.length) * 100;
+  formProgressBar.style.width = `${percent}%`;
+  formProgressText.textContent = `Заполнено ${done} из ${requiredFields.length} обязательных полей`;
+};
 
 const validateField = (field) => {
   const value = field.value.trim();
@@ -130,8 +205,10 @@ requiredFields.forEach((field) => {
   field.addEventListener('blur', () => validateField(field));
   field.addEventListener('input', () => {
     if (field.classList.contains('is-invalid')) validateField(field);
+    updateFormProgress();
   });
 });
+updateFormProgress();
 
 leadForm?.addEventListener('submit', async (event) => {
   event.preventDefault();
@@ -160,6 +237,8 @@ leadForm?.addEventListener('submit', async (event) => {
   submitButton.disabled = false;
   submitButton.textContent = 'Отправить заявку';
   showToast('Заявка успешно отправлена.');
+  updateFormProgress();
+  qs('#successModal')?.showModal();
 });
 
 qsa('#faq details').forEach((detail) => {
@@ -169,4 +248,25 @@ qsa('#faq details').forEach((detail) => {
       if (other !== detail) other.open = false;
     });
   });
+});
+
+qs('#faqSearch')?.addEventListener('input', (event) => {
+  const phrase = String(event.target.value || '').toLowerCase().trim();
+  qsa('#faq details').forEach((detail) => {
+    const text = detail.textContent?.toLowerCase() || '';
+    detail.classList.toggle('is-hidden', phrase.length > 0 && !text.includes(phrase));
+  });
+});
+
+qsa('.copy-chip').forEach((btn) => {
+  btn.addEventListener('click', async () => {
+    const value = btn.getAttribute('data-copy');
+    if (!value || !navigator.clipboard) return;
+    await navigator.clipboard.writeText(value);
+    showToast('Контакт скопирован в буфер.');
+  });
+});
+
+qs('#closeModal')?.addEventListener('click', () => {
+  qs('#successModal')?.close();
 });
