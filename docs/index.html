@@ -257,7 +257,8 @@
           </select>
 
           <label for="task">Кратко о задаче</label>
-          <textarea id="task" name="task" rows="4" placeholder="Что нужно сделать, в какие сроки, какой желаемый результат" required></textarea>
+          <textarea id="task" name="task" rows="4" maxlength="500" placeholder="Что нужно сделать, в какие сроки, какой желаемый результат" required></textarea>
+          <small class="field-hint field-counter" id="taskCounter">0 / 500</small>
 
           <button class="btn" id="formSubmit" type="submit">Отправить заявку</button>
           <p class="form-note">Нажимая кнопку, вы соглашаетесь с <a href="../privacy.html">политикой конфиденциальности</a>.</p>
@@ -290,6 +291,8 @@
     <a href="https://t.me/step3d_studio" target="_blank" rel="noopener noreferrer">Telegram</a>
     <a class="primary" href="#lead-form">Заявка</a>
   </div>
+
+  <button class="back-to-top" id="backToTop" type="button" aria-label="Вернуться наверх">↑</button>
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
