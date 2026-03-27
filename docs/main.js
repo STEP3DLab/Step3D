@@ -37,7 +37,7 @@ const updateScrollState = () => {
 
   let activeId = '';
   for (const section of sections) {
-    if (window.scrollY >= section.offsetTop - 160) activeId = section.id;
+    if (window.scrollY >= section.offsetTop - 180) activeId = section.id;
   }
 
   navLinks.forEach((link) => {
@@ -57,58 +57,87 @@ if ('IntersectionObserver' in window && revealItems.length > 0) {
       entry.target.classList.add('in-view');
       revealObserver.unobserve(entry.target);
     });
-  }, { threshold: 0.16, rootMargin: '0px 0px -5% 0px' });
+  }, { threshold: 0.15, rootMargin: '0px 0px -6% 0px' });
 
   revealItems.forEach((item, idx) => {
-    item.style.transitionDelay = `${Math.min(0.28, idx * 0.03)}s`;
+    item.style.transitionDelay = `${Math.min(0.32, idx * 0.035)}s`;
     revealObserver.observe(item);
   });
 } else {
   revealItems.forEach((item) => item.classList.add('in-view'));
 }
 
-const estimateForm = qs('#estimateForm');
-const estimateResult = qs('#estimateResult');
-const basePrice = {
-  scan: 12000,
-  reverse: 28000,
-  print: 9000,
-  full: 45000
-};
+const chips = qsa('.chip');
+const caseCards = qsa('#caseGrid .case-card');
 
-estimateForm?.addEventListener('submit', (event) => {
-  event.preventDefault();
+chips.forEach((chip) => {
+  chip.addEventListener('click', () => {
+    const filter = chip.dataset.filter || 'all';
 
-  const type = qs('#estimateType')?.value;
-  const urgency = qs('#estimateUrgency')?.value;
-  const qty = Math.max(1, Number(qs('#estimateQty')?.value || 1));
+    chips.forEach((item) => {
+      item.classList.remove('active');
+      item.setAttribute('aria-pressed', 'false');
+    });
+    chip.classList.add('active');
+    chip.setAttribute('aria-pressed', 'true');
 
-  const base = basePrice[type] || 0;
-  const urgencyFactor = urgency === 'urgent' ? 1.35 : 1;
-  const min = Math.round(base * qty * urgencyFactor);
-  const max = Math.round(min * 1.35);
-
-  if (estimateResult) {
-    estimateResult.textContent = `Ориентир: ${min.toLocaleString('ru-RU')} — ${max.toLocaleString('ru-RU')} ₽`;
-  }
-  showToast('Оценка готова. Можно отправить заявку.');
+    caseCards.forEach((card) => {
+      const categories = (card.dataset.category || '').split(' ');
+      const show = filter === 'all' || categories.includes(filter);
+      card.classList.toggle('is-hidden', !show);
+    });
+  });
 });
 
 const leadForm = qs('#lead-form');
 const formStatus = qs('#formStatus');
+const submitButton = qs('#formSubmit');
+const requiredFields = qsa('input[required], textarea[required], select[required]', leadForm || document);
 
-leadForm?.addEventListener('submit', (event) => {
+const validateField = (field) => {
+  const value = field.value.trim();
+  let valid = true;
+
+  if (field.hasAttribute('required') && !value) valid = false;
+  if (field.id === 'name' && value.length > 0 && value.length < 2) valid = false;
+
+  field.classList.toggle('is-invalid', !valid);
+  return valid;
+};
+
+requiredFields.forEach((field) => {
+  field.addEventListener('blur', () => validateField(field));
+  field.addEventListener('input', () => {
+    if (field.classList.contains('is-invalid')) validateField(field);
+  });
+});
+
+leadForm?.addEventListener('submit', async (event) => {
   event.preventDefault();
-  if (!leadForm.checkValidity()) {
-    if (formStatus) formStatus.textContent = 'Проверьте обязательные поля формы.';
-    showToast('Не все поля заполнены.');
-    leadForm.reportValidity();
+
+  const isValid = requiredFields.every((field) => validateField(field));
+  if (!isValid) {
+    formStatus.textContent = 'Проверьте обязательные поля: есть незаполненные или некорректные значения.';
+    formStatus.className = 'error';
+    showToast('Нужно заполнить форму корректно.');
     return;
   }
 
+  submitButton.disabled = true;
+  submitButton.textContent = 'Отправка...';
+  formStatus.textContent = 'Отправляем данные...';
+  formStatus.className = '';
+
+  await new Promise((resolve) => setTimeout(resolve, 850));
+
   leadForm.reset();
-  if (formStatus) formStatus.textContent = 'Спасибо! Заявка отправлена. Мы свяжемся с вами в рабочее время.';
-  showToast('Заявка отправлена.');
+  requiredFields.forEach((field) => field.classList.remove('is-invalid'));
+
+  formStatus.textContent = 'Спасибо! Заявка отправлена. Мы свяжемся с вами в рабочее время.';
+  formStatus.className = 'success';
+  submitButton.disabled = false;
+  submitButton.textContent = 'Отправить заявку';
+  showToast('Заявка успешно отправлена.');
 });
 
 qsa('#faq details').forEach((detail) => {
