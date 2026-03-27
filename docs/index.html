@@ -38,34 +38,35 @@
   </script>
 
   <style>
-    :root {
-      --bg: #07101d;
-      --bg-2: #0b1627;
-      --bg-3: #0f1d33;
-      --panel: rgba(10, 18, 34, 0.78);
-      --panel-strong: rgba(12, 21, 39, 0.94);
-      --panel-soft: rgba(255, 255, 255, 0.045);
-      --line: rgba(255, 255, 255, 0.08);
-      --line-strong: rgba(104, 184, 255, 0.24);
-      --text: #f4f8ff;
-      --text-soft: #d6e3f7;
-      --muted: #98a8c4;
-      --muted-2: #7f90ad;
-      --accent: #56a7ff;
-      --accent-2: #72e8ff;
-      --accent-3: #8b92ff;
-      --success: #7dd2a8;
+    
+:root {
+      --bg: #0d0f12;
+      --bg-2: #111418;
+      --bg-3: #171b21;
+      --panel: rgba(20, 24, 30, 0.84);
+      --panel-strong: rgba(24, 29, 36, 0.96);
+      --panel-soft: rgba(255, 255, 255, 0.03);
+      --line: rgba(255, 255, 255, 0.10);
+      --line-strong: rgba(128, 138, 152, 0.42);
+      --text: #f5f7fa;
+      --text-soft: #d8dde6;
+      --muted: #a4adba;
+      --muted-2: #8892a3;
+      --accent: #10a37f;
+      --accent-2: #1bb98f;
+      --accent-3: #4ad7ad;
+      --success: #5ec89d;
       --warning: #ffd27d;
       --danger: #ff9a9a;
-      --radius-xl: 32px;
-      --radius-lg: 24px;
-      --radius-md: 18px;
-      --radius-sm: 14px;
-      --shadow: 0 20px 60px rgba(0, 0, 0, 0.34);
-      --shadow-soft: 0 12px 30px rgba(0, 0, 0, 0.18);
-      --container: 1280px;
-      --header: 82px;
-      --transition: 240ms ease;
+      --radius-xl: 30px;
+      --radius-lg: 22px;
+      --radius-md: 16px;
+      --radius-sm: 12px;
+      --shadow: 0 24px 60px rgba(0, 0, 0, 0.4);
+      --shadow-soft: 0 10px 26px rgba(0, 0, 0, 0.24);
+      --container: 1220px;
+      --header: 78px;
+      --transition: 220ms ease;
     }
 
     * {
@@ -82,10 +83,9 @@
       font-family: Inter, Arial, Helvetica, sans-serif;
       color: var(--text);
       background:
-        radial-gradient(circle at 8% 12%, rgba(86, 167, 255, 0.16), transparent 18%),
-        radial-gradient(circle at 88% 10%, rgba(114, 232, 255, 0.09), transparent 18%),
-        radial-gradient(circle at 50% 100%, rgba(139, 146, 255, 0.10), transparent 24%),
-        linear-gradient(180deg, #07101d 0%, #0a1422 45%, #07101c 100%);
+        radial-gradient(circle at 10% 8%, rgba(255, 255, 255, 0.06), transparent 24%),
+        radial-gradient(circle at 88% 0%, rgba(16, 163, 127, 0.08), transparent 18%),
+        linear-gradient(180deg, #0d0f12 0%, #101419 45%, #0c0f13 100%);
       overflow-x: hidden;
     }
 
@@ -115,17 +115,17 @@
 
     body::before {
       background-image:
-        linear-gradient(rgba(255, 255, 255, 0.028) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.028) 1px, transparent 1px);
-      background-size: 36px 36px;
-      mask-image: linear-gradient(180deg, rgba(0,0,0,.98), rgba(0,0,0,.2));
+        linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+      background-size: 44px 44px;
+      mask-image: linear-gradient(180deg, rgba(0,0,0,.7), rgba(0,0,0,.08));
     }
 
     body::after {
       background:
-        radial-gradient(circle at 50% 20%, rgba(114, 232, 255, 0.05), transparent 28%),
-        radial-gradient(circle at 50% 72%, rgba(86, 167, 255, 0.05), transparent 32%);
-      filter: blur(26px);
+        radial-gradient(circle at 50% 0%, rgba(16, 163, 127, 0.06), transparent 26%),
+        radial-gradient(circle at 50% 70%, rgba(255, 255, 255, 0.03), transparent 32%);
+      filter: blur(30px);
       z-index: -3;
     }
 
@@ -170,31 +170,31 @@
       gap: 14px;
     }
 
-    .eyebrow {
+     .eyebrow {
       display: inline-flex;
       align-items: center;
       gap: 10px;
       width: fit-content;
-      padding: 9px 14px;
-      border: 1px solid rgba(114, 232, 255, 0.18);
+      padding: 8px 14px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
       border-radius: 999px;
-      background: rgba(10, 18, 34, 0.58);
-      color: #d6ebff;
+      background: rgba(14, 17, 22, 0.9);
+      color: #e4eaf2;
       font-size: 12px;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.08em;
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
     }
 
-    .eyebrow::before {
+     .eyebrow::before {
       content: "";
       width: 8px;
       height: 8px;
       border-radius: 50%;
       background: linear-gradient(135deg, var(--accent), var(--accent-2));
-      box-shadow: 0 0 18px rgba(114, 232, 255, 0.8);
+      box-shadow: 0 0 10px rgba(27, 185, 143, 0.6);
       flex: 0 0 auto;
     }
 
@@ -269,22 +269,23 @@
       transform: translateY(-2px);
     }
 
-    .btn-primary {
-      color: #031123;
+     .btn-primary {
       background: linear-gradient(135deg, var(--accent), var(--accent-2));
-      box-shadow: 0 12px 34px rgba(86, 167, 255, 0.28);
+      color: #04150f;
+      border-color: rgba(39, 204, 162, 0.5);
+      box-shadow: 0 8px 24px rgba(16, 163, 127, 0.28);
     }
 
-    .btn-secondary {
-      background: rgba(255,255,255,0.05);
-      border-color: rgba(255,255,255,0.08);
+     .btn-secondary {
+      background: rgba(255,255,255,0.04);
       color: var(--text);
+      border-color: var(--line);
     }
 
-    .btn-ghost {
+     .btn-ghost {
       background: transparent;
-      border-color: rgba(114, 232, 255, 0.18);
-      color: #d6ebff;
+      color: var(--text-soft);
+      border-color: var(--line);
     }
 
     .control-btn {
@@ -369,14 +370,14 @@
       transform: translateX(-50%) translateY(0);
     }
 
-    .site-header {
+     .site-header {
       position: sticky;
       top: 0;
       z-index: 50;
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
-      background: rgba(7, 16, 29, 0.72);
-      border-bottom: 1px solid rgba(255,255,255,0.06);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      background: rgba(13, 15, 18, 0.78);
+      border-bottom: 1px solid var(--line);
     }
 
     .header-inner {
@@ -439,28 +440,28 @@
       line-height: 1.4;
     }
 
-    .nav {
+     .nav {
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 2px;
       padding: 4px;
-      border: 1px solid rgba(255,255,255,0.06);
-      border-radius: 999px;
-      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: rgba(255,255,255,0.02);
     }
 
-    .nav a {
-      padding: 10px 14px;
-      border-radius: 999px;
+     .nav a {
+      padding: 10px 12px;
+      border-radius: 12px;
       color: var(--muted);
       font-size: 14px;
       transition: color var(--transition), background var(--transition);
     }
 
-    .nav a:hover,
+     .nav a:hover,
     .nav a.is-active {
       color: var(--text);
-      background: rgba(255,255,255,0.06);
+      background: rgba(255,255,255,0.08);
     }
 
     .header-actions {
@@ -497,13 +498,13 @@
       min-height: 100%;
     }
 
-    .hero-copy {
-      padding: 38px;
+     .hero-copy {
+      padding: 40px;
       border-radius: var(--radius-xl);
       background:
-        linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.025)),
-        linear-gradient(135deg, rgba(86, 167, 255, 0.08), transparent 45%, rgba(114, 232, 255, 0.05));
-      border: 1px solid rgba(255,255,255,0.08);
+        linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.015)),
+        linear-gradient(135deg, rgba(16, 163, 127, 0.08), transparent 44%, rgba(255,255,255,0.02));
+      border: 1px solid var(--line);
       box-shadow: var(--shadow);
       position: relative;
       overflow: hidden;
@@ -517,7 +518,7 @@
       width: 180px;
       height: 180px;
       border-radius: 50%;
-      background: radial-gradient(circle, rgba(114,232,255,0.18), transparent 60%);
+      background: radial-gradient(circle, rgba(27,185,143,0.18), transparent 60%);
       filter: blur(16px);
       pointer-events: none;
     }
@@ -554,8 +555,8 @@
       max-width: 12ch;
     }
 
-    .hero-title .accent {
-      background: linear-gradient(135deg, #f4f8ff 0%, #9dd8ff 48%, #72e8ff 100%);
+     .hero-title .accent {
+      background: linear-gradient(135deg, #f5f7fa 0%, #cbf3e8 55%, #73d8bc 100%);
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
@@ -596,7 +597,7 @@
 
     .hero-contact:hover {
       transform: translateY(-2px);
-      border-color: rgba(114,232,255,0.18);
+      border-color: rgba(27,185,143,0.18);
       background: rgba(255,255,255,0.05);
     }
 
@@ -644,7 +645,7 @@
       border-radius: var(--radius-xl);
       background:
         linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02)),
-        linear-gradient(135deg, rgba(114,232,255,0.08), transparent 42%, rgba(86,167,255,0.06));
+        linear-gradient(135deg, rgba(27,185,143,0.08), transparent 42%, rgba(16,163,127,0.06));
       border: 1px solid rgba(255,255,255,0.08);
       box-shadow: var(--shadow);
       overflow: hidden;
@@ -667,7 +668,7 @@
     .visual-stage::before {
       width: 220px;
       height: 220px;
-      background: rgba(114,232,255,0.14);
+      background: rgba(27,185,143,0.14);
       top: 20px;
       right: 10px;
     }
@@ -675,7 +676,7 @@
     .visual-stage::after {
       width: 240px;
       height: 240px;
-      background: rgba(86,167,255,0.12);
+      background: rgba(16,163,127,0.12);
       left: 10px;
       bottom: 0;
     }
@@ -752,13 +753,12 @@
       gap: 12px;
     }
 
-    .trust-item {
+     .trust-item {
       padding: 16px 18px;
-      border-radius: 18px;
-      border: 1px solid rgba(255,255,255,0.06);
-      background: rgba(255,255,255,0.03);
+      border-radius: 16px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.02);
       color: var(--text-soft);
-      font-size: 14px;
     }
 
     .trust-item strong {
@@ -835,7 +835,7 @@
 
     .service-card:hover {
       transform: translateY(-4px);
-      border-color: rgba(114,232,255,0.18);
+      border-color: rgba(27,185,143,0.18);
       box-shadow: 0 18px 40px rgba(0,0,0,0.22);
     }
 
@@ -845,8 +845,8 @@
       border-radius: 16px;
       display: grid;
       place-items: center;
-      background: linear-gradient(135deg, rgba(86,167,255,0.22), rgba(114,232,255,0.08));
-      border: 1px solid rgba(114,232,255,0.18);
+      background: linear-gradient(135deg, rgba(16,163,127,0.22), rgba(27,185,143,0.08));
+      border: 1px solid rgba(27,185,143,0.18);
       color: #d8efff;
       font-size: 22px;
     }
@@ -901,7 +901,7 @@
       height: 6px;
       border-radius: 50%;
       background: linear-gradient(135deg, var(--accent), var(--accent-2));
-      box-shadow: 0 0 12px rgba(114,232,255,0.5);
+      box-shadow: 0 0 12px rgba(27,185,143,0.5);
     }
 
     .compare-grid {
@@ -962,8 +962,8 @@
       width: 44px;
       height: 44px;
       border-radius: 14px;
-      background: linear-gradient(135deg, rgba(86,167,255,0.24), rgba(114,232,255,0.1));
-      border: 1px solid rgba(114,232,255,0.16);
+      background: linear-gradient(135deg, rgba(16,163,127,0.24), rgba(27,185,143,0.1));
+      border: 1px solid rgba(27,185,143,0.16);
       font-weight: 800;
       font-size: 15px;
       margin-bottom: 14px;
@@ -1006,9 +1006,9 @@
     }
 
     .filter-btn.is-active {
-      background: linear-gradient(135deg, rgba(86,167,255,0.18), rgba(114,232,255,0.08));
+      background: linear-gradient(135deg, rgba(16,163,127,0.18), rgba(27,185,143,0.08));
       color: var(--text);
-      border-color: rgba(114,232,255,0.18);
+      border-color: rgba(27,185,143,0.18);
     }
 
     .cases-grid {
@@ -1025,7 +1025,7 @@
 
     .case-card:hover {
       transform: translateY(-4px);
-      border-color: rgba(114,232,255,0.18);
+      border-color: rgba(27,185,143,0.18);
       box-shadow: 0 18px 40px rgba(0,0,0,0.22);
     }
 
@@ -1035,8 +1035,8 @@
       overflow: hidden;
       border: 1px solid rgba(255,255,255,0.08);
       background:
-        radial-gradient(circle at 30% 30%, rgba(114,232,255,0.18), transparent 25%),
-        radial-gradient(circle at 70% 70%, rgba(86,167,255,0.16), transparent 28%),
+        radial-gradient(circle at 30% 30%, rgba(27,185,143,0.18), transparent 25%),
+        radial-gradient(circle at 70% 70%, rgba(16,163,127,0.16), transparent 28%),
         linear-gradient(135deg, #10203a 0%, #0a1528 100%);
       position: relative;
       display: grid;
@@ -1149,7 +1149,7 @@
       height: 7px;
       border-radius: 50%;
       background: linear-gradient(135deg, var(--accent), var(--accent-2));
-      box-shadow: 0 0 14px rgba(114,232,255,0.55);
+      box-shadow: 0 0 14px rgba(27,185,143,0.55);
     }
 
     .contact-shell {
@@ -1273,8 +1273,8 @@
     .field input:focus,
     .field textarea:focus,
     .field select:focus {
-      border-color: rgba(114,232,255,0.24);
-      box-shadow: 0 0 0 4px rgba(114,232,255,0.08);
+      border-color: rgba(27,185,143,0.24);
+      box-shadow: 0 0 0 4px rgba(27,185,143,0.08);
       background: rgba(255,255,255,0.055);
     }
 
@@ -1626,13 +1626,13 @@
       <div class="container hero-shell">
         <div class="hero-copy reveal">
           <div class="hero-topline">
-            <span class="eyebrow">STEP_3D - от объекта до результата</span>
+            <span class="eyebrow">STEP_3D • инженерный интерфейс производства</span>
             <span class="pill"><strong>Полный цикл</strong> сканирование - CAD - производство</span>
           </div>
 
-          <h2 class="hero-title">3D-сканирование, <span class="accent">инженерная модель</span> и производство изделий на заказ</h2>
+          <h2 class="hero-title">Проектируем, <span class="accent">восстанавливаем</span> и производим сложные 3D-решения</h2>
           <p class="hero-text">
-            STEP_3D переводит задачу клиента в цифровую форму и доводит ее до понятного результата: от физического образца или идеи до STL, STEP, чертежей, прототипа, мастер-модели или готового изделия.
+            После аудита структуры мы упростили путь клиента: от первого запроса до результата без лишних блоков. Вы получаете понятный маршрут, инженерные форматы (STL/STEP/чертежи) и прозрачные этапы работ.
           </p>
 
           <div class="hero-actions">
@@ -1660,7 +1660,7 @@
             </div>
           </div>
 
-          <div class="hero-note">Отвечаем быстро в рабочее время. Короткую задачу можно прислать в 2-3 сообщениях.</div>
+          <div class="hero-note">Сайт перестроен в стиле технологичного продукта: чище иерархия, меньше визуального шума, сильнее акцент на действии.</div>
 
           <div class="trust-strip">
             <div class="trust-item"><strong>Что вы получаете</strong>Понятный маршрут работ и формат результата еще до запуска проекта</div>
@@ -1675,12 +1675,12 @@
             <svg viewBox="0 0 640 640" width="100%" height="100%" aria-label="Схематичная инженерная визуализация STEP_3D">
               <defs>
                 <linearGradient id="meshStroke" x1="0" x2="1">
-                  <stop offset="0%" stop-color="#56a7ff" />
-                  <stop offset="100%" stop-color="#72e8ff" />
+                  <stop offset="0%" stop-color="#10a37f" />
+                  <stop offset="100%" stop-color="#1bb98f" />
                 </linearGradient>
                 <radialGradient id="meshGlow" cx="50%" cy="50%" r="50%">
-                  <stop offset="0%" stop-color="rgba(114,232,255,.95)" />
-                  <stop offset="100%" stop-color="rgba(86,167,255,0)" />
+                  <stop offset="0%" stop-color="rgba(27,185,143,.95)" />
+                  <stop offset="100%" stop-color="rgba(16,163,127,0)" />
                 </radialGradient>
               </defs>
 
@@ -1697,7 +1697,7 @@
               </g>
 
               <g transform="translate(320 322)">
-                <circle r="122" fill="rgba(114,232,255,0.04)" stroke="rgba(114,232,255,0.16)" stroke-width="1.4" />
+                <circle r="122" fill="rgba(27,185,143,0.04)" stroke="rgba(27,185,143,0.16)" stroke-width="1.4" />
                 <circle r="148" fill="none" stroke="rgba(255,255,255,0.08)" stroke-dasharray="4 8" stroke-width="1" />
 
                 <g opacity="0.35">
@@ -1790,7 +1790,7 @@
         <div class="section-head reveal">
           <span class="eyebrow">Услуги</span>
           <h2 class="title">Инженерный контур без лишних обещаний</h2>
-          <p class="subtitle">На сайте оставлены только те направления, которые поддерживают главное позиционирование STEP_3D как инженерно-производственной студии полного цикла.</p>
+          <p class="subtitle">Мы сократили контент до ключевых сценариев, как в продуктовых интерфейсах OpenAI: быстро понять ценность, выбрать действие, отправить задачу.</p>
         </div>
 
         <div class="services-tools card reveal">
