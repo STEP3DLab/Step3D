@@ -43,11 +43,11 @@ a11yToggle?.addEventListener('click', () => {
 
 qs('#fontInc')?.addEventListener('click', () => {
   const current = Number(getComputedStyle(document.body).getPropertyValue('--font-scale')) || 1;
-  document.body.style.setProperty('--font-scale', String(Math.min(1.25, current + 0.05)));
+  document.body.style.setProperty('--font-scale', String(Math.min(1.3, current + 0.05)));
 });
 qs('#fontDec')?.addEventListener('click', () => {
   const current = Number(getComputedStyle(document.body).getPropertyValue('--font-scale')) || 1;
-  document.body.style.setProperty('--font-scale', String(Math.max(0.9, current - 0.05)));
+  document.body.style.setProperty('--font-scale', String(Math.max(0.95, current - 0.05)));
 });
 qs('#motionToggle')?.addEventListener('click', () => {
   document.body.classList.toggle('reduce-motion');
