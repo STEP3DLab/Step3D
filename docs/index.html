@@ -5,6 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>STEP_3D - инженерная студия полного цикла</title>
   <meta name="description" content="STEP_3D - 3D-сканирование, 3D-моделирование, реверсивный инжиниринг, прототипирование, 3D-печать и обучение. От физического объекта до готового результата." />
+  <link rel="canonical" href="https://step3dlab.github.io/Step3D/docs/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="STEP_3D — инженерная студия полного цикла" />
+  <meta property="og:description" content="3D-сканирование, реверсивный инжиниринг, CAD-моделирование, прототипирование и 3D-печать под задачи производства." />
+  <meta property="og:url" content="https://step3dlab.github.io/Step3D/docs/" />
+  <meta property="og:image" content="https://step3dlab.github.io/Step3D/assets/logo.svg" />
+  <meta name="twitter:card" content="summary_large_image" />
   <meta name="theme-color" content="#07101d" />
   <meta name="color-scheme" content="dark" />
   <meta name="format-detection" content="telephone=no" />
@@ -14,11 +21,11 @@
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
     "name": "STEP_3D",
-    "url": "https://example.com",
-    "image": "https://example.com/preview.jpg",
+    "url": "https://step3dlab.github.io/Step3D/docs/",
+    "image": "https://step3dlab.github.io/Step3D/assets/logo.svg",
     "description": "Инженерная студия полного цикла: 3D-сканирование, 3D-моделирование, реверсивный инжиниринг, прототипирование, 3D-печать, мастер-модели и обучение.",
     "telephone": "+7-900-000-00-00",
-    "email": "hello@example.com",
+    "email": "hello@step3d.studio",
     "address": {
       "@type": "PostalAddress",
       "addressCountry": "RU",
@@ -1436,7 +1443,15 @@
       display: none !important;
     }
 
-    @media (max-width: 1180px) {
+    
+    .form-status {
+      margin-top: 10px;
+      color: #9fd3ff;
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+@media (max-width: 1180px) {
       .hero-shell,
       .compare-grid,
       .contact-shell {
@@ -1575,10 +1590,7 @@
   </style>
 </head>
 <body>
-  <a class="skip-link" href="#mainContent">Перейти к контенту</a>
-  <div class="scroll-progress" aria-hidden="true"><span id="scrollProgress"></span></div>
-  <button class="back-to-top" id="backToTop" aria-label="Наверх">↑</button>
-  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
   <header class="site-header" id="siteHeader">
     <div class="container header-inner">
       <a class="brand" href="#top" aria-label="На главную STEP_3D">
@@ -1634,9 +1646,9 @@
               <span class="hero-contact-label">Телефон</span>
               <span class="hero-contact-value">+7 900 000 00 00</span>
             </a>
-            <a class="hero-contact" href="mailto:hello@example.com">
+            <a class="hero-contact" href="mailto:hello@step3d.studio">
               <span class="hero-contact-label">E-mail</span>
-              <span class="hero-contact-value">hello@example.com</span>
+              <span class="hero-contact-value">hello@step3d.studio</span>
             </a>
             <a class="hero-contact" href="https://t.me/step_3d_mngr" target="_blank" rel="noopener">
               <span class="hero-contact-label">Telegram</span>
@@ -1884,9 +1896,9 @@
               <small>Телефон</small>
               <strong>+7 900 000 00 00</strong>
             </a>
-            <a class="contact-box" href="mailto:hello@example.com">
+            <a class="contact-box" href="mailto:hello@step3d.studio">
               <small>E-mail</small>
-              <strong>hello@example.com</strong>
+              <strong>hello@step3d.studio</strong>
             </a>
             <a class="contact-box" href="https://t.me/step_3d_mngr" target="_blank" rel="noopener">
               <small>Telegram</small>
@@ -1949,7 +1961,7 @@
             <label class="consent"><input type="checkbox" required /> Согласен(а) на обработку персональных данных</label>
             <div class="btn-row">
               <button class="btn btn-primary" type="submit">Отправить расширенную заявку</button>
-              <a class="btn btn-secondary" href="mailto:hello@example.com">Отправить материалы по e-mail</a>
+              <a class="btn btn-secondary" href="mailto:hello@step3d.studio">Отправить материалы по e-mail</a>
             </div>
             <div class="form-note">Для реального запуска добавьте безопасную загрузку файлов, явные чекбоксы согласий и обработку событий аналитики.</div>
           </form>
@@ -1984,10 +1996,10 @@
       <div class="card footer-card reveal">
         <h3 style="margin:0; font-size:22px; letter-spacing:-0.03em;">Юридический контур</h3>
         <div class="footer-links">
-          <a href="#">Публичная оферта</a>
-          <a href="#">Политика обработки персональных данных</a>
-          <a href="#">ИНН / ОГРН / реквизиты</a>
-          <a href="mailto:hello@example.com">hello@example.com</a>
+          <a href="../offer.html">Публичная оферта</a>
+          <a href="../privacy.html">Политика обработки персональных данных</a>
+          <a href="mailto:hello@step3d.studio?subject=Запрос%20реквизитов">ИНН / ОГРН / реквизиты</a>
+          <a href="mailto:hello@step3d.studio">hello@step3d.studio</a>
           <a href="tel:+79000000000">+7 900 000 00 00</a>
         </div>
       </div>
@@ -2172,10 +2184,7 @@
     updateTaskCounter();
     updateProgress();
 
-    document.querySelectorAll('form').forEach((form) => {
-      form.addEventListener('submit', (event) => {
-        event.preventDefault();
-        showToast('Демо-режим: подключите реальную отправку формы перед публикацией.');
+
       });
     });
   </script>
