@@ -2,116 +2,1588 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="STEP_3D — инженерная студия: 3D-сканирование, реверсивный инжиниринг, CAD-моделирование, прототипирование и 3D-печать для производственных задач." />
-  <title>STEP_3D — инженерная студия для производства</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="./styles.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>STEP_3D - инженерная студия полного цикла</title>
+  <meta name="description" content="STEP_3D - 3D-сканирование, 3D-моделирование, реверсивный инжиниринг, прототипирование, 3D-печать и обучение. От физического объекта до готового результата." />
+  <meta name="theme-color" content="#07101d" />
+  <meta name="color-scheme" content="dark" />
+  <meta name="format-detection" content="telephone=no" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": "STEP_3D",
+    "url": "https://example.com",
+    "image": "https://example.com/preview.jpg",
+    "description": "Инженерная студия полного цикла: 3D-сканирование, 3D-моделирование, реверсивный инжиниринг, прототипирование, 3D-печать, мастер-модели и обучение.",
+    "telephone": "+7-900-000-00-00",
+    "email": "hello@example.com",
+    "address": {
+      "@type": "PostalAddress",
+      "addressCountry": "RU",
+      "addressLocality": "Москва",
+      "streetAddress": "Беговая улица, 12"
+    },
+    "openingHours": "Mo-Fr 10:00-19:00",
+    "priceRange": "$$"
+  }
+  </script>
+
+  <style>
+    :root {
+      --bg: #07101d;
+      --bg-2: #0b1627;
+      --bg-3: #0f1d33;
+      --panel: rgba(10, 18, 34, 0.78);
+      --panel-strong: rgba(12, 21, 39, 0.94);
+      --panel-soft: rgba(255, 255, 255, 0.045);
+      --line: rgba(255, 255, 255, 0.08);
+      --line-strong: rgba(104, 184, 255, 0.24);
+      --text: #f4f8ff;
+      --text-soft: #d6e3f7;
+      --muted: #98a8c4;
+      --muted-2: #7f90ad;
+      --accent: #56a7ff;
+      --accent-2: #72e8ff;
+      --accent-3: #8b92ff;
+      --success: #7dd2a8;
+      --warning: #ffd27d;
+      --danger: #ff9a9a;
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 18px;
+      --radius-sm: 14px;
+      --shadow: 0 20px 60px rgba(0, 0, 0, 0.34);
+      --shadow-soft: 0 12px 30px rgba(0, 0, 0, 0.18);
+      --container: 1280px;
+      --header: 82px;
+      --transition: 240ms ease;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Inter, Arial, Helvetica, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 8% 12%, rgba(86, 167, 255, 0.16), transparent 18%),
+        radial-gradient(circle at 88% 10%, rgba(114, 232, 255, 0.09), transparent 18%),
+        radial-gradient(circle at 50% 100%, rgba(139, 146, 255, 0.10), transparent 24%),
+        linear-gradient(180deg, #07101d 0%, #0a1422 45%, #07101c 100%);
+      overflow-x: hidden;
+    }
+
+    body::before,
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: -2;
+    }
+
+    body::before {
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.028) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.028) 1px, transparent 1px);
+      background-size: 36px 36px;
+      mask-image: linear-gradient(180deg, rgba(0,0,0,.98), rgba(0,0,0,.2));
+    }
+
+    body::after {
+      background:
+        radial-gradient(circle at 50% 20%, rgba(114, 232, 255, 0.05), transparent 28%),
+        radial-gradient(circle at 50% 72%, rgba(86, 167, 255, 0.05), transparent 32%);
+      filter: blur(26px);
+      z-index: -3;
+    }
+
+    img,
+    svg {
+      display: block;
+      max-width: 100%;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button,
+    input,
+    textarea,
+    select {
+      font: inherit;
+    }
+
+    .container {
+      width: min(var(--container), calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .section {
+      padding: 96px 0;
+      position: relative;
+    }
+
+    .section-tight {
+      padding-top: 72px;
+      padding-bottom: 72px;
+    }
+
+    .section-head {
+      max-width: 840px;
+      margin-bottom: 36px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      width: fit-content;
+      padding: 9px 14px;
+      border: 1px solid rgba(114, 232, 255, 0.18);
+      border-radius: 999px;
+      background: rgba(10, 18, 34, 0.58);
+      color: #d6ebff;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      box-shadow: 0 0 18px rgba(114, 232, 255, 0.8);
+      flex: 0 0 auto;
+    }
+
+    .title {
+      margin: 0;
+      font-size: clamp(30px, 4vw, 56px);
+      line-height: 1.02;
+      letter-spacing: -0.045em;
+    }
+
+    .subtitle {
+      margin: 0;
+      color: var(--muted);
+      font-size: clamp(16px, 2vw, 19px);
+      line-height: 1.72;
+    }
+
+    .small {
+      font-size: 14px;
+      line-height: 1.65;
+    }
+
+    .muted {
+      color: var(--muted);
+    }
+
+    .grid {
+      display: grid;
+      gap: 20px;
+    }
+
+    .card {
+      position: relative;
+      background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-soft);
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(86, 167, 255, 0.08), transparent 35%, transparent 75%, rgba(114, 232, 255, 0.05));
+      pointer-events: none;
+    }
+
+    .btn-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      min-height: 52px;
+      padding: 0 20px;
+      border: 1px solid transparent;
+      border-radius: 16px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      white-space: nowrap;
+      cursor: pointer;
+      transition: transform var(--transition), border-color var(--transition), background var(--transition), box-shadow var(--transition), color var(--transition);
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .btn-primary {
+      color: #031123;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      box-shadow: 0 12px 34px rgba(86, 167, 255, 0.28);
+    }
+
+    .btn-secondary {
+      background: rgba(255,255,255,0.05);
+      border-color: rgba(255,255,255,0.08);
+      color: var(--text);
+    }
+
+    .btn-ghost {
+      background: transparent;
+      border-color: rgba(114, 232, 255, 0.18);
+      color: #d6ebff;
+    }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      background: rgba(7, 16, 29, 0.72);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .header-inner {
+      min-height: var(--header);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      min-width: 0;
+    }
+
+    .brand-mark {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      position: relative;
+      flex: 0 0 auto;
+      background: linear-gradient(135deg, rgba(86, 167, 255, 0.28), rgba(114, 232, 255, 0.1));
+      border: 1px solid rgba(114, 232, 255, 0.2);
+      overflow: hidden;
+      box-shadow: inset 0 0 24px rgba(114, 232, 255, 0.12), 0 12px 30px rgba(0, 0, 0, 0.22);
+    }
+
+    .brand-mark::before,
+    .brand-mark::after {
+      content: "";
+      position: absolute;
+      inset: 8px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.1);
+      transform: rotate(6deg);
+    }
+
+    .brand-mark::after {
+      inset: 12px;
+      transform: rotate(-8deg);
+      border-color: rgba(114, 232, 255, 0.3);
+    }
+
+    .brand-text {
+      min-width: 0;
+    }
+
+    .brand-title {
+      margin: 0;
+      font-size: 18px;
+      letter-spacing: -0.04em;
+    }
+
+    .brand-sub {
+      margin: 2px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.4;
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px;
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 999px;
+      background: rgba(255,255,255,0.03);
+    }
+
+    .nav a {
+      padding: 10px 14px;
+      border-radius: 999px;
+      color: var(--muted);
+      font-size: 14px;
+      transition: color var(--transition), background var(--transition);
+    }
+
+    .nav a:hover,
+    .nav a.is-active {
+      color: var(--text);
+      background: rgba(255,255,255,0.06);
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .menu-toggle {
+      display: none;
+      width: 46px;
+      height: 46px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.04);
+      color: var(--text);
+      cursor: pointer;
+    }
+
+    .hero {
+      padding-top: 38px;
+      padding-bottom: 72px;
+    }
+
+    .hero-shell {
+      display: grid;
+      grid-template-columns: minmax(0, 1.08fr) minmax(360px, 0.92fr);
+      gap: 26px;
+      align-items: stretch;
+    }
+
+    .hero-copy,
+    .hero-visual {
+      min-height: 100%;
+    }
+
+    .hero-copy {
+      padding: 38px;
+      border-radius: var(--radius-xl);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.025)),
+        linear-gradient(135deg, rgba(86, 167, 255, 0.08), transparent 45%, rgba(114, 232, 255, 0.05));
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-copy::after {
+      content: "";
+      position: absolute;
+      right: -60px;
+      bottom: -60px;
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(114,232,255,0.18), transparent 60%);
+      filter: blur(16px);
+      pointer-events: none;
+    }
+
+    .hero-topline {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.04);
+      color: var(--text-soft);
+      font-size: 13px;
+    }
+
+    .pill strong {
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .hero-title {
+      margin: 0;
+      font-size: clamp(36px, 6vw, 72px);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+      max-width: 12ch;
+    }
+
+    .hero-title .accent {
+      background: linear-gradient(135deg, #f4f8ff 0%, #9dd8ff 48%, #72e8ff 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .hero-text {
+      margin: 18px 0 0;
+      max-width: 680px;
+      color: var(--muted);
+      font-size: clamp(16px, 2vw, 19px);
+      line-height: 1.72;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .hero-quick {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .hero-contact {
+      padding: 14px 16px;
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.035);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      transition: transform var(--transition), border-color var(--transition), background var(--transition);
+    }
+
+    .hero-contact:hover {
+      transform: translateY(-2px);
+      border-color: rgba(114,232,255,0.18);
+      background: rgba(255,255,255,0.05);
+    }
+
+    .hero-contact-label {
+      font-size: 12px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .hero-contact-value {
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .hero-note {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 18px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .hero-note::before {
+      content: "";
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--success);
+      box-shadow: 0 0 16px rgba(125, 210, 168, 0.7);
+      flex: 0 0 auto;
+    }
+
+    .hero-visual {
+      display: grid;
+      grid-template-rows: 1fr auto;
+      gap: 20px;
+    }
+
+    .visual-stage {
+      min-height: 540px;
+      padding: 28px;
+      border-radius: var(--radius-xl);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02)),
+        linear-gradient(135deg, rgba(114,232,255,0.08), transparent 42%, rgba(86,167,255,0.06));
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      isolation: isolate;
+    }
+
+    .visual-stage::before,
+    .visual-stage::after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(18px);
+      z-index: -1;
+    }
+
+    .visual-stage::before {
+      width: 220px;
+      height: 220px;
+      background: rgba(114,232,255,0.14);
+      top: 20px;
+      right: 10px;
+    }
+
+    .visual-stage::after {
+      width: 240px;
+      height: 240px;
+      background: rgba(86,167,255,0.12);
+      left: 10px;
+      bottom: 0;
+    }
+
+    .diagram-overlay {
+      position: absolute;
+      inset: 20px;
+      pointer-events: none;
+    }
+
+    .diagram-badge {
+      position: absolute;
+      padding: 12px 14px;
+      max-width: 220px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(7, 16, 29, 0.72);
+      box-shadow: var(--shadow-soft);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+    }
+
+    .diagram-badge strong {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 14px;
+      letter-spacing: -0.02em;
+    }
+
+    .diagram-badge span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.55;
+    }
+
+    .diagram-badge.top-left { top: 12px; left: 12px; }
+    .diagram-badge.top-right { top: 18px; right: 12px; }
+    .diagram-badge.bottom-left { bottom: 18px; left: 12px; }
+    .diagram-badge.bottom-right { bottom: 12px; right: 12px; }
+
+    .stage-foot {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .metric {
+      padding: 18px;
+      border-radius: 20px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.035);
+    }
+
+    .metric-value {
+      display: block;
+      font-size: clamp(24px, 3vw, 34px);
+      line-height: 1;
+      letter-spacing: -0.05em;
+      margin-bottom: 8px;
+    }
+
+    .metric-label {
+      display: block;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    .trust-strip {
+      margin-top: 22px;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .trust-item {
+      padding: 16px 18px;
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,0.06);
+      background: rgba(255,255,255,0.03);
+      color: var(--text-soft);
+      font-size: 14px;
+    }
+
+    .trust-item strong {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 13px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .services-grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .service-card {
+      padding: 24px;
+      min-height: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      transition: transform var(--transition), border-color var(--transition), background var(--transition), box-shadow var(--transition);
+    }
+
+    .service-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(114,232,255,0.18);
+      box-shadow: 0 18px 40px rgba(0,0,0,0.22);
+    }
+
+    .service-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 16px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, rgba(86,167,255,0.22), rgba(114,232,255,0.08));
+      border: 1px solid rgba(114,232,255,0.18);
+      color: #d8efff;
+      font-size: 22px;
+    }
+
+    .service-card h3,
+    .compare-card h3,
+    .audience-card h3,
+    .case-title,
+    .stack-card h3,
+    .edu-card h3,
+    .trust-card h3,
+    .contact-panel h3,
+    .faq-item summary {
+      margin: 0;
+      letter-spacing: -0.03em;
+    }
+
+    .service-card p,
+    .compare-card p,
+    .audience-card p,
+    .stack-card p,
+    .edu-card p,
+    .trust-card p,
+    .contact-panel p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .service-list {
+      margin: auto 0 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 8px;
+    }
+
+    .service-list li {
+      position: relative;
+      padding-left: 16px;
+      color: var(--text-soft);
+      font-size: 14px;
+      line-height: 1.55;
+    }
+
+    .service-list li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 9px;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      box-shadow: 0 0 12px rgba(114,232,255,0.5);
+    }
+
+    .compare-grid {
+      grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr);
+      align-items: stretch;
+    }
+
+    .compare-panel {
+      padding: 28px;
+    }
+
+    .compare-cards {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 20px;
+    }
+
+    .compare-card {
+      padding: 20px;
+      border-radius: 20px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.04);
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 16px;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      min-height: 32px;
+      padding: 0 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.07);
+      color: var(--text-soft);
+      font-size: 13px;
+    }
+
+    .process-grid {
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+    }
+
+    .process-card {
+      padding: 22px;
+      position: relative;
+      min-height: 100%;
+    }
+
+    .step-no {
+      display: inline-grid;
+      place-items: center;
+      width: 44px;
+      height: 44px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, rgba(86,167,255,0.24), rgba(114,232,255,0.1));
+      border: 1px solid rgba(114,232,255,0.16);
+      font-weight: 800;
+      font-size: 15px;
+      margin-bottom: 14px;
+    }
+
+    .process-card p {
+      margin: 8px 0 0;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .cases-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+
+    .filter-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .filter-btn {
+      min-height: 40px;
+      padding: 0 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.03);
+      color: var(--text-soft);
+      cursor: pointer;
+      transition: background var(--transition), color var(--transition), border-color var(--transition), transform var(--transition);
+    }
+
+    .filter-btn:hover {
+      transform: translateY(-1px);
+    }
+
+    .filter-btn.is-active {
+      background: linear-gradient(135deg, rgba(86,167,255,0.18), rgba(114,232,255,0.08));
+      color: var(--text);
+      border-color: rgba(114,232,255,0.18);
+    }
+
+    .cases-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .case-card {
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      transition: transform var(--transition), border-color var(--transition), opacity var(--transition), box-shadow var(--transition);
+    }
+
+    .case-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(114,232,255,0.18);
+      box-shadow: 0 18px 40px rgba(0,0,0,0.22);
+    }
+
+    .case-thumb {
+      aspect-ratio: 16 / 11;
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.08);
+      background:
+        radial-gradient(circle at 30% 30%, rgba(114,232,255,0.18), transparent 25%),
+        radial-gradient(circle at 70% 70%, rgba(86,167,255,0.16), transparent 28%),
+        linear-gradient(135deg, #10203a 0%, #0a1528 100%);
+      position: relative;
+      display: grid;
+      place-items: center;
+    }
+
+    .case-thumb::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+      background-size: 26px 26px;
+      opacity: .5;
+      pointer-events: none;
+    }
+
+    .case-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .case-chip {
+      display: inline-flex;
+      align-items: center;
+      min-height: 30px;
+      padding: 0 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      color: var(--text-soft);
+      font-size: 12px;
+    }
+
+    .case-text {
+      color: var(--muted);
+      line-height: 1.72;
+    }
+
+    .case-rows {
+      display: grid;
+      gap: 10px;
+      margin-top: auto;
+    }
+
+    .case-row {
+      display: grid;
+      grid-template-columns: 84px minmax(0, 1fr);
+      gap: 10px;
+      align-items: start;
+      font-size: 14px;
+      line-height: 1.65;
+    }
+
+    .case-row strong {
+      color: var(--text-soft);
+      font-weight: 700;
+    }
+
+    .audience-grid,
+    .stack-grid,
+    .edu-grid,
+    .trust-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .audience-card,
+    .stack-card,
+    .edu-card,
+    .trust-card {
+      padding: 24px;
+    }
+
+    .stack-list,
+    .edu-list,
+    .trust-list,
+    .contact-list,
+    .legal-list {
+      margin: 14px 0 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 10px;
+    }
+
+    .stack-list li,
+    .edu-list li,
+    .trust-list li,
+    .contact-list li,
+    .legal-list li {
+      position: relative;
+      padding-left: 18px;
+      color: var(--text-soft);
+      line-height: 1.6;
+      font-size: 14px;
+    }
+
+    .stack-list li::before,
+    .edu-list li::before,
+    .trust-list li::before,
+    .contact-list li::before,
+    .legal-list li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 9px;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      box-shadow: 0 0 14px rgba(114,232,255,0.55);
+    }
+
+    .contact-shell {
+      display: grid;
+      grid-template-columns: minmax(0, .92fr) minmax(0, 1.08fr);
+      gap: 20px;
+      align-items: stretch;
+    }
+
+    .contact-panel {
+      padding: 28px;
+      min-height: 100%;
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .contact-box {
+      padding: 16px;
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.035);
+    }
+
+    .contact-box small {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-size: 11px;
+    }
+
+    .contact-box strong {
+      display: block;
+      letter-spacing: -0.02em;
+      line-height: 1.45;
+    }
+
+    .form-card {
+      padding: 28px;
+      display: grid;
+      gap: 18px;
+    }
+
+    .form-tabs {
+      display: inline-grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+      padding: 6px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .form-tab {
+      min-height: 44px;
+      padding: 0 14px;
+      border-radius: 14px;
+      border: 0;
+      background: transparent;
+      color: var(--muted);
+      font-weight: 700;
+      cursor: pointer;
+      transition: background var(--transition), color var(--transition);
+    }
+
+    .form-tab.is-active {
+      background: rgba(255,255,255,0.08);
+      color: var(--text);
+    }
+
+    .form-pane {
+      display: none;
+    }
+
+    .form-pane.is-active {
+      display: grid;
+      gap: 14px;
+    }
+
+    .field-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .field {
+      display: grid;
+      gap: 8px;
+    }
+
+    .field label {
+      color: var(--text-soft);
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .field input,
+    .field textarea,
+    .field select {
+      width: 100%;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px;
+      background: rgba(255,255,255,0.04);
+      color: var(--text);
+      padding: 15px 16px;
+      outline: none;
+      transition: border-color var(--transition), background var(--transition), box-shadow var(--transition);
+    }
+
+    .field textarea {
+      min-height: 132px;
+      resize: vertical;
+    }
+
+    .field input:focus,
+    .field textarea:focus,
+    .field select:focus {
+      border-color: rgba(114,232,255,0.24);
+      box-shadow: 0 0 0 4px rgba(114,232,255,0.08);
+      background: rgba(255,255,255,0.055);
+    }
+
+    .form-note {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.65;
+    }
+
+    .faq-wrap {
+      display: grid;
+      gap: 12px;
+    }
+
+    .faq-item {
+      border-radius: 20px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.04);
+      overflow: hidden;
+    }
+
+    .faq-item summary {
+      list-style: none;
+      cursor: pointer;
+      padding: 20px 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .faq-item summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .faq-item summary::after {
+      content: "+";
+      font-size: 24px;
+      line-height: 1;
+      color: var(--accent-2);
+      flex: 0 0 auto;
+      transition: transform var(--transition);
+    }
+
+    .faq-item[open] summary::after {
+      transform: rotate(45deg);
+    }
+
+    .faq-answer {
+      padding: 0 22px 22px;
+      color: var(--muted);
+      line-height: 1.75;
+    }
+
+    .footer {
+      padding: 34px 0 120px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      background: rgba(7, 16, 29, 0.5);
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) repeat(2, minmax(220px, .9fr));
+      gap: 18px;
+    }
+
+    .footer-card {
+      padding: 22px;
+    }
+
+    .footer-links {
+      display: grid;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .footer-links a {
+      color: var(--muted);
+      transition: color var(--transition);
+    }
+
+    .footer-links a:hover {
+      color: var(--text);
+    }
+
+    .mobile-bar {
+      position: fixed;
+      left: 12px;
+      right: 12px;
+      bottom: 12px;
+      z-index: 60;
+      display: none;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      padding: 10px;
+      border-radius: 22px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(7, 16, 29, 0.86);
+      box-shadow: 0 18px 50px rgba(0,0,0,0.34);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+    }
+
+    .mobile-link {
+      min-height: 50px;
+      border-radius: 16px;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      font-size: 13px;
+      font-weight: 700;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .mobile-link.primary {
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: #031123;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity .6s ease, transform .6s ease;
+    }
+
+    .reveal.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .hide {
+      display: none !important;
+    }
+
+    @media (max-width: 1180px) {
+      .hero-shell,
+      .compare-grid,
+      .contact-shell {
+        grid-template-columns: 1fr;
+      }
+
+      .services-grid,
+      .cases-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .process-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .audience-grid,
+      .stack-grid,
+      .edu-grid,
+      .trust-grid,
+      .footer-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .trust-strip {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .visual-stage {
+        min-height: 460px;
+      }
+    }
+
+    @media (max-width: 980px) {
+      .nav,
+      .header-actions .btn {
+        display: none;
+      }
+
+      .menu-toggle {
+        display: inline-grid;
+        place-items: center;
+      }
+
+      .site-header.is-open .nav {
+        position: absolute;
+        top: calc(100% + 10px);
+        left: 16px;
+        right: 16px;
+        display: grid;
+        gap: 6px;
+        padding: 12px;
+        border-radius: 24px;
+        background: rgba(7,16,29,0.95);
+        border: 1px solid rgba(255,255,255,0.08);
+        box-shadow: var(--shadow);
+      }
+
+      .site-header.is-open .nav a {
+        padding: 12px 14px;
+        border-radius: 14px;
+      }
+
+      .process-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .field-grid,
+      .contact-grid,
+      .compare-cards,
+      .hero-quick,
+      .stage-foot {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .section {
+        padding: 74px 0;
+      }
+
+      .hero {
+        padding-top: 26px;
+        padding-bottom: 42px;
+      }
+
+      .hero-copy,
+      .visual-stage,
+      .contact-panel,
+      .form-card,
+      .compare-panel,
+      .footer-card {
+        padding: 22px;
+      }
+
+      .services-grid,
+      .cases-grid,
+      .audience-grid,
+      .stack-grid,
+      .edu-grid,
+      .trust-grid,
+      .footer-grid,
+      .process-grid,
+      .trust-strip {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-title {
+        max-width: none;
+      }
+
+      .title {
+        font-size: clamp(28px, 8vw, 40px);
+      }
+
+      .visual-stage {
+        min-height: 380px;
+      }
+
+      .diagram-badge {
+        max-width: 170px;
+        padding: 10px 12px;
+      }
+
+      .cases-toolbar {
+        align-items: flex-start;
+      }
+
+      .mobile-bar {
+        display: grid;
+      }
+
+      .footer {
+        padding-bottom: 124px;
+      }
+    }
+  </style>
 </head>
 <body>
-  <a class="skip-link" href="#main-content">Перейти к содержимому</a>
-  <div class="topbar" role="status" aria-live="polite">
-    <div class="container topbar-inner">
-      <p><strong>Инженерный бриф за 3 шага:</strong> фиксируем задачу, сроки и диапазон бюджета без лишней переписки.</p>
-      <div class="topbar-actions">
-        <a href="#estimator">Открыть бриф</a>
-        <button class="topbar-close" id="topbarClose" type="button" aria-label="Скрыть уведомление">✕</button>
-      </div>
-    </div>
-  </div>
-  <div class="bg-grid" aria-hidden="true"></div>
-  <div class="bg-glow bg-glow-a" aria-hidden="true"></div>
-  <div class="bg-glow bg-glow-b" aria-hidden="true"></div>
-  <div class="scroll-progress" aria-hidden="true"><span id="scrollProgressBar"></span></div>
-
-  <header class="site-header" id="top">
+  <header class="site-header" id="siteHeader">
     <div class="container header-inner">
-      <a class="brand" href="#hero" aria-label="STEP_3D, на главную">
-        <img src="./assets/logo.svg" alt="Логотип STEP_3D" width="34" height="34" />
-        <span>STEP_3D</span>
-        <span class="brand-badge" aria-label="Отвечаем в течение 24 часов">24ч</span>
+      <a class="brand" href="#top" aria-label="На главную STEP_3D">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <span class="brand-text">
+          <h1 class="brand-title">STEP_3D</h1>
+          <p class="brand-sub">Инженерная студия полного цикла</p>
+        </span>
       </a>
-      <button class="menu-toggle" id="menuToggle" type="button" aria-expanded="false" aria-controls="mainNav">Меню</button>
-      <nav class="main-nav" id="mainNav" aria-label="Основная навигация">
+
+      <nav class="nav" id="siteNav" aria-label="Основная навигация">
         <a href="#services">Услуги</a>
-        <a href="#industries">Отрасли</a>
+        <a href="#formats">Формат результата</a>
         <a href="#cases">Кейсы</a>
-        <a href="#routes">Процесс</a>
-        <a href="#faq">Вопросы и ответы</a>
+        <a href="#education">Обучение</a>
+        <a href="#trust">О компании</a>
         <a href="#contacts">Контакты</a>
-        <a class="btn btn-sm" href="#lead-form">Обсудить задачу</a>
       </nav>
-      <button class="icon-btn" id="themeToggle" type="button" aria-label="Переключить тему">◐</button>
-      <button class="icon-btn" id="a11yToggle" type="button" aria-label="Открыть панель доступности">A11Y</button>
+
+      <div class="header-actions">
+        <a class="btn btn-secondary" href="https://t.me/step_3d_mngr" target="_blank" rel="noopener">Telegram</a>
+        <a class="btn btn-primary" href="#contacts">Отправить задачу</a>
+        <button class="menu-toggle" id="menuToggle" aria-label="Открыть меню" aria-expanded="false">☰</button>
+      </div>
     </div>
   </header>
 
-  <aside class="quick-nav panel" aria-label="Быстрая навигация по разделам">
-    <a href="#hero" data-quick-link="hero">Главная</a>
-    <a href="#services" data-quick-link="services">Услуги</a>
-    <a href="#cases" data-quick-link="cases">Кейсы</a>
-    <a href="#estimator" data-quick-link="estimator">Бриф</a>
-    <a href="#contacts" data-quick-link="contacts">Контакты</a>
-  </aside>
+  <main id="top">
+    <section class="hero section-tight">
+      <div class="container hero-shell">
+        <div class="hero-copy reveal">
+          <div class="hero-topline">
+            <span class="eyebrow">STEP_3D - от объекта до результата</span>
+            <span class="pill"><strong>Полный цикл</strong> сканирование - CAD - производство</span>
+          </div>
 
-  <section class="a11y-panel panel" id="a11yPanel" aria-label="Панель доступности" hidden>
-    <h2>Настройки интерфейса</h2>
-    <div class="a11y-actions">
-      <button class="chip" id="fontInc" type="button">A+</button>
-      <button class="chip" id="fontDec" type="button">A-</button>
-      <button class="chip" id="motionToggle" type="button">Меньше анимаций</button>
-    </div>
-  </section>
+          <h2 class="hero-title">3D-сканирование, <span class="accent">инженерная модель</span> и производство изделий на заказ</h2>
+          <p class="hero-text">
+            STEP_3D переводит задачу клиента в цифровую форму и доводит ее до понятного результата: от физического образца или идеи до STL, STEP, чертежей, прототипа, мастер-модели или готового изделия.
+          </p>
 
-  <main id="main-content">
-    <section class="hero section" id="hero">
-      <div class="container hero-grid">
-        <div class="hero-copy panel reveal">
-          <p class="kicker">Инженерная студия STEP_3D</p>
-          <h1>От детали к рабочей конструкторской документации — под требования производства.</h1>
-          <p class="lead">Снимаем геометрию, восстанавливаем CAD, проверяем конструкцию на прототипе и передаём комплект для изготовления. Работаем по ТЗ, допускам и согласованным критериям приёмки.</p>
           <div class="hero-actions">
-            <a class="btn" href="#lead-form">Получить инженерную оценку</a>
-            <a class="btn btn-ghost" href="#services">Открыть услуги</a>
+            <a class="btn btn-primary" href="#contacts">Отправить задачу</a>
+            <a class="btn btn-secondary" href="#cases">Смотреть кейсы</a>
+            <a class="btn btn-ghost" href="https://t.me/step_3d_mngr" target="_blank" rel="noopener">Обсудить в Telegram</a>
           </div>
-          <ul class="hero-metrics" aria-label="Ключевые показатели">
-            <li><strong>24 часа</strong><span>первичный отклик</span></li>
-            <li><strong>±0,03 мм</strong><span>точность сканирования</span></li>
-            <li><strong>200+</strong><span>инженерных проектов</span></li>
-            <li><strong>NDA</strong><span>защита данных и КД</span></li>
-          </ul>
-        </div>
-        <aside class="hero-side panel reveal" aria-label="Состав результата">
-          <div class="hero-visual" aria-hidden="true">
-            <span class="hero-orbit orbit-a"></span>
-            <span class="hero-orbit orbit-b"></span>
-            <span class="hero-dot"></span>
-          </div>
-          <h2>Что вы получаете</h2>
-          <ul class="check-list">
-            <li>План работ с этапами, сроками и ответственными.</li>
-            <li>CAD/mesh‑модели, чертежи, спецификации, отчёты.</li>
-            <li>Прототипы и проверка решений до запуска.</li>
-            <li>Рекомендации по технологичности и рискам.</li>
-          </ul>
-          <a class="link-arrow" href="#deliverables">Состав результата проекта</a>
-        </aside>
-      </div>
-    </section>
 
-    <section class="section" id="trust">
-      <div class="container">
-        <div class="section-head reveal">
-          <h2>Почему нам доверяют инженерные команды</h2>
-          <p>Мы отвечаем за точность данных, соблюдение сроков и применимость результата в реальном производстве.</p>
+          <div class="hero-quick">
+            <a class="hero-contact" href="tel:+79000000000">
+              <span class="hero-contact-label">Телефон</span>
+              <span class="hero-contact-value">+7 900 000 00 00</span>
+            </a>
+            <a class="hero-contact" href="mailto:hello@example.com">
+              <span class="hero-contact-label">E-mail</span>
+              <span class="hero-contact-value">hello@example.com</span>
+            </a>
+            <a class="hero-contact" href="https://t.me/step_3d_mngr" target="_blank" rel="noopener">
+              <span class="hero-contact-label">Telegram</span>
+              <span class="hero-contact-value">@step_3d_mngr</span>
+            </a>
+            <div class="hero-contact">
+              <span class="hero-contact-label">Адрес</span>
+              <span class="hero-contact-value">Москва, Беговая ул., 12</span>
+            </div>
+          </div>
+
+          <div class="hero-note">Отвечаем быстро в рабочее время. Короткую задачу можно прислать в 2-3 сообщениях.</div>
+
+          <div class="trust-strip">
+            <div class="trust-item"><strong>Что вы получаете</strong>Понятный маршрут работ и формат результата еще до запуска проекта</div>
+            <div class="trust-item"><strong>Для кого</strong>Производство, дизайн, образование, культурные проекты, частные задачи</div>
+            <div class="trust-item"><strong>Как работаем</strong>Через образец, фото, чертеж, эскиз, STL, STEP или устную постановку</div>
+            <div class="trust-item"><strong>Что важно</strong>Без лишних разделов, шума и недосказанности. Только релевантный инженерный контур</div>
+          </div>
         </div>
-        <div class="cards-grid four-up">
-          <article class="card panel reveal"><h3>Инженерная экспертиза</h3><p>Проектируем с учётом посадок, нагрузок, материала и технологии изготовления.</p></article>
-          <article class="card panel reveal"><h3>Сквозной контроль данных</h3><p>Сохраняем точность геометрии и связность данных от скана до КД.</p></article>
-          <article class="card panel reveal"><h3>Прозрачный менеджмент</h3><p>Фиксируем этапы, сроки, контрольные точки и критерии приёмки до старта.</p></article>
-          <article class="card panel reveal"><h3>Конфиденциальность</h3><p>Работаем по NDA и внутренним регламентам заказчика.</p></article>
+
+        <div class="hero-visual reveal">
+          <div class="visual-stage card">
+            <svg viewBox="0 0 640 640" width="100%" height="100%" aria-label="Схематичная инженерная визуализация STEP_3D">
+              <defs>
+                <linearGradient id="meshStroke" x1="0" x2="1">
+                  <stop offset="0%" stop-color="#56a7ff" />
+                  <stop offset="100%" stop-color="#72e8ff" />
+                </linearGradient>
+                <radialGradient id="meshGlow" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stop-color="rgba(114,232,255,.95)" />
+                  <stop offset="100%" stop-color="rgba(86,167,255,0)" />
+                </radialGradient>
+              </defs>
+
+              <g opacity="0.28" fill="none" stroke="url(#meshStroke)">
+                <ellipse cx="320" cy="320" rx="224" ry="124" stroke-width="1.2">
+                  <animateTransform attributeName="transform" type="rotate" from="0 320 320" to="360 320 320" dur="34s" repeatCount="indefinite" />
+                </ellipse>
+                <ellipse cx="320" cy="320" rx="170" ry="280" stroke-width="1.2">
+                  <animateTransform attributeName="transform" type="rotate" from="360 320 320" to="0 320 320" dur="28s" repeatCount="indefinite" />
+                </ellipse>
+                <ellipse cx="320" cy="320" rx="280" ry="170" stroke-width="1.2">
+                  <animateTransform attributeName="transform" type="rotate" from="0 320 320" to="360 320 320" dur="38s" repeatCount="indefinite" />
+                </ellipse>
+              </g>
+
+              <g transform="translate(320 322)">
+                <circle r="122" fill="rgba(114,232,255,0.04)" stroke="rgba(114,232,255,0.16)" stroke-width="1.4" />
+                <circle r="148" fill="none" stroke="rgba(255,255,255,0.08)" stroke-dasharray="4 8" stroke-width="1" />
+
+                <g opacity="0.35">
+                  <circle r="10" fill="url(#meshGlow)" />
+                </g>
+
+                <g fill="none" stroke="url(#meshStroke)" stroke-width="1.2" opacity="0.88">
+                  <path d="M-98 -48 C-76 -102, -12 -124, 58 -98 C104 -82, 112 -24, 96 18 C78 66, 26 102, -34 100 C-82 98, -118 66, -120 14 C-122 -10, -114 -30, -98 -48 Z" />
+                  <path d="M-78 -18 C-50 -48, -4 -56, 40 -42 C68 -34, 82 -10, 76 20 C70 52, 36 70, -4 70 C-40 68, -66 50, -76 22 C-80 10, -80 -8, -78 -18 Z" opacity="0.9" />
+                  <path d="M-110 -8 L110 -8" opacity="0.42" />
+                  <path d="M-86 48 L84 -54" opacity="0.32" />
+                  <path d="M-92 -54 L72 70" opacity="0.32" />
+                  <path d="M-32 -112 L-24 116" opacity="0.28" />
+                  <path d="M26 -104 L16 110" opacity="0.28" />
+                </g>
+
+                <g fill="#dff4ff">
+                  <circle cx="-92" cy="-10" r="4" />
+                  <circle cx="-68" cy="-76" r="4" />
+                  <circle cx="-10" cy="-108" r="4" />
+                  <circle cx="54" cy="-88" r="4" />
+                  <circle cx="104" cy="-20" r="4" />
+                  <circle cx="96" cy="34" r="4" />
+                  <circle cx="48" cy="82" r="4" />
+                  <circle cx="-18" cy="96" r="4" />
+                  <circle cx="-84" cy="62" r="4" />
+                  <circle cx="-102" cy="16" r="4" />
+                </g>
+              </g>
+
+              <g stroke="rgba(255,255,255,0.18)" stroke-width="1" fill="none">
+                <path d="M116 138 H248" />
+                <path d="M116 132 V144" />
+                <path d="M248 132 V144" />
+                <path d="M410 468 H548" />
+                <path d="M410 462 V474" />
+                <path d="M548 462 V474" />
+                <path d="M536 160 V286" />
+                <path d="M530 160 H542" />
+                <path d="M530 286 H542" />
+              </g>
+
+              <g fill="#b8cae6" font-size="12" font-family="Inter, Arial, sans-serif" letter-spacing=".03em">
+                <text x="146" y="126">SCAN</text>
+                <text x="432" y="454">CAD</text>
+                <text x="548" y="228" transform="rotate(90 548 228)">PROTOTYPE</text>
+              </g>
+            </svg>
+
+            <div class="diagram-overlay" aria-hidden="true">
+              <div class="diagram-badge top-left">
+                <strong>Сканирование</strong>
+                <span>Физический объект, геометрия, форма и исходные размеры</span>
+              </div>
+              <div class="diagram-badge top-right">
+                <strong>Реверс и CAD</strong>
+                <span>Инженерная логика, параметры, STEP, чертежи и техническая подготовка</span>
+              </div>
+              <div class="diagram-badge bottom-left">
+                <strong>Прототип и оснастка</strong>
+                <span>Проверка идеи, посадок, формы, сборки и сценария производства</span>
+              </div>
+              <div class="diagram-badge bottom-right">
+                <strong>Готовый результат</strong>
+                <span>Изделие, мастер-модель, малые серии или комплект цифровых данных</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="stage-foot">
+            <div class="metric card">
+              <span class="metric-value">5-10 сек</span>
+              <span class="metric-label">Столько должен занимать первый ответ сайта на вопрос: кто вы и что делаете</span>
+            </div>
+            <div class="metric card">
+              <span class="metric-value">STL - STEP</span>
+              <span class="metric-label">Четко объясняем разницу между сеткой, инженерной моделью и форматами выдачи</span>
+            </div>
+            <div class="metric card">
+              <span class="metric-value">3 сценария</span>
+              <span class="metric-label">Короткая форма, подробная заявка и быстрый переход в Telegram</span>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -119,286 +1591,254 @@
     <section class="section" id="services">
       <div class="container">
         <div class="section-head reveal">
-          <h2>Инженерные услуги STEP_3D</h2>
-          <p>Берём отдельный этап или полный цикл по утверждённому плану.</p>
+          <span class="eyebrow">Услуги</span>
+          <h2 class="title">Инженерный контур без лишних обещаний</h2>
+          <p class="subtitle">На сайте оставлены только те направления, которые поддерживают главное позиционирование STEP_3D как инженерно-производственной студии полного цикла.</p>
         </div>
-        <div class="cards-grid services-grid">
-          <article class="card panel service-card reveal"><h3>3D-сканирование</h3><p>Прецизионная оцифровка деталей и узлов для контроля геометрии и последующей разработки.</p></article>
-          <article class="card panel service-card reveal"><h3>Реверсивный инжиниринг</h3><p>Восстановление параметрических моделей и КД по образцу, скану или архивным данным.</p></article>
-          <article class="card panel service-card reveal"><h3>3D-моделирование</h3><p>Разработка CAD‑моделей и узлов для прототипирования, модернизации и серийного выпуска.</p></article>
-          <article class="card panel service-card reveal"><h3>Прототипирование</h3><p>Изготовление функциональных прототипов для проверки конструкции до запуска.</p></article>
-          <article class="card panel service-card reveal"><h3>3D-печать</h3><p>Печать инженерных деталей с подбором технологии и материала под нагрузку и среду.</p></article>
-          <article class="card panel service-card reveal"><h3>Мастер-модели</h3><p>Подготовка мастер‑моделей для литья, оснастки и серийного тиражирования.</p></article>
-        </div>
-      </div>
-    </section>
 
-    <section class="section" id="industries">
-      <div class="container">
-        <div class="section-head reveal">
-          <h2>Отраслевые задачи</h2>
-          <p>Работаем с производством, инжинирингом и проектными командами, где важны сроки и точность.</p>
-        </div>
-        <div class="cards-grid three-up">
-          <article class="card panel reveal"><h3>Промышленность и сервис</h3><p>Восстановление критичных деталей, реверс дефицитных комплектующих, снижение простоев.</p></article>
-          <article class="card panel reveal"><h3>Инжиниринг и R&amp;D</h3><p>Цикл «идея — прототип — испытание» с подготовкой к пилотной серии.</p></article>
-          <article class="card panel reveal"><h3>Образование и проектные команды</h3><p>Изготовление учебных и демонстрационных образцов с инженерной точностью.</p></article>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="cases">
-      <div class="container">
-        <div class="section-head reveal">
-          <h2>Кейсы</h2>
-          <p>Примеры реализованных задач с измеримым эффектом для заказчика.</p>
-        </div>
-        <div class="case-filters reveal" role="tablist" aria-label="Фильтр кейсов">
-          <button type="button" class="chip active" data-filter="all" aria-pressed="true">Все кейсы</button>
-          <button type="button" class="chip" data-filter="scan" aria-pressed="false">Сканирование</button>
-          <button type="button" class="chip" data-filter="reverse" aria-pressed="false">Реверс</button>
-          <button type="button" class="chip" data-filter="print" aria-pressed="false">Печать и прототип</button>
-        </div>
-        <div class="cards-grid three-up" id="caseGrid">
-          <article class="card panel case-card reveal" data-category="scan reverse">
-            <p class="case-tag">Промышленность</p>
-            <h3>Восстановление импортного кронштейна</h3>
-            <p>Сняли геометрию, восстановили CAD и подготовили версию под локальное производство.</p>
-            <button class="link-arrow case-more" type="button">Показать результат</button>
-            <div class="case-extra" hidden>
-              <p>Результат: простой сокращён на 18 дней, себестоимость детали снижена на 31%.</p>
-            </div>
+        <div class="grid services-grid">
+          <article class="card service-card reveal">
+            <div class="service-icon">◎</div>
+            <h3>3D-сканирование</h3>
+            <p>Оцифровка объектов и деталей для анализа геометрии, восстановления формы и запуска дальнейшей инженерной работы.</p>
+            <ul class="service-list">
+              <li>Снятие формы и размеров</li>
+              <li>Подготовка сеточной модели</li>
+              <li>Основа для реверса и проверки</li>
+            </ul>
           </article>
-          <article class="card panel case-card reveal" data-category="reverse print">
-            <p class="case-tag">Спецтехника</p>
-            <h3>Корпус датчика под стендовые испытания</h3>
-            <p>Выполнили реверс исходной детали, усилили конструкцию и провели серию виброиспытаний на прототипах.</p>
-            <button class="link-arrow case-more" type="button">Показать результат</button>
-            <div class="case-extra" hidden>
-              <p>Три инженерные итерации за 9 дней вместо стандартных 3–4 недель.</p>
-            </div>
+          <article class="card service-card reveal">
+            <div class="service-icon">▣</div>
+            <h3>3D-моделирование</h3>
+            <p>Создание цифровых моделей по образцу, чертежу, эскизу или исходным данным для визуализации и производства.</p>
+            <ul class="service-list">
+              <li>Модели для печати и презентации</li>
+              <li>Подготовка геометрии под задачу</li>
+              <li>Оптимизация формы и сборки</li>
+            </ul>
           </article>
-          <article class="card panel case-card reveal" data-category="print">
-            <p class="case-tag">R&amp;D</p>
-            <h3>Прототип узла за 5 дней</h3>
-            <p>Спроектировали и изготовили функциональный прототип для внутренних испытаний и защиты проекта.</p>
-            <button class="link-arrow case-more" type="button">Показать результат</button>
-            <div class="case-extra" hidden>
-              <p>Команда заказчика прошла инвестиционный комитет без переноса графика.</p>
-            </div>
+          <article class="card service-card reveal">
+            <div class="service-icon">⟐</div>
+            <h3>Реверсивный инжиниринг</h3>
+            <p>Перевод реального изделия или сетки в инженерную CAD-модель с логикой размеров, поверхностей и параметров.</p>
+            <ul class="service-list">
+              <li>STEP, CAD, техническая документация</li>
+              <li>Восстановление деталей и узлов</li>
+              <li>Подготовка под фрезеровку, литье и печать</li>
+            </ul>
           </article>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="routes">
-      <div class="container">
-        <div class="section-head reveal">
-          <h2>Как мы работаем</h2>
-          <p>Формат подбираем по цели проекта, зрелости входных данных и ресурсу вашей команды.</p>
-        </div>
-        <div class="cards-grid three-up">
-          <article class="card panel reveal"><h3>Точечная задача</h3><p>Закрываем конкретный этап: сканирование, CAD, прототип или КД.</p></article>
-          <article class="card panel reveal"><h3>Полный инженерный цикл</h3><p>Ведём проект от брифа до передачи документации и готовых образцов.</p></article>
-          <article class="card panel reveal"><h3>Инженерный аутсорс</h3><p>Работаем как внешняя инженерная команда на регулярной основе.</p></article>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="deliverables">
-      <div class="container">
-        <div class="deliverables panel reveal">
-          <div class="section-head">
-            <h2>Что входит в результат</h2>
-            <p>Состав поставки фиксируем до старта. Вы получаете комплект, который можно сразу применять в работе.</p>
-          </div>
-          <ul class="deliverable-list">
-            <li>3D-модели в согласованных форматах (STEP, IGES, STL и др.).</li>
-            <li>Чертежи, спецификации и требования к изготовлению.</li>
-            <li>Прототипы/образцы для функциональной проверки.</li>
-            <li>Отчёт по критическим зонам и инженерным рискам.</li>
-            <li>Рекомендации по запуску в производство.</li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="estimator">
-      <div class="container">
-        <div class="section-head reveal">
-          <h2>Бриф проекта</h2>
-          <p>За 30 секунд получите предварительный диапазон бюджета, сроков и рисков.</p>
-        </div>
-        <div class="estimator-grid">
-          <form class="panel estimator reveal" id="estimatorForm">
-            <div class="range-head"><label for="complexity">Сложность геометрии</label><output id="complexityValue" for="complexity">3 / 5</output></div>
-            <input id="complexity" name="complexity" type="range" min="1" max="5" value="3" />
-            <p class="field-hint" id="complexityHint">Средняя сложность.</p>
-            <div class="range-head"><label for="urgency">Срочность</label><output id="urgencyValue" for="urgency">2 / 5</output></div>
-            <input id="urgency" name="urgency" type="range" min="1" max="5" value="2" />
-            <p class="field-hint" id="urgencyHint">Стандартный график.</p>
-            <div class="range-head"><label for="parts">Количество деталей</label><output id="partsValue" for="parts">10 шт.</output></div>
-            <input id="parts" name="parts" type="range" min="1" max="50" value="10" />
-            <p class="field-hint" id="partsHint">Небольшая партия.</p>
-            <div class="estimator-actions">
-              <button class="chip" id="estimatorReset" type="button">Сбросить</button>
-              <button class="chip" id="estimateCopy" type="button">Скопировать оценку</button>
-            </div>
-          </form>
-          <aside class="panel estimator-result reveal" aria-live="polite">
-            <h3>Предварительная оценка</h3>
-            <p><strong id="estimateBudget">~ 180 000 ₽</strong></p>
-            <p>Срок: <strong id="estimateTime">12 рабочих дней</strong></p>
-            <p>Риск-профиль: <strong id="estimateRisk">Средний</strong></p>
-            <a class="btn btn-sm" href="#lead-form">Подтвердить оценку с инженером</a>
-          </aside>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="testimonials">
-      <div class="container">
-        <div class="section-head reveal">
-          <h2>Отзывы заказчиков</h2>
-          <p>Краткая обратная связь от инженерных и производственных команд.</p>
-        </div>
-        <div class="cards-grid three-up">
-          <blockquote class="card panel reveal testimonial"><p>«Оперативно сняли геометрию и закрыли задачу реверса, благодаря чему мы избежали простоя линии.»</p><cite>Руководитель сервиса, машиностроение</cite></blockquote>
-          <blockquote class="card panel reveal testimonial"><p>«Передали CAD и КД без доработок с нашей стороны. Решение сразу ушло в производство.»</p><cite>Главный конструктор, приборостроение</cite></blockquote>
-          <blockquote class="card panel reveal testimonial"><p>«Прототип получили в согласованный срок. Испытания прошли по плану, следующий этап запустили без сдвига.»</p><cite>Менеджер продукта, R&amp;D команда</cite></blockquote>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="faq">
-      <div class="container">
-        <div class="section-head reveal">
-          <h2>Вопросы и ответы</h2>
-          <p>Ответы на вопросы, которые обычно нужны до старта работ.</p>
-        </div>
-        <label class="faq-search-wrap" for="faqSearch">
-          <span>Поиск по вопросам</span>
-          <input id="faqSearch" type="search" placeholder="Например: NDA, сроки, форматы" />
-          <small class="field-hint" id="faqSearchMeta">Найдено 4 из 4 вопросов</small>
-        </label>
-        <p class="panel faq-empty" id="faqEmpty" hidden>По вашему запросу ничего не найдено. Попробуйте другие ключевые слова.</p>
-        <div class="faq-list">
-          <details class="panel reveal">
-            <summary>Какие данные можно отправить для оценки?</summary>
-            <p>Принимаем CAD‑файлы, сканы, STL/OBJ, фото с размерами и краткое описание задачи.</p>
-          </details>
-          <details class="panel reveal">
-            <summary>Можно ли заказать только один этап работ?</summary>
-            <p>Да. Можно заказать отдельный этап: сканирование, реверс, моделирование, печать или подготовку КД.</p>
-          </details>
-          <details class="panel reveal">
-            <summary>Как быстро вы даёте обратную связь?</summary>
-            <p>Первичный инженерный отклик направляем в течение 24 рабочих часов.</p>
-          </details>
-          <details class="panel reveal">
-            <summary>Работаете с NDA и корпоративными политиками?</summary>
-            <p>Да. Подписываем NDA и работаем в рамках требований вашей ИБ и договорных ограничений.</p>
-          </details>
+          <article class="card service-card reveal">
+            <div class="service-icon">◫</div>
+            <h3>3D-печать</h3>
+            <p>Единичные изделия, прототипы, малые серии, проверочные образцы и элементы для дальнейшей сборки или демонстрации.</p>
+            <ul class="service-list">
+              <li>Прототипы и функциональные детали</li>
+              <li>Макеты, награды, нестандартные изделия</li>
+              <li>Подготовка модели к печати</li>
+            </ul>
+          </article>
         </div>
       </div>
     </section>
 
     <section class="section" id="contacts">
-      <div class="container contacts-grid">
-        <article class="panel contact-panel reveal">
-          <h2>Связаться с инженерной командой STEP_3D</h2>
-          <p>Пришлите задачу и исходные данные. Мы вернём план работ, сроки, риски и бюджетный диапазон.</p>
-          <ul class="contact-list">
-            <li><strong>Telegram:</strong> <a href="https://t.me/step3d_studio" target="_blank" rel="noopener noreferrer">@step3d_studio</a></li>
-            <li><strong>E-mail:</strong> <a href="mailto:hello@step3d.studio">hello@step3d.studio</a></li>
-            <li><strong>Телефон:</strong> <a href="tel:+79990000000">+7 (999) 000-00-00</a></li>
-            <li><strong>Локация:</strong> Москва</li>
-          </ul>
-          <div class="contact-shortcuts">
-            <a class="chip" href="mailto:hello@step3d.studio">Написать на e-mail</a>
-            <a class="chip" href="tel:+79990000000">Заказать звонок</a>
+      <div class="container contact-shell">
+        <div class="card contact-panel reveal">
+          <span class="eyebrow">Контакты</span>
+          <h2 class="title" style="font-size:clamp(28px,3.6vw,48px); margin-top:16px;">Быстрый старт без лишних действий</h2>
+          <p class="subtitle" style="margin-top:12px;">Если задача небольшая, достаточно Telegram или короткой формы. Если проект сложнее, оставьте расширенный бриф - это ускорит оценку и сделает ответ предметнее.</p>
+
+          <div class="contact-grid">
+            <a class="contact-box" href="tel:+79000000000">
+              <small>Телефон</small>
+              <strong>+7 900 000 00 00</strong>
+            </a>
+            <a class="contact-box" href="mailto:hello@example.com">
+              <small>E-mail</small>
+              <strong>hello@example.com</strong>
+            </a>
+            <a class="contact-box" href="https://t.me/step_3d_mngr" target="_blank" rel="noopener">
+              <small>Telegram</small>
+              <strong>@step_3d_mngr</strong>
+            </a>
+            <div class="contact-box">
+              <small>Адрес</small>
+              <strong>Москва, Беговая ул., 12</strong>
+            </div>
           </div>
-        </article>
+        </div>
 
-        <form class="panel lead-form reveal" id="lead-form" novalidate>
-          <h2>Форма инженерной заявки</h2>
-          <div class="form-progress" aria-hidden="true"><span id="formProgressBar"></span></div>
-          <p class="field-hint" id="formProgressText">Заполнено 0 из 4 обязательных полей</p>
-          <label for="name">Имя</label>
-          <input id="name" name="name" type="text" autocomplete="name" placeholder="Имя и должность" required aria-describedby="nameHint nameError" />
-          <small class="field-hint" id="nameHint">Не менее 2 символов.</small>
-          <small class="field-error" id="nameError" aria-live="polite"></small>
-
-          <label for="contact">Рабочий контакт</label>
-          <input id="contact" name="contact" type="text" inputmode="email" autocomplete="email" placeholder="Telegram, e-mail или телефон" required aria-describedby="contactHint contactError" />
-          <small class="field-hint" id="contactHint">Укажите канал для обратной связи.</small>
-          <small class="field-error" id="contactError" aria-live="polite"></small>
-          <button class="chip copy-chip" type="button" data-copy="hello@step3d.studio">Скопировать e-mail</button>
-
-          <label for="service">Нужная услуга</label>
-          <select id="service" name="service" required aria-describedby="serviceError">
-            <option value="" selected disabled>Выберите направление</option>
-            <option value="scan">3D-сканирование</option>
-            <option value="reverse">Реверсивный инжиниринг</option>
-            <option value="modeling">3D-моделирование</option>
-            <option value="print">Прототипирование / 3D-печать</option>
-            <option value="full">Полный инженерный цикл</option>
-          </select>
-          <small class="field-error" id="serviceError" aria-live="polite"></small>
-
-          <label for="task">Описание задачи</label>
-          <textarea id="task" name="task" rows="4" maxlength="500" placeholder="Цель, исходные данные, сроки, ограничения" required aria-describedby="taskCounter taskError"></textarea>
-          <small class="field-hint field-counter" id="taskCounter">0 / 500</small>
-          <small class="field-error" id="taskError" aria-live="polite"></small>
-
-          <div class="form-actions">
-            <button class="btn" id="formSubmit" type="submit" disabled>Отправить инженеру</button>
-            <button class="chip" id="saveDraft" type="button">Сохранить черновик</button>
+        <div class="card form-card reveal">
+          <span class="eyebrow">Форма заявки</span>
+          <div class="form-tabs" role="tablist" aria-label="Выбор типа формы">
+            <button class="form-tab is-active" type="button" data-tab="short" role="tab" aria-selected="true">Короткая форма</button>
+            <button class="form-tab" type="button" data-tab="full" role="tab" aria-selected="false">Расширенная форма</button>
           </div>
-          <p class="form-note">Нажимая кнопку, вы принимаете <a href="../privacy.html">политику конфиденциальности</a>.</p>
-          <p id="formStatus" aria-live="polite"></p>
-          <p class="field-hint" id="draftStatus" aria-live="polite"></p>
-        </form>
+
+          <form class="form-pane is-active" id="form-short" action="#" method="post">
+            <div class="field-grid">
+              <div class="field">
+                <label for="short-name">Имя</label>
+                <input id="short-name" name="name" type="text" placeholder="Как к вам обращаться" />
+              </div>
+              <div class="field">
+                <label for="short-contact">Телефон или Telegram</label>
+                <input id="short-contact" name="contact" type="text" placeholder="Например: +7... или @username" />
+              </div>
+            </div>
+            <div class="field">
+              <label for="short-task">Описание задачи</label>
+              <textarea id="short-task" name="task" placeholder="Кратко опишите, что нужно сделать"></textarea>
+            </div>
+            <div class="btn-row">
+              <button class="btn btn-primary" type="submit">Отправить заявку</button>
+              <a class="btn btn-secondary" href="https://t.me/step_3d_mngr" target="_blank" rel="noopener">Обсудить в Telegram</a>
+            </div>
+            <div class="form-note">Перед публикацией подключите реальную обработку формы, уведомления в Telegram или e-mail и тексты согласий.</div>
+          </form>
+
+          <form class="form-pane" id="form-full" action="#" method="post">
+            <div class="field-grid">
+              <div class="field">
+                <label for="full-name">Имя</label>
+                <input id="full-name" name="full_name" type="text" placeholder="Ваше имя" />
+              </div>
+              <div class="field">
+                <label for="company">Компания</label>
+                <input id="company" name="company" type="text" placeholder="Если обращаетесь от организации" />
+              </div>
+            </div>
+            <div class="field">
+              <label for="full-task">Описание задачи</label>
+              <textarea id="full-task" name="full_task" placeholder="Что есть на входе, что нужно получить на выходе, какие есть ограничения и условия"></textarea>
+            </div>
+            <div class="btn-row">
+              <button class="btn btn-primary" type="submit">Отправить расширенную заявку</button>
+              <a class="btn btn-secondary" href="mailto:hello@example.com">Отправить материалы по e-mail</a>
+            </div>
+            <div class="form-note">Для реального запуска добавьте безопасную загрузку файлов, явные чекбоксы согласий и обработку событий аналитики.</div>
+          </form>
+        </div>
       </div>
     </section>
   </main>
 
-  <footer class="site-footer">
+  <footer class="footer">
     <div class="container footer-grid">
-      <div>
-        <p>© 2026 STEP_3D</p>
-        <p class="footer-muted">Инженерная студия STEP_3D.</p>
+      <div class="card footer-card reveal">
+        <div class="brand" style="margin-bottom:16px;">
+          <span class="brand-mark" aria-hidden="true"></span>
+          <span class="brand-text">
+            <h3 class="brand-title">STEP_3D</h3>
+            <p class="brand-sub">Инженерная студия полного цикла</p>
+          </span>
+        </div>
+        <p class="subtitle" style="font-size:15px; max-width:520px;">
+          Новый сайт STEP_3D должен создавать простое и сильное впечатление: передо мной серьезная инженерная команда, которая умеет принять задачу, перевести ее в цифровую форму и довести до готового результата.
+        </p>
       </div>
-      <nav class="footer-links" aria-label="Дополнительная навигация">
-        <a href="#services">Услуги</a>
-        <a href="#cases">Кейсы</a>
-        <a href="#contacts">Контакты</a>
-        <a href="../offer.html">Оферта</a>
-        <a href="../privacy.html">Конфиденциальность</a>
-      </nav>
+
+      <div class="card footer-card reveal">
+        <h3 style="margin:0; font-size:22px; letter-spacing:-0.03em;">Навигация</h3>
+        <div class="footer-links">
+          <a href="#services">Услуги</a>
+          <a href="#contacts">Контакты</a>
+        </div>
+      </div>
+
+      <div class="card footer-card reveal">
+        <h3 style="margin:0; font-size:22px; letter-spacing:-0.03em;">Юридический контур</h3>
+        <div class="footer-links">
+          <a href="#">Публичная оферта</a>
+          <a href="#">Политика обработки персональных данных</a>
+          <a href="#">ИНН / ОГРН / реквизиты</a>
+          <a href="mailto:hello@example.com">hello@example.com</a>
+          <a href="tel:+79000000000">+7 900 000 00 00</a>
+        </div>
+      </div>
     </div>
   </footer>
 
-  <a class="telegram-fab" href="https://t.me/step3d_studio" target="_blank" rel="noopener noreferrer" aria-label="Написать в Telegram">TG</a>
-
-  <div class="mobile-action-bar" aria-label="Быстрые действия">
-    <a href="tel:+79990000000">Позвонить</a>
-    <a href="https://t.me/step3d_studio" target="_blank" rel="noopener noreferrer">Telegram</a>
-    <a class="primary" href="#lead-form">Заявка</a>
+  <div class="mobile-bar" aria-label="Быстрые действия">
+    <a class="mobile-link" href="tel:+79000000000">Позвонить</a>
+    <a class="mobile-link primary" href="#contacts">Заявка</a>
+    <a class="mobile-link" href="https://t.me/step_3d_mngr" target="_blank" rel="noopener">Telegram</a>
   </div>
 
-  <button class="back-to-top" id="backToTop" type="button" aria-label="Вернуться наверх">↑</button>
+  <script>
+    const siteHeader = document.getElementById('siteHeader');
+    const menuToggle = document.getElementById('menuToggle');
+    const navLinks = document.querySelectorAll('#siteNav a');
 
-  <div class="toast" id="toast" role="status" aria-live="polite"></div>
-  <dialog class="success-modal" id="successModal">
-    <h2>Заявка принята</h2>
-    <p>Следующий шаг: инженер свяжется с вами, уточнит детали и подтвердит план работ.</p>
-    <div class="modal-actions">
-      <a class="btn btn-sm" href="https://t.me/step3d_studio" target="_blank" rel="noopener noreferrer">Перейти в Telegram</a>
-      <button class="btn btn-sm btn-ghost" id="closeModal" type="button">Закрыть</button>
-    </div>
-  </dialog>
+    if (menuToggle) {
+      menuToggle.addEventListener('click', () => {
+        const isOpen = siteHeader.classList.toggle('is-open');
+        menuToggle.setAttribute('aria-expanded', String(isOpen));
+      });
+    }
 
-  <script src="./main.js" defer></script>
+    navLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        siteHeader.classList.remove('is-open');
+        if (menuToggle) menuToggle.setAttribute('aria-expanded', 'false');
+      });
+    });
+
+    const sections = Array.from(document.querySelectorAll('main section[id]'));
+    const navMap = new Map(Array.from(navLinks).map(link => [link.getAttribute('href').slice(1), link]));
+
+    const setActiveLink = () => {
+      let current = sections[0]?.id;
+      const offset = window.scrollY + 140;
+      sections.forEach(section => {
+        if (offset >= section.offsetTop) current = section.id;
+      });
+      navLinks.forEach(link => link.classList.remove('is-active'));
+      if (navMap.has(current)) navMap.get(current).classList.add('is-active');
+    };
+
+    window.addEventListener('scroll', setActiveLink, { passive: true });
+    setActiveLink();
+
+    const revealItems = document.querySelectorAll('.reveal');
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.14 });
+
+    revealItems.forEach(item => revealObserver.observe(item));
+
+    const tabs = document.querySelectorAll('.form-tab');
+    const panes = {
+      short: document.getElementById('form-short'),
+      full: document.getElementById('form-full')
+    };
+
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        const key = tab.dataset.tab;
+        tabs.forEach(btn => {
+          btn.classList.remove('is-active');
+          btn.setAttribute('aria-selected', 'false');
+        });
+        tab.classList.add('is-active');
+        tab.setAttribute('aria-selected', 'true');
+
+        Object.values(panes).forEach(pane => pane.classList.remove('is-active'));
+        if (panes[key]) panes[key].classList.add('is-active');
+      });
+    });
+
+    document.querySelectorAll('form').forEach(form => {
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        alert('Демо-режим: подключите реальную отправку формы, уведомления и аналитику перед публикацией.');
+      });
+    });
+  </script>
 </body>
 </html>
