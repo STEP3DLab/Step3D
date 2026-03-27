@@ -15,7 +15,10 @@
   <div class="topbar" role="status" aria-live="polite">
     <div class="container topbar-inner">
       <p><strong>Инженерный бриф за 3 шага:</strong> фиксируем задачу, сроки и диапазон бюджета без лишней переписки.</p>
-      <a href="#estimator">Открыть бриф</a>
+      <div class="topbar-actions">
+        <a href="#estimator">Открыть бриф</a>
+        <button class="topbar-close" id="topbarClose" type="button" aria-label="Скрыть уведомление">✕</button>
+      </div>
     </div>
   </div>
   <div class="bg-grid" aria-hidden="true"></div>
@@ -28,6 +31,7 @@
       <a class="brand" href="#hero" aria-label="STEP_3D, на главную">
         <img src="./assets/logo.svg" alt="Логотип STEP_3D" width="34" height="34" />
         <span>STEP_3D</span>
+        <span class="brand-badge" aria-label="Отвечаем в течение 24 часов">24ч</span>
       </a>
       <button class="menu-toggle" id="menuToggle" type="button" aria-expanded="false" aria-controls="mainNav">Меню</button>
       <nav class="main-nav" id="mainNav" aria-label="Основная навигация">
@@ -227,12 +231,19 @@
         </div>
         <div class="estimator-grid">
           <form class="panel estimator reveal" id="estimatorForm">
-            <label for="complexity">Сложность геометрии</label>
+            <div class="range-head"><label for="complexity">Сложность геометрии</label><output id="complexityValue" for="complexity">3 / 5</output></div>
             <input id="complexity" name="complexity" type="range" min="1" max="5" value="3" />
-            <label for="urgency">Срочность</label>
+            <p class="field-hint" id="complexityHint">Средняя сложность.</p>
+            <div class="range-head"><label for="urgency">Срочность</label><output id="urgencyValue" for="urgency">2 / 5</output></div>
             <input id="urgency" name="urgency" type="range" min="1" max="5" value="2" />
-            <label for="parts">Количество деталей</label>
+            <p class="field-hint" id="urgencyHint">Стандартный график.</p>
+            <div class="range-head"><label for="parts">Количество деталей</label><output id="partsValue" for="parts">10 шт.</output></div>
             <input id="parts" name="parts" type="range" min="1" max="50" value="10" />
+            <p class="field-hint" id="partsHint">Небольшая партия.</p>
+            <div class="estimator-actions">
+              <button class="chip" id="estimatorReset" type="button">Сбросить</button>
+              <button class="chip" id="estimateCopy" type="button">Скопировать оценку</button>
+            </div>
           </form>
           <aside class="panel estimator-result reveal" aria-live="polite">
             <h3>Предварительная оценка</h3>
@@ -268,7 +279,9 @@
         <label class="faq-search-wrap" for="faqSearch">
           <span>Поиск по вопросам</span>
           <input id="faqSearch" type="search" placeholder="Например: NDA, сроки, форматы" />
+          <small class="field-hint" id="faqSearchMeta">Найдено 4 из 4 вопросов</small>
         </label>
+        <p class="panel faq-empty" id="faqEmpty" hidden>По вашему запросу ничего не найдено. Попробуйте другие ключевые слова.</p>
         <div class="faq-list">
           <details class="panel reveal">
             <summary>Какие данные можно отправить для оценки?</summary>
@@ -301,6 +314,10 @@
             <li><strong>Телефон:</strong> <a href="tel:+79990000000">+7 (999) 000-00-00</a></li>
             <li><strong>Локация:</strong> Москва</li>
           </ul>
+          <div class="contact-shortcuts">
+            <a class="chip" href="mailto:hello@step3d.studio">Написать на e-mail</a>
+            <a class="chip" href="tel:+79990000000">Заказать звонок</a>
+          </div>
         </article>
 
         <form class="panel lead-form reveal" id="lead-form" novalidate>
@@ -308,16 +325,18 @@
           <div class="form-progress" aria-hidden="true"><span id="formProgressBar"></span></div>
           <p class="field-hint" id="formProgressText">Заполнено 0 из 4 обязательных полей</p>
           <label for="name">Имя</label>
-          <input id="name" name="name" type="text" autocomplete="name" placeholder="Имя и должность" required />
-          <small class="field-hint">Не менее 2 символов.</small>
+          <input id="name" name="name" type="text" autocomplete="name" placeholder="Имя и должность" required aria-describedby="nameHint nameError" />
+          <small class="field-hint" id="nameHint">Не менее 2 символов.</small>
+          <small class="field-error" id="nameError" aria-live="polite"></small>
 
           <label for="contact">Рабочий контакт</label>
-          <input id="contact" name="contact" type="text" autocomplete="email" placeholder="Telegram, e-mail или телефон" required />
-          <small class="field-hint">Укажите канал для обратной связи.</small>
+          <input id="contact" name="contact" type="text" inputmode="email" autocomplete="email" placeholder="Telegram, e-mail или телефон" required aria-describedby="contactHint contactError" />
+          <small class="field-hint" id="contactHint">Укажите канал для обратной связи.</small>
+          <small class="field-error" id="contactError" aria-live="polite"></small>
           <button class="chip copy-chip" type="button" data-copy="hello@step3d.studio">Скопировать e-mail</button>
 
           <label for="service">Нужная услуга</label>
-          <select id="service" name="service" required>
+          <select id="service" name="service" required aria-describedby="serviceError">
             <option value="" selected disabled>Выберите направление</option>
             <option value="scan">3D-сканирование</option>
             <option value="reverse">Реверсивный инжиниринг</option>
@@ -325,14 +344,20 @@
             <option value="print">Прототипирование / 3D-печать</option>
             <option value="full">Полный инженерный цикл</option>
           </select>
+          <small class="field-error" id="serviceError" aria-live="polite"></small>
 
           <label for="task">Описание задачи</label>
-          <textarea id="task" name="task" rows="4" maxlength="500" placeholder="Цель, исходные данные, сроки, ограничения" required></textarea>
+          <textarea id="task" name="task" rows="4" maxlength="500" placeholder="Цель, исходные данные, сроки, ограничения" required aria-describedby="taskCounter taskError"></textarea>
           <small class="field-hint field-counter" id="taskCounter">0 / 500</small>
+          <small class="field-error" id="taskError" aria-live="polite"></small>
 
-          <button class="btn" id="formSubmit" type="submit">Отправить инженеру</button>
+          <div class="form-actions">
+            <button class="btn" id="formSubmit" type="submit" disabled>Отправить инженеру</button>
+            <button class="chip" id="saveDraft" type="button">Сохранить черновик</button>
+          </div>
           <p class="form-note">Нажимая кнопку, вы принимаете <a href="../privacy.html">политику конфиденциальности</a>.</p>
           <p id="formStatus" aria-live="polite"></p>
+          <p class="field-hint" id="draftStatus" aria-live="polite"></p>
         </form>
       </div>
     </section>

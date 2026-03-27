@@ -15,6 +15,13 @@ const mainNav = qs('#mainNav');
 const themeToggle = qs('#themeToggle');
 const a11yToggle = qs('#a11yToggle');
 const a11yPanel = qs('#a11yPanel');
+const topbar = qs('.topbar');
+const topbarClose = qs('#topbarClose');
+if (localStorage.getItem('topbarHidden') === '1') topbar?.classList.add('is-hidden');
+topbarClose?.addEventListener('click', () => {
+  topbar?.classList.add('is-hidden');
+  localStorage.setItem('topbarHidden', '1');
+});
 if (menuToggle && mainNav) {
   menuToggle.addEventListener('click', () => {
     const opened = mainNav.classList.toggle('open');
@@ -27,13 +34,31 @@ if (menuToggle && mainNav) {
       menuToggle.setAttribute('aria-expanded', 'false');
     });
   });
+
+  document.addEventListener('click', (event) => {
+    if (!mainNav.classList.contains('open')) return;
+    if (mainNav.contains(event.target) || menuToggle.contains(event.target)) return;
+    mainNav.classList.remove('open');
+    menuToggle.setAttribute('aria-expanded', 'false');
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key !== 'Escape') return;
+    if (!mainNav.classList.contains('open')) return;
+    mainNav.classList.remove('open');
+    menuToggle.setAttribute('aria-expanded', 'false');
+    menuToggle.focus();
+  });
 }
 
 const savedTheme = localStorage.getItem('theme');
 if (savedTheme === 'dark') document.body.classList.add('dark');
+themeToggle?.setAttribute('aria-pressed', String(document.body.classList.contains('dark')));
 themeToggle?.addEventListener('click', () => {
   document.body.classList.toggle('dark');
-  localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light');
+  const isDark = document.body.classList.contains('dark');
+  localStorage.setItem('theme', isDark ? 'dark' : 'light');
+  themeToggle.setAttribute('aria-pressed', String(isDark));
 });
 
 a11yToggle?.addEventListener('click', () => {
@@ -41,16 +66,25 @@ a11yToggle?.addEventListener('click', () => {
   a11yPanel.hidden = !a11yPanel.hidden;
 });
 
+const storedScale = Number(localStorage.getItem('fontScale') || '1');
+if (storedScale >= 0.95 && storedScale <= 1.3) document.body.style.setProperty('--font-scale', String(storedScale));
+if (localStorage.getItem('reduceMotion') === '1') document.body.classList.add('reduce-motion');
+
 qs('#fontInc')?.addEventListener('click', () => {
   const current = Number(getComputedStyle(document.body).getPropertyValue('--font-scale')) || 1;
-  document.body.style.setProperty('--font-scale', String(Math.min(1.3, current + 0.05)));
+  const next = Math.min(1.3, current + 0.05);
+  document.body.style.setProperty('--font-scale', String(next));
+  localStorage.setItem('fontScale', String(next));
 });
 qs('#fontDec')?.addEventListener('click', () => {
   const current = Number(getComputedStyle(document.body).getPropertyValue('--font-scale')) || 1;
-  document.body.style.setProperty('--font-scale', String(Math.max(0.95, current - 0.05)));
+  const next = Math.max(0.95, current - 0.05);
+  document.body.style.setProperty('--font-scale', String(next));
+  localStorage.setItem('fontScale', String(next));
 });
 qs('#motionToggle')?.addEventListener('click', () => {
   document.body.classList.toggle('reduce-motion');
+  localStorage.setItem('reduceMotion', document.body.classList.contains('reduce-motion') ? '1' : '0');
 });
 
 const progressBar = qs('#scrollProgressBar');
@@ -150,6 +184,12 @@ const estimatorForm = qs('#estimatorForm');
 const estimateBudget = qs('#estimateBudget');
 const estimateTime = qs('#estimateTime');
 const estimateRisk = qs('#estimateRisk');
+const complexityValue = qs('#complexityValue');
+const urgencyValue = qs('#urgencyValue');
+const partsValue = qs('#partsValue');
+const complexityHint = qs('#complexityHint');
+const urgencyHint = qs('#urgencyHint');
+const partsHint = qs('#partsHint');
 const updateEstimator = () => {
   if (!estimatorForm || !estimateBudget || !estimateTime || !estimateRisk) return;
   const complexity = Number(qs('#complexity')?.value || 3);
@@ -161,9 +201,34 @@ const updateEstimator = () => {
   estimateBudget.textContent = `~ ${budget.toLocaleString('ru-RU')} ₽`;
   estimateTime.textContent = `${days} рабочих дней`;
   estimateRisk.textContent = riskLevel;
+
+  if (complexityValue) complexityValue.textContent = `${complexity} / 5`;
+  if (urgencyValue) urgencyValue.textContent = `${urgency} / 5`;
+  if (partsValue) partsValue.textContent = `${parts} шт.`;
+  if (complexityHint) complexityHint.textContent = complexity >= 4 ? 'Высокая сложность: потребуется больше согласований.' : complexity <= 2 ? 'Низкая сложность: быстрый старт проекта.' : 'Средняя сложность.';
+  if (urgencyHint) urgencyHint.textContent = urgency >= 4 ? 'Высокая срочность: фокус на ускоренном цикле.' : urgency <= 2 ? 'Стандартный график.' : 'Умеренная срочность.';
+  if (partsHint) partsHint.textContent = parts > 30 ? 'Большой объём: добавим контрольные точки.' : 'Небольшая партия.';
 };
 qsa('input', estimatorForm || document).forEach((input) => input.addEventListener('input', updateEstimator));
 updateEstimator();
+
+qs('#estimatorReset')?.addEventListener('click', () => {
+  const complexity = qs('#complexity');
+  const urgency = qs('#urgency');
+  const parts = qs('#parts');
+  if (complexity) complexity.value = '3';
+  if (urgency) urgency.value = '2';
+  if (parts) parts.value = '10';
+  updateEstimator();
+  showToast('Параметры брифа сброшены.');
+});
+
+qs('#estimateCopy')?.addEventListener('click', async () => {
+  if (!navigator.clipboard) return;
+  const text = `Оценка STEP_3D: ${estimateBudget?.textContent || ''}, ${estimateTime?.textContent || ''}, риск: ${estimateRisk?.textContent || ''}`;
+  await navigator.clipboard.writeText(text);
+  showToast('Оценка скопирована.');
+});
 
 const taskField = qs('#task');
 const taskCounter = qs('#taskCounter');
@@ -172,7 +237,11 @@ const formProgressText = qs('#formProgressText');
 
 const updateTaskCounter = () => {
   if (!taskField || !taskCounter) return;
-  taskCounter.textContent = `${taskField.value.length} / ${taskField.maxLength || 500}`;
+  const max = taskField.maxLength || 500;
+  const length = taskField.value.length;
+  taskCounter.textContent = `${length} / ${max}`;
+  taskCounter.classList.toggle('near-limit', length >= max * 0.8 && length < max);
+  taskCounter.classList.toggle('at-limit', length >= max);
 };
 
 taskField?.addEventListener('input', updateTaskCounter);
@@ -181,6 +250,8 @@ updateTaskCounter();
 const leadForm = qs('#lead-form');
 const formStatus = qs('#formStatus');
 const submitButton = qs('#formSubmit');
+const saveDraftButton = qs('#saveDraft');
+const draftStatus = qs('#draftStatus');
 const requiredFields = qsa('input[required], textarea[required], select[required]', leadForm || document);
 const updateFormProgress = () => {
   if (!formProgressBar || !formProgressText || requiredFields.length === 0) return;
@@ -188,6 +259,7 @@ const updateFormProgress = () => {
   const percent = (done / requiredFields.length) * 100;
   formProgressBar.style.width = `${percent}%`;
   formProgressText.textContent = `Заполнено ${done} из ${requiredFields.length} обязательных полей`;
+  if (submitButton) submitButton.disabled = done < requiredFields.length;
 };
 
 const validateField = (field) => {
@@ -196,8 +268,18 @@ const validateField = (field) => {
 
   if (field.hasAttribute('required') && !value) valid = false;
   if (field.id === 'name' && value.length > 0 && value.length < 2) valid = false;
+  if (field.id === 'contact' && value.length > 0 && value.length < 5) valid = false;
 
   field.classList.toggle('is-invalid', !valid);
+  field.setAttribute('aria-invalid', String(!valid));
+  const errorEl = qs(`#${field.id}Error`);
+  if (errorEl) {
+    if (valid) errorEl.textContent = '';
+    else if (!value) errorEl.textContent = 'Поле обязательно для заполнения.';
+    else if (field.id === 'name') errorEl.textContent = 'Введите минимум 2 символа.';
+    else if (field.id === 'contact') errorEl.textContent = 'Укажите корректный контакт (минимум 5 символов).';
+    else errorEl.textContent = 'Проверьте заполнение поля.';
+  }
   return valid;
 };
 
@@ -209,6 +291,39 @@ requiredFields.forEach((field) => {
   });
 });
 updateFormProgress();
+
+const draftKey = 'step3dLeadDraft';
+const saveDraft = () => {
+  if (!leadForm) return;
+  const data = Object.fromEntries(new FormData(leadForm).entries());
+  localStorage.setItem(draftKey, JSON.stringify(data));
+  if (draftStatus) draftStatus.textContent = `Черновик сохранён: ${new Date().toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' })}`;
+};
+
+const restoreDraft = () => {
+  if (!leadForm) return;
+  const raw = localStorage.getItem(draftKey);
+  if (!raw) return;
+  try {
+    const data = JSON.parse(raw);
+    requiredFields.forEach((field) => {
+      const value = data[field.name];
+      if (typeof value === 'string') field.value = value;
+    });
+    updateTaskCounter();
+    updateFormProgress();
+    if (draftStatus) draftStatus.textContent = 'Черновик восстановлен автоматически.';
+  } catch {
+    localStorage.removeItem(draftKey);
+  }
+};
+
+restoreDraft();
+saveDraftButton?.addEventListener('click', () => {
+  saveDraft();
+  showToast('Черновик сохранён локально.');
+});
+requiredFields.forEach((field) => field.addEventListener('change', saveDraft));
 
 leadForm?.addEventListener('submit', async (event) => {
   event.preventDefault();
@@ -229,6 +344,7 @@ leadForm?.addEventListener('submit', async (event) => {
   await new Promise((resolve) => setTimeout(resolve, 850));
 
   leadForm.reset();
+  localStorage.removeItem(draftKey);
   requiredFields.forEach((field) => field.classList.remove('is-invalid'));
   updateTaskCounter();
 
@@ -252,10 +368,18 @@ qsa('#faq details').forEach((detail) => {
 
 qs('#faqSearch')?.addEventListener('input', (event) => {
   const phrase = String(event.target.value || '').toLowerCase().trim();
-  qsa('#faq details').forEach((detail) => {
+  const details = qsa('#faq details');
+  let visible = 0;
+  details.forEach((detail) => {
     const text = detail.textContent?.toLowerCase() || '';
-    detail.classList.toggle('is-hidden', phrase.length > 0 && !text.includes(phrase));
+    const hidden = phrase.length > 0 && !text.includes(phrase);
+    detail.classList.toggle('is-hidden', hidden);
+    if (!hidden) visible += 1;
   });
+
+  const meta = qs('#faqSearchMeta');
+  if (meta) meta.textContent = `Найдено ${visible} из ${details.length} вопросов`;
+  qs('#faqEmpty')?.toggleAttribute('hidden', visible > 0);
 });
 
 qsa('.copy-chip').forEach((btn) => {
