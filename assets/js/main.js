@@ -7,6 +7,7 @@ import { initModelViewer } from './modules/model-viewer.js';
 import { initNav } from './modules/nav.js';
 import { initHeroDynamic } from './modules/hero-dynamic.js';
 import { initTheme } from './modules/theme.js';
+import { initUx } from './modules/ux.js';
 
 let initialized = false;
 
@@ -26,6 +27,7 @@ function initApp() {
   initNav();
   initHeroDynamic();
   initTheme();
+  initUx();
   void initModelViewer();
 }
 
