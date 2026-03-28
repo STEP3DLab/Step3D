@@ -19,8 +19,8 @@
       --line: rgba(255,255,255,.08);
       --line-2: rgba(255,255,255,.14);
       --text: #f5f8ff;
-      --muted: #a8b6cc;
-      --muted-2: #7f90a7;
+      --muted: #c1cde0;
+      --muted-2: #93a3bb;
       --accent: #eef3ff;
       --accent-2: #b7ceff;
       --accent-3: #79a4ff;
@@ -43,6 +43,26 @@
       --header-h: 78px;
       --ease: 320ms cubic-bezier(.2,.8,.2,1);
       --ease-soft: 540ms cubic-bezier(.16,.84,.22,1);
+
+      /* UI tokens */
+      --font-body: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --font-heading: Manrope, Inter, ui-sans-serif, system-ui, sans-serif;
+      --text-xs: 12px;
+      --text-sm: 14px;
+      --text-md: 16px;
+      --text-lg: clamp(17px, 1.75vw, 21px);
+      --space-1: 4px;
+      --space-2: 8px;
+      --space-3: 12px;
+      --space-4: 16px;
+      --space-5: 20px;
+      --space-6: 24px;
+      --space-8: 32px;
+      --focus-ring: 0 0 0 3px rgba(226, 238, 255, .45), 0 0 0 7px rgba(121,164,255,.18);
+      --contrast-surface: rgba(7, 11, 18, .82);
+      --interactive-hover: rgba(255,255,255,.08);
+      --interactive-active: rgba(255,255,255,.12);
+      --interactive-disabled: .52;
     }
 
     * { box-sizing: border-box; }
@@ -52,7 +72,7 @@
       min-height: 100vh;
       overflow-x: hidden;
       color: var(--text);
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-family: var(--font-body);
       letter-spacing: -.018em;
       -webkit-font-smoothing: antialiased;
       text-rendering: optimizeLegibility;
@@ -107,11 +127,11 @@
     }
     .eyebrow { color: var(--muted); font-size: 14px; line-height: 1.5; margin: 0 0 16px; letter-spacing: .02em; text-transform: uppercase; }
     h1, h2, h3, p { margin: 0; }
-    h1, h2, h3 { font-family: Manrope, Inter, ui-sans-serif, system-ui, sans-serif; font-weight: 800; }
+    h1, h2, h3 { font-family: var(--font-heading); font-weight: 800; }
     h1 { font-size: clamp(44px, 7vw, 92px); line-height: .98; letter-spacing: -.055em; max-width: 12.2ch; }
     h2 { font-size: clamp(30px, 4.8vw, 64px); line-height: 1.01; letter-spacing: -.048em; max-width: 11.8ch; }
     h3 { font-size: clamp(20px, 2.3vw, 30px); line-height: 1.08; letter-spacing: -.03em; }
-    .lead { font-size: clamp(17px, 1.75vw, 21px); line-height: 1.68; color: var(--muted); max-width: 44rem; }
+    .lead { font-size: var(--text-lg); line-height: 1.68; color: var(--muted); max-width: 44rem; }
     .copy { font-size: 16px; line-height: 1.75; color: var(--muted); }
     .subtle { color: var(--muted-2); }
     .title-row { display: flex; align-items: end; justify-content: space-between; gap: 18px 26px; margin-bottom: 24px; flex-wrap: wrap; }
@@ -383,8 +403,10 @@
       .trust-list { justify-content: start; }
     }
     @media (max-width: 980px) {
-      .header-inner { padding: 10px 0; align-items: start; flex-direction: column; }
-      .nav { justify-content: start; }
+      :root { --header-h: 68px; }
+      .header { position: sticky; }
+      .header-inner { padding: 10px 0; align-items: start; flex-direction: column; gap: 10px; }
+      .nav { justify-content: start; width: 100%; overflow-x: auto; flex-wrap: nowrap; scrollbar-width: thin; }
       .header-actions { width: 100%; justify-content: start; }
       .hero { min-height: auto; padding-top: 38px; }
       .hero-metrics, .service-kpis, .case-body, .compare-grid { grid-template-columns: 1fr; }
@@ -394,6 +416,9 @@
       .hero-footer-note { align-items: start; }
     }
     @media (max-width: 760px) {
+      .hero { padding-top: 26px; }
+      .hero-copy { gap: 18px; }
+
       .container { width: min(calc(100% - 20px), var(--container)); }
       .header-actions .mini-status { display: none; }
       .hero-actions { flex-direction: column; align-items: stretch; }
@@ -401,9 +426,83 @@
       .metric, .story-card, .story-side, .estimate-form, .estimate-summary, .contact-form, .contact-side, .case-view, .compare-card, .faq-side, .service-showcase, .services-stage { border-radius: 24px; }
       .service-visual { min-height: 210px; }
       .signal-main { min-height: 280px; }
-      .sticky-cta { display: flex; }
+      .sticky-cta { display: flex; min-height: 64px; }
       .footer { padding-bottom: 122px; }
     }
+
+    .visually-hidden {
+      position: absolute !important;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    .skip-link {
+      position: absolute;
+      top: -44px;
+      left: 12px;
+      z-index: 999;
+      padding: 10px 14px;
+      border-radius: 12px;
+      background: var(--contrast-surface);
+      border: 1px solid var(--line-2);
+      color: var(--text);
+      transition: top var(--ease);
+    }
+
+    .skip-link:focus-visible { top: 10px; }
+
+    a:focus-visible,
+    button:focus-visible,
+    input:focus-visible,
+    select:focus-visible,
+    textarea:focus-visible,
+    .service-tab:focus-visible,
+    .case-item:focus-visible,
+    .rail-link:focus-visible,
+    .faq-q:focus-visible,
+    .model-mini-btn:focus-visible {
+      outline: none;
+      box-shadow: var(--focus-ring);
+    }
+
+    .btn[aria-disabled="true"],
+    .btn:disabled,
+    button:disabled {
+      opacity: var(--interactive-disabled);
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .glass,
+    .signal-main,
+    .service-showcase,
+    .case-visual,
+    .model-overlay-card,
+    .brief-output {
+      color: var(--text);
+      background-color: var(--contrast-surface);
+    }
+
+    .hero { scroll-margin-top: calc(var(--header-h) + var(--space-4)); }
+
+    .regression-list { display: grid; gap: var(--space-3); margin: 0; padding: 0; list-style: none; }
+    .regression-item {
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 14px 16px;
+      background: rgba(255,255,255,.03);
+      color: var(--muted);
+      display: grid;
+      gap: 6px;
+    }
+    .regression-item strong { color: var(--text); font-size: var(--text-md); }
+
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto; }
       *, *::before, *::after { animation: none !important; transition: none !important; }
@@ -545,6 +644,7 @@
   </style>
 </head>
 <body>
+  <a href="#main-content" class="skip-link">Перейти к контенту</a>
   <div class="progress-top" aria-hidden="true"><span id="scrollProgress"></span></div>
   <nav class="section-rail" aria-label="Навигация по разделам">
     <a class="rail-link" data-label="Начало" href="#top"></a>
@@ -582,10 +682,11 @@
       </div>
     </div>
   </header>
-  <main>
+  <main id="main-content" aria-label="Основной контент">
     <section class="hero">
       <div class="container hero-layout">
         <div class="hero-copy reveal">
+          <h2 class="visually-hidden">Главный экран и ключевое предложение STEP_3D</h2>
           <div class="section-label">STEP_3D / цифровое производство</div>
           <h1>От идеи и образца к готовому изделию.</h1>
           <p class="lead">3D-сканирование, моделирование, реверсивный инжиниринг, прототипирование и 3D-печать - в одном маршруте.</p>
@@ -818,11 +919,11 @@
         <div class="title-row reveal"><div><div class="section-label">Кейсы</div><h2>Кейсы, которые объясняют подход.</h2></div><p class="lead">Коротко показываем задачу, ход работы и результат.</p></div>
         <div class="cases-layout">
           <div class="case-list glass reveal" role="tablist" aria-label="Кейсы">
-            <button class="case-item is-active" type="button" data-case="case1"><small>Кейс 01</small><strong>Реверсивный инжиниринг детали по физическому образцу</strong><span>Когда важна не только форма, но и редактируемая модель.</span></button>
-            <button class="case-item" type="button" data-case="case2"><small>Кейс 02</small><strong>Функциональный прототип для проверки формы и сборки</strong><span>Когда нужно быстро проверить объект до финального цикла.</span></button>
-            <button class="case-item" type="button" data-case="case3"><small>Кейс 03</small><strong>Награда, арт-объект или выставочный предмет</strong><span>Когда важны внешний вид, материал и подача.</span></button>
+            <button class="case-item is-active" type="button" data-case="case1" role="tab" aria-selected="true" id="case-tab-case1" aria-controls="case-panel"><small>Кейс 01</small><strong>Реверсивный инжиниринг детали по физическому образцу</strong><span>Когда важна не только форма, но и редактируемая модель.</span></button>
+            <button class="case-item" type="button" data-case="case2" role="tab" aria-selected="false" id="case-tab-case2" aria-controls="case-panel"><small>Кейс 02</small><strong>Функциональный прототип для проверки формы и сборки</strong><span>Когда нужно быстро проверить объект до финального цикла.</span></button>
+            <button class="case-item" type="button" data-case="case3" role="tab" aria-selected="false" id="case-tab-case3" aria-controls="case-panel"><small>Кейс 03</small><strong>Награда, арт-объект или выставочный предмет</strong><span>Когда важны внешний вид, материал и подача.</span></button>
           </div>
-          <article class="case-view glass reveal" id="caseView">
+          <article class="case-view glass reveal" id="case-panel" role="tabpanel" tabindex="0" aria-labelledby="case-tab-case1">
             <div class="eyebrow">Пример маршрута</div>
             <h3 id="caseTitle">Реверсивный инжиниринг детали по физическому образцу</h3>
             <div class="case-hero"><div class="case-visual" aria-hidden="true"><div class="shape-a"></div><div class="shape-b"></div><div class="shape-c"></div><div class="shape-d"></div></div><div class="case-side" id="caseStats"></div></div>
@@ -877,8 +978,38 @@
         </div>
       </div>
     </section>
+
+    <section class="section" id="ui-regression" aria-labelledby="ui-regression-title">
+      <div class="container">
+        <div class="title-row reveal">
+          <div>
+            <div class="section-label">UI QA</div>
+            <h2 id="ui-regression-title">Чеклист регрессии интерфейса.</h2>
+          </div>
+          <p class="lead">Проверьте ключевые сценарии на desktop/tablet/mobile, включая ограниченную сеть (Slow 3G / Fast 3G).</p>
+        </div>
+        <div class="compare-grid reveal">
+          <article class="compare-card glass">
+            <h3>Layout и интеракции</h3>
+            <ul class="regression-list">
+              <li class="regression-item"><strong>Desktop (≥1220px)</strong><span>Hero, sticky-header, навигация по секциям, табы услуг/кейсов и FAQ работают с мышью и клавиатурой.</span></li>
+              <li class="regression-item"><strong>Tablet (761-1219px)</strong><span>Сетки карточек перестраиваются в 1 колонку без переполнений, CTA и формы остаются читаемыми.</span></li>
+              <li class="regression-item"><strong>Mobile (≤760px)</strong><span>Hero-CTA виден в первом экране, sticky-cta не перекрывает поля и кнопки, header остаётся доступным.</span></li>
+            </ul>
+          </article>
+          <article class="compare-card glass">
+            <h3>Доступность и перформанс</h3>
+            <ul class="regression-list">
+              <li class="regression-item"><strong>Фокус и навигация</strong><span>Все кнопки/ссылки имеют заметный focus-visible, табы переключаются стрелками, Enter и Space.</span></li>
+              <li class="regression-item"><strong>Контраст</strong><span>Текст на стеклянных/градиентных блоках сохраняет читаемость при стандартной и пониженной яркости.</span></li>
+              <li class="regression-item"><strong>Light network</strong><span>При Slow/Fast 3G не ломается структура: сначала читаемый контент, затем анимации и 3D-блок.</span></li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
   </main>
-  <footer class="footer"><div class="container"><div class="footer-card"><div><strong>STEP_3D</strong><p>3D-сканирование, моделирование, реверсивный инжиниринг, прототипирование и 3D-печать.</p></div><div class="footer-links"><a class="btn btn-ghost" href="#services">Услуги</a><a class="btn btn-ghost" href="#cases">Кейсы</a><a class="btn btn-ghost" href="#contact">Бриф</a></div></div></div></footer>
+  <footer class="footer"><div class="container"><div class="footer-card"><div><strong>STEP_3D</strong><p>3D-сканирование, моделирование, реверсивный инжиниринг, прототипирование и 3D-печать.</p></div><nav class="footer-links" aria-label="Навигация в подвале"><a class="btn btn-ghost" href="#services">Услуги</a><a class="btn btn-ghost" href="#cases">Кейсы</a><a class="btn btn-ghost" href="#contact">Бриф</a></nav></div></div></footer>
   <div class="sticky-cta"><span>Соберите бриф и отправьте задачу.</span><a class="btn btn-primary" href="#contact">Начать</a></div>
   <script>
     const caseData = {
@@ -897,28 +1028,116 @@
       caseStats.innerHTML = data.stats.map(([label, value]) => `<div class="case-stat"><strong>${label}</strong><span>${value}</span></div>`).join('');
       caseBody.innerHTML = data.columns.map(col => `<div class="case-column"><strong>${col.title}</strong><ul>${col.items.map(item => `<li>${item}</li>`).join('')}</ul></div>`).join('');
     }
-    caseItems.forEach(item => item.addEventListener('click', () => { caseItems.forEach(btn => btn.classList.remove('is-active')); item.classList.add('is-active'); renderCase(item.dataset.case); }));
-    renderCase('case1');
+    const casePanel = document.getElementById('case-panel');
+    function activateCase(item, focusPanel = false) {
+      caseItems.forEach(btn => {
+        btn.classList.remove('is-active');
+        btn.setAttribute('aria-selected', 'false');
+        btn.setAttribute('tabindex', '-1');
+      });
+      item.classList.add('is-active');
+      item.setAttribute('aria-selected', 'true');
+      item.setAttribute('tabindex', '0');
+      if (casePanel) casePanel.setAttribute('aria-labelledby', item.id);
+      renderCase(item.dataset.case);
+      if (focusPanel && casePanel) casePanel.focus();
+    }
+    caseItems.forEach((item, index) => {
+      item.setAttribute('tabindex', index === 0 ? '0' : '-1');
+      item.addEventListener('click', () => activateCase(item));
+      item.addEventListener('keydown', event => {
+        const current = [...caseItems].indexOf(item);
+        if (event.key === 'ArrowRight' || event.key === 'ArrowDown') {
+          event.preventDefault();
+          const next = caseItems[(current + 1) % caseItems.length];
+          activateCase(next);
+          next.focus();
+        }
+        if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') {
+          event.preventDefault();
+          const prev = caseItems[(current - 1 + caseItems.length) % caseItems.length];
+          activateCase(prev);
+          prev.focus();
+        }
+        if (event.key === 'Home') { event.preventDefault(); activateCase(caseItems[0]); caseItems[0].focus(); }
+        if (event.key === 'End') { event.preventDefault(); activateCase(caseItems[caseItems.length - 1]); caseItems[caseItems.length - 1].focus(); }
+        if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); activateCase(item, true); }
+      });
+    });
+    activateCase(caseItems[0]);
 
     const serviceTabs = document.querySelectorAll('.service-tab');
     const servicePanels = document.querySelectorAll('.service-panel');
-    serviceTabs.forEach(tab => {
-      tab.addEventListener('click', () => {
-        const key = tab.dataset.service;
-        serviceTabs.forEach(btn => { btn.classList.remove('is-active'); btn.setAttribute('aria-selected', 'false'); });
-        servicePanels.forEach(panel => panel.classList.remove('is-active'));
-        tab.classList.add('is-active'); tab.setAttribute('aria-selected', 'true');
-        const target = document.querySelector(`.service-panel[data-panel="${key}"]`); if (target) target.classList.add('is-active');
-        const select = document.getElementById('projectType'); if (select && ['scan','reverse','prototype','print'].includes(key)) { select.value = key; updateEstimate(); }
+    function activateServiceTab(tab, focusPanel = false) {
+      const key = tab.dataset.service;
+      serviceTabs.forEach((btn, index) => {
+        btn.classList.remove('is-active');
+        btn.setAttribute('aria-selected', 'false');
+        btn.setAttribute('tabindex', '-1');
+        btn.id = btn.id || `service-tab-${index}`;
+      });
+      servicePanels.forEach((panel, index) => {
+        panel.classList.remove('is-active');
+        panel.id = panel.id || `service-panel-${index}`;
+      });
+      tab.classList.add('is-active');
+      tab.setAttribute('aria-selected', 'true');
+      tab.setAttribute('tabindex', '0');
+      const target = document.querySelector(`.service-panel[data-panel="${key}"]`);
+      if (target) {
+        target.classList.add('is-active');
+        tab.setAttribute('aria-controls', target.id);
+        target.setAttribute('role', 'tabpanel');
+        target.setAttribute('tabindex', '0');
+        target.setAttribute('aria-labelledby', tab.id);
+        if (focusPanel) target.focus();
+      }
+      const select = document.getElementById('projectType');
+      if (select && ['scan', 'reverse', 'prototype', 'print'].includes(key)) {
+        select.value = key;
+        updateEstimate();
+      }
+    }
+    serviceTabs.forEach((tab, index) => {
+      tab.id = tab.id || `service-tab-${index}`;
+      tab.setAttribute('tabindex', tab.classList.contains('is-active') ? '0' : '-1');
+      tab.addEventListener('click', () => activateServiceTab(tab));
+      tab.addEventListener('keydown', event => {
+        const current = [...serviceTabs].indexOf(tab);
+        if (event.key === 'ArrowRight' || event.key === 'ArrowDown') {
+          event.preventDefault();
+          const next = serviceTabs[(current + 1) % serviceTabs.length];
+          activateServiceTab(next);
+          next.focus();
+        }
+        if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') {
+          event.preventDefault();
+          const prev = serviceTabs[(current - 1 + serviceTabs.length) % serviceTabs.length];
+          activateServiceTab(prev);
+          prev.focus();
+        }
+        if (event.key === 'Home') { event.preventDefault(); activateServiceTab(serviceTabs[0]); serviceTabs[0].focus(); }
+        if (event.key === 'End') { event.preventDefault(); activateServiceTab(serviceTabs[serviceTabs.length - 1]); serviceTabs[serviceTabs.length - 1].focus(); }
+        if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); activateServiceTab(tab, true); }
       });
     });
 
     document.querySelectorAll('.faq-item').forEach(item => {
       const button = item.querySelector('.faq-q'); const content = item.querySelector('.faq-a');
+      button.setAttribute('aria-expanded', item.classList.contains('is-open') ? 'true' : 'false');
       button.addEventListener('click', () => {
         const isOpen = item.classList.contains('is-open');
-        document.querySelectorAll('.faq-item').forEach(other => { other.classList.remove('is-open'); other.querySelector('.faq-a').style.maxHeight = 0; });
-        if (!isOpen) { item.classList.add('is-open'); content.style.maxHeight = content.scrollHeight + 'px'; }
+        document.querySelectorAll('.faq-item').forEach(other => {
+          other.classList.remove('is-open');
+          const otherBtn = other.querySelector('.faq-q');
+          otherBtn.setAttribute('aria-expanded', 'false');
+          other.querySelector('.faq-a').style.maxHeight = 0;
+        });
+        if (!isOpen) {
+          item.classList.add('is-open');
+          button.setAttribute('aria-expanded', 'true');
+          content.style.maxHeight = content.scrollHeight + 'px';
+        }
       });
     });
 
