@@ -1,429 +1,148 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>STEP_3D - 3D-сканирование, моделирование и 3D-печать</title>
-  <meta name="description" content="STEP_3D - инженерная студия: 3D-сканирование, реверсивный инжиниринг, CAD, прототипирование и 3D-печать." />
-  <meta name="theme-color" content="#07090d" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="preload" href="assets/css/main.css" as="style" />
-  <link rel="stylesheet" href="assets/css/main.css" media="print" onload="this.media='all'" />
-  <noscript><link rel="stylesheet" href="assets/css/main.css" /></noscript>
-
+  <title>STEP_3D — 3D-сканирование, моделирование и печать</title>
+  <meta name="description" content="STEP_3D: 3D-сканирование, реверсивный инжиниринг, CAD, прототипирование и 3D-печать." />
+  <meta name="theme-color" content="#080b11" />
+  <link rel="icon" href="assets/img/grabber-logo.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="assets/css/styles.css" />
+  <link rel="stylesheet" href="assets/css/components.css" />
+  <link rel="stylesheet" href="assets/css/responsive.css" />
 </head>
 <body>
-  <a class="skip-link" href="#mainContent">Перейти к основному контенту</a>
-  <div class="announcement-bar" role="status">
-    <div class="container">
-      <p><span class="announcement-dot" aria-hidden="true"></span>STEP_3D / Новый поток: от идеи до детали за один маршрут и одну команду.</p>
-    </div>
-  </div>
-  <div class="progress-top" aria-hidden="true"><span id="scrollProgress"></span></div>
-  <nav class="section-rail" aria-label="Навигация по разделам">
-    <a class="rail-link" data-label="Начало" href="#top"><span class="sr-only">Начало</span></a>
-    <a class="rail-link" data-label="Логика" href="#story"><span class="sr-only">Логика</span></a>
-    <a class="rail-link" data-label="Услуги" href="#services"><span class="sr-only">Услуги</span></a>
-    <a class="rail-link" data-label="3D-модель" href="#model"><span class="sr-only">3D-модель</span></a>
-    <a class="rail-link" data-label="Процесс" href="#workflow"><span class="sr-only">Процесс</span></a>
-    <a class="rail-link" data-label="Оценка" href="#estimate"><span class="sr-only">Оценка</span></a>
-    <a class="rail-link" data-label="Кейсы" href="#cases"><span class="sr-only">Кейсы</span></a>
-    <a class="rail-link" data-label="Сравнение" href="#compare"><span class="sr-only">Сравнение</span></a>
-    <a class="rail-link" data-label="FAQ" href="#faq"><span class="sr-only">FAQ</span></a>
-    <a class="rail-link" data-label="Контакт" href="#contact"><span class="sr-only">Контакт</span></a>
-  </nav>
-  <header class="header" id="top">
-    <div class="container header-inner">
-      <a href="#top" class="brand" aria-label="STEP_3D">
-        <span class="brand-mark" aria-hidden="true"><img src="assets/img/grabber-logo.svg" alt="" /></span>
-        <span class="brand-text">
-          <strong>STEP_3D</strong>
-          <span>Инженерная студия цифрового производства</span>
-        </span>
+  <a class="skip-link" href="#main">К контенту</a>
+
+  <header class="site-header" id="top">
+    <div class="container header-row">
+      <a class="brand" href="#top" aria-label="STEP_3D">
+        <img src="assets/img/grabber-logo.svg" alt="" class="brand-logo" />
+        <span><strong>STEP_3D</strong><small>Инженерная студия цифрового производства</small></span>
       </a>
-      <button class="nav-toggle" id="navToggle" type="button" aria-controls="mainNav" aria-expanded="false" aria-label="Открыть меню">
-        <span></span><span></span><span></span>
-      </button>
-      <nav class="nav" id="mainNav" aria-label="Основная навигация" aria-hidden="true">
-        <a class="nav-link" href="#services">Услуги</a>
-        <a class="nav-link" href="#model">3D-модель</a>
-        <a class="nav-link" href="#workflow">Процесс</a>
-        <a class="nav-link" href="#estimate">Оценка</a>
-        <a class="nav-link" href="#cases">Кейсы</a>
-        <a class="nav-link" href="#faq">FAQ</a>
-        <a class="nav-link" href="#contact">Контакт</a>
+
+      <button id="menuToggle" class="menu-toggle" aria-label="Открыть меню" aria-controls="nav" aria-expanded="false">☰</button>
+      <nav id="nav" class="nav">
+        <a href="#services">Услуги</a>
+        <a href="#cases">Кейсы</a>
+        <a href="#workflow">Процесс</a>
+        <a href="#partners">Партнеры</a>
+        <a href="#faq">FAQ</a>
+        <a href="#contact">Контакт</a>
       </nav>
-      <div class="header-actions">
-        <div class="mini-status">Стартуем с короткого брифа</div>
-        <div class="theme-switch" role="group" aria-label="Переключатель темы">
-          <button class="theme-btn is-active" type="button" data-theme="midnight" aria-pressed="true">Темная</button>
-          <button class="theme-btn" type="button" data-theme="graphite" aria-pressed="false">Графит</button>
-          <button class="theme-btn" type="button" data-theme="ivory" aria-pressed="false">Светлая</button>
-        </div>
-        <a class="btn btn-secondary" href="#estimate">Оценить проект</a>
-      </div>
+      <a class="btn btn-secondary" href="#contact">Оставить заявку</a>
     </div>
+    <div class="scroll-progress" id="scrollProgress"></div>
   </header>
-  <main id="mainContent">
-    <section class="hero section-block section-block--hero" data-block="hero">
-      <div class="container hero__container hero-layout">
-        <div class="hero__content hero-copy reveal">
-          <div class="section-label">STEP_3D / цифровое производство</div>
-          <div class="hero-dynamic" aria-live="polite">
-            <span class="hero-dynamic__label">Стартуем с</span>
-            <strong id="heroDynamicWord">3D-сканирования</strong>
-          </div>
+
+  <main id="main">
+    <section class="hero section">
+      <div class="container hero-grid">
+        <div>
+          <p class="eyebrow">STEP_3D для клиентов и партнеров</p>
           <h1>От идеи и образца к готовому изделию.</h1>
-          <p class="lead">3D-сканирование, моделирование, реверсивный инжиниринг, прототипирование и 3D-печать — в одном маршруте, с вау-подачей и инженерной точностью.</p>
-          <div class="hero-start-line" aria-hidden="true">
-            <span></span><span></span><span></span><span></span><span></span>
+          <p class="lead">3D-сканирование, моделирование, реверсивный инжиниринг, прототипирование и 3D-печать в одном маршруте.</p>
+          <div class="chips">
+            <span class="chip">Фото, STL или образец</span>
+            <span class="chip">Понятный ориентир по срокам</span>
+            <span class="chip">Кейсы с реальными задачами</span>
           </div>
-          <div class="pill-row">
-            <div class="pill"><span class="pill-icon" aria-hidden="true">◉</span><strong>Есть объект</strong> сканируем и строим цифровую модель</div>
-            <div class="pill"><span class="pill-icon" aria-hidden="true">✦</span><strong>Есть идея</strong> переводим ее в прототип и изделие</div>
-            <div class="pill"><span class="pill-icon" aria-hidden="true">⬢</span><strong>Есть файл</strong> готовим к печати и выпуску</div>
-          </div>
-          <div class="service-icon-row" aria-label="Иконки ключевых 3D-услуг">
-            <div class="service-icon-pill"><span class="icon-badge" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 10l8-4 8 4-8 4-8-4Z"/><path d="M12 14v6"/><path d="M7 12v4l5 3 5-3v-4"/></svg></span><span>Сканирование</span></div>
-            <div class="service-icon-pill"><span class="icon-badge" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 4v4"/><path d="M20 12h-4"/><path d="M12 20v-4"/><path d="M4 12h4"/><circle cx="12" cy="12" r="4.5"/></svg></span><span>Реверс</span></div>
-            <div class="service-icon-pill"><span class="icon-badge" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m4 15 8-11 8 11"/><path d="M6 15h12"/><path d="M8 20h8"/></svg></span><span>Прототип</span></div>
-            <div class="service-icon-pill"><span class="icon-badge" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 8V4h10v4"/><rect x="4" y="8" width="16" height="8" rx="2"/><path d="M8 16h8v4H8z"/></svg></span><span>Печать</span></div>
-          </div>
-          <div class="hero-actions">
-            <a class="btn btn-primary" href="#contact">Обсудить проект <span class="arrow" aria-hidden="true"></span></a>
-            <a class="btn btn-secondary" href="#model">Посмотреть 3D-модель</a>
-          </div>
-          <div class="hero-metrics">
-            <div class="metric"><strong>1</strong><span>один подрядчик на весь маршрут проекта</span></div>
-            <div class="metric"><strong>3</strong><span>понятные точки входа: объект, идея или файл</span></div>
-            <div class="metric"><strong>1</strong><span>короткий бриф, чтобы быстро начать обсуждение</span></div>
+          <div class="actions">
+            <a class="btn btn-primary" href="#cases">Смотреть кейсы</a>
+            <a class="btn btn-secondary" href="#services">Выбрать сценарий</a>
           </div>
         </div>
-        <div class="hero__panel hero-panel glass reveal">
-          <div class="panel-top">
-            <div class="window-dots" aria-hidden="true"><span></span><span></span><span></span></div>
-            <div class="panel-caption">Понятный путь проекта от первого сообщения до результата.</div>
-          </div>
-          <div class="signal-grid">
-            <div class="signal-main">
-              <div>
-                <div class="eyebrow">Как это устроено</div>
-                <h3>Вы даете исходные данные. Мы собираем маршрут, сроки и формат результата.</h3>
-              </div>
-              <div class="glass-stack" aria-hidden="true">
-                <div class="glass-sheet"></div>
-                <div class="glass-sheet"></div>
-                <div class="glass-sheet">
-                  <div class="line-item"><strong>Сканирование</strong><div class="line-bar"><span style="--w: 88%"></span></div></div>
-                  <div class="line-item"><strong>Моделирование</strong><div class="line-bar"><span style="--w: 76%"></span></div></div>
-                  <div class="line-item"><strong>Изготовление</strong><div class="line-bar"><span style="--w: 68%"></span></div></div>
-                </div>
-              </div>
-            </div>
-            <div class="signal-side">
-              <div class="micro-card"><div class="micro-number">01 / вход</div><h3>Можно прийти с тем, что уже есть.</h3><p>Образец, фото, эскиз, STL, CAD или просто задача.</p></div>
-              <div class="micro-card"><div class="micro-number">02 / доверие</div><h3>Кейсы показывают реальный подход.</h3><p>Коротко: задача, решение и результат.</p></div>
-            </div>
-          </div>
-          <div class="hero-footer-note">
-            <p class="copy">Чем яснее цель проекта, тем быстрее и точнее старт.</p>
-            <a class="btn btn-ghost" href="#story">Как мы работаем</a>
-          </div>
-        </div>
-        <a class="scroll-cue" href="#services" aria-label="Прокрутить к услугам">
-          <span>Смотреть услуги</span>
-          <i aria-hidden="true"></i>
-        </a>
+        <aside class="panel">
+          <h2>Один подрядчик на весь маршрут</h2>
+          <p>Вы даете исходные данные, мы собираем маршрут, сроки и формат результата. Без разрозненных исполнителей и лишней коммуникации.</p>
+          <ul>
+            <li>Есть объект → сканирование и цифровая база</li>
+            <li>Есть идея → прототип и проверка</li>
+            <li>Есть файл → подготовка и печать</li>
+          </ul>
+        </aside>
       </div>
     </section>
-    <section class="trust-rail reveal section-block section-block--trust" data-block="trust">
+
+    <section id="services" class="section">
       <div class="container">
-        <div class="trust__panel trust-wrap">
-          <div><strong>Один подрядчик на весь маршрут.</strong><p>Меньше переписки, меньше потерь на стыках, понятнее сроки и результат.</p></div>
-          <div class="trust__list trust-list"><span class="trust__chip trust-chip">3D-сканирование</span><span class="trust__chip trust-chip">Реверсивный инжиниринг</span><span class="trust__chip trust-chip">CAD и подготовка</span><span class="trust__chip trust-chip">Прототипирование</span><span class="trust__chip trust-chip">3D-печать</span></div>
-        </div>
-      </div>
-    </section>
-    <section class="section" id="story">
-      <div class="container">
-        <div class="title-row reveal"><div><div class="section-label">Почему с нами удобно</div><h2>Понятный старт без лишней переписки.</h2></div><p class="lead">На сайте сразу видно, что делать дальше: выбрать сценарий, оценить задачу и отправить бриф.</p></div>
-        <div class="story-layout">
-          <div class="story-card glass reveal">
-            <div class="story-points">
-              <div class="story-point"><div class="story-num">01</div><div><strong>С чем можно прийти.</strong><p>Образец, фото, эскиз, STL, CAD или просто задача.</p></div></div>
-              <div class="story-point"><div class="story-num">02</div><div><strong>Что мы делаем.</strong><p>Собираем маршрут: сканирование, моделирование, прототип, печать.</p></div></div>
-              <div class="story-point"><div class="story-num">03</div><div><strong>Что вы понимаете заранее.</strong><p>Сложность, темп работы и что подготовить для старта.</p></div></div>
-              <div class="story-point"><div class="story-num">04</div><div><strong>Как принять решение.</strong><p>Кейсы и FAQ быстро снимают основные вопросы.</p></div></div>
-            </div>
-          </div>
-          <div class="story-side reveal">
-            <div class="story-check"><strong>Кому подходит</strong><p>Тем, кому нужен результат, а не набор разрозненных услуг.</p></div>
-            <div class="story-check"><strong>Что экономит время</strong><p>Короткий бриф и единая коммуникация без лишних кругов.</p></div>
-            <div class="story-check"><strong>Что вы получаете</strong><p>Понятный маршрут, формат результата и следующий шаг.</p></div>
-            <div class="story-check"><strong>Как стартовать</strong><p>Заполнить бриф ниже или написать с кратким описанием задачи.</p></div>
-          </div>
-        </div>
-      </div>
-    </section>
-    <section class="section section-block section-block--services" id="services" data-block="services">
-      <div class="container">
-        <div class="title-row reveal"><div><div class="section-label">Сценарии работы</div><h2>Выберите сценарий вашей задачи.</h2></div><p class="lead">У каждого сценария свой вход, результат и набор важных вопросов.</p></div>
-        <div class="service-note-strip reveal">
-          <div class="service-note"><strong>Точная геометрия</strong><span>Работаем с инженерными допусками под задачу.</span></div>
-          <div class="service-note"><strong>Прозрачный процесс</strong><span>На каждом этапе показываем статус и следующий шаг.</span></div>
-          <div class="service-note"><strong>Вау-презентация</strong><span>Подготовим модель и объект так, чтобы впечатляло.</span></div>
-        </div>
-        <div class="services__layout services-layout">
-          <div class="services__tabs services-tabs glass reveal" role="tablist" aria-label="Сценарии услуг">
-            <button class="service-tab is-active" type="button" role="tab" aria-selected="true" data-service="scan" aria-controls="service-panel-scan" id="service-tab-scan"><small>01</small><div class="service-tab-head"><span class="icon-badge icon-badge--pulse" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 10l8-4 8 4-8 4-8-4Z"/><path d="M12 14v6"/><path d="M7 12v4l5 3 5-3v-4"/></svg></span><strong>3D-сканирование</strong></div><span>Точный цифровой слепок объекта.</span></button>
-            <button class="service-tab" type="button" role="tab" aria-selected="false" data-service="reverse" aria-controls="service-panel-reverse" id="service-tab-reverse"><small>02</small><div class="service-tab-head"><span class="icon-badge" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 4v4"/><path d="M20 12h-4"/><path d="M12 20v-4"/><path d="M4 12h4"/><circle cx="12" cy="12" r="4.5"/></svg></span><strong>Реверсивный инжиниринг</strong></div><span>Сетка превращается в CAD.</span></button>
-            <button class="service-tab" type="button" role="tab" aria-selected="false" data-service="prototype" aria-controls="service-panel-prototype" id="service-tab-prototype"><small>03</small><div class="service-tab-head"><span class="icon-badge" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m4 15 8-11 8 11"/><path d="M6 15h12"/><path d="M8 20h8"/></svg></span><strong>Прототипирование</strong></div><span>Быстрые проверки формы и сборки.</span></button>
-            <button class="service-tab" type="button" role="tab" aria-selected="false" data-service="print" aria-controls="service-panel-print" id="service-tab-print"><small>04</small><div class="service-tab-head"><span class="icon-badge" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 8V4h10v4"/><rect x="4" y="8" width="16" height="8" rx="2"/><path d="M8 16h8v4H8z"/></svg></span><strong>3D-печать</strong></div><span>Готовая деталь под нужный материал.</span></button>
-          </div>
-          <div class="services__stage services-stage glass reveal">
-            <article class="service-panel is-active" data-panel="scan" id="service-panel-scan" role="tabpanel" aria-labelledby="service-tab-scan"><div class="service-showcase"><div class="eyebrow">Сценарий 01</div><h3>3D-сканирование.</h3><p class="copy">Получаем точную цифровую основу с реального объекта.</p><div class="service-visual" aria-hidden="true"><div class="wireframe"></div><div class="solid"></div><div class="scan"></div></div><div class="service-meta pill-row"><span class="pill">Физический образец</span><span class="pill">Облако точек / сетка</span><span class="pill">База для CAD</span></div><div class="service-kpis"><div class="service-kpi"><strong>Вход</strong><span>объект, деталь или макет</span></div><div class="service-kpi"><strong>Результат</strong><span>сетка или база для дальнейшей работы</span></div><div class="service-kpi"><strong>Особенность</strong><span>быстрый старт без ручного обмера</span></div></div></div><aside class="service-side"><div class="service-side-card"><strong>Когда подходит</strong><ul><li>есть объект, но нет модели</li><li>нужно снять форму и размеры</li><li>нужна база для CAD или анализа</li></ul></div><div class="service-side-card"><strong>Что важно уточнить заранее</strong><ul><li>габариты и поверхность</li><li>какая точность нужна</li><li>что нужно на выходе: сетка или CAD</li></ul></div><a class="btn btn-secondary" href="#estimate">Оценить такой сценарий</a></aside></article>
-            <article class="service-panel" data-panel="reverse" id="service-panel-reverse" role="tabpanel" aria-labelledby="service-tab-reverse" hidden><div class="service-showcase"><div class="eyebrow">Сценарий 02</div><h3>Реверсивный инжиниринг.</h3><p class="copy">Превращаем скан, STL или образец в редактируемую инженерную модель.</p><div class="service-visual" aria-hidden="true"><div class="wireframe" style="left:10%; top:20%; width:32%; height:48%; transform: rotate(-6deg);"></div><div class="solid" style="right:12%; top:18%; width:34%; height:54%; transform: rotate(9deg);"></div><div class="scan" style="left:44%; bottom:14%; width:22%; height:24%;"></div></div><div class="service-meta pill-row"><span class="pill">Сетка → CAD</span><span class="pill">Редактируемая геометрия</span><span class="pill">Производственная логика</span></div><div class="service-kpis"><div class="service-kpi"><strong>Вход</strong><span>скан, образец, STL или неполная геометрия</span></div><div class="service-kpi"><strong>Результат</strong><span>CAD-модель под задачу</span></div><div class="service-kpi"><strong>Особенность</strong><span>модель можно менять и дорабатывать</span></div></div></div><aside class="service-side"><div class="service-side-card"><strong>Когда подходит</strong><ul><li>надо восстановить геометрию детали</li><li>нужны правки размеров или посадок</li><li>модель пойдет дальше в производство</li></ul></div><div class="service-side-card"><strong>Что важно уточнить заранее</strong><ul><li>как будет использоваться модель</li><li>нужна ли параметрика</li><li>какие ограничения по сроку и точности</li></ul></div><a class="btn btn-secondary" href="#estimate">Оценить такой сценарий</a></aside></article>
-            <article class="service-panel" data-panel="prototype" id="service-panel-prototype" role="tabpanel" aria-labelledby="service-tab-prototype" hidden><div class="service-showcase"><div class="eyebrow">Сценарий 03</div><h3>Прототипирование.</h3><p class="copy">Быстро переводим идею в физический объект для проверки формы, посадки и сборки.</p><div class="service-visual" aria-hidden="true"><div class="wireframe" style="left:11%; top:22%; width:26%; height:44%; transform: rotate(-14deg);"></div><div class="solid" style="right:9%; top:20%; width:38%; height:50%; transform: rotate(6deg);"></div><div class="scan" style="left:40%; bottom:18%; width:28%; height:16%; border-radius: 999px;"></div></div><div class="service-meta pill-row"><span class="pill">Идея → физический тест</span><span class="pill">Проверка формы</span><span class="pill">Быстрый цикл правок</span></div><div class="service-kpis"><div class="service-kpi"><strong>Вход</strong><span>эскиз, задача, CAD-модель или черновая геометрия</span></div><div class="service-kpi"><strong>Результат</strong><span>образец для теста и решения</span></div><div class="service-kpi"><strong>Особенность</strong><span>снижает риск ошибок до финала</span></div></div></div><aside class="service-side"><div class="service-side-card"><strong>Когда подходит</strong><ul><li>надо быстро показать идею</li><li>нужно проверить стык, эргономику или механику</li><li>нужен быстрый цикл правок</li></ul></div><div class="service-side-card"><strong>Что важно уточнить заранее</strong><ul><li>это демонстрация или тест</li><li>сколько правок планируется</li><li>какой уровень поверхности нужен сейчас</li></ul></div><a class="btn btn-secondary" href="#estimate">Оценить такой сценарий</a></aside></article>
-            <article class="service-panel" data-panel="print" id="service-panel-print" role="tabpanel" aria-labelledby="service-tab-print" hidden><div class="service-showcase"><div class="eyebrow">Сценарий 04</div><h3>3D-печать.</h3><p class="copy">Подбираем материал, технологию и постобработку под реальную цель изделия.</p><div class="service-visual" aria-hidden="true"><div class="wireframe" style="left:13%; top:20%; width:30%; height:50%; transform: rotate(-3deg);"></div><div class="solid" style="right:11%; top:24%; width:30%; height:42%; transform: rotate(8deg);"></div><div class="scan" style="left:38%; bottom:14%; width:24%; height:22%;"></div></div><div class="service-meta pill-row"><span class="pill">Материал и задача</span><span class="pill">Качество поверхности</span><span class="pill">Постобработка</span></div><div class="service-kpis"><div class="service-kpi"><strong>Вход</strong><span>STL, CAD или модель, подготовленная вместе со студией</span></div><div class="service-kpi"><strong>Результат</strong><span>готовый физический объект</span></div><div class="service-kpi"><strong>Особенность</strong><span>печать под задачу, а не вообще</span></div></div></div><aside class="service-side"><div class="service-side-card"><strong>Когда подходит</strong><ul><li>файл уже есть и нужен результат</li><li>нужен тестовый или презентационный образец</li><li>важны материал, прочность или внешний вид</li></ul></div><div class="service-side-card"><strong>Что важно уточнить заранее</strong><ul><li>где будет использоваться изделие</li><li>какая прочность и точность нужны</li><li>нужна ли постобработка</li></ul></div><a class="btn btn-secondary" href="#estimate">Оценить такой сценарий</a></aside></article>
-          </div>
-        </div>
-      </div>
-    </section>
-    
-    <section class="section" id="model">
-      <div class="container">
-        <div class="title-row reveal">
-          <div>
-            <div class="section-label">3D-модель</div>
-            <h2>Посмотрите модель вживую.</h2>
-          </div>
-          <p class="lead">Файл из чата открыт по умолчанию. Можно сразу оценить силуэт, крупные формы и общее впечатление до обсуждения деталей.</p>
-        </div>
-
-        <div class="model-premium">
-          <div class="model-shell glass reveal">
-            <div class="model-topbar">
-              <div class="model-topbar-copy">
-                <div class="eyebrow">Интерактивный просмотр</div>
-                <h3>Модель уже загружена и готова к просмотру.</h3>
-                <p>Поверните объект мышью, приблизьте колесом и быстро поймите, что стоит обсудить перед печатью или доработкой.</p>
-              </div>
-              <div class="model-topbar-actions">
-                <button class="model-mini-btn" id="modelResetView" type="button" aria-label="Сбросить положение камеры">Сбросить вид</button>
-                <button class="model-mini-btn is-active" id="modelToggleSpin" type="button" aria-pressed="true">Автоповорот</button>
-                <a class="btn btn-secondary" id="modelDownloadLink" href="#" download="Модель STEP_3D.stl">Скачать STL</a>
-              </div>
-            </div>
-
-            <div class="model-stage" aria-label="Интерактивный просмотр 3D-модели">
-              <div class="model-stage-ui">
-                <div class="model-status" id="modelLiveStatus" role="status" aria-live="polite" aria-atomic="true">Загружаем модель</div>
-                <div class="model-hint">
-                  <span>Левая кнопка - вращение</span>
-                  <span>Колесо - масштаб</span>
-                </div>
-              </div>
-
-              <div class="model-canvas-wrap" id="modelViewport"></div>
-
-              <div class="model-overlay" id="modelOverlay">
-                <div class="model-overlay-card">
-                  <strong>Готовим просмотр</strong>
-                  <p>Открываем STL-файл, который вы прислали в чат, и запускаем интерактивную сцену прямо внутри сайта.</p>
-                </div>
-              </div>
-
-              <div class="model-stage-bottom">
-                <div class="model-meta">
-                  <span class="pill"><strong>По умолчанию</strong> файл из чата</span>
-                  <span class="pill"><strong>Формат</strong> STL</span>
-                  <span class="pill"><strong>Режим</strong> 360° просмотр</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <aside class="model-side reveal">
-            <div class="model-info-card glass">
-              <div class="eyebrow">Что видно сразу</div>
-              <ul class="model-checks">
-                <li>общий силуэт и крупные массы</li>
-                <li>пропорции и визуальный баланс формы</li>
-                <li>характер поверхности и подачу объекта</li>
-              </ul>
-            </div>
-
-            <div class="model-info-card glass">
-              <strong>Что удобно обсудить</strong>
-              <div class="model-divider"></div>
-              <ul class="model-focus-list">
-                <li>нужна ли правка формы</li>
-                <li>где усилить конструкцию или упростить печать</li>
-                <li>что менять до расчета и запуска</li>
-              </ul>
-            </div>
-
-            <div class="model-info-card glass model-cta">
-              <div class="eyebrow">Дальше по проекту</div>
-              <h3>После просмотра можно сразу перейти к оценке.</h3>
-              <p class="copy">Когда форма понятна, намного проще обсудить сроки, способ изготовления и следующий шаг по проекту.</p>
-              <div class="model-stat-grid">
-                <div class="model-stat"><strong>1</strong><span>модель уже открыта</span></div>
-                <div class="model-stat"><strong>360°</strong><span>быстрый обзор формы</span></div>
-                <div class="model-stat"><strong>0 лишнего</strong><span>только нужная информация</span></div>
-              </div>
-              <div class="model-actions">
-                <a class="btn btn-primary" href="#estimate">Оценить проект <span class="arrow" aria-hidden="true"></span></a>
-              </div>
-            </div>
-          </aside>
+        <div class="title-row"><h2>Сценарии работы</h2><p>Основа взята из прикрепленного исходника и аккуратно структурирована для поддержки.</p></div>
+        <div class="cards three">
+          <article class="card"><h3>3D-сканирование</h3><p>Точный цифровой слепок объекта как база для анализа, CAD и производства.</p></article>
+          <article class="card"><h3>Реверсивный инжиниринг</h3><p>Преобразование сетки, STL или образца в рабочую редактируемую CAD-модель.</p></article>
+          <article class="card"><h3>Прототипирование и печать</h3><p>Быстрые физические итерации, тестовые образцы и малые серии под задачу.</p></article>
         </div>
       </div>
     </section>
 
-    <section class="section" id="workflow">
+    <section id="cases" class="section">
       <div class="container">
-        <div class="title-row reveal"><div><div class="section-label">Путь работы</div><h2>Как проходит работа.</h2></div><p class="lead">Пять шагов, чтобы быстро понять, что будет дальше.</p></div>
-        <div class="workflow-grid reveal"><div class="workflow-step"><span class="workflow-badge">1</span><span class="icon-badge workflow-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 7h16"/><path d="M7 12h10"/><path d="M10 17h4"/></svg></span><h3>Вход</h3><p>Вы присылаете объект, фото, файл или описание задачи.</p></div><div class="workflow-step"><span class="workflow-badge">2</span><span class="icon-badge workflow-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6"/><path d="m20 20-4.2-4.2"/></svg></span><h3>Разбор</h3><p>Определяем цель: копия, доработка, прототип или готовое изделие.</p></div><div class="workflow-step"><span class="workflow-badge">3</span><span class="icon-badge workflow-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 6h6v6H4z"/><path d="M14 6h6v6h-6z"/><path d="M9 18h6"/></svg></span><h3>Маршрут</h3><p>Собираем этапы, сроки и формат результата.</p></div><div class="workflow-step"><span class="workflow-badge">4</span><span class="icon-badge workflow-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12l4 4 10-10"/></svg></span><h3>Проверка</h3><p>Показываем промежуточный результат и фиксируем правки.</p></div><div class="workflow-step"><span class="workflow-badge">5</span><span class="icon-badge workflow-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 16l8-10 8 10"/><path d="M12 6v12"/></svg></span><h3>Финал</h3><p>Передаем модель, прототип, изделие или полный комплект.</p></div></div>
+        <div class="title-row"><h2>Кейсы</h2><p>Центральный блок сайта: фильтрация по типу задачи.</p></div>
+        <div class="filters" role="tablist" aria-label="Фильтры кейсов">
+          <button class="filter-btn is-active" data-filter="all">Все</button>
+          <button class="filter-btn" data-filter="print">3D-печать</button>
+          <button class="filter-btn" data-filter="reverse">Реверс</button>
+          <button class="filter-btn" data-filter="prototype">Прототип</button>
+        </div>
+        <div class="cards two" id="caseGrid"></div>
       </div>
     </section>
-    <section class="section" id="estimate">
+
+    <section id="workflow" class="section">
       <div class="container">
-        <div class="title-row reveal"><div><div class="section-label">Предварительная оценка</div><h2>Быстро понять сложность и старт.</h2></div><p class="lead">Этот блок не считает точную цену. Он помогает собрать задачу и подготовить хороший первый запрос.</p></div>
-        <div class="estimate-layout">
-          <form class="estimate-form glass reveal" id="estimateForm">
-            <div class="eyebrow">Заполните за минуту</div>
-            <h3>Ответьте на несколько вопросов и получите понятный следующий шаг.</h3>
-            <div class="fields">
-              <div class="field"><label for="projectType">Тип задачи</label><select class="control" id="projectType"><option value="scan">3D-сканирование</option><option value="reverse">Реверсивный инжиниринг</option><option value="prototype">Прототипирование</option><option value="print">3D-печать</option><option value="mixed">Комплексная задача</option></select></div>
-              <div class="field"><label for="projectGoal">Цель результата</label><select class="control" id="projectGoal"><option value="demo">Демонстрация / презентация</option><option value="test">Функциональный тест</option><option value="restore">Восстановление / повторение</option><option value="adapt">Адаптация / доработка</option><option value="production">Подготовка к производству</option></select></div>
-              <div class="field"><label for="projectSource">Что уже есть</label><select class="control" id="projectSource"><option value="object">Физический объект</option><option value="file">Готовый файл</option><option value="idea">Только идея или референс</option><option value="mixed">Частичный набор материалов</option></select></div>
-              <div class="field"><label for="projectScale">Масштаб проекта</label><select class="control" id="projectScale"><option value="small">Небольшой</option><option value="medium" selected>Средний</option><option value="large">Сложный / крупный</option></select></div>
-              <div class="field-full"><label id="priorityLabel">Приоритет</label><div class="option-grid" id="priorityGroup" role="radiogroup" aria-labelledby="priorityLabel"><button type="button" class="option is-active" data-group="priority" data-value="quality" role="radio" aria-checked="true">Точность</button><button type="button" class="option" data-group="priority" data-value="speed" role="radio" aria-checked="false">Срок</button><button type="button" class="option" data-group="priority" data-value="budget" role="radio" aria-checked="false">Бюджет</button></div></div>
-              <div class="field-full"><label id="deadlineLabel">Срок</label><div class="option-grid" id="deadlineGroup" role="radiogroup" aria-labelledby="deadlineLabel"><button type="button" class="option" data-group="deadline" data-value="rush" role="radio" aria-checked="false">Срочно</button><button type="button" class="option is-active" data-group="deadline" data-value="normal" role="radio" aria-checked="true">Стандартно</button><button type="button" class="option" data-group="deadline" data-value="planned" role="radio" aria-checked="false">Планово</button></div></div>
-              <div class="field-full"><label for="projectNotes">Описание задачи</label><textarea class="textarea" id="projectNotes" placeholder="Например: есть деталь, нужно восстановить геометрию, проверить посадку и изготовить образец."></textarea></div>
-            </div>
-          </form>
-          <aside class="estimate-summary glass reveal" id="estimateSummary">
-            <div class="eyebrow">Результат оценки</div>
-            <div class="score-ring" id="scoreRing" style="--progress:72"><div><strong id="scoreValue">72</strong><span>готовность</span></div></div>
-            <h3 id="estimateHeadline">Хороший старт для проекта средней сложности.</h3>
-            <p class="copy" id="estimateText">Есть базовая информация для старта. Осталось уточнить срок, требования к точности и формат результата.</p>
-            <p class="sr-only" id="estimateLiveStatus" role="status" aria-live="polite" aria-atomic="true"></p>
-            <div class="summary-chips" id="estimateChips"><span class="pill"><strong>Маршрут</strong> Сканирование → подготовка</span><span class="pill"><strong>Сложность</strong> Средняя</span><span class="pill"><strong>Ритм</strong> Стандартный</span></div>
-            <div class="summary-card"><strong>Зачем это нужно</strong><span>Вы сразу видите, насколько собрана задача и что добавить перед первым сообщением.</span></div>
-            <ul class="estimate-bullets" id="estimateBullets"><li>Подготовить 2-4 фотографии объекта или референса.</li><li>Коротко описать, где будет использоваться результат.</li><li>Уточнить, что сейчас важнее: срок, точность или бюджет.</li></ul>
-            <a class="btn btn-primary" href="#contact">Перейти к брифу <span class="arrow" aria-hidden="true"></span></a>
-          </aside>
+        <div class="title-row"><h2>Как мы работаем</h2><p>Простой и прозрачный процесс.</p></div>
+        <div class="cards four">
+          <article class="card"><h3>01 · Вход</h3><p>Фото, образец, STL, CAD или описание задачи.</p></article>
+          <article class="card"><h3>02 · Анализ</h3><p>Согласуем цель, точность, формат результата и сроки.</p></article>
+          <article class="card"><h3>03 · Производство</h3><p>Сканирование, CAD, прототипирование или печать.</p></article>
+          <article class="card"><h3>04 · Результат</h3><p>Передаем готовую модель/изделие и следующий шаг.</p></article>
         </div>
       </div>
     </section>
-    <section class="section" id="cases">
+
+    <section id="partners" class="section">
       <div class="container">
-        <div class="title-row reveal"><div><div class="section-label">Кейсы</div><h2>Кейсы, которые объясняют подход.</h2></div><p class="lead">Коротко показываем задачу, ход работы и результат.</p></div>
-        <div class="cases-layout">
-          <div class="case-list glass reveal" role="tablist" aria-label="Кейсы">
-            <button class="case-item is-active" type="button" data-case="case1"><small>Кейс 01</small><strong>Реверсивный инжиниринг детали по физическому образцу</strong><span>Когда важна не только форма, но и редактируемая модель.</span></button>
-            <button class="case-item" type="button" data-case="case2"><small>Кейс 02</small><strong>Функциональный прототип для проверки формы и сборки</strong><span>Когда нужно быстро проверить объект до финального цикла.</span></button>
-            <button class="case-item" type="button" data-case="case3"><small>Кейс 03</small><strong>Награда, арт-объект или выставочный предмет</strong><span>Когда важны внешний вид, материал и подача.</span></button>
-          </div>
-          <article class="case-view glass reveal" id="caseView">
-            <div class="eyebrow">Пример маршрута</div>
-            <h3 id="caseTitle">Реверсивный инжиниринг детали по физическому образцу</h3>
-            <div class="case-hero">
-              <div class="case-visual-wrap">
-                <div class="case-photo-slot" id="casePhotoSlot" role="img" aria-label="Зона для фото реализованного проекта">
-                  <div class="case-photo-placeholder">
-                    <span class="icon-badge" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="14" rx="2"/><circle cx="9" cy="10" r="1.5"/><path d="m7 16 4-4 3 3 3-3 2 2"/></svg></span>
-                    <strong id="casePhotoTitle">Фото готового проекта</strong>
-                    <p id="casePhotoCaption">Добавьте сюда фото реализованного проекта: общий ракурс, крупный план, результат после обработки.</p>
-                  </div>
-                </div>
-                <div class="case-thumb-row" id="caseThumbRow" aria-label="Плейсхолдеры для дополнительных фото"></div>
-              </div>
-              <div class="case-side" id="caseStats"></div>
-            </div>
-            <div class="case-body" id="caseBody"></div>
-            <div class="case-footer"><p class="copy" id="caseFooterText">Такой формат помогает сразу понять, как будет идти проект.</p><a class="btn btn-secondary" href="#contact">Запустить похожий проект</a></div>
-          </article>
+        <div class="title-row"><h2>Партнерство</h2><p>Подключаемся как 3D-контур для производств, студий и продуктовых команд.</p></div>
+        <div class="cards two">
+          <article class="card"><h3>Для бизнеса</h3><p>Стабильный технический блок без расширения внутренней команды.</p></article>
+          <article class="card"><h3>Для проектных команд</h3><p>Ускорение итераций и снижение рисков на стыках разработки и производства.</p></article>
         </div>
       </div>
     </section>
-    <section class="section" id="compare">
+
+    <section id="faq" class="section">
       <div class="container">
-        <div class="title-row reveal"><div><div class="section-label">Почему один маршрут лучше</div><h2>Зачем собирать проект в одном месте.</h2></div><p class="lead">Один подрядчик на весь маршрут обычно экономит время, деньги и нервы.</p></div>
-        <div class="compare-grid reveal"><div class="compare-card glass good"><div class="eyebrow">STEP_3D как единая система</div><h3>Один маршрут и одна ответственность.</h3><ul><li>цель проекта не теряется между разными исполнителями и этапами</li><li>сканирование, моделирование, прототип и печать собираются в цельную цепочку</li><li>меньше риска получить промежуточный результат, который неудобно продолжать</li><li>проще согласовать сроки, формат результата и критерии качества</li></ul></div><div class="compare-card glass bad"><div class="eyebrow">Разрозненные подрядчики</div><h3>Разрозненные этапы.</h3><ul><li>каждый этап решается локально, а не в интересах всего проекта</li><li>ответственность за стыки и недопонимание часто ложится на клиента</li><li>много лишних переписок, повторных объяснений и пересборки задачи</li><li>легко потерять темп, качество и ясность дальнейших шагов</li></ul></div></div>
-        <div class="insight-bar reveal"><div><strong>Меньше стыков - меньше потерь.</strong><p>Один маршрут проще контролировать по срокам, качеству и коммуникации.</p></div><a class="btn btn-primary" href="#contact">Обсудить проект <span class="arrow" aria-hidden="true"></span></a></div>
-      </div>
-    </section>
-    <section class="section" id="faq">
-      <div class="container">
-        <div class="title-row reveal"><div><div class="section-label">FAQ</div><h2>Частые вопросы перед стартом.</h2></div><p class="lead">Коротко о том, с чем можно прийти и что нужно для запуска.</p></div>
-        <div class="faq-toolbar reveal" aria-label="Инструменты FAQ">
-          <label class="faq-search-wrap" for="faqSearch">
-            <span>Поиск по вопросам</span>
-            <input class="control" id="faqSearch" type="search" placeholder="Например: STL, CAD, сроки" />
-          </label>
-          <div class="faq-toolbar-actions">
-            <button class="btn btn-ghost" type="button" id="faqExpandAll">Раскрыть все</button>
-            <button class="btn btn-ghost" type="button" id="faqCollapseAll">Свернуть все</button>
-            <span class="faq-result-count" id="faqResultCount" role="status" aria-live="polite" aria-atomic="true">Показано 4 из 4</span>
-          </div>
-        </div>
-        <div class="faq-layout">
-          <div class="faq-list reveal">
-            <div class="faq-item is-open"><button class="faq-q" type="button" aria-expanded="true"><strong>Можно ли прийти только с идеей или референсом, без готовой модели?</strong><span class="faq-icon" aria-hidden="true"></span></button><div class="faq-a" style="max-height: 240px;"><div class="faq-a-inner">Да. Достаточно идеи, референса, фото или образца.</div></div></div>
-            <div class="faq-item"><button class="faq-q" type="button" aria-expanded="false"><strong>Если у меня уже есть STL или CAD, это ускорит запуск?</strong><span class="faq-icon" aria-hidden="true"></span></button><div class="faq-a"><div class="faq-a-inner">Часто да, если файл подходит под задачу. При необходимости сначала быстро проверим его.</div></div></div>
-            <div class="faq-item"><button class="faq-q" type="button" aria-expanded="false"><strong>Что лучше отправить в первом сообщении, чтобы не тратить время?</strong><span class="faq-icon" aria-hidden="true"></span></button><div class="faq-a"><div class="faq-a-inner">Описание задачи, 2-4 фотографии или референсы, предполагаемую цель результата, желаемый срок и всё, что уже есть: файл, размеры, образец, эскиз. Для этого на странице ниже есть генератор брифа, который помогает быстро собрать нормальное первое сообщение.</div></div></div>
-            <div class="faq-item"><button class="faq-q" type="button" aria-expanded="false"><strong>Вы делаете только печать или можете вести полный маршрут?</strong><span class="faq-icon" aria-hidden="true"></span></button><div class="faq-a"><div class="faq-a-inner">И печать, и полный маршрут: от сканирования и моделирования до готового изделия.</div></div></div>
-          </div>
-          <aside class="faq-side glass reveal"><div class="contact-note"><strong>Что прислать</strong><p>Фото или файл, цель, срок и что особенно важно в результате.</p></div><div class="contact-note"><strong>Как быстро стартовать</strong><p>Соберите бриф ниже или напишите менеджеру STEP_3D в Telegram.</p></div><div class="contact-note"><strong>Когда нужен полный маршрут</strong><p>Если нет модели, нужно пройти несколько этапов или важно держать все в одном месте.</p></div></aside>
+        <div class="title-row"><h2>FAQ</h2><p>Короткие ответы на частые вопросы.</p></div>
+        <div class="faq-list">
+          <article class="faq-item"><button class="faq-btn" aria-expanded="false">Можно обратиться без 3D-модели?<span>+</span></button><p>Да. Достаточно фото, образца или описания задачи.</p></article>
+          <article class="faq-item"><button class="faq-btn" aria-expanded="false">Насколько точен расчет на сайте?<span>+</span></button><p>Это быстрый ориентир, финальная цена зависит от геометрии и требований.</p></article>
+          <article class="faq-item"><button class="faq-btn" aria-expanded="false">Работаете с компаниями?<span>+</span></button><p>Да, можно подключить STEP_3D как отдельный подрядный контур.</p></article>
         </div>
       </div>
     </section>
-    <section class="section" id="contact">
+
+    <section id="contact" class="section">
       <div class="container">
-        <div class="title-row reveal"><div><div class="section-label">Бриф</div><h2>Коротко опишите задачу.</h2></div><p class="lead">Ниже можно собрать готовое сообщение для Telegram или почты.</p></div>
-        <div class="contact-layout">
-          <div class="contact-form glass reveal">
-            <div class="eyebrow">Готовый бриф</div>
-            <h3>Заполните поля и скопируйте текст.</h3>
-            <div class="brief-quick-actions">
-              <strong>Быстрый старт:</strong>
-              <button class="quick-chip" type="button" data-brief-task="3D-сканирование">Только сканирование</button>
-              <button class="quick-chip" type="button" data-brief-task="Реверсивный инжиниринг">Нужен CAD из STL</button>
-              <button class="quick-chip" type="button" data-brief-task="Прототипирование">Проверить идею в прототипе</button>
-              <button class="quick-chip" type="button" data-brief-deadline="Срочно">Срочный запуск</button>
-            </div>
-            <div class="fields" id="briefForm">
-              <div class="field"><label for="briefName">Ваше имя</label><input class="control" id="briefName" type="text" placeholder="Например: Никита" /></div>
-              <div class="field"><label for="briefContact">Контакт</label><input class="control" id="briefContact" type="text" placeholder="Telegram, e-mail или телефон" /></div>
-              <div class="field"><label for="briefTask">Тип задачи</label><select class="control" id="briefTask"><option>3D-сканирование</option><option>Реверсивный инжиниринг</option><option>Прототипирование</option><option>3D-печать</option><option>Комплексная задача</option></select></div>
-              <div class="field"><label for="briefDeadline">Срок</label><select class="control" id="briefDeadline"><option>Стандартный</option><option>Срочно</option><option>Планово</option></select></div>
-              <div class="field-full"><label for="briefAssets">Что уже есть</label><input class="control" id="briefAssets" type="text" placeholder="Например: деталь, STL, размеры, фотографии, референсы" /></div>
-              <div class="field-full"><label for="briefDesc">Описание задачи</label><textarea class="textarea" id="briefDesc" maxlength="600" placeholder="Что нужно получить, где это будет использоваться и что важно: срок, точность, внешний вид, прочность."></textarea><div class="field-meta"><span id="briefDescCounter">0 / 600</span><span id="briefCompleteness">Заполнено 0%</span></div></div>
-            </div>
-            <div class="brief-box">
-              <div class="title-row" style="margin-bottom:0;"><strong>Готовый текст</strong><div style="display:flex; gap:10px; flex-wrap:wrap;"><button type="button" class="btn btn-ghost" id="generateBrief">Собрать бриф</button><button type="button" class="btn btn-primary" id="copyBrief">Скопировать <span class="arrow" aria-hidden="true"></span></button><button type="button" class="btn btn-ghost" id="saveBriefDraft">Сохранить черновик</button><button type="button" class="btn btn-ghost" id="clearBriefDraft">Очистить</button></div></div>
-              <div class="brief-output" id="briefOutput">Нажмите «Собрать бриф», чтобы получить готовое сообщение для отправки менеджеру STEP_3D.</div>
-            </div>
-          </div>
-          <aside class="contact-side glass reveal"><div class="contact-note"><strong>Что указать</strong><p>Цель, срок, что уже есть и что важно в результате.</p></div><div class="contact-note"><strong>Что приложить</strong><p>Фото объекта, STL или CAD, размеры, референсы.</p></div><div class="contact-note"><strong>Куда отправить</strong><p>Telegram @step_3d_mngr, почта или любой удобный канал связи.</p></div><a class="btn btn-secondary" href="#top">Наверх страницы</a></aside>
-        </div>
+        <div class="title-row"><h2>Оставить заявку</h2><p>Форма подготовлена для ручной отправки в удобный канал связи.</p></div>
+        <form class="contact-form" id="contactForm">
+          <label>Имя<input type="text" name="name" placeholder="Как к вам обращаться" required></label>
+          <label>Контакт<input type="text" name="contact" placeholder="Телефон или e-mail" required></label>
+          <label class="full">Задача<textarea name="task" placeholder="Коротко опишите задачу" required></textarea></label>
+          <button class="btn btn-primary full" type="submit">Скопировать текст заявки</button>
+        </form>
       </div>
     </section>
   </main>
-  <footer class="footer section-block section-block--footer" data-block="footer"><div class="container"><div class="footer__panel footer-card"><div><strong>STEP_3D</strong><p>3D-сканирование, моделирование, реверсивный инжиниринг, прототипирование и 3D-печать.</p></div><div class="footer__links footer-links"><a class="btn btn-ghost" href="#services">Услуги</a><a class="btn btn-ghost" href="#cases">Кейсы</a><a class="btn btn-ghost" href="#contact">Бриф</a></div></div></div></footer>
-  <div class="sticky-cta"><span>Соберите бриф и отправьте задачу.</span><a class="btn btn-primary" href="#contact">Начать</a></div>
-  <div class="ux-dock" aria-label="Панель удобства">
-    <button class="ux-btn" id="backToTopBtn" type="button" aria-label="Наверх страницы">↑</button>
-    <button class="ux-btn" id="toggleContrastBtn" type="button" aria-pressed="false">Контраст</button>
-    <button class="ux-btn" id="fontPlusBtn" type="button" aria-label="Увеличить текст">A+</button>
-    <button class="ux-btn" id="fontMinusBtn" type="button" aria-label="Уменьшить текст">A-</button>
-    <button class="ux-btn" id="toggleMotionBtn" type="button" aria-pressed="false">Без анимаций</button>
-  </div>
-  <div class="toast" id="uiToast" role="status" aria-live="polite" aria-atomic="true" aria-hidden="true"></div>
-  <script type="module" src="assets/js/main.js"></script>
+
+  <footer class="footer">
+    <div class="container footer-row">
+      <p>STEP_3D — инженерная студия цифрового производства.</p>
+      <a href="#top">Наверх ↑</a>
+    </div>
+  </footer>
+
+  <script src="assets/js/cases.js" defer></script>
+  <script src="assets/js/ui.js" defer></script>
+  <script src="assets/js/main.js" defer></script>
 </body>
 </html>
