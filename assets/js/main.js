@@ -72,20 +72,15 @@ document.addEventListener('DOMContentLoaded', () => {
   const caseModal = document.getElementById('caseModal');
   const caseModalContent = document.getElementById('caseModalContent');
   const caseModalClose = document.getElementById('caseModalClose');
-  const cases = window.STEP3D_CASES || [];
-
   const renderCaseCard = (item) => {
     const card = document.createElement('article');
     card.className = 'case-card';
+    const timeline = toText(item.timeline);
     card.innerHTML = `
       <div class="case-top">
-        <p class="case-type">${item.categoryLabel}</p>
-        <p class="case-meta">${item.timeline}</p>
+        <p class="case-type">${toText(item.categoryLabel)}</p>
+        <p class="case-meta">${timeline}</p>
       </div>
-      <h3>${item.title}</h3>
-      <p>${item.problem}</p>
-      <div class="case-preview" aria-hidden="true">Зона под изображения кейса</div>
-      <p class="case-meta"><strong>Формат:</strong> ${item.output}</p>
       <button class="case-link" data-case-id="${item.id}" type="button">Открыть кейс →</button>
     `;
     return card;
@@ -93,7 +88,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const renderCases = (filter = 'all') => {
     if (!caseGrid) return;
-    const filtered = cases.filter((item) => filter === 'all' || item.type.includes(filter));
     caseGrid.innerHTML = '';
 
     if (!filtered.length) {
@@ -108,19 +102,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const selected = cases.find((item) => item.id === caseId);
     if (!selected || !caseModal || !caseModalContent) return;
 
+    const timeline = toText(selected.timeline);
+    const budget = toText(selected.budget);
+    const timelineBudget = timeline === fallbackText && budget === fallbackText
+      ? fallbackText
+      : `${timeline} · ${budget}`;
+
     caseModalContent.innerHTML = `
-      <p class="case-type">${selected.categoryLabel}</p>
-      <h3>${selected.title}</h3>
-      <p>${selected.problem}</p>
       <div class="modal-grid">
-        <div><strong>Тип задачи</strong><p>${selected.taskType}</p></div>
-        <div><strong>Что сделали</strong><p>${selected.solution}</p></div>
-        <div><strong>Результат</strong><p>${selected.result}</p></div>
-        <div><strong>Срок / бюджет</strong><p>${selected.timeline} · ${selected.budget}</p></div>
+        <div><strong>Тип задачи</strong><p>${toText(selected.taskType)}</p></div>
+        <div><strong>Что сделали</strong><p>${toText(selected.solution)}</p></div>
+        <div><strong>Результат</strong><p>${toText(selected.result)}</p></div>
+        <div><strong>Срок / бюджет</strong><p>${timelineBudget}</p></div>
       </div>
-      <p><strong>Формат результата:</strong> ${selected.output}</p>
-      <p><strong>Галерея:</strong> ${selected.gallery}</p>
-    `;
 
     caseModal.showModal();
   };
@@ -153,7 +147,6 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   renderCases();
-
   const contactForm = document.getElementById('contactForm');
   const contactFormStatus = document.getElementById('contactFormStatus');
   const submitButton = contactForm?.querySelector('button[type="submit"]');
