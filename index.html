@@ -268,7 +268,15 @@
           <label class="full">Файлы проекта (опционально)
             <input type="file" name="attachments" multiple />
           </label>
-          <p class="form-note full">Кнопка скопирует заявку в буфер и откроет почтовый клиент. Список прикрепленных файлов добавляется в текст заявки.</p>
+          <div
+            class="form-submit-status full"
+            id="contactFormStatus"
+            role="status"
+            aria-live="polite"
+            aria-atomic="true"
+            hidden
+          ></div>
+          <p class="form-note full">Сначала отправляем заявку через API. Если API недоступен или вы offline, откроется резервная отправка через почтовый клиент; текст заявки копируется в буфер обмена.</p>
           <button class="btn btn-primary full" type="submit">Отправить бриф</button>
         </form>
       </div>
