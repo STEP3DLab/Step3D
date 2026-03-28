@@ -1,0 +1,40 @@
+name: "📝 Content change"
+description: Изменения контента (тексты, офферы, кейсы, CTA).
+title: "docs: "
+labels: ["content"]
+body:
+  - type: textarea
+    id: section
+    attributes:
+      label: Какой блок меняем?
+      placeholder: Hero / Услуги / FAQ / Контакты
+    validations:
+      required: true
+
+  - type: textarea
+    id: before_after
+    attributes:
+      label: Было → Стало
+      placeholder: |
+        Было: ...
+        Стало: ...
+    validations:
+      required: true
+
+  - type: input
+    id: goal
+    attributes:
+      label: Цель изменения
+      placeholder: Повысить конверсию в заявку на 10%
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Чеклист проверки
+      options:
+        - label: Текст проверен на орфографию и тональность бренда.
+          required: true
+        - label: Изменение не ломает визуальную структуру страницы.
+          required: true
