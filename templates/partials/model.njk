@@ -1,0 +1,90 @@
+    <section class="section" id="model">
+      <div class="container">
+        <div class="title-row reveal">
+          <div>
+            <div class="section-label">3D-модель</div>
+            <h2>Посмотрите модель вживую.</h2>
+          </div>
+          <p class="lead">Файл из чата открыт по умолчанию. Можно сразу оценить силуэт, крупные формы и общее впечатление до обсуждения деталей.</p>
+        </div>
+
+        <div class="model-premium">
+          <div class="model-shell glass reveal">
+            <div class="model-topbar">
+              <div class="model-topbar-copy">
+                <div class="eyebrow">Интерактивный просмотр</div>
+                <h3>Модель уже загружена и готова к просмотру.</h3>
+                <p>Поверните объект мышью, приблизьте колесом и быстро поймите, что стоит обсудить перед печатью или доработкой.</p>
+              </div>
+              <div class="model-topbar-actions">
+                <button class="model-mini-btn" id="modelResetView" type="button" aria-label="Сбросить положение камеры">Сбросить вид</button>
+                <button class="model-mini-btn is-active" id="modelToggleSpin" type="button" aria-pressed="true">Автоповорот</button>
+                <a class="btn btn-secondary" id="modelDownloadLink" href="#" download="Модель STEP_3D.stl">Скачать STL</a>
+              </div>
+            </div>
+
+            <div class="model-stage" aria-label="Интерактивный просмотр 3D-модели">
+              <div class="model-stage-ui">
+                <div class="model-status" id="modelLiveStatus">Загружаем модель</div>
+                <div class="model-hint">
+                  <span>Левая кнопка - вращение</span>
+                  <span>Колесо - масштаб</span>
+                </div>
+              </div>
+
+              <div class="model-canvas-wrap" id="modelViewport"></div>
+
+              <div class="model-overlay" id="modelOverlay">
+                <div class="model-overlay-card">
+                  <strong>Готовим просмотр</strong>
+                  <p>Открываем STL-файл, который вы прислали в чат, и запускаем интерактивную сцену прямо внутри сайта.</p>
+                </div>
+              </div>
+
+              <div class="model-stage-bottom">
+                <div class="model-meta">
+                  <span class="pill"><strong>По умолчанию</strong> файл из чата</span>
+                  <span class="pill"><strong>Формат</strong> STL</span>
+                  <span class="pill"><strong>Режим</strong> 360° просмотр</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <aside class="model-side reveal">
+            <div class="model-info-card glass">
+              <div class="eyebrow">Что видно сразу</div>
+              <ul class="model-checks">
+                <li>общий силуэт и крупные массы</li>
+                <li>пропорции и визуальный баланс формы</li>
+                <li>характер поверхности и подачу объекта</li>
+              </ul>
+            </div>
+
+            <div class="model-info-card glass">
+              <strong>Что удобно обсудить</strong>
+              <div class="model-divider"></div>
+              <ul class="model-focus-list">
+                <li>нужна ли правка формы</li>
+                <li>где усилить конструкцию или упростить печать</li>
+                <li>что менять до расчета и запуска</li>
+              </ul>
+            </div>
+
+            <div class="model-info-card glass model-cta">
+              <div class="eyebrow">Дальше по проекту</div>
+              <h3>После просмотра можно сразу перейти к оценке.</h3>
+              <p class="copy">Когда форма понятна, намного проще обсудить сроки, способ изготовления и следующий шаг по проекту.</p>
+              <div class="model-stat-grid">
+                <div class="model-stat"><strong>1</strong><span>модель уже открыта</span></div>
+                <div class="model-stat"><strong>360°</strong><span>быстрый обзор формы</span></div>
+                <div class="model-stat"><strong>0 лишнего</strong><span>только нужная информация</span></div>
+              </div>
+              <div class="model-actions">
+                <a class="btn btn-primary" href="#estimate">Оценить проект <span class="arrow" aria-hidden="true"></span></a>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>

@@ -1,0 +1,10 @@
+  <footer class="footer section-block section-block--footer" data-block="footer"><div class="container"><div class="footer__panel footer-card"><div><strong>STEP_3D</strong><p>3D-сканирование, моделирование, реверсивный инжиниринг, прототипирование и 3D-печать.</p></div><div class="footer__links footer-links">
+  {% set footerLinks = [
+    { "href": "#services", "label": "Услуги" },
+    { "href": "#cases", "label": "Кейсы" },
+    { "href": "#contact", "label": "Бриф" }
+  ] %}
+  {% for footerLink in footerLinks %}
+    {% set className = 'btn-ghost' %}{% set href = footerLink.href %}{% set label = footerLink.label %}{% set showArrow = false %}{% include 'includes/button-link.njk' %}
+  {% endfor %}
+</div></div></div></footer>

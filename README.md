@@ -4,7 +4,7 @@
 
 ## 1) Структура проекта
 
-```text
+````text
 Step3D/
 ├── .github/
 │   ├── ISSUE_TEMPLATE/
@@ -27,7 +27,7 @@ Step3D/
 npm install
 npm run lint
 npm run build
-```
+````
 
 Дополнительно:
 
@@ -43,7 +43,8 @@ npm run build
    ```bash
    git checkout -b feat/short-description
    ```
-2. Внести изменения в `index.html`/документацию.
+2. Внести изменения в шаблоны (`templates/partials/*.njk`, `templates/includes/*.njk`) и/или документацию.
+   - Контентные правки делайте в partial-файлах, а не в сгенерированном `index.html`.
 3. Прогнать локальные проверки:
    ```bash
    npm run lint

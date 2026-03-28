@@ -1,0 +1,76 @@
+    <section class="hero section-block section-block--hero" data-block="hero">
+      <div class="container hero__container hero-layout">
+        <div class="hero__content hero-copy reveal">
+          <div class="section-label">STEP_3D / цифровое производство</div>
+          <div class="hero-dynamic" aria-live="polite">
+            <span class="hero-dynamic__label">Стартуем с</span>
+            <strong id="heroDynamicWord">3D-сканирования</strong>
+          </div>
+          <h1>От идеи и образца к готовому изделию.</h1>
+          <p class="lead">3D-сканирование, моделирование, реверсивный инжиниринг, прототипирование и 3D-печать — в одном маршруте, с вау-подачей и инженерной точностью.</p>
+          <div class="hero-start-line" aria-hidden="true">
+            <span></span><span></span><span></span><span></span><span></span>
+          </div>
+          <div class="pill-row">
+            {% set heroPills = [
+              { "icon": "◉", "title": "Есть объект", "text": " сканируем и строим цифровую модель" },
+              { "icon": "✦", "title": "Есть идея", "text": " переводим ее в прототип и изделие" },
+              { "icon": "⬢", "title": "Есть файл", "text": " готовим к печати и выпуску" }
+            ] %}
+            {% for pill in heroPills %}
+              {% include 'includes/pill-item.njk' %}
+            {% endfor %}
+          </div>
+          <div class="service-icon-row" aria-label="Иконки ключевых 3D-услуг">
+            <div class="service-icon-pill"><span class="icon-badge" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 10l8-4 8 4-8 4-8-4Z"/><path d="M12 14v6"/><path d="M7 12v4l5 3 5-3v-4"/></svg></span><span>Сканирование</span></div>
+            <div class="service-icon-pill"><span class="icon-badge" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 4v4"/><path d="M20 12h-4"/><path d="M12 20v-4"/><path d="M4 12h4"/><circle cx="12" cy="12" r="4.5"/></svg></span><span>Реверс</span></div>
+            <div class="service-icon-pill"><span class="icon-badge" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m4 15 8-11 8 11"/><path d="M6 15h12"/><path d="M8 20h8"/></svg></span><span>Прототип</span></div>
+            <div class="service-icon-pill"><span class="icon-badge" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 8V4h10v4"/><rect x="4" y="8" width="16" height="8" rx="2"/><path d="M8 16h8v4H8z"/></svg></span><span>Печать</span></div>
+          </div>
+          <div class="hero-actions">
+            {% set className = 'btn-primary' %}{% set href = '#contact' %}{% set label = 'Обсудить проект' %}{% set showArrow = true %}{% include 'includes/button-link.njk' %}
+            {% set className = 'btn-secondary' %}{% set href = '#model' %}{% set label = 'Посмотреть 3D-модель' %}{% set showArrow = false %}{% include 'includes/button-link.njk' %}
+          </div>
+          <div class="hero-metrics">
+            <div class="metric"><strong>1</strong><span>один подрядчик на весь маршрут проекта</span></div>
+            <div class="metric"><strong>3</strong><span>понятные точки входа: объект, идея или файл</span></div>
+            <div class="metric"><strong>1</strong><span>короткий бриф, чтобы быстро начать обсуждение</span></div>
+          </div>
+        </div>
+        <div class="hero__panel hero-panel glass reveal">
+          <div class="panel-top">
+            <div class="window-dots" aria-hidden="true"><span></span><span></span><span></span></div>
+            <div class="panel-caption">Понятный путь проекта от первого сообщения до результата.</div>
+          </div>
+          <div class="signal-grid">
+            <div class="signal-main">
+              <div>
+                <div class="eyebrow">Как это устроено</div>
+                <h3>Вы даете исходные данные. Мы собираем маршрут, сроки и формат результата.</h3>
+              </div>
+              <div class="glass-stack" aria-hidden="true">
+                <div class="glass-sheet"></div>
+                <div class="glass-sheet"></div>
+                <div class="glass-sheet">
+                  <div class="line-item"><strong>Сканирование</strong><div class="line-bar"><span style="--w: 88%"></span></div></div>
+                  <div class="line-item"><strong>Моделирование</strong><div class="line-bar"><span style="--w: 76%"></span></div></div>
+                  <div class="line-item"><strong>Изготовление</strong><div class="line-bar"><span style="--w: 68%"></span></div></div>
+                </div>
+              </div>
+            </div>
+            <div class="signal-side">
+              <div class="micro-card"><div class="micro-number">01 / вход</div><h3>Можно прийти с тем, что уже есть.</h3><p>Образец, фото, эскиз, STL, CAD или просто задача.</p></div>
+              <div class="micro-card"><div class="micro-number">02 / доверие</div><h3>Кейсы показывают реальный подход.</h3><p>Коротко: задача, решение и результат.</p></div>
+            </div>
+          </div>
+          <div class="hero-footer-note">
+            <p class="copy">Чем яснее цель проекта, тем быстрее и точнее старт.</p>
+            <a class="btn btn-ghost" href="#story">Как мы работаем</a>
+          </div>
+        </div>
+        <a class="scroll-cue" href="#services" aria-label="Прокрутить к услугам">
+          <span>Смотреть услуги</span>
+          <i aria-hidden="true"></i>
+        </a>
+      </div>
+    </section>

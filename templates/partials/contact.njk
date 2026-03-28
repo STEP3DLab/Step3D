@@ -1,0 +1,49 @@
+    <section class="section" id="contact">
+      <div class="container">
+        <div class="title-row reveal"><div><div class="section-label">Бриф</div><h2>Коротко опишите задачу.</h2></div><p class="lead">Ниже можно собрать готовое сообщение для Telegram или почты.</p></div>
+        <div class="contact-layout">
+          <div class="contact-form glass reveal">
+            <div class="eyebrow">Готовый бриф</div>
+            <h3>Заполните поля и скопируйте текст.</h3>
+            <div class="brief-quick-actions">
+              <strong>Быстрый старт:</strong>
+              {% set quickChips = [
+                { "attr": "data-brief-task", "value": "3D-сканирование", "label": "Только сканирование" },
+                { "attr": "data-brief-task", "value": "Реверсивный инжиниринг", "label": "Нужен CAD из STL" },
+                { "attr": "data-brief-task", "value": "Прототипирование", "label": "Проверить идею в прототипе" },
+                { "attr": "data-brief-deadline", "value": "Срочно", "label": "Срочный запуск" }
+              ] %}
+              {% for chip in quickChips %}
+                <button class="quick-chip" type="button" {{ chip.attr }}="{{ chip.value }}">{{ chip.label }}</button>
+              {% endfor %}
+            </div>
+            <div class="fields" id="briefForm">
+              <div class="field"><label for="briefName">Ваше имя</label><input class="control" id="briefName" type="text" placeholder="Например: Никита" /></div>
+              <div class="field"><label for="briefContact">Контакт</label><input class="control" id="briefContact" type="text" placeholder="Telegram, e-mail или телефон" /></div>
+              <div class="field"><label for="briefTask">Тип задачи</label><select class="control" id="briefTask"><option>3D-сканирование</option><option>Реверсивный инжиниринг</option><option>Прототипирование</option><option>3D-печать</option><option>Комплексная задача</option></select></div>
+              <div class="field"><label for="briefDeadline">Срок</label><select class="control" id="briefDeadline"><option>Стандартный</option><option>Срочно</option><option>Планово</option></select></div>
+              <div class="field-full"><label for="briefAssets">Что уже есть</label><input class="control" id="briefAssets" type="text" placeholder="Например: деталь, STL, размеры, фотографии, референсы" /></div>
+              <div class="field-full"><label for="briefDesc">Описание задачи</label><textarea class="textarea" id="briefDesc" maxlength="600" placeholder="Что нужно получить, где это будет использоваться и что важно: срок, точность, внешний вид, прочность."></textarea><div class="field-meta"><span id="briefDescCounter">0 / 600</span><span id="briefCompleteness">Заполнено 0%</span></div></div>
+            </div>
+            <div class="brief-box">
+              <div class="title-row" style="margin-bottom:0;"><strong>Готовый текст</strong>
+                {% set wrapperClass = '' %}
+                {% set buttons = [
+                  { "id": "generateBrief", "className": "btn-ghost", "label": "Собрать бриф", "showArrow": false },
+                  { "id": "copyBrief", "className": "btn-primary", "label": "Скопировать", "showArrow": true },
+                  { "id": "saveBriefDraft", "className": "btn-ghost", "label": "Сохранить черновик", "showArrow": false },
+                  { "id": "clearBriefDraft", "className": "btn-ghost", "label": "Очистить", "showArrow": false }
+                ] %}
+                <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                  {% for button in buttons %}
+                    <button type="button" class="btn {{ button.className }}" id="{{ button.id }}">{{ button.label }}{% if button.showArrow %} <span class="arrow" aria-hidden="true"></span>{% endif %}</button>
+                  {% endfor %}
+                </div>
+              </div>
+              <div class="brief-output" id="briefOutput">Нажмите «Собрать бриф», чтобы получить готовое сообщение для отправки менеджеру STEP_3D.</div>
+            </div>
+          </div>
+          <aside class="contact-side glass reveal"><div class="contact-note"><strong>Что указать</strong><p>Цель, срок, что уже есть и что важно в результате.</p></div><div class="contact-note"><strong>Что приложить</strong><p>Фото объекта, STL или CAD, размеры, референсы.</p></div><div class="contact-note"><strong>Куда отправить</strong><p>Telegram @step_3d_mngr, почта или любой удобный канал связи.</p></div><a class="btn btn-secondary" href="#top">Наверх страницы</a></aside>
+        </div>
+      </div>
+    </section>

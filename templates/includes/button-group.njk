@@ -1,0 +1,5 @@
+<div class="{{ wrapperClass }}">
+{% for button in buttons %}
+  <button type="button" class="btn {{ button.className }}" id="{{ button.id }}">{{ button.label }}{% if button.showArrow %} <span class="arrow" aria-hidden="true"></span>{% endif %}</button>
+{% endfor %}
+</div>

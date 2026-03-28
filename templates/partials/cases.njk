@@ -1,0 +1,41 @@
+    <section class="section" id="cases">
+      <div class="container">
+        <div class="title-row reveal"><div><div class="section-label">Кейсы</div><h2>Кейсы, которые объясняют подход.</h2></div><p class="lead">Коротко показываем задачу, ход работы и результат.</p></div>
+        <div class="cases-layout">
+          <div class="case-list glass reveal" role="tablist" aria-label="Кейсы">
+            {% set caseItems = [
+              { "caseId": "case1", "small": "Кейс 01", "title": "Реверсивный инжиниринг детали по физическому образцу", "desc": "Когда важна не только форма, но и редактируемая модель.", "isActive": true },
+              { "caseId": "case2", "small": "Кейс 02", "title": "Функциональный прототип для проверки формы и сборки", "desc": "Когда нужно быстро проверить объект до финального цикла.", "isActive": false },
+              { "caseId": "case3", "small": "Кейс 03", "title": "Награда, арт-объект или выставочный предмет", "desc": "Когда важны внешний вид, материал и подача.", "isActive": false }
+            ] %}
+            {% for caseItem in caseItems %}
+              {% set caseId = caseItem.caseId %}
+              {% set small = caseItem.small %}
+              {% set title = caseItem.title %}
+              {% set desc = caseItem.desc %}
+              {% set isActive = caseItem.isActive %}
+              {% include 'includes/case-item-button.njk' %}
+            {% endfor %}
+          </div>
+          <article class="case-view glass reveal" id="caseView">
+            <div class="eyebrow">Пример маршрута</div>
+            <h3 id="caseTitle">Реверсивный инжиниринг детали по физическому образцу</h3>
+            <div class="case-hero">
+              <div class="case-visual-wrap">
+                <div class="case-photo-slot" id="casePhotoSlot" role="img" aria-label="Зона для фото реализованного проекта">
+                  <div class="case-photo-placeholder">
+                    <span class="icon-badge" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="14" rx="2"/><circle cx="9" cy="10" r="1.5"/><path d="m7 16 4-4 3 3 3-3 2 2"/></svg></span>
+                    <strong id="casePhotoTitle">Фото готового проекта</strong>
+                    <p id="casePhotoCaption">Добавьте сюда фото реализованного проекта: общий ракурс, крупный план, результат после обработки.</p>
+                  </div>
+                </div>
+                <div class="case-thumb-row" id="caseThumbRow" aria-label="Плейсхолдеры для дополнительных фото"></div>
+              </div>
+              <div class="case-side" id="caseStats"></div>
+            </div>
+            <div class="case-body" id="caseBody"></div>
+            <div class="case-footer"><p class="copy" id="caseFooterText">Такой формат помогает сразу понять, как будет идти проект.</p><a class="btn btn-secondary" href="#contact">Запустить похожий проект</a></div>
+          </article>
+        </div>
+      </div>
+    </section>

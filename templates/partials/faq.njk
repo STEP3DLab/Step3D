@@ -1,0 +1,30 @@
+    <section class="section" id="faq">
+      <div class="container">
+        <div class="title-row reveal"><div><div class="section-label">FAQ</div><h2>Частые вопросы перед стартом.</h2></div><p class="lead">Коротко о том, с чем можно прийти и что нужно для запуска.</p></div>
+        <div class="faq-toolbar reveal" aria-label="Инструменты FAQ">
+          <label class="faq-search-wrap" for="faqSearch">
+            <span>Поиск по вопросам</span>
+            <input class="control" id="faqSearch" type="search" placeholder="Например: STL, CAD, сроки" />
+          </label>
+          <div class="faq-toolbar-actions">
+            {% set buttons = [
+              { "id": "faqExpandAll", "label": "Раскрыть все" },
+              { "id": "faqCollapseAll", "label": "Свернуть все" }
+            ] %}
+            {% for button in buttons %}
+              <button class="btn btn-ghost" type="button" id="{{ button.id }}">{{ button.label }}</button>
+            {% endfor %}
+            <span class="faq-result-count" id="faqResultCount" aria-live="polite">Показано 4 из 4</span>
+          </div>
+        </div>
+        <div class="faq-layout">
+          <div class="faq-list reveal">
+            <div class="faq-item is-open"><button class="faq-q" type="button" aria-expanded="true"><strong>Можно ли прийти только с идеей или референсом, без готовой модели?</strong><span class="faq-icon" aria-hidden="true"></span></button><div class="faq-a" style="max-height: 240px;"><div class="faq-a-inner">Да. Достаточно идеи, референса, фото или образца.</div></div></div>
+            <div class="faq-item"><button class="faq-q" type="button" aria-expanded="false"><strong>Если у меня уже есть STL или CAD, это ускорит запуск?</strong><span class="faq-icon" aria-hidden="true"></span></button><div class="faq-a"><div class="faq-a-inner">Часто да, если файл подходит под задачу. При необходимости сначала быстро проверим его.</div></div></div>
+            <div class="faq-item"><button class="faq-q" type="button" aria-expanded="false"><strong>Что лучше отправить в первом сообщении, чтобы не тратить время?</strong><span class="faq-icon" aria-hidden="true"></span></button><div class="faq-a"><div class="faq-a-inner">Описание задачи, 2-4 фотографии или референсы, предполагаемую цель результата, желаемый срок и всё, что уже есть: файл, размеры, образец, эскиз. Для этого на странице ниже есть генератор брифа, который помогает быстро собрать нормальное первое сообщение.</div></div></div>
+            <div class="faq-item"><button class="faq-q" type="button" aria-expanded="false"><strong>Вы делаете только печать или можете вести полный маршрут?</strong><span class="faq-icon" aria-hidden="true"></span></button><div class="faq-a"><div class="faq-a-inner">И печать, и полный маршрут: от сканирования и моделирования до готового изделия.</div></div></div>
+          </div>
+          <aside class="faq-side glass reveal"><div class="contact-note"><strong>Что прислать</strong><p>Фото или файл, цель, срок и что особенно важно в результате.</p></div><div class="contact-note"><strong>Как быстро стартовать</strong><p>Соберите бриф ниже или напишите менеджеру STEP_3D в Telegram.</p></div><div class="contact-note"><strong>Когда нужен полный маршрут</strong><p>Если нет модели, нужно пройти несколько этапов или важно держать все в одном месте.</p></div></aside>
+        </div>
+      </div>
+    </section>

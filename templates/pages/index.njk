@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>STEP_3D - 3D-сканирование, моделирование и 3D-печать</title>
+  <meta name="description" content="STEP_3D - инженерная студия: 3D-сканирование, реверсивный инжиниринг, CAD, прототипирование и 3D-печать." />
+  <meta name="theme-color" content="#07090d" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preload" href="assets/css/main.css" as="style" />
+  <link rel="stylesheet" href="assets/css/main.css" media="print" onload="this.media='all'" />
+  <noscript><link rel="stylesheet" href="assets/css/main.css" /></noscript>
+
+</head>
+<body>
+  <a class="skip-link" href="#mainContent">Перейти к основному контенту</a>
+  {% include 'partials/ui-controls.njk' %}
+  <header class="header" id="top">
+    <div class="container header-inner">
+      <a href="#top" class="brand" aria-label="STEP_3D">
+        <span class="brand-mark" aria-hidden="true"><img src="assets/img/grabber-logo.svg" alt="" /></span>
+        <span class="brand-text">
+          <strong>STEP_3D</strong>
+          <span>Инженерная студия цифрового производства</span>
+        </span>
+      </a>
+      <button class="nav-toggle" id="navToggle" type="button" aria-controls="mainNav" aria-expanded="false" aria-label="Открыть меню">
+        <span></span><span></span><span></span>
+      </button>
+      <nav class="nav" id="mainNav" aria-label="Основная навигация">
+        <a class="nav-link" href="#services">Услуги</a>
+        <a class="nav-link" href="#model">3D-модель</a>
+        <a class="nav-link" href="#workflow">Процесс</a>
+        <a class="nav-link" href="#estimate">Оценка</a>
+        <a class="nav-link" href="#cases">Кейсы</a>
+        <a class="nav-link" href="#faq">FAQ</a>
+        <a class="nav-link" href="#contact">Контакт</a>
+      </nav>
+      <div class="header-actions">
+        <div class="mini-status">Стартуем с короткого брифа</div>
+        <div class="theme-switch" role="group" aria-label="Переключатель темы">
+          <button class="theme-btn is-active" type="button" data-theme="midnight" aria-pressed="true">Темная</button>
+          <button class="theme-btn" type="button" data-theme="graphite" aria-pressed="false">Графит</button>
+          <button class="theme-btn" type="button" data-theme="ivory" aria-pressed="false">Светлая</button>
+        </div>
+        <a class="btn btn-secondary" href="#estimate">Оценить проект</a>
+      </div>
+    </div>
+  </header>
+  <main id="mainContent">
+    {% include 'partials/hero.njk' %}
+    <section class="trust-rail reveal section-block section-block--trust" data-block="trust">
+      <div class="container">
+        <div class="trust__panel trust-wrap">
+          <div><strong>Один подрядчик на весь маршрут.</strong><p>Меньше переписки, меньше потерь на стыках, понятнее сроки и результат.</p></div>
+          <div class="trust__list trust-list"><span class="trust__chip trust-chip">3D-сканирование</span><span class="trust__chip trust-chip">Реверсивный инжиниринг</span><span class="trust__chip trust-chip">CAD и подготовка</span><span class="trust__chip trust-chip">Прототипирование</span><span class="trust__chip trust-chip">3D-печать</span></div>
+        </div>
+      </div>
+    </section>
+    <section class="section" id="story">
+      <div class="container">
+        <div class="title-row reveal"><div><div class="section-label">Почему с нами удобно</div><h2>Понятный старт без лишней переписки.</h2></div><p class="lead">На сайте сразу видно, что делать дальше: выбрать сценарий, оценить задачу и отправить бриф.</p></div>
+        <div class="story-layout">
+          <div class="story-card glass reveal">
+            <div class="story-points">
+              <div class="story-point"><div class="story-num">01</div><div><strong>С чем можно прийти.</strong><p>Образец, фото, эскиз, STL, CAD или просто задача.</p></div></div>
+              <div class="story-point"><div class="story-num">02</div><div><strong>Что мы делаем.</strong><p>Собираем маршрут: сканирование, моделирование, прототип, печать.</p></div></div>
+              <div class="story-point"><div class="story-num">03</div><div><strong>Что вы понимаете заранее.</strong><p>Сложность, темп работы и что подготовить для старта.</p></div></div>
+              <div class="story-point"><div class="story-num">04</div><div><strong>Как принять решение.</strong><p>Кейсы и FAQ быстро снимают основные вопросы.</p></div></div>
+            </div>
+          </div>
+          <div class="story-side reveal">
+            <div class="story-check"><strong>Кому подходит</strong><p>Тем, кому нужен результат, а не набор разрозненных услуг.</p></div>
+            <div class="story-check"><strong>Что экономит время</strong><p>Короткий бриф и единая коммуникация без лишних кругов.</p></div>
+            <div class="story-check"><strong>Что вы получаете</strong><p>Понятный маршрут, формат результата и следующий шаг.</p></div>
+            <div class="story-check"><strong>Как стартовать</strong><p>Заполнить бриф ниже или написать с кратким описанием задачи.</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+    {% include 'partials/services.njk' %}
+
+    {% include 'partials/model.njk' %}
+
+    <section class="section" id="workflow">
+      <div class="container">
+        <div class="title-row reveal"><div><div class="section-label">Путь работы</div><h2>Как проходит работа.</h2></div><p class="lead">Пять шагов, чтобы быстро понять, что будет дальше.</p></div>
+        <div class="workflow-grid reveal"><div class="workflow-step"><span class="workflow-badge">1</span><span class="icon-badge workflow-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 7h16"/><path d="M7 12h10"/><path d="M10 17h4"/></svg></span><h3>Вход</h3><p>Вы присылаете объект, фото, файл или описание задачи.</p></div><div class="workflow-step"><span class="workflow-badge">2</span><span class="icon-badge workflow-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6"/><path d="m20 20-4.2-4.2"/></svg></span><h3>Разбор</h3><p>Определяем цель: копия, доработка, прототип или готовое изделие.</p></div><div class="workflow-step"><span class="workflow-badge">3</span><span class="icon-badge workflow-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 6h6v6H4z"/><path d="M14 6h6v6h-6z"/><path d="M9 18h6"/></svg></span><h3>Маршрут</h3><p>Собираем этапы, сроки и формат результата.</p></div><div class="workflow-step"><span class="workflow-badge">4</span><span class="icon-badge workflow-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12l4 4 10-10"/></svg></span><h3>Проверка</h3><p>Показываем промежуточный результат и фиксируем правки.</p></div><div class="workflow-step"><span class="workflow-badge">5</span><span class="icon-badge workflow-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 16l8-10 8 10"/><path d="M12 6v12"/></svg></span><h3>Финал</h3><p>Передаем модель, прототип, изделие или полный комплект.</p></div></div>
+      </div>
+    </section>
+    <section class="section" id="estimate">
+      <div class="container">
+        <div class="title-row reveal"><div><div class="section-label">Предварительная оценка</div><h2>Быстро понять сложность и старт.</h2></div><p class="lead">Этот блок не считает точную цену. Он помогает собрать задачу и подготовить хороший первый запрос.</p></div>
+        <div class="estimate-layout">
+          <form class="estimate-form glass reveal" id="estimateForm">
+            <div class="eyebrow">Заполните за минуту</div>
+            <h3>Ответьте на несколько вопросов и получите понятный следующий шаг.</h3>
+            <div class="fields">
+              <div class="field"><label for="projectType">Тип задачи</label><select class="control" id="projectType"><option value="scan">3D-сканирование</option><option value="reverse">Реверсивный инжиниринг</option><option value="prototype">Прототипирование</option><option value="print">3D-печать</option><option value="mixed">Комплексная задача</option></select></div>
+              <div class="field"><label for="projectGoal">Цель результата</label><select class="control" id="projectGoal"><option value="demo">Демонстрация / презентация</option><option value="test">Функциональный тест</option><option value="restore">Восстановление / повторение</option><option value="adapt">Адаптация / доработка</option><option value="production">Подготовка к производству</option></select></div>
+              <div class="field"><label for="projectSource">Что уже есть</label><select class="control" id="projectSource"><option value="object">Физический объект</option><option value="file">Готовый файл</option><option value="idea">Только идея или референс</option><option value="mixed">Частичный набор материалов</option></select></div>
+              <div class="field"><label for="projectScale">Масштаб проекта</label><select class="control" id="projectScale"><option value="small">Небольшой</option><option value="medium" selected>Средний</option><option value="large">Сложный / крупный</option></select></div>
+              <div class="field-full"><label>Приоритет</label><div class="option-grid" id="priorityGroup"><button type="button" class="option is-active" data-group="priority" data-value="quality">Точность</button><button type="button" class="option" data-group="priority" data-value="speed">Срок</button><button type="button" class="option" data-group="priority" data-value="budget">Бюджет</button></div></div>
+              <div class="field-full"><label>Срок</label><div class="option-grid" id="deadlineGroup"><button type="button" class="option" data-group="deadline" data-value="rush">Срочно</button><button type="button" class="option is-active" data-group="deadline" data-value="normal">Стандартно</button><button type="button" class="option" data-group="deadline" data-value="planned">Планово</button></div></div>
+              <div class="field-full"><label for="projectNotes">Описание задачи</label><textarea class="textarea" id="projectNotes" placeholder="Например: есть деталь, нужно восстановить геометрию, проверить посадку и изготовить образец."></textarea></div>
+            </div>
+          </form>
+          <aside class="estimate-summary glass reveal" id="estimateSummary">
+            <div class="eyebrow">Результат оценки</div>
+            <div class="score-ring" id="scoreRing" style="--progress:72"><div><strong id="scoreValue">72</strong><span>готовность</span></div></div>
+            <h3 id="estimateHeadline">Хороший старт для проекта средней сложности.</h3>
+            <p class="copy" id="estimateText">Есть базовая информация для старта. Осталось уточнить срок, требования к точности и формат результата.</p>
+            <div class="summary-chips" id="estimateChips"><span class="pill"><strong>Маршрут</strong> Сканирование → подготовка</span><span class="pill"><strong>Сложность</strong> Средняя</span><span class="pill"><strong>Ритм</strong> Стандартный</span></div>
+            <div class="summary-card"><strong>Зачем это нужно</strong><span>Вы сразу видите, насколько собрана задача и что добавить перед первым сообщением.</span></div>
+            <ul class="estimate-bullets" id="estimateBullets"><li>Подготовить 2-4 фотографии объекта или референса.</li><li>Коротко описать, где будет использоваться результат.</li><li>Уточнить, что сейчас важнее: срок, точность или бюджет.</li></ul>
+            <a class="btn btn-primary" href="#contact">Перейти к брифу <span class="arrow" aria-hidden="true"></span></a>
+          </aside>
+        </div>
+      </div>
+    </section>
+    {% include 'partials/cases.njk' %}
+    <section class="section" id="compare">
+      <div class="container">
+        <div class="title-row reveal"><div><div class="section-label">Почему один маршрут лучше</div><h2>Зачем собирать проект в одном месте.</h2></div><p class="lead">Один подрядчик на весь маршрут обычно экономит время, деньги и нервы.</p></div>
+        <div class="compare-grid reveal"><div class="compare-card glass good"><div class="eyebrow">STEP_3D как единая система</div><h3>Один маршрут и одна ответственность.</h3><ul><li>цель проекта не теряется между разными исполнителями и этапами</li><li>сканирование, моделирование, прототип и печать собираются в цельную цепочку</li><li>меньше риска получить промежуточный результат, который неудобно продолжать</li><li>проще согласовать сроки, формат результата и критерии качества</li></ul></div><div class="compare-card glass bad"><div class="eyebrow">Разрозненные подрядчики</div><h3>Разрозненные этапы.</h3><ul><li>каждый этап решается локально, а не в интересах всего проекта</li><li>ответственность за стыки и недопонимание часто ложится на клиента</li><li>много лишних переписок, повторных объяснений и пересборки задачи</li><li>легко потерять темп, качество и ясность дальнейших шагов</li></ul></div></div>
+        <div class="insight-bar reveal"><div><strong>Меньше стыков - меньше потерь.</strong><p>Один маршрут проще контролировать по срокам, качеству и коммуникации.</p></div><a class="btn btn-primary" href="#contact">Обсудить проект <span class="arrow" aria-hidden="true"></span></a></div>
+      </div>
+    </section>
+    {% include 'partials/faq.njk' %}
+    {% include 'partials/contact.njk' %}
+  </main>
+  {% include 'partials/footer.njk' %}
+  {% include 'partials/ui-controls-bottom.njk' %}
+  <script type="module" src="assets/js/main.js"></script>
+</body>
+</html>
