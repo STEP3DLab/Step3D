@@ -6,10 +6,23 @@ import { initBrief } from './modules/brief.js';
 import { initModelViewer } from './modules/model-viewer.js';
 import { initNav } from './modules/nav.js';
 
-const { updateEstimate } = initEstimate();
-initCases();
-initServicesTabs({ onTypeChange: updateEstimate });
-initFaq();
-initBrief();
-initNav();
-void initModelViewer();
+let initialized = false;
+
+function initApp() {
+  if (initialized) return;
+  initialized = true;
+
+  const { updateEstimate } = initEstimate();
+  initCases();
+  initServicesTabs({ onTypeChange: updateEstimate });
+  initFaq();
+  initBrief();
+  initNav();
+  void initModelViewer();
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initApp, { once: true });
+} else {
+  initApp();
+}
