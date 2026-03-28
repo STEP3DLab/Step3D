@@ -1,23 +1,25 @@
+import { BRIEF_TEXT } from '../../data/brief.js';
+
 export function buildBrief(data) {
-  const name = data.name?.trim() || 'Не указано';
-  const contact = data.contact?.trim() || 'Не указано';
+  const name = data.name?.trim() || BRIEF_TEXT.fallback;
+  const contact = data.contact?.trim() || BRIEF_TEXT.fallback;
   const task = data.task;
   const deadline = data.deadline;
-  const assets = data.assets?.trim() || 'Не указано';
-  const desc = data.description?.trim() || 'Не указано';
+  const assets = data.assets?.trim() || BRIEF_TEXT.fallback;
+  const desc = data.description?.trim() || BRIEF_TEXT.fallback;
 
   return [
-    `Здравствуйте. Меня зовут ${name}.`,
-    `Контакт для связи: ${contact}.`,
+    BRIEF_TEXT.greeting(name),
+    BRIEF_TEXT.contact(contact),
     '',
-    `Тип задачи: ${task}.`,
-    `Желаемый срок: ${deadline}.`,
-    `Что уже есть: ${assets}.`,
+    BRIEF_TEXT.task(task),
+    BRIEF_TEXT.deadline(deadline),
+    BRIEF_TEXT.assets(assets),
     '',
-    'Краткое описание задачи:',
+    BRIEF_TEXT.descriptionTitle,
     `${desc}`,
     '',
-    'Прошу подсказать оптимальный маршрут работы и что еще подготовить для быстрого старта проекта.'
+    BRIEF_TEXT.request
   ].join('\n');
 }
 
@@ -51,10 +53,10 @@ export function initBrief() {
   const syncMeta = () => {
     const desc = document.getElementById('briefDesc');
     const value = desc?.value ?? '';
-    if (descCounter) descCounter.textContent = `${value.length} / 600`;
+    if (descCounter) descCounter.textContent = BRIEF_TEXT.descCounter(value.length);
     if (completeness) {
       const filled = fields.filter((field) => field.value.trim().length > 0).length;
-      completeness.textContent = `Заполнено ${Math.round((filled / fields.length) * 100)}%`;
+      completeness.textContent = BRIEF_TEXT.completeness(Math.round((filled / fields.length) * 100));
     }
   };
 
@@ -108,20 +110,20 @@ export function initBrief() {
     const text = briefOutput.textContent.includes('Нажмите «Собрать бриф»') ? buildBrief(readData()) : briefOutput.textContent;
     try {
       await navigator.clipboard.writeText(text);
-      copyBriefBtn.textContent = 'Скопировано';
+      copyBriefBtn.textContent = BRIEF_TEXT.copied;
     } catch {
-      copyBriefBtn.textContent = 'Не удалось скопировать';
+      copyBriefBtn.textContent = BRIEF_TEXT.copyFailed;
     }
     setTimeout(() => {
-      copyBriefBtn.innerHTML = 'Скопировать <span class="arrow" aria-hidden="true"></span>';
+      copyBriefBtn.innerHTML = BRIEF_TEXT.copyDefaultHtml;
     }, 1600);
   });
 
   saveDraftBtn?.addEventListener('click', () => {
     saveDraft();
-    saveDraftBtn.textContent = 'Сохранено';
+    saveDraftBtn.textContent = BRIEF_TEXT.saved;
     setTimeout(() => {
-      saveDraftBtn.textContent = 'Сохранить черновик';
+      saveDraftBtn.textContent = BRIEF_TEXT.saveDefault;
     }, 1600);
   });
 
@@ -134,6 +136,6 @@ export function initBrief() {
     taskSelect.value = '3D-сканирование';
     deadlineSelect.value = 'Стандартный';
     syncMeta();
-    briefOutput.textContent = 'Черновик очищен. Заполните поля заново и нажмите «Собрать бриф».';
+    briefOutput.textContent = BRIEF_TEXT.draftCleared;
   });
 }

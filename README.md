@@ -183,3 +183,44 @@ npm run format:check
 npm run build
 npm run check:commits
 ```
+
+
+## 10) Формат контент-данных (`assets/data/`)
+
+Контент вынесен из модулей рендера в отдельные JS-конфиги:
+
+- `assets/data/cases.js` — данные для блока кейсов.
+- `assets/data/estimate.js` — справочники для калькулятора оценки и библиотека рекомендаций.
+- `assets/data/brief.js` — шаблонные фразы генератора брифа.
+
+### Схема кейса (`CASES_DATA[caseId]`)
+
+| Поле | Тип | Обязательное | Описание |
+| --- | --- | --- | --- |
+| `title` | `string` | да | Заголовок кейса. |
+| `stats` | `[string, string][]` | да | Пары "метка-значение" для карточки статистики. |
+| `columns` | `{ title: string, items: string[] }[]` | да | Колонки с задачей/подходом/результатом. |
+| `photoTitle` | `string` | нет | Заголовок фотоблока. |
+| `photoCaption` | `string` | нет | Подпись к фотоблоку. |
+| `photoSlots` | `string[]` | нет | Плейсхолдеры миниатюр. |
+| `footer` | `string` | нет | Нижний поясняющий текст. |
+
+Runtime-guards в `assets/js/modules/data-guards.js` проверяют обязательные поля `title`, `stats`, `columns`.
+
+### Схема состояния оценки (`calculateEstimateState`)
+
+| Поле | Тип | Обязательное | Описание |
+| --- | --- | --- | --- |
+| `bullets` | `string[]` | да | Рекомендации для пользователя; минимум 1 строка. |
+
+Runtime-guard проверяет, что `bullets` не пустой и содержит непустые строки.
+
+### Как добавить новый кейс
+
+1. Откройте `assets/data/cases.js`.
+2. Добавьте новый ключ (например `case4`) в `CASES_DATA`.
+3. Заполните обязательные поля `title`, `stats`, `columns`.
+4. При необходимости добавьте `photoTitle`, `photoCaption`, `photoSlots`, `footer`.
+5. Добавьте кнопку/элемент с `data-case="case4"` в `index.html`.
+6. Запустите проверки: `npm test && npm run lint && npm run build`.
+

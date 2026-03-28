@@ -1,26 +1,12 @@
-const complexityMap = { small: 'Низкая', medium: 'Средняя', large: 'Повышенная' };
-const routeMap = {
-  scan: 'Сканирование → цифровая база',
-  reverse: 'Сканирование / анализ → CAD',
-  prototype: 'Подготовка → прототип → правки',
-  print: 'Подготовка → печать → финиш',
-  mixed: 'Комбинированный маршрут'
-};
-const rhythmMap = { rush: 'Срочный', normal: 'Стандартный', planned: 'Плановый' };
-const typeHeadlines = {
-  scan: 'Хороший старт для сканирования объекта.',
-  reverse: 'Сценарий подходит для старта реверсивного инжиниринга.',
-  prototype: 'Сценарий подходит для быстрого запуска прототипа.',
-  print: 'Сценарий подходит для подготовки к изготовлению.',
-  mixed: 'Комплексная задача требует чуть больше вводных, но логика уже собрана.'
-};
-const goalText = {
-  demo: 'Фокус на подаче и внешнем виде.',
-  test: 'Фокус на проверке формы, посадки или механики.',
-  restore: 'Фокус на восстановлении или повторении геометрии.',
-  adapt: 'Фокус на инженерной доработке.',
-  production: 'Фокус на результате для следующего производственного шага.'
-};
+import {
+  ESTIMATE_BULLET_LIBRARY,
+  ESTIMATE_COMPLEXITY_MAP,
+  ESTIMATE_GOAL_TEXT,
+  ESTIMATE_RHYTHM_MAP,
+  ESTIMATE_ROUTE_MAP,
+  ESTIMATE_TYPE_HEADLINES
+} from '../../data/estimate.js';
+import { validateEstimateState } from './data-guards.js';
 
 export function calculateEstimateState(input) {
   const { type, goal, source, scale, notes, priority, deadline } = input;
@@ -38,26 +24,29 @@ export function calculateEstimateState(input) {
   score = Math.max(42, Math.min(92, score));
 
   const bullets = [];
-  if (source === 'idea') bullets.push('Добавить 2-4 референса или похожих фото.');
-  if (source === 'object') bullets.push('Сфотографировать объект с нескольких сторон и указать габариты.');
-  if (source === 'file') bullets.push('Подготовить файл и коротко описать цель результата.');
-  if (deadline === 'rush') bullets.push('Сразу отметить крайний срок и что обязательно успеть.');
-  if (priority === 'quality') bullets.push('Уточнить, где критична точность: размеры, посадки или внешний вид.');
-  if (priority === 'budget') bullets.push('Сразу обозначить желаемый бюджет и допустимый компромисс.');
-  if (notes.length < 35) bullets.push('Добавить одно-два предложения о том, как будет использоваться результат.');
-  bullets.push('Собрать бриф ниже, чтобы не потерять важные детали.');
+  if (source === 'idea') bullets.push(ESTIMATE_BULLET_LIBRARY.sourceIdea);
+  if (source === 'object') bullets.push(ESTIMATE_BULLET_LIBRARY.sourceObject);
+  if (source === 'file') bullets.push(ESTIMATE_BULLET_LIBRARY.sourceFile);
+  if (deadline === 'rush') bullets.push(ESTIMATE_BULLET_LIBRARY.rushDeadline);
+  if (priority === 'quality') bullets.push(ESTIMATE_BULLET_LIBRARY.qualityPriority);
+  if (priority === 'budget') bullets.push(ESTIMATE_BULLET_LIBRARY.budgetPriority);
+  if (notes.length < 35) bullets.push(ESTIMATE_BULLET_LIBRARY.shortNotes);
+  bullets.push(ESTIMATE_BULLET_LIBRARY.baseline);
 
-  return {
+  const state = {
     score,
-    headline: typeHeadlines[type],
-    description: `${goalText[goal]} Сейчас уровень готовности - ${score} из 100. Чем точнее вводные по сроку, применению и ограничениям, тем быстрее можно собрать маршрут работы.`,
+    headline: ESTIMATE_TYPE_HEADLINES[type],
+    description: `${ESTIMATE_GOAL_TEXT[goal]} Сейчас уровень готовности - ${score} из 100. Чем точнее вводные по сроку, применению и ограничениям, тем быстрее можно собрать маршрут работы.`,
     chips: {
-      route: routeMap[type],
-      complexity: complexityMap[scale],
-      rhythm: rhythmMap[deadline]
+      route: ESTIMATE_ROUTE_MAP[type],
+      complexity: ESTIMATE_COMPLEXITY_MAP[scale],
+      rhythm: ESTIMATE_RHYTHM_MAP[deadline]
     },
     bullets
   };
+
+  validateEstimateState(state);
+  return state;
 }
 
 function activeOptionValue(groupName) {
