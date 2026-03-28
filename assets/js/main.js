@@ -355,29 +355,194 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   const contactForm = document.getElementById('contactForm');
+  const contactFormStatus = document.getElementById('contactFormStatus');
+  const contactSubmitButton = contactForm?.querySelector('button[type="submit"]');
+  const allowedAttachmentTypes = new Set([
+    'application/pdf',
+    'image/jpeg',
+    'image/png',
+    'image/webp',
+    'text/plain',
+    'application/zip',
+    'application/x-zip-compressed',
+    'model/stl',
+    'application/sla',
+    'application/vnd.ms-pki.stl',
+    'application/step',
+    'application/iges',
+    'application/octet-stream',
+  ]);
+  const maxAttachmentSize = 10 * 1024 * 1024;
+  const maxTotalAttachmentSize = 30 * 1024 * 1024;
+
+  const normalizeSpaces = (value) => value.replace(/\s+/g, ' ').trim();
+  const normalizeContact = (value) => normalizeSpaces(value).replace(/\s*([@/|])\s*/g, '$1');
+  const normalizeTask = (value) => value.replace(/\r\n/g, '\n').split('\n').map((line) => line.trim()).filter(Boolean).join('\n');
+  const safeFileName = (fileName) => fileName.replace(/[^\p{L}\p{N}._-]+/gu, '_').slice(0, 120);
+  const validateRequired = (value, minLength = 2) => value.length >= minLength;
+
+  const setSubmitState = (state, message) => {
+    if (!contactFormStatus) return;
+    contactFormStatus.hidden = false;
+    contactFormStatus.textContent = message;
+    contactFormStatus.classList.remove('is-loading', 'is-success', 'is-error');
+    contactFormStatus.classList.add(`is-${state}`);
+  };
+
+  const clearSubmitState = () => {
+    if (!contactFormStatus) return;
+    contactFormStatus.hidden = true;
+    contactFormStatus.textContent = '';
+    contactFormStatus.classList.remove('is-loading', 'is-success', 'is-error');
+  };
+
+  const openMailFallback = (message) => {
+    const mailto = `mailto:hello@step3d.pro?subject=${encodeURIComponent('Заявка с сайта Step3D')}&body=${encodeURIComponent(message)}`;
+    window.location.href = mailto;
+  };
+
+  const isAllowedAttachment = (file) => {
+    const extension = file.name.split('.').pop()?.toLowerCase() || '';
+    const allowedExtensions = new Set(['pdf', 'jpg', 'jpeg', 'png', 'webp', 'txt', 'zip', 'stl', 'step', 'stp', 'iges', 'igs']);
+    return allowedAttachmentTypes.has(file.type) || allowedExtensions.has(extension);
+  };
+
   contactForm?.addEventListener('submit', async (event) => {
     event.preventDefault();
+    clearSubmitState();
     const formData = new FormData(contactForm);
-    const attachedFiles = formData.getAll('attachments')
-      .filter((file) => file && typeof file === 'object' && 'name' in file && file.name)
-      .map((file) => file.name);
+    const normalizedName = normalizeSpaces(String(formData.get('name') || ''));
+    const normalizedCompany = normalizeSpaces(String(formData.get('company') || ''));
+    const normalizedContactValue = normalizeContact(String(formData.get('contact') || ''));
+    const normalizedType = normalizeSpaces(String(formData.get('type') || ''));
+    const normalizedTaskValue = normalizeTask(String(formData.get('task') || ''));
+
+    if (!validateRequired(normalizedName)) {
+      setSubmitState('error', 'Укажите имя (минимум 2 символа).');
+      return;
+    }
+
+    if (!validateRequired(normalizedContactValue, 3)) {
+      setSubmitState('error', 'Укажите корректный контакт (минимум 3 символа).');
+      return;
+    }
+
+    if (!normalizedType) {
+      setSubmitState('error', 'Выберите тип задачи.');
+      return;
+    }
+
+    if (!validateRequired(normalizedTaskValue, 10)) {
+      setSubmitState('error', 'Опишите задачу подробнее (минимум 10 символов).');
+      return;
+    }
+
+    const attachmentFiles = formData.getAll('attachments')
+      .filter((file) => file instanceof File && file.name);
+
+    let totalAttachmentSize = 0;
+    for (const file of attachmentFiles) {
+      totalAttachmentSize += file.size;
+      if (file.size > maxAttachmentSize) {
+        setSubmitState('error', `Файл «${file.name}» больше 10 МБ. Уменьшите размер и повторите отправку.`);
+        return;
+      }
+      if (!isAllowedAttachment(file)) {
+        setSubmitState('error', `Тип файла «${file.name}» не поддерживается. Разрешены PDF, изображения, TXT, ZIP, STL, STEP, IGES.`);
+        return;
+      }
+    }
+
+    if (totalAttachmentSize > maxTotalAttachmentSize) {
+      setSubmitState('error', 'Суммарный размер вложений превышает 30 МБ. Удалите часть файлов.');
+      return;
+    }
+
+    const attachedFiles = attachmentFiles.map((file) => safeFileName(file.name));
     const message = [
       'Новая заявка Step3D',
-      `Имя: ${formData.get('name')}`,
-      `Компания/роль: ${formData.get('company') || '—'}`,
-      `Контакт: ${formData.get('contact')}`,
-      `Тип задачи: ${formData.get('type')}`,
-      `Описание: ${formData.get('task')}`,
+      `Имя: ${normalizedName}`,
+      `Компания/роль: ${normalizedCompany || '—'}`,
+      `Контакт: ${normalizedContactValue}`,
+      `Тип задачи: ${normalizedType}`,
+      `Описание: ${normalizedTaskValue}`,
       `Файлы: ${attachedFiles.length ? attachedFiles.join(', ') : 'не приложены'}`,
     ].join('\n');
 
-    try {
-      await navigator.clipboard.writeText(message);
-    } catch (_error) {
-      // Clipboard API may be unavailable in some browsers.
+    const endpoint = contactForm?.getAttribute('data-endpoint') || '/api/contact';
+    const payload = {
+      name: normalizedName,
+      company: normalizedCompany,
+      contact: normalizedContactValue,
+      type: normalizedType,
+      task: normalizedTaskValue,
+      attachments: attachedFiles,
+      source: 'step3d-website',
+    };
+
+    const submitWithFetch = async () => {
+      if (!navigator.onLine) {
+        throw new Error('offline');
+      }
+
+      const requestHasFiles = attachmentFiles.length > 0;
+      if (requestHasFiles) {
+        const multipartPayload = new FormData();
+        multipartPayload.set('name', normalizedName);
+        multipartPayload.set('company', normalizedCompany);
+        multipartPayload.set('contact', normalizedContactValue);
+        multipartPayload.set('type', normalizedType);
+        multipartPayload.set('task', normalizedTaskValue);
+        multipartPayload.set('source', 'step3d-website');
+        attachmentFiles.forEach((file) => multipartPayload.append('attachments', file, safeFileName(file.name)));
+
+        return fetch(endpoint, {
+          method: 'POST',
+          body: multipartPayload,
+          headers: { Accept: 'application/json' },
+        });
+      }
+
+      return fetch(endpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body: JSON.stringify(payload),
+      });
+    };
+
+    setSubmitState('loading', 'Отправляем заявку…');
+    if (contactSubmitButton instanceof HTMLButtonElement) {
+      contactSubmitButton.disabled = true;
+      contactSubmitButton.setAttribute('aria-busy', 'true');
     }
 
-    const mailto = `mailto:hello@step3d.pro?subject=${encodeURIComponent('Заявка с сайта Step3D')}&body=${encodeURIComponent(message)}`;
-    window.location.href = mailto;
+    try {
+      const response = await submitWithFetch();
+      if (!response.ok) {
+        throw new Error(`api-${response.status}`);
+      }
+
+      await navigator.clipboard.writeText(message);
+      setSubmitState('success', 'Заявка отправлена. Мы свяжемся с вами в ближайшее время.');
+      contactForm.reset();
+      return;
+    } catch (_error) {
+      try {
+        await navigator.clipboard.writeText(message);
+      } catch (_clipboardError) {
+        // Clipboard API may be unavailable in some browsers.
+      }
+
+      setSubmitState('error', 'Не удалось отправить через API. Открываем резервный способ через почтовый клиент.');
+      openMailFallback(message);
+    } finally {
+      if (contactSubmitButton instanceof HTMLButtonElement) {
+        contactSubmitButton.disabled = false;
+        contactSubmitButton.removeAttribute('aria-busy');
+      }
+    }
   });
 });

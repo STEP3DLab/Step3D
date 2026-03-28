@@ -468,6 +468,28 @@ textarea {
   font-size: .86rem;
 }
 
+.form-submit-status {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  font-size: .92rem;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.form-submit-status.is-loading {
+  color: var(--accent);
+}
+
+.form-submit-status.is-success {
+  color: var(--success);
+  border-color: color-mix(in srgb, var(--success) 55%, var(--line));
+}
+
+.form-submit-status.is-error {
+  color: var(--danger);
+  border-color: color-mix(in srgb, var(--danger) 45%, var(--line));
+}
+
 .footer {
   border-top: 1px solid var(--line);
   padding: var(--space-5) 0;
