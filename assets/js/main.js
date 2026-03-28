@@ -9,15 +9,15 @@ import { initHeroDynamic } from './modules/hero-dynamic.js';
 import { initTheme } from './modules/theme.js';
 import { initUx } from './modules/ux.js';
 
-let initialized = false;
+const APP_INIT_SENTINEL = '__step3d_app_initialized__';
 
 /**
  * Single, predictable bootstrap entrypoint for the entire landing page.
  * Keeps init ordering explicit and prevents accidental double-listeners.
  */
 function initApp() {
-  if (initialized) return;
-  initialized = true;
+  if (window[APP_INIT_SENTINEL]) return;
+  window[APP_INIT_SENTINEL] = true;
 
   const { updateEstimate } = initEstimate();
   initCases();
