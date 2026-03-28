@@ -1,5 +1,3 @@
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Manrope:wght@600;700;800&display=swap');
-
     :root {
       --bg: #05070b;
       --bg-2: #0a1118;
@@ -83,11 +81,27 @@
     }
 
     a { color: inherit; text-decoration: none; }
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    :where(a, button, input, select, textarea):focus-visible {
+      outline: 2px solid rgba(170,198,255,.75);
+      outline-offset: 2px;
+    }
+
     button, input, select, textarea { font: inherit; }
     img { max-width: 100%; display: block; }
     .container { width: min(calc(100% - 32px), var(--container)); margin: 0 auto; }
     .section-block { position: relative; }
-    .hero__container, .hero__content, .hero__panel, .services__layout, .services__tabs, .services__stage, .trust__panel, .trust__list, .trust__chip, .footer__panel, .footer__links { }
     .section { position: relative; padding: var(--section) 0; scroll-margin-top: calc(var(--header-h) + 18px); }
     .section-label {
       display: inline-flex; align-items: center; gap: 10px; padding: 10px 14px; border: 1px solid var(--line);
@@ -166,6 +180,30 @@
     .nav { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; justify-content: center; }
     .nav-link { min-height: 42px; display: inline-flex; align-items: center; padding: 0 14px; border-radius: 999px; color: var(--muted); font-size: 14px; transition: color var(--ease), background var(--ease), transform var(--ease); }
     .nav-link:hover, .nav-link.is-active { color: var(--text); background: rgba(255,255,255,.05); }
+    .nav-toggle {
+      display: none;
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.03);
+      color: var(--text);
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      flex-direction: column;
+      cursor: pointer;
+    }
+    .nav-toggle > span[aria-hidden='true'] {
+      width: 18px;
+      height: 1.6px;
+      border-radius: 999px;
+      background: currentColor;
+      transition: transform var(--ease), opacity var(--ease);
+    }
+    .nav-toggle.is-open > span[aria-hidden='true']:nth-child(2) { transform: translateY(5px) rotate(45deg); }
+    .nav-toggle.is-open > span[aria-hidden='true']:nth-child(3) { opacity: 0; }
+    .nav-toggle.is-open > span[aria-hidden='true']:nth-child(4) { transform: translateY(-6px) rotate(-45deg); }
     .header-actions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: end; }
     .mini-status { display: inline-flex; align-items: center; gap: 10px; min-height: 42px; padding: 0 14px; border-radius: 999px; color: var(--muted); border: 1px solid var(--line); background: rgba(255,255,255,.03); font-size: 14px; backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); }
     .mini-status::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: #9bffc1; box-shadow: 0 0 0 6px rgba(155,255,193,.08); flex: 0 0 auto; }
@@ -376,9 +414,20 @@
       .trust-list { justify-content: start; }
     }
     @media (max-width: 980px) {
-      .header-inner { padding: 10px 0; align-items: start; flex-direction: column; }
-      .nav { justify-content: start; }
-      .header-actions { width: 100%; justify-content: start; }
+      .header-inner { padding: 10px 0; display: grid; grid-template-columns: 1fr auto; align-items: center; }
+      .brand { grid-column: 1 / 2; }
+      .nav-toggle { display: inline-flex; grid-column: 2 / 3; justify-self: end; }
+      .nav {
+        grid-column: 1 / -1;
+        width: 100%;
+        display: none;
+        gap: 6px;
+        padding-top: 6px;
+        border-top: 1px solid var(--line);
+      }
+      .nav.is-open { display: flex; }
+      .nav-link { width: 100%; justify-content: flex-start; }
+      .header-actions { grid-column: 1 / -1; width: 100%; justify-content: start; }
       .hero { min-height: auto; padding-top: 38px; }
       .hero-metrics, .service-kpis, .case-body, .compare-grid { grid-template-columns: 1fr; }
       .signal-grid { grid-template-columns: 1fr; }

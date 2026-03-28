@@ -6,8 +6,10 @@
   <title>STEP_3D - 3D-сканирование, моделирование и 3D-печать</title>
   <meta name="description" content="STEP_3D - инженерная студия: 3D-сканирование, реверсивный инжиниринг, CAD, прототипирование и 3D-печать." />
   <meta name="theme-color" content="#07090d" />
-  <link rel="stylesheet" href="assets/css/main.css" />
-
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preload" href="assets/css/main.css" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+  <noscript><link rel="stylesheet" href="assets/css/main.css" /></noscript>
 </head>
 <body>
   <div class="progress-top" aria-hidden="true"><span id="scrollProgress"></span></div>
@@ -32,7 +34,13 @@
           <span>Инженерная студия цифрового производства</span>
         </span>
       </a>
-      <nav class="nav" aria-label="Основная навигация">
+      <button class="nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="siteNav">
+        <span class="sr-only">Открыть меню</span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </button>
+      <nav class="nav" id="siteNav" aria-label="Основная навигация">
         <a class="nav-link" href="#services">Услуги</a>
         <a class="nav-link" href="#model">3D-модель</a>
         <a class="nav-link" href="#workflow">Процесс</a>
@@ -311,7 +319,7 @@
           <div class="faq-list reveal">
             <div class="faq-item is-open"><button class="faq-q" type="button"><strong>Можно ли прийти только с идеей или референсом, без готовой модели?</strong><span class="faq-icon" aria-hidden="true"></span></button><div class="faq-a" style="max-height: 240px;"><div class="faq-a-inner">Да. Достаточно идеи, референса, фото или образца.</div></div></div>
             <div class="faq-item"><button class="faq-q" type="button"><strong>Если у меня уже есть STL или CAD, это ускорит запуск?</strong><span class="faq-icon" aria-hidden="true"></span></button><div class="faq-a"><div class="faq-a-inner">Часто да, если файл подходит под задачу. При необходимости сначала быстро проверим его.</div></div></div>
-            <div class="faq-item"><button class="faq-q" type="button"><strong>Что лучше отправить в первом сообщении, чтобы не тратить время?</strong><span class="faq-icon" aria-hidden="true"></span></button><div class="faq-a"><div class="faq-a-inner">Описание задачи задачи, 2-4 фотографии или референса, предполагаемую цель результата, желаемый срок и всё, что уже есть: файл, размеры, образец, эскиз. Для этого на странице ниже есть генератор брифа, который помогает быстро собрать нормальное первое сообщение.</div></div></div>
+            <div class="faq-item"><button class="faq-q" type="button"><strong>Что лучше отправить в первом сообщении, чтобы не тратить время?</strong><span class="faq-icon" aria-hidden="true"></span></button><div class="faq-a"><div class="faq-a-inner">Описание задачи, 2-4 фотографии или референса, предполагаемую цель результата, желаемый срок и всё, что уже есть: файл, размеры, образец, эскиз. Для этого на странице ниже есть генератор брифа, который помогает быстро собрать нормальное первое сообщение.</div></div></div>
             <div class="faq-item"><button class="faq-q" type="button"><strong>Вы делаете только печать или можете вести полный маршрут?</strong><span class="faq-icon" aria-hidden="true"></span></button><div class="faq-a"><div class="faq-a-inner">И печать, и полный маршрут: от сканирования и моделирования до готового изделия.</div></div></div>
           </div>
           <aside class="faq-side glass reveal"><div class="contact-note"><strong>Что прислать</strong><p>Фото или файл, цель, срок и что особенно важно в результате.</p></div><div class="contact-note"><strong>Как быстро стартовать</strong><p>Соберите бриф ниже или напишите менеджеру STEP_3D в Telegram.</p></div><div class="contact-note"><strong>Когда нужен полный маршрут</strong><p>Если нет модели, нужно пройти несколько этапов или важно держать все в одном месте.</p></div></aside>
@@ -331,14 +339,14 @@
               <div class="field"><label for="briefTask">Тип задачи</label><select class="control" id="briefTask"><option>3D-сканирование</option><option>Реверсивный инжиниринг</option><option>Прототипирование</option><option>3D-печать</option><option>Комплексная задача</option></select></div>
               <div class="field"><label for="briefDeadline">Срок</label><select class="control" id="briefDeadline"><option>Стандартный</option><option>Срочно</option><option>Планово</option></select></div>
               <div class="field-full"><label for="briefAssets">Что уже есть</label><input class="control" id="briefAssets" type="text" placeholder="Например: деталь, STL, размеры, фотографии, референсы" /></div>
-              <div class="field-full"><label for="briefDesc">Описание задачи задачи</label><textarea class="textarea" id="briefDesc" placeholder="Что нужно получить, где это будет использоваться и что важно: срок, точность, внешний вид, прочность."></textarea></div>
+              <div class="field-full"><label for="briefDesc">Описание задачи</label><textarea class="textarea" id="briefDesc" placeholder="Что нужно получить, где это будет использоваться и что важно: срок, точность, внешний вид, прочность."></textarea></div>
             </div>
             <div class="brief-box">
               <div class="title-row" style="margin-bottom:0;"><strong>Готовый текст</strong><div style="display:flex; gap:10px; flex-wrap:wrap;"><button type="button" class="btn btn-ghost" id="generateBrief">Собрать бриф</button><button type="button" class="btn btn-primary" id="copyBrief">Скопировать <span class="arrow" aria-hidden="true"></span></button></div></div>
               <div class="brief-output" id="briefOutput">Нажмите «Собрать бриф», чтобы получить готовое сообщение для отправки менеджеру STEP_3D.</div>
             </div>
           </div>
-          <aside class="contact-side glass reveal"><div class="contact-note"><strong>Что указать</strong><p>Цель, срок, что уже есть и что важно в результате.</p></div><div class="contact-note"><strong>Что приложить</strong><p>Фото объекта, STL или CAD, размеры, референсы.</p></div><div class="contact-note"><strong>Куда отправить</strong><p>Telegram @step_3d_mngr, почта или любой удобный канал связи.</p></div><a class="btn btn-secondary" href="#top">Наверх страницы</a></aside>
+          <aside class="contact-side glass reveal"><div class="contact-note"><strong>Что указать</strong><p>Цель, срок, что уже есть и что важно в результате.</p></div><div class="contact-note"><strong>Что приложить</strong><p>Фото объекта, STL или CAD, размеры, референсы.</p></div><div class="contact-note"><strong>Куда отправить</strong><p>Telegram <a href="https://t.me/step_3d_mngr" target="_blank" rel="noopener noreferrer">@step_3d_mngr</a>, почта или любой удобный канал связи.</p></div><a class="btn btn-secondary" href="#top">Наверх страницы</a></aside>
         </div>
       </div>
     </section>

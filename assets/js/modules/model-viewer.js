@@ -46,16 +46,31 @@ export async function initModelViewer() {
     modelOverlay.classList.remove('is-hidden');
     modelOverlay.innerHTML = `<div class="model-overlay-card"><strong>${title}</strong><p>${text}</p></div>`;
   };
+  const supportsWebGL = () => {
+    try {
+      const canvas = document.createElement('canvas');
+      return !!(window.WebGLRenderingContext && (canvas.getContext('webgl') || canvas.getContext('experimental-webgl')));
+    } catch {
+      return false;
+    }
+  };
 
   try {
+    if (!supportsWebGL()) {
+      setStatus('WebGL не поддерживается');
+      showOverlay('3D-просмотр недоступен', 'На этом устройстве нет поддержки WebGL. Вы можете скачать STL-файл и открыть его в стороннем просмотрщике.');
+      return;
+    }
+
     const [{ default: THREE }, { OrbitControls }, { STLLoader }] = await Promise.all([
       import('https://unpkg.com/three@0.160.1/build/three.module.js'),
       import('https://unpkg.com/three@0.160.1/examples/jsm/controls/OrbitControls.js'),
       import('https://unpkg.com/three@0.160.1/examples/jsm/loaders/STLLoader.js')
     ]);
 
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+    const weakDevice = window.matchMedia('(max-width: 820px)').matches || ((window.devicePixelRatio || 1) > 2);
+    const renderer = new THREE.WebGLRenderer({ antialias: !weakDevice, alpha: true, powerPreference: weakDevice ? 'default' : 'high-performance' });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, weakDevice ? 1.5 : 2));
     renderer.setSize(modelViewport.clientWidth, modelViewport.clientHeight);
     modelViewport.appendChild(renderer.domElement);
 
@@ -66,6 +81,7 @@ export async function initModelViewer() {
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
     controls.autoRotate = true;
+    controls.autoRotateSpeed = weakDevice ? 1.2 : 1.8;
     controls.enablePan = false;
 
     scene.add(new THREE.HemisphereLight(0xe9f1ff, 0x111722, 1.65));
@@ -80,7 +96,7 @@ export async function initModelViewer() {
     mesh.rotation.x = -Math.PI / 2;
     scene.add(mesh);
 
-    setStatus('Файл из чата открыт');
+    setStatus(weakDevice ? 'Открыт адаптивный режим просмотра' : 'Файл из чата открыт');
     hideOverlay();
 
     const onResize = () => {
@@ -111,12 +127,24 @@ export async function initModelViewer() {
       });
     }
 
+    let rafId = 0;
+    let isAnimating = false;
     const animate = () => {
+      isAnimating = true;
       controls.update();
       renderer.render(scene, camera);
-      window.requestAnimationFrame(animate);
+      rafId = window.requestAnimationFrame(animate);
     };
     animate();
+
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) {
+        isAnimating = false;
+        window.cancelAnimationFrame(rafId);
+      } else if (!isAnimating) {
+        animate();
+      }
+    });
   } catch (error) {
     console.error(error);
     setStatus('Просмотр недоступен');
