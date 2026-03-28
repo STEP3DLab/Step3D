@@ -14,6 +14,11 @@
 
 </head>
 <body>
+  <div class="announcement-bar" role="status">
+    <div class="container">
+      <p><span class="announcement-dot" aria-hidden="true"></span>STEP_3D / Новый поток: от идеи до детали за один маршрут и одну команду.</p>
+    </div>
+  </div>
   <div class="progress-top" aria-hidden="true"><span id="scrollProgress"></span></div>
   <nav class="section-rail" aria-label="Навигация по разделам">
     <a class="rail-link" data-label="Начало" href="#top"></a>
@@ -30,7 +35,7 @@
   <header class="header" id="top">
     <div class="container header-inner">
       <a href="#top" class="brand" aria-label="STEP_3D">
-        <span class="brand-mark" aria-hidden="true"></span>
+        <span class="brand-mark" aria-hidden="true"><img src="assets/img/grabber-logo.svg" alt="" /></span>
         <span class="brand-text">
           <strong>STEP_3D</strong>
           <span>Инженерная студия цифрового производства</span>
@@ -59,12 +64,25 @@
       <div class="container hero__container hero-layout">
         <div class="hero__content hero-copy reveal">
           <div class="section-label">STEP_3D / цифровое производство</div>
+          <div class="hero-dynamic" aria-live="polite">
+            <span class="hero-dynamic__label">Стартуем с</span>
+            <strong id="heroDynamicWord">3D-сканирования</strong>
+          </div>
           <h1>От идеи и образца к готовому изделию.</h1>
-          <p class="lead">3D-сканирование, моделирование, реверсивный инжиниринг, прототипирование и 3D-печать - в одном маршруте.</p>
+          <p class="lead">3D-сканирование, моделирование, реверсивный инжиниринг, прототипирование и 3D-печать — в одном маршруте, с вау-подачей и инженерной точностью.</p>
+          <div class="hero-start-line" aria-hidden="true">
+            <span></span><span></span><span></span><span></span><span></span>
+          </div>
           <div class="pill-row">
             <div class="pill"><span class="pill-icon" aria-hidden="true">◉</span><strong>Есть объект</strong> сканируем и строим цифровую модель</div>
             <div class="pill"><span class="pill-icon" aria-hidden="true">✦</span><strong>Есть идея</strong> переводим ее в прототип и изделие</div>
             <div class="pill"><span class="pill-icon" aria-hidden="true">⬢</span><strong>Есть файл</strong> готовим к печати и выпуску</div>
+          </div>
+          <div class="service-icon-row" aria-label="Иконки ключевых 3D-услуг">
+            <div class="service-icon-pill"><span class="icon-badge" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 10l8-4 8 4-8 4-8-4Z"/><path d="M12 14v6"/><path d="M7 12v4l5 3 5-3v-4"/></svg></span><span>Сканирование</span></div>
+            <div class="service-icon-pill"><span class="icon-badge" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 4v4"/><path d="M20 12h-4"/><path d="M12 20v-4"/><path d="M4 12h4"/><circle cx="12" cy="12" r="4.5"/></svg></span><span>Реверс</span></div>
+            <div class="service-icon-pill"><span class="icon-badge" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m4 15 8-11 8 11"/><path d="M6 15h12"/><path d="M8 20h8"/></svg></span><span>Прототип</span></div>
+            <div class="service-icon-pill"><span class="icon-badge" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 8V4h10v4"/><rect x="4" y="8" width="16" height="8" rx="2"/><path d="M8 16h8v4H8z"/></svg></span><span>Печать</span></div>
           </div>
           <div class="hero-actions">
             <a class="btn btn-primary" href="#contact">Обсудить проект <span class="arrow" aria-hidden="true"></span></a>
@@ -107,6 +125,10 @@
             <a class="btn btn-ghost" href="#story">Как мы работаем</a>
           </div>
         </div>
+        <a class="scroll-cue" href="#services" aria-label="Прокрутить к услугам">
+          <span>Смотреть услуги</span>
+          <i aria-hidden="true"></i>
+        </a>
       </div>
     </section>
     <section class="trust-rail reveal section-block section-block--trust" data-block="trust">
@@ -141,6 +163,11 @@
     <section class="section section-block section-block--services" id="services" data-block="services">
       <div class="container">
         <div class="title-row reveal"><div><div class="section-label">Сценарии работы</div><h2>Выберите сценарий вашей задачи.</h2></div><p class="lead">У каждого сценария свой вход, результат и набор важных вопросов.</p></div>
+        <div class="service-note-strip reveal">
+          <div class="service-note"><strong>Точная геометрия</strong><span>Работаем с инженерными допусками под задачу.</span></div>
+          <div class="service-note"><strong>Прозрачный процесс</strong><span>На каждом этапе показываем статус и следующий шаг.</span></div>
+          <div class="service-note"><strong>Вау-презентация</strong><span>Подготовим модель и объект так, чтобы впечатляло.</span></div>
+        </div>
         <div class="services__layout services-layout">
           <div class="services__tabs services-tabs glass reveal" role="tablist" aria-label="Сценарии услуг">
             <button class="service-tab is-active" type="button" role="tab" aria-selected="true" data-service="scan" aria-controls="service-panel-scan" id="service-tab-scan"><small>01</small><div class="service-tab-head"><span class="icon-badge icon-badge--pulse" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 10l8-4 8 4-8 4-8-4Z"/><path d="M12 14v6"/><path d="M7 12v4l5 3 5-3v-4"/></svg></span><strong>3D-сканирование</strong></div><span>Точный цифровой слепок объекта.</span></button>
@@ -297,7 +324,19 @@
           <article class="case-view glass reveal" id="caseView">
             <div class="eyebrow">Пример маршрута</div>
             <h3 id="caseTitle">Реверсивный инжиниринг детали по физическому образцу</h3>
-            <div class="case-hero"><div class="case-visual" aria-hidden="true"><div class="shape-a"></div><div class="shape-b"></div><div class="shape-c"></div><div class="shape-d"></div></div><div class="case-side" id="caseStats"></div></div>
+            <div class="case-hero">
+              <div class="case-visual-wrap">
+                <div class="case-photo-slot" id="casePhotoSlot" role="img" aria-label="Зона для фото реализованного проекта">
+                  <div class="case-photo-placeholder">
+                    <span class="icon-badge" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="14" rx="2"/><circle cx="9" cy="10" r="1.5"/><path d="m7 16 4-4 3 3 3-3 2 2"/></svg></span>
+                    <strong id="casePhotoTitle">Фото готового проекта</strong>
+                    <p id="casePhotoCaption">Добавьте сюда фото реализованного проекта: общий ракурс, крупный план, результат после обработки.</p>
+                  </div>
+                </div>
+                <div class="case-thumb-row" id="caseThumbRow" aria-label="Плейсхолдеры для дополнительных фото"></div>
+              </div>
+              <div class="case-side" id="caseStats"></div>
+            </div>
             <div class="case-body" id="caseBody"></div>
             <div class="case-footer"><p class="copy" id="caseFooterText">Такой формат помогает сразу понять, как будет идти проект.</p><a class="btn btn-secondary" href="#contact">Запустить похожий проект</a></div>
           </article>

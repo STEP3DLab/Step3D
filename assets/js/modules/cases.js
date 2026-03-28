@@ -1,6 +1,9 @@
 const caseData = {
   case1: {
     title: 'Реверсивный инжиниринг детали по физическому образцу',
+    photoTitle: 'Фото: восстановленная деталь + CAD-модель',
+    photoCaption: 'Разместите тут 1-3 кадра: исходный образец, модель после реверса и финальный результат.',
+    photoSlots: ['Исходный образец', 'Процесс реверса', 'Финальный результат'],
     stats: [
       ['Формат входа', 'Образец или скан'],
       ['Фокус', 'Редактируемая модель'],
@@ -32,6 +35,9 @@ const caseData = {
   },
   case2: {
     title: 'Функциональный прототип для проверки формы и сборки',
+    photoTitle: 'Фото: прототип в тестовой сборке',
+    photoCaption: 'Идеальное место для фото проверки посадки, сборки и эргономики в реальных условиях.',
+    photoSlots: ['Рендер/эскиз', 'Прототип после печати', 'Тест в сборке'],
     stats: [['Формат входа', 'Идея, эскиз или CAD'], ['Фокус', 'Быстрый тест'], ['Результат', 'Образец в руках']],
     columns: [
       { title: 'Задача', items: ['нужно быстро увидеть форму в реальности', 'важно проверить посадку, стыки или удобство', 'не хочется сразу идти в дорогой финальный цикл'] },
@@ -42,6 +48,9 @@ const caseData = {
   },
   case3: {
     title: 'Награда, арт-объект или выставочный предмет',
+    photoTitle: 'Фото: объект в презентационной подаче',
+    photoCaption: 'Покажите общий вид, фактуру поверхности и кадр с экспозиции или вручения.',
+    photoSlots: ['Общий ракурс', 'Крупный план', 'Фото в интерьере/на сцене'],
     stats: [['Формат входа', 'Эскиз и референсы'], ['Фокус', 'Подача и качество'], ['Результат', 'Объект презентационного уровня']],
     columns: [
       { title: 'Задача', items: ['нужен выразительный предмет, а не просто печать', 'важны и внешний вид, и технологичность', 'нужно учесть сборку, поверхность и подачу'] },
@@ -58,13 +67,19 @@ export function initCases() {
   const caseStats = document.getElementById('caseStats');
   const caseBody = document.getElementById('caseBody');
   const caseFooterText = document.getElementById('caseFooterText');
-  if (!caseItems.length || !caseTitle || !caseStats || !caseBody || !caseFooterText) return;
+  const casePhotoTitle = document.getElementById('casePhotoTitle');
+  const casePhotoCaption = document.getElementById('casePhotoCaption');
+  const caseThumbRow = document.getElementById('caseThumbRow');
+  if (!caseItems.length || !caseTitle || !caseStats || !caseBody || !caseFooterText || !casePhotoTitle || !casePhotoCaption || !caseThumbRow) return;
 
   const renderCase = (id) => {
     const data = caseData[id];
     if (!data) return;
     caseTitle.textContent = data.title;
     caseFooterText.textContent = data.footer;
+    casePhotoTitle.textContent = data.photoTitle;
+    casePhotoCaption.textContent = data.photoCaption;
+    caseThumbRow.innerHTML = data.photoSlots.map((slot) => `<div class="case-thumb">${slot}</div>`).join('');
     caseStats.innerHTML = data.stats.map(([label, value]) => `<div class="case-stat"><strong>${label}</strong><span>${value}</span></div>`).join('');
     caseBody.innerHTML = data.columns
       .map((col) => `<div class="case-column"><strong>${col.title}</strong><ul>${col.items.map((item) => `<li>${item}</li>`).join('')}</ul></div>`)

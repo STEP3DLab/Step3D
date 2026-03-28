@@ -5,6 +5,7 @@ import { initEstimate } from './modules/estimate.js';
 import { initBrief } from './modules/brief.js';
 import { initModelViewer } from './modules/model-viewer.js';
 import { initNav } from './modules/nav.js';
+import { initHeroDynamic } from './modules/hero-dynamic.js';
 
 let initialized = false;
 
@@ -22,6 +23,7 @@ function initApp() {
   initFaq();
   initBrief();
   initNav();
+  initHeroDynamic();
   void initModelViewer();
 }
 
