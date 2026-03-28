@@ -3,34 +3,39 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>STEP_3D — 3D-сканирование, моделирование и печать</title>
-  <meta name="description" content="STEP_3D: 3D-сканирование, реверсивный инжиниринг, CAD, прототипирование и 3D-печать." />
-  <meta name="theme-color" content="#080b11" />
+  <title>Step3D — Единое производство 3D-услуг для бизнеса</title>
+  <meta name="description" content="Step3D: единый инженерный контур 3D-сканирования, CAD, реверсивного инжиниринга, прототипирования и 3D-печати для B2B и сложных частных задач." />
+  <meta name="theme-color" content="#0a0f18" />
   <link rel="icon" href="assets/img/grabber-logo.svg" type="image/svg+xml" />
   <link rel="stylesheet" href="assets/css/styles.css" />
   <link rel="stylesheet" href="assets/css/components.css" />
   <link rel="stylesheet" href="assets/css/responsive.css" />
 </head>
 <body>
-  <a class="skip-link" href="#main">К контенту</a>
+  <a class="skip-link" href="#main">Перейти к контенту</a>
 
   <header class="site-header" id="top">
     <div class="container header-row">
-      <a class="brand" href="#top" aria-label="STEP_3D">
-        <img src="assets/img/grabber-logo.svg" alt="" class="brand-logo" />
-        <span><strong>STEP_3D</strong><small>Инженерная студия цифрового производства</small></span>
+      <a class="brand" href="#top" aria-label="Step3D">
+        <img src="assets/img/grabber-logo.svg" alt="Логотип Step3D" class="brand-logo" />
+        <span>
+          <strong>Step3D</strong>
+          <small>Единое производство 3D-услуг</small>
+        </span>
       </a>
 
-      <button id="menuToggle" class="menu-toggle" aria-label="Открыть меню" aria-controls="nav" aria-expanded="false">☰</button>
-      <nav id="nav" class="nav">
+      <button id="menuToggle" class="menu-toggle" aria-label="Открыть меню" aria-controls="nav" aria-expanded="false">Меню</button>
+
+      <nav id="nav" class="nav" aria-label="Основная навигация">
         <a href="#services">Услуги</a>
-        <a href="#cases">Кейсы</a>
         <a href="#workflow">Процесс</a>
-        <a href="#partners">Партнеры</a>
+        <a href="#cases">Кейсы</a>
+        <a href="#trust">Преимущества</a>
         <a href="#faq">FAQ</a>
-        <a href="#contact">Контакт</a>
+        <a href="#contact">Контакты</a>
       </nav>
-      <a class="btn btn-secondary" href="#contact">Оставить заявку</a>
+
+      <a class="btn btn-secondary desktop-cta" href="#contact">Обсудить задачу</a>
     </div>
     <div class="scroll-progress" id="scrollProgress"></div>
   </header>
@@ -38,111 +43,245 @@
   <main id="main">
     <section class="hero section">
       <div class="container hero-grid">
-        <div>
-          <p class="eyebrow">STEP_3D для клиентов и партнеров</p>
-          <h1>От идеи и образца к готовому изделию.</h1>
-          <p class="lead">3D-сканирование, моделирование, реверсивный инжиниринг, прототипирование и 3D-печать в одном маршруте.</p>
-          <div class="chips">
-            <span class="chip">Фото, STL или образец</span>
-            <span class="chip">Понятный ориентир по срокам</span>
-            <span class="chip">Кейсы с реальными задачами</span>
-          </div>
+        <div class="hero-content">
+          <p class="eyebrow">Step3D · инженерная команда полного цикла</p>
+          <h1>От скана и CAD до рабочего прототипа и малой серии.</h1>
+          <p class="lead">Закрываем весь 3D-контур в одном подрядчике: 3D-сканирование, реверсивный инжиниринг, моделирование, печать и инженерное сопровождение под производственные задачи.</p>
           <div class="actions">
-            <a class="btn btn-primary" href="#cases">Смотреть кейсы</a>
-            <a class="btn btn-secondary" href="#services">Выбрать сценарий</a>
+            <a class="btn btn-primary" href="#contact">Запустить проект</a>
+            <a class="btn btn-secondary" href="#cases">Смотреть кейсы</a>
           </div>
-        </div>
-        <aside class="panel">
-          <h2>Один подрядчик на весь маршрут</h2>
-          <p>Вы даете исходные данные, мы собираем маршрут, сроки и формат результата. Без разрозненных исполнителей и лишней коммуникации.</p>
-          <ul>
-            <li>Есть объект → сканирование и цифровая база</li>
-            <li>Есть идея → прототип и проверка</li>
-            <li>Есть файл → подготовка и печать</li>
+          <ul class="hero-metrics" aria-label="Ключевые показатели">
+            <li><strong>48 ч</strong><span>старт типового проекта</span></li>
+            <li><strong>±0.03 мм</strong><span>точность по задаче</span></li>
+            <li><strong>4+ отрасли</strong><span>пром, дизайн, архитектура, культура</span></li>
           </ul>
+        </div>
+        <aside class="hero-visual" aria-label="Схема инженерного процесса">
+          <div class="visual-frame">
+            <p class="visual-title">Pipeline</p>
+            <ol>
+              <li>Scan / Input</li>
+              <li>CAD / Reverse</li>
+              <li>Prototype / Print</li>
+              <li>Validation / Delivery</li>
+            </ol>
+            <div class="visual-mesh" aria-hidden="true"></div>
+          </div>
         </aside>
+      </div>
+    </section>
+
+    <section id="about" class="section section-soft">
+      <div class="container">
+        <div class="title-row">
+          <h2>Чем занимается Step3D</h2>
+          <p>Мы тиражируем инженерные 3D-услуги как единый производственный сервис. Вы получаете не отдельную печать или разовую модель, а управляемый маршрут от задачи до готового результата.</p>
+        </div>
       </div>
     </section>
 
     <section id="services" class="section">
       <div class="container">
-        <div class="title-row"><h2>Сценарии работы</h2><p>Основа взята из прикрепленного исходника и аккуратно структурирована для поддержки.</p></div>
-        <div class="cards three">
-          <article class="card"><h3>3D-сканирование</h3><p>Точный цифровой слепок объекта как база для анализа, CAD и производства.</p></article>
-          <article class="card"><h3>Реверсивный инжиниринг</h3><p>Преобразование сетки, STL или образца в рабочую редактируемую CAD-модель.</p></article>
-          <article class="card"><h3>Прототипирование и печать</h3><p>Быстрые физические итерации, тестовые образцы и малые серии под задачу.</p></article>
+        <div class="title-row">
+          <h2>Ключевые направления</h2>
+          <p>Каждое направление работает отдельно или как часть общего контура проекта.</p>
+        </div>
+        <div class="cards three service-grid">
+          <article class="card">
+            <span class="badge">Scan</span>
+            <h3>3D-сканирование</h3>
+            <p>Оцифровка деталей и объектов с контролем точности под дальнейшее производство.</p>
+          </article>
+          <article class="card">
+            <span class="badge">CAD</span>
+            <h3>3D-моделирование</h3>
+            <p>Параметрические модели, подготовленные к расчету, согласованию и выпуску документации.</p>
+          </article>
+          <article class="card">
+            <span class="badge">Reverse</span>
+            <h3>Реверсивный инжиниринг</h3>
+            <p>Перевод сканов и образцов в редактируемые STEP/Parasolid-модели.</p>
+          </article>
+          <article class="card">
+            <span class="badge">Print</span>
+            <h3>3D-печать</h3>
+            <p>Функциональные детали и малые серии из выбранных материалов с контролем повторяемости.</p>
+          </article>
+          <article class="card">
+            <span class="badge">Proto</span>
+            <h3>Прототипирование</h3>
+            <p>Быстрые итерации формы и узлов для проверки конструкции до дорогого производства.</p>
+          </article>
+          <article class="card">
+            <span class="badge">Eng</span>
+            <h3>Инженерное сопровождение</h3>
+            <p>Подбор маршрута, требований, форматов и контроль результата на каждом этапе.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="workflow" class="section section-soft">
+      <div class="container">
+        <div class="title-row">
+          <h2>Как проходит работа</h2>
+          <p>Прозрачный процесс с фиксированными контрольными точками и понятным выходом по каждому этапу.</p>
+        </div>
+        <div class="cards four workflow-grid">
+          <article class="card"><h3>01 · Бриф и входные данные</h3><p>Получаем фото, образец, CAD/STL или описание производственной задачи.</p></article>
+          <article class="card"><h3>02 · Технический маршрут</h3><p>Согласуем точность, формат результата, дедлайн, бюджетный ориентир и риски.</p></article>
+          <article class="card"><h3>03 · Производственный цикл</h3><p>Выполняем сканирование, моделирование, печать и промежуточные проверки.</p></article>
+          <article class="card"><h3>04 · Передача результата</h3><p>Отдаем модели/изделия, инструкции по следующему шагу и рекомендации по тиражированию.</p></article>
         </div>
       </div>
     </section>
 
     <section id="cases" class="section">
       <div class="container">
-        <div class="title-row"><h2>Кейсы</h2><p>Центральный блок сайта: фильтрация по типу задачи.</p></div>
+        <div class="title-row">
+          <h2>Инженерные кейсы</h2>
+          <p>Реальные сценарии: задача, подход, измеримый результат и формат передачи клиенту.</p>
+        </div>
+
         <div class="filters" role="tablist" aria-label="Фильтры кейсов">
-          <button class="filter-btn is-active" data-filter="all">Все</button>
-          <button class="filter-btn" data-filter="print">3D-печать</button>
-          <button class="filter-btn" data-filter="reverse">Реверс</button>
-          <button class="filter-btn" data-filter="prototype">Прототип</button>
+          <button class="filter-btn is-active" data-filter="all" role="tab" aria-selected="true">Все</button>
+          <button class="filter-btn" data-filter="scan" role="tab" aria-selected="false">Сканирование</button>
+          <button class="filter-btn" data-filter="reverse" role="tab" aria-selected="false">Реверсивный инжиниринг</button>
+          <button class="filter-btn" data-filter="print" role="tab" aria-selected="false">3D-печать и серии</button>
+          <button class="filter-btn" data-filter="prototype" role="tab" aria-selected="false">Прототипирование</button>
         </div>
-        <div class="cards two" id="caseGrid"></div>
+
+        <div class="cards two" id="caseGrid" aria-live="polite"></div>
       </div>
     </section>
 
-    <section id="workflow" class="section">
+    <section id="trust" class="section section-soft">
       <div class="container">
-        <div class="title-row"><h2>Как мы работаем</h2><p>Простой и прозрачный процесс.</p></div>
-        <div class="cards four">
-          <article class="card"><h3>01 · Вход</h3><p>Фото, образец, STL, CAD или описание задачи.</p></article>
-          <article class="card"><h3>02 · Анализ</h3><p>Согласуем цель, точность, формат результата и сроки.</p></article>
-          <article class="card"><h3>03 · Производство</h3><p>Сканирование, CAD, прототипирование или печать.</p></article>
-          <article class="card"><h3>04 · Результат</h3><p>Передаем готовую модель/изделие и следующий шаг.</p></article>
+        <div class="title-row">
+          <h2>Почему выбирают Step3D</h2>
+          <p>Мы работаем как технический партнер: с инженерной ответственностью, сроками и предсказуемым качеством.</p>
         </div>
-      </div>
-    </section>
-
-    <section id="partners" class="section">
-      <div class="container">
-        <div class="title-row"><h2>Партнерство</h2><p>Подключаемся как 3D-контур для производств, студий и продуктовых команд.</p></div>
-        <div class="cards two">
-          <article class="card"><h3>Для бизнеса</h3><p>Стабильный технический блок без расширения внутренней команды.</p></article>
-          <article class="card"><h3>Для проектных команд</h3><p>Ускорение итераций и снижение рисков на стыках разработки и производства.</p></article>
+        <div class="cards two trust-grid">
+          <article class="card">
+            <h3>Один подрядчик вместо цепочки исполнителей</h3>
+            <p>Снижаем потери на стыках между сканированием, CAD и производством. Проект движется быстрее и с меньшим риском ошибок.</p>
+          </article>
+          <article class="card">
+            <h3>Фокус на практический результат</h3>
+            <p>Передаем не «красивые картинки», а файлы и изделия, которые можно внедрять в производство, тестировать и тиражировать.</p>
+          </article>
+          <article class="card">
+            <h3>Подход для B2B и сложных задач</h3>
+            <p>Работаем с производствами, инженерными командами, архитектурой, музейными и культурными проектами.</p>
+          </article>
+          <article class="card">
+            <h3>Прозрачная коммуникация</h3>
+            <p>На старте фиксируем допуски, формат результатов, сроки и контрольные точки — без размытых ожиданий.</p>
+          </article>
         </div>
       </div>
     </section>
 
     <section id="faq" class="section">
       <div class="container">
-        <div class="title-row"><h2>FAQ</h2><p>Короткие ответы на частые вопросы.</p></div>
+        <div class="title-row">
+          <h2>FAQ</h2>
+          <p>Коротко о формате работы, сроках и том, как быстро стартовать проект.</p>
+        </div>
         <div class="faq-list">
-          <article class="faq-item"><button class="faq-btn" aria-expanded="false">Можно обратиться без 3D-модели?<span>+</span></button><p>Да. Достаточно фото, образца или описания задачи.</p></article>
-          <article class="faq-item"><button class="faq-btn" aria-expanded="false">Насколько точен расчет на сайте?<span>+</span></button><p>Это быстрый ориентир, финальная цена зависит от геометрии и требований.</p></article>
-          <article class="faq-item"><button class="faq-btn" aria-expanded="false">Работаете с компаниями?<span>+</span></button><p>Да, можно подключить STEP_3D как отдельный подрядный контур.</p></article>
+          <article class="faq-item">
+            <button class="faq-btn" aria-expanded="false">Можно прийти без готовой 3D-модели?<span>+</span></button>
+            <p>Да. Для старта достаточно фото, чертежа, образца или технического описания задачи.</p>
+          </article>
+          <article class="faq-item">
+            <button class="faq-btn" aria-expanded="false">Как быстро можно получить оценку проекта?<span>+</span></button>
+            <p>Обычно в день обращения: даем ориентир по срокам, формату работ и диапазону стоимости.</p>
+          </article>
+          <article class="faq-item">
+            <button class="faq-btn" aria-expanded="false">Работаете только с B2B?<span>+</span></button>
+            <p>Приоритет — B2B и проектные команды, но берем и частные инженерно сложные задачи.</p>
+          </article>
+          <article class="faq-item">
+            <button class="faq-btn" aria-expanded="false">Какие форматы выдаете на выходе?<span>+</span></button>
+            <p>STEP, STL, прототип, функциональное изделие или малую серию — в зависимости от маршрута проекта.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section cta-section">
+      <div class="container">
+        <div class="cta-box">
+          <h2>Нужен предсказуемый 3D-контур под вашу задачу?</h2>
+          <p>Опишите цель проекта, а мы предложим инженерный маршрут, сроки и формат результата.</p>
+          <a class="btn btn-primary" href="#contact">Отправить запрос</a>
         </div>
       </div>
     </section>
 
     <section id="contact" class="section">
       <div class="container">
-        <div class="title-row"><h2>Оставить заявку</h2><p>Форма подготовлена для ручной отправки в удобный канал связи.</p></div>
+        <div class="title-row">
+          <h2>Контакты и запуск проекта</h2>
+          <p>Заполните форму — мы вернемся с техническим планом и оценкой следующего шага.</p>
+        </div>
         <form class="contact-form" id="contactForm">
-          <label>Имя<input type="text" name="name" placeholder="Как к вам обращаться" required></label>
-          <label>Контакт<input type="text" name="contact" placeholder="Телефон или e-mail" required></label>
-          <label class="full">Задача<textarea name="task" placeholder="Коротко опишите задачу" required></textarea></label>
-          <button class="btn btn-primary full" type="submit">Скопировать текст заявки</button>
+          <label>Имя
+            <input type="text" name="name" placeholder="Как к вам обращаться" required />
+          </label>
+          <label>Компания / роль
+            <input type="text" name="company" placeholder="Компания, должность" />
+          </label>
+          <label>Контакт
+            <input type="text" name="contact" placeholder="Телефон, email или Telegram" required />
+          </label>
+          <label>Тип задачи
+            <select name="type" required>
+              <option value="">Выберите направление</option>
+              <option>3D-сканирование</option>
+              <option>Реверсивный инжиниринг</option>
+              <option>3D-моделирование</option>
+              <option>Прототипирование</option>
+              <option>3D-печать / малая серия</option>
+              <option>Комплексный проект</option>
+            </select>
+          </label>
+          <label class="full">Описание задачи
+            <textarea name="task" placeholder="Что нужно получить на выходе, в какие сроки и с какими ограничениями" required></textarea>
+          </label>
+          <p class="form-note full">Кнопка скопирует готовый текст заявки в буфер и откроет почтовый клиент.</p>
+          <button class="btn btn-primary full" type="submit">Отправить бриф</button>
         </form>
       </div>
     </section>
   </main>
 
   <footer class="footer">
-    <div class="container footer-row">
-      <p>STEP_3D — инженерная студия цифрового производства.</p>
-      <a href="#top">Наверх ↑</a>
+    <div class="container footer-grid">
+      <div>
+        <p class="footer-brand">Step3D</p>
+        <p>Инженерная студия цифрового производства.</p>
+      </div>
+      <div>
+        <p>Контакты: hello@step3d.pro</p>
+        <p>Россия · Работаем с проектами по СНГ и международно</p>
+      </div>
+      <div>
+        <p>© 2026 Step3D. Все права защищены.</p>
+        <a href="#top">Наверх ↑</a>
+      </div>
     </div>
   </footer>
 
+  <dialog id="caseModal" class="case-modal" aria-label="Детали кейса">
+    <article class="case-modal-card">
+      <button class="modal-close" id="caseModalClose" aria-label="Закрыть">×</button>
+      <div id="caseModalContent"></div>
+    </article>
+  </dialog>
+
   <script src="assets/js/cases.js" defer></script>
-  <script src="assets/js/ui.js" defer></script>
   <script src="assets/js/main.js" defer></script>
 </body>
 </html>
