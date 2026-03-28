@@ -6,6 +6,7 @@ import { initBrief } from './modules/brief.js';
 import { initModelViewer } from './modules/model-viewer.js';
 import { initNav } from './modules/nav.js';
 import { initHeroDynamic } from './modules/hero-dynamic.js';
+import { initTheme } from './modules/theme.js';
 
 let initialized = false;
 
@@ -24,6 +25,7 @@ function initApp() {
   initBrief();
   initNav();
   initHeroDynamic();
+  initTheme();
   void initModelViewer();
 }
 
