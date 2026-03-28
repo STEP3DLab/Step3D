@@ -29,6 +29,40 @@ endloop
 endfacet
 endsolid tetra`;
 
+function hasWebGlSupport() {
+  try {
+    const canvas = document.createElement('canvas');
+    return !!(canvas.getContext('webgl') || canvas.getContext('experimental-webgl'));
+  } catch {
+    return false;
+  }
+}
+
+function detectQualityMode() {
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const memory = navigator.deviceMemory || 4;
+  const cores = navigator.hardwareConcurrency || 4;
+  const mobile = window.matchMedia('(max-width: 860px)').matches;
+
+  if (prefersReducedMotion || memory <= 2 || cores <= 4 || mobile) {
+    return {
+      label: 'Адаптивный (mobile)',
+      maxPixelRatio: 1.25,
+      antialias: false,
+      autoRotate: false,
+      powerPreference: 'low-power'
+    };
+  }
+
+  return {
+    label: 'Высокое качество',
+    maxPixelRatio: 2,
+    antialias: true,
+    autoRotate: true,
+    powerPreference: 'high-performance'
+  };
+}
+
 export async function initModelViewer() {
   const modelViewport = document.getElementById('modelViewport');
   if (!modelViewport) return;
@@ -39,13 +73,29 @@ export async function initModelViewer() {
   const spinButton = document.getElementById('modelToggleSpin');
   const downloadButton = document.getElementById('modelDownloadLink');
 
-  const setStatus = (text) => modelLiveStatus && (modelLiveStatus.textContent = text);
-  const hideOverlay = () => modelOverlay && modelOverlay.classList.add('is-hidden');
+  const setStatus = (text) => {
+    if (modelLiveStatus) modelLiveStatus.textContent = text;
+  };
+
   const showOverlay = (title, text) => {
     if (!modelOverlay) return;
     modelOverlay.classList.remove('is-hidden');
     modelOverlay.innerHTML = `<div class="model-overlay-card"><strong>${title}</strong><p>${text}</p></div>`;
   };
+
+  const hideOverlay = () => modelOverlay?.classList.add('is-hidden');
+
+  const blob = new Blob([asciiStl], { type: 'model/stl' });
+  if (downloadButton) downloadButton.href = URL.createObjectURL(blob);
+
+  if (!hasWebGlSupport()) {
+    setStatus('WebGL недоступен');
+    showOverlay(
+      '3D-просмотр недоступен на этом устройстве',
+      'Браузер не поддерживает WebGL. Вы можете скачать STL-файл и открыть его в стороннем просмотрщике.'
+    );
+    return;
+  }
 
   try {
     const [{ default: THREE }, { OrbitControls }, { STLLoader }] = await Promise.all([
@@ -54,8 +104,9 @@ export async function initModelViewer() {
       import('https://unpkg.com/three@0.160.1/examples/jsm/loaders/STLLoader.js')
     ]);
 
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+    const quality = detectQualityMode();
+    const renderer = new THREE.WebGLRenderer({ antialias: quality.antialias, alpha: true, powerPreference: quality.powerPreference });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, quality.maxPixelRatio));
     renderer.setSize(modelViewport.clientWidth, modelViewport.clientHeight);
     modelViewport.appendChild(renderer.domElement);
 
@@ -65,22 +116,20 @@ export async function initModelViewer() {
 
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
-    controls.autoRotate = true;
+    controls.autoRotate = quality.autoRotate;
     controls.enablePan = false;
 
     scene.add(new THREE.HemisphereLight(0xe9f1ff, 0x111722, 1.65));
 
-    const blob = new Blob([asciiStl], { type: 'model/stl' });
-    if (downloadButton) downloadButton.href = URL.createObjectURL(blob);
-
     const geometry = new STLLoader().parse(new TextEncoder().encode(asciiStl).buffer);
     geometry.computeVertexNormals();
     geometry.center();
+
     const mesh = new THREE.Mesh(geometry, new THREE.MeshStandardMaterial({ color: 0xdfe8ff, metalness: 0.1, roughness: 0.4 }));
     mesh.rotation.x = -Math.PI / 2;
     scene.add(mesh);
 
-    setStatus('Файл из чата открыт');
+    setStatus(`Файл открыт · ${quality.label}`);
     hideOverlay();
 
     const onResize = () => {
@@ -104,10 +153,15 @@ export async function initModelViewer() {
     }
 
     if (spinButton) {
+      spinButton.classList.toggle('is-active', controls.autoRotate);
+      spinButton.setAttribute('aria-pressed', String(controls.autoRotate));
+      spinButton.textContent = controls.autoRotate ? 'Автоповорот' : 'Вращение вручную';
+
       spinButton.addEventListener('click', () => {
         controls.autoRotate = !controls.autoRotate;
         spinButton.classList.toggle('is-active', controls.autoRotate);
-        spinButton.textContent = controls.autoRotate ? 'Автоповорот' : 'Повернуть вручную';
+        spinButton.setAttribute('aria-pressed', String(controls.autoRotate));
+        spinButton.textContent = controls.autoRotate ? 'Автоповорот' : 'Вращение вручную';
       });
     }
 
@@ -120,6 +174,9 @@ export async function initModelViewer() {
   } catch (error) {
     console.error(error);
     setStatus('Просмотр недоступен');
-    showOverlay('Не удалось открыть 3D-просмотр', 'Если браузер не загрузил движок просмотра, обновите страницу при подключении к интернету. STL-файл все равно можно скачать кнопкой выше.');
+    showOverlay(
+      'Не удалось открыть 3D-просмотр',
+      'Браузер не загрузил движок просмотра. Проверьте подключение к интернету и обновите страницу. STL-файл можно скачать кнопкой выше.'
+    );
   }
 }
