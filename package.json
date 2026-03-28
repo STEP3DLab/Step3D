@@ -2,6 +2,7 @@
   "name": "step3d-site",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "description": "STEP_3D landing page",
   "scripts": {
     "lint": "npm run lint:html && npm run lint:css && npm run lint:js",
