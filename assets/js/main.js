@@ -58,6 +58,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const caseModal = document.getElementById('caseModal');
   const caseModalContent = document.getElementById('caseModalContent');
   const caseModalClose = document.getElementById('caseModalClose');
+  const storyModal = document.getElementById('storyModal');
+  const storyModalContent = document.getElementById('storyModalContent');
+  const storyModalClose = document.getElementById('storyModalClose');
   const cases = window.STEP3D_CASES || [];
 
   const renderCaseCard = (item) => {
@@ -138,10 +141,49 @@ document.addEventListener('DOMContentLoaded', () => {
 
   renderCases();
 
+  const openStoryModal = (title, text) => {
+    if (!storyModal || !storyModalContent) return;
+    const paragraphs = text
+      .split('\n')
+      .map((line) => line.trim())
+      .filter(Boolean)
+      .map((line) => `<p>${line}</p>`)
+      .join('');
+
+    storyModalContent.innerHTML = `
+      <p class="case-type">Формат взаимодействия</p>
+      <h3 class="modal-title">${title}</h3>
+      <div class="modal-grid story-modal-grid">${paragraphs}</div>
+    `;
+
+    storyModal.showModal();
+  };
+
+  document.querySelectorAll('.story-card').forEach((card) => {
+    const title = card.getAttribute('data-story-title') || 'Детали';
+    const text = card.getAttribute('data-story-text') || '';
+
+    card.addEventListener('click', () => openStoryModal(title, text));
+    card.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        openStoryModal(title, text);
+      }
+    });
+  });
+
+  storyModalClose?.addEventListener('click', () => storyModal?.close());
+  storyModal?.addEventListener('click', (event) => {
+    if (event.target === storyModal) storyModal.close();
+  });
+
   const contactForm = document.getElementById('contactForm');
   contactForm?.addEventListener('submit', async (event) => {
     event.preventDefault();
     const formData = new FormData(contactForm);
+    const attachedFiles = formData.getAll('attachments')
+      .filter((file) => file && typeof file === 'object' && 'name' in file && file.name)
+      .map((file) => file.name);
     const message = [
       'Новая заявка Step3D',
       `Имя: ${formData.get('name')}`,
@@ -149,6 +191,7 @@ document.addEventListener('DOMContentLoaded', () => {
       `Контакт: ${formData.get('contact')}`,
       `Тип задачи: ${formData.get('type')}`,
       `Описание: ${formData.get('task')}`,
+      `Файлы: ${attachedFiles.length ? attachedFiles.join(', ') : 'не приложены'}`,
     ].join('\n');
 
     try {
