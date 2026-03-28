@@ -56,6 +56,12 @@
     flex-direction: column;
     align-items: flex-start;
   }
+
+  .visual-model {
+    width: min(60%, 250px);
+    right: -20px;
+    bottom: 12px;
+  }
 }
 
 @media (max-width: 620px) {
@@ -85,5 +91,22 @@
 
   .actions .btn {
     flex: 1;
+  }
+
+  .story-controls {
+    flex-wrap: wrap;
+  }
+
+  .story-controls span {
+    width: 100%;
+    text-align: center;
+    order: -1;
+  }
+
+  .visual-model {
+    width: min(64%, 210px);
+    right: -32px;
+    bottom: 6px;
+    opacity: 0.8;
   }
 }
