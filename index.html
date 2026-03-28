@@ -58,7 +58,7 @@
           </ul>
         </div>
         <aside class="hero-visual" aria-label="Схема инженерного процесса">
-          <div class="visual-frame">
+          <div class="visual-frame story-launcher" tabindex="0" role="button" data-story-id="pipeline" aria-label="Открыть историю процесса на весь экран">
             <p class="visual-title">Pipeline</p>
             <ol>
               <li>Scan / Input</li>
@@ -66,7 +66,9 @@
               <li>Prototype / Print</li>
               <li>Validation / Delivery</li>
             </ol>
+            <div class="visual-model" id="heroModelViewer" aria-hidden="true"></div>
             <div class="visual-mesh" aria-hidden="true"></div>
+            <p class="story-hint visual-hint">Нажмите, чтобы открыть историю.</p>
           </div>
         </aside>
       </div>
@@ -88,35 +90,41 @@
           <p>Каждое направление работает отдельно или как часть общего контура проекта.</p>
         </div>
         <div class="cards three service-grid">
-          <article class="card">
+          <article class="card story-launcher service-story-card" tabindex="0" role="button" data-story-id="scan" aria-label="Открыть историю: 3D-сканирование">
             <span class="badge">Scan</span>
             <h3>3D-сканирование</h3>
             <p>Оцифровка деталей и объектов с контролем точности под дальнейшее производство.</p>
+            <p class="story-hint">История направления</p>
           </article>
-          <article class="card">
+          <article class="card story-launcher service-story-card" tabindex="0" role="button" data-story-id="cad" aria-label="Открыть историю: 3D-моделирование">
             <span class="badge">CAD</span>
             <h3>3D-моделирование</h3>
             <p>Параметрические модели, подготовленные к расчету, согласованию и выпуску документации.</p>
+            <p class="story-hint">История направления</p>
           </article>
-          <article class="card">
+          <article class="card story-launcher service-story-card" tabindex="0" role="button" data-story-id="reverse" aria-label="Открыть историю: Реверсивный инжиниринг">
             <span class="badge">Reverse</span>
             <h3>Реверсивный инжиниринг</h3>
             <p>Перевод сканов и образцов в редактируемые STEP/Parasolid-модели.</p>
+            <p class="story-hint">История направления</p>
           </article>
-          <article class="card">
+          <article class="card story-launcher service-story-card" tabindex="0" role="button" data-story-id="print" aria-label="Открыть историю: 3D-печать">
             <span class="badge">Print</span>
             <h3>3D-печать</h3>
             <p>Функциональные детали и малые серии из выбранных материалов с контролем повторяемости.</p>
+            <p class="story-hint">История направления</p>
           </article>
-          <article class="card">
+          <article class="card story-launcher service-story-card" tabindex="0" role="button" data-story-id="prototype" aria-label="Открыть историю: Прототипирование">
             <span class="badge">Proto</span>
             <h3>Прототипирование</h3>
             <p>Быстрые итерации формы и узлов для проверки конструкции до дорогого производства.</p>
+            <p class="story-hint">История направления</p>
           </article>
-          <article class="card">
+          <article class="card story-launcher service-story-card" tabindex="0" role="button" data-story-id="engineering" aria-label="Открыть историю: Инженерное сопровождение">
             <span class="badge">Eng</span>
             <h3>Инженерное сопровождение</h3>
             <p>Подбор маршрута, требований, форматов и контроль результата на каждом этапе.</p>
+            <p class="story-hint">История направления</p>
           </article>
         </div>
       </div>
@@ -317,6 +325,7 @@
   </dialog>
 
   <script src="assets/js/cases.js" defer></script>
+  <script type="module" src="assets/js/hero-model.js"></script>
   <script src="assets/js/main.js" defer></script>
 </body>
 </html>

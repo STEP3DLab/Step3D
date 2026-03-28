@@ -141,7 +141,177 @@ document.addEventListener('DOMContentLoaded', () => {
 
   renderCases();
 
-  const openStoryModal = (title, text) => {
+  const stories = {
+    pipeline: {
+      title: 'Pipeline: от входных данных до готового изделия',
+      subtitle: 'Интерактивный маршрут Step3D',
+      slides: [
+        { title: 'Scan / Input', text: 'Собираем исходные данные: скан, фото, CAD или физический образец.' },
+        { title: 'CAD / Reverse', text: 'Превращаем геометрию в чистую редактируемую инженерную модель.' },
+        { title: 'Prototype / Print', text: 'Выпускаем прототипы и малые серии с быстрыми итерациями.' },
+        { title: 'Validation / Delivery', text: 'Контроль параметров, передача файлов, деталей и инструкций.' },
+        {
+          title: 'Производственный обзор',
+          text: 'Видео-формат для презентации маршрута и команды.',
+          media: { type: 'video', src: 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4' },
+        },
+      ],
+    },
+    scan: {
+      title: '3D-сканирование',
+      subtitle: 'История направления',
+      slides: [
+        { title: 'Подготовка объекта', text: 'Фиксируем базу, метки и зоны критической точности.' },
+        { title: 'Съёмка геометрии', text: 'Многопроходное сканирование для плотного и чистого облака точек.' },
+        { title: 'Валидация', text: 'Проверяем отклонения и готовим результат под CAD/Reverse.' },
+      ],
+    },
+    cad: {
+      title: '3D-моделирование',
+      subtitle: 'История направления',
+      slides: [
+        { title: 'ТЗ и допуски', text: 'Фиксируем ограничения и монтажные зоны под реальные условия.' },
+        { title: 'Параметрическая сборка', text: 'Строим модель, которую можно безопасно править и масштабировать.' },
+        { title: 'Документация', text: 'Готовим STEP/STL и пакет для передачи в производство.' },
+      ],
+    },
+    reverse: {
+      title: 'Реверсивный инжиниринг',
+      subtitle: 'История направления',
+      slides: [
+        { title: 'Из облака в поверхность', text: 'Очищаем mesh и собираем точную геометрию под CAD-редактирование.' },
+        { title: 'Функциональные узлы', text: 'Восстанавливаем посадки, резьбы и монтажные базы.' },
+        { title: 'Проверка перед выпуском', text: 'Сравниваем модель с оригиналом и подтверждаем отклонения.' },
+      ],
+    },
+    print: {
+      title: '3D-печать',
+      subtitle: 'История направления',
+      slides: [
+        { title: 'Выбор технологии', text: 'Подбираем FDM/SLA/SLS под механику, бюджет и срок.' },
+        { title: 'Печать и постобработка', text: 'Стабильное качество слоёв и аккуратная финишная обработка.' },
+        { title: 'Контроль серии', text: 'Сверяем повторяемость между деталями и готовим отгрузку.' },
+      ],
+    },
+    prototype: {
+      title: 'Прототипирование',
+      subtitle: 'История направления',
+      slides: [
+        { title: 'Быстрый макет', text: 'Первый рабочий образец для проверки габаритов и логики сборки.' },
+        { title: 'Итерации', text: 'Корректируем форму и узлы до уверенного результата.' },
+        { title: 'Переход в серию', text: 'Фиксируем финальный вариант и маршрут выпуска.' },
+      ],
+    },
+    engineering: {
+      title: 'Инженерное сопровождение',
+      subtitle: 'История направления',
+      slides: [
+        { title: 'Маршрут проекта', text: 'Разбиваем задачу на этапы с контрольными точками.' },
+        { title: 'Координация команд', text: 'Сводим скан, CAD и производство в единую коммуникацию.' },
+        { title: 'Финальный пакет', text: 'Передаём результат в формате, готовом к внедрению.' },
+      ],
+    },
+  };
+
+  let storyState = null;
+  let storyTimer = 0;
+
+  const stopStoryTimer = () => {
+    window.clearTimeout(storyTimer);
+  };
+
+  const openStory = (storyId, startIndex = 0) => {
+    const story = stories[storyId];
+    if (!story || !storyModal || !storyModalContent) return;
+
+    storyState = { storyId, index: startIndex };
+    storyModal.classList.add('story-viewer-modal');
+    renderStorySlide();
+    storyModal.showModal();
+  };
+
+  const renderStorySlide = () => {
+    if (!storyState || !storyModalContent) return;
+    const currentStory = stories[storyState.storyId];
+    if (!currentStory) return;
+
+    const slides = currentStory.slides;
+    const index = Math.max(0, Math.min(storyState.index, slides.length - 1));
+    storyState.index = index;
+    const slide = slides[index];
+    const progressBars = slides
+      .map((_, barIndex) => `<span class="story-progress-item${barIndex <= index ? ' is-active' : ''}"></span>`)
+      .join('');
+
+    const mediaMarkup = (() => {
+      if (!slide.media) return '';
+      if (slide.media.type === 'video') {
+        return `<div class="story-media"><video src="${slide.media.src}" autoplay muted loop playsinline controls></video></div>`;
+      }
+      if (slide.media.type === 'image') {
+        return `<div class="story-media"><img src="${slide.media.src}" alt="${slide.title}"></div>`;
+      }
+      return '';
+    })();
+
+    storyModalContent.innerHTML = `
+      <div class="story-viewer">
+        <div class="story-progress" aria-hidden="true">${progressBars}</div>
+        <p class="case-type">${currentStory.subtitle}</p>
+        <h3 class="modal-title">${currentStory.title}</h3>
+        <article class="story-slide" data-slide="${index}">
+          <h4>${slide.title}</h4>
+          <p>${slide.text}</p>
+          ${mediaMarkup}
+        </article>
+        <div class="story-controls">
+          <button type="button" class="story-nav-btn" data-story-nav="prev">Назад</button>
+          <span>${index + 1} / ${slides.length}</span>
+          <button type="button" class="story-nav-btn" data-story-nav="next">Далее</button>
+        </div>
+      </div>
+    `;
+
+    stopStoryTimer();
+    storyTimer = window.setTimeout(() => {
+      if (!storyState) return;
+      if (storyState.index >= slides.length - 1) {
+        storyModal?.close();
+        return;
+      }
+      storyState.index += 1;
+      renderStorySlide();
+    }, slide.media?.type === 'video' ? 9000 : 5000);
+  };
+
+  storyModalContent?.addEventListener('click', (event) => {
+    const target = event.target;
+    if (!(target instanceof HTMLElement) || !storyState) return;
+    if (!target.matches('[data-story-nav]')) return;
+
+    const total = stories[storyState.storyId]?.slides.length || 0;
+    if (target.dataset.storyNav === 'prev') {
+      storyState.index = Math.max(0, storyState.index - 1);
+    } else {
+      storyState.index = Math.min(total - 1, storyState.index + 1);
+    }
+    renderStorySlide();
+  });
+
+  document.querySelectorAll('.story-launcher').forEach((card) => {
+    const storyId = card.getAttribute('data-story-id');
+    if (!storyId) return;
+
+    card.addEventListener('click', () => openStory(storyId));
+    card.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        openStory(storyId);
+      }
+    });
+  });
+
+  const openLegacyStory = (title, text) => {
     if (!storyModal || !storyModalContent) return;
     const paragraphs = text
       .split('\n')
@@ -150,6 +320,7 @@ document.addEventListener('DOMContentLoaded', () => {
       .map((line) => `<p>${line}</p>`)
       .join('');
 
+    storyModal.classList.remove('story-viewer-modal');
     storyModalContent.innerHTML = `
       <p class="case-type">Формат взаимодействия</p>
       <h3 class="modal-title">${title}</h3>
@@ -163,18 +334,24 @@ document.addEventListener('DOMContentLoaded', () => {
     const title = card.getAttribute('data-story-title') || 'Детали';
     const text = card.getAttribute('data-story-text') || '';
 
-    card.addEventListener('click', () => openStoryModal(title, text));
+    card.addEventListener('click', () => openLegacyStory(title, text));
     card.addEventListener('keydown', (event) => {
       if (event.key === 'Enter' || event.key === ' ') {
         event.preventDefault();
-        openStoryModal(title, text);
+        openLegacyStory(title, text);
       }
     });
   });
 
-  storyModalClose?.addEventListener('click', () => storyModal?.close());
+  const closeStoryModal = () => {
+    stopStoryTimer();
+    storyState = null;
+    storyModal?.close();
+  };
+
+  storyModalClose?.addEventListener('click', closeStoryModal);
   storyModal?.addEventListener('click', (event) => {
-    if (event.target === storyModal) storyModal.close();
+    if (event.target === storyModal) closeStoryModal();
   });
 
   const contactForm = document.getElementById('contactForm');
