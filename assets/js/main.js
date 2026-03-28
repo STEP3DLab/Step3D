@@ -72,6 +72,16 @@ document.addEventListener('DOMContentLoaded', () => {
   const caseModal = document.getElementById('caseModal');
   const caseModalContent = document.getElementById('caseModalContent');
   const caseModalClose = document.getElementById('caseModalClose');
+  const cases = Array.isArray(window.STEP3D_CASES) ? window.STEP3D_CASES : [];
+  const fallbackText = 'По запросу';
+  const toText = (value) => {
+    if (typeof value === 'string') {
+      const trimmed = value.trim();
+      return trimmed.length ? trimmed : fallbackText;
+    }
+    return fallbackText;
+  };
+
   const renderCaseCard = (item) => {
     const card = document.createElement('article');
     card.className = 'case-card';
@@ -81,6 +91,8 @@ document.addEventListener('DOMContentLoaded', () => {
         <p class="case-type">${toText(item.categoryLabel)}</p>
         <p class="case-meta">${timeline}</p>
       </div>
+      <h3>${toText(item.title)}</h3>
+      <p>${toText(item.problem)}</p>
       <button class="case-link" data-case-id="${item.id}" type="button">Открыть кейс →</button>
     `;
     return card;
@@ -89,6 +101,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const renderCases = (filter = 'all') => {
     if (!caseGrid) return;
     caseGrid.innerHTML = '';
+    const filtered = filter === 'all'
+      ? cases
+      : cases.filter((item) => Array.isArray(item.type) && item.type.includes(filter));
 
     if (!filtered.length) {
       caseGrid.innerHTML = '<article class="card"><h3>Нет кейсов в этой категории</h3><p>Выберите другой фильтр или отправьте задачу — подберем релевантные примеры.</p></article>';
@@ -109,12 +124,15 @@ document.addEventListener('DOMContentLoaded', () => {
       : `${timeline} · ${budget}`;
 
     caseModalContent.innerHTML = `
+      <h3>${toText(selected.title)}</h3>
+      <p>${toText(selected.problem)}</p>
       <div class="modal-grid">
         <div><strong>Тип задачи</strong><p>${toText(selected.taskType)}</p></div>
         <div><strong>Что сделали</strong><p>${toText(selected.solution)}</p></div>
         <div><strong>Результат</strong><p>${toText(selected.result)}</p></div>
         <div><strong>Срок / бюджет</strong><p>${timelineBudget}</p></div>
       </div>
+    `;
 
     caseModal.showModal();
   };

@@ -76,3 +76,125 @@ window.STEP3D_STORIES = [
     ],
   },
 ];
+
+document.addEventListener('DOMContentLoaded', () => {
+  const stories = Array.isArray(window.STEP3D_STORIES) ? window.STEP3D_STORIES : [];
+  const storyList = document.getElementById('storyList');
+  const storyStage = document.getElementById('storyStage');
+
+  if (!storyList || !storyStage || !stories.length) return;
+
+  let activeStoryId = stories[0].id;
+  let activeSlideIndex = 0;
+
+  const getStoryById = (storyId) => stories.find((story) => story.id === storyId) || stories[0];
+
+  const createStoryCard = (story) => {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'story-card';
+    button.dataset.storyId = story.id;
+    button.innerHTML = `
+      <span class="story-card-title">${story.title}</span>
+      <span class="story-card-subtitle">${story.subtitle}</span>
+      <span class="story-card-count">${story.slides.length} этапов</span>
+    `;
+    return button;
+  };
+
+  const setActiveStoryButton = () => {
+    storyList.querySelectorAll('.story-card').forEach((button) => {
+      const isActive = button.dataset.storyId === activeStoryId;
+      button.classList.toggle('is-active', isActive);
+      button.setAttribute('aria-pressed', String(isActive));
+    });
+  };
+
+  const renderStoryStage = () => {
+    const story = getStoryById(activeStoryId);
+    const slides = story.slides || [];
+    const safeIndex = Math.min(activeSlideIndex, Math.max(slides.length - 1, 0));
+    const slide = slides[safeIndex];
+    if (!slide) return;
+
+    const mediaHTML = slide.media?.type === 'video'
+      ? `<video class="story-media" controls preload="metadata" src="${slide.media.src}"></video>`
+      : `
+      <div class="story-graphic" aria-hidden="true">
+        <span class="story-graphic-ring"></span>
+        <span class="story-graphic-core"></span>
+        <span class="story-graphic-grid"></span>
+      </div>
+    `;
+
+    const timelineSteps = slides
+      .map((item, index) => `
+        <button type="button" class="story-step ${index === safeIndex ? 'is-current' : ''}" data-step-index="${index}">
+          <span>${String(index + 1).padStart(2, '0')}</span>
+          <strong>${item.title}</strong>
+        </button>
+      `)
+      .join('');
+
+    storyStage.innerHTML = `
+      <header class="story-stage-head">
+        <p class="eyebrow">Story Mode · Step3D</p>
+        <h3>${story.title}</h3>
+        <p>${story.subtitle}</p>
+      </header>
+      <div class="story-stage-main">
+        <div class="story-stage-media">${mediaHTML}</div>
+        <div class="story-stage-content">
+          <p class="story-slide-index">Этап ${safeIndex + 1} из ${slides.length}</p>
+          <h4>${slide.title}</h4>
+          <p>${slide.text}</p>
+          <div class="story-controls">
+            <button type="button" class="btn btn-secondary story-prev" ${safeIndex === 0 ? 'disabled' : ''}>Назад</button>
+            <button type="button" class="btn btn-primary story-next" ${safeIndex === slides.length - 1 ? 'disabled' : ''}>Дальше</button>
+          </div>
+        </div>
+      </div>
+      <div class="story-timeline">${timelineSteps}</div>
+    `;
+  };
+
+  stories.forEach((story) => storyList.appendChild(createStoryCard(story)));
+  setActiveStoryButton();
+  renderStoryStage();
+
+  storyList.addEventListener('click', (event) => {
+    const target = event.target;
+    if (!(target instanceof HTMLElement)) return;
+    const card = target.closest('.story-card');
+    if (!card) return;
+    activeStoryId = card.dataset.storyId || activeStoryId;
+    activeSlideIndex = 0;
+    setActiveStoryButton();
+    renderStoryStage();
+  });
+
+  storyStage.addEventListener('click', (event) => {
+    const target = event.target;
+    if (!(target instanceof HTMLElement)) return;
+    const story = getStoryById(activeStoryId);
+    const maxIndex = story.slides.length - 1;
+
+    if (target.closest('.story-prev')) {
+      activeSlideIndex = Math.max(activeSlideIndex - 1, 0);
+      renderStoryStage();
+      return;
+    }
+    if (target.closest('.story-next')) {
+      activeSlideIndex = Math.min(activeSlideIndex + 1, maxIndex);
+      renderStoryStage();
+      return;
+    }
+
+    const step = target.closest('.story-step');
+    if (step) {
+      const parsedIndex = Number.parseInt(step.dataset.stepIndex || '0', 10);
+      activeSlideIndex = Number.isNaN(parsedIndex) ? 0 : Math.max(0, Math.min(parsedIndex, maxIndex));
+      renderStoryStage();
+    }
+  });
+});

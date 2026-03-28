@@ -250,6 +250,183 @@ select:focus-visible,
   font-size: 1.1rem;
 }
 
+.story-hub {
+  display: grid;
+  grid-template-columns: minmax(220px, 300px) minmax(0, 1fr);
+  gap: var(--space-4);
+}
+
+.story-list {
+  display: grid;
+  gap: 10px;
+  align-content: start;
+}
+
+.story-card {
+  text-align: left;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.02);
+  color: var(--text);
+  padding: 14px 16px;
+  display: grid;
+  gap: 4px;
+  cursor: pointer;
+  transition: border-color .2s ease, transform .2s ease, background-color .2s ease;
+}
+
+.story-card:hover {
+  transform: translateY(-1px);
+}
+
+.story-card.is-active {
+  border-color: var(--line-strong);
+  background: linear-gradient(165deg, rgba(156, 188, 255, 0.2), rgba(255, 255, 255, 0.04));
+}
+
+.story-card-title {
+  font-weight: 550;
+}
+
+.story-card-subtitle,
+.story-card-count {
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.story-stage {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  background: linear-gradient(165deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.015));
+  padding: clamp(18px, 3vw, 28px);
+  display: grid;
+  gap: var(--space-4);
+}
+
+.story-stage-head p:not(.eyebrow) {
+  color: var(--muted);
+}
+
+.story-stage-main {
+  display: grid;
+  grid-template-columns: minmax(220px, 340px) minmax(0, 1fr);
+  gap: var(--space-4);
+}
+
+.story-stage-media {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: radial-gradient(circle at 22% 24%, rgba(136, 176, 255, 0.22), rgba(16, 28, 45, 0.95));
+  min-height: 230px;
+  overflow: hidden;
+}
+
+.story-graphic {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 230px;
+  display: grid;
+  place-items: center;
+}
+
+.story-graphic-ring {
+  position: absolute;
+  width: clamp(110px, 16vw, 180px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 1px solid rgba(206, 222, 255, 0.72);
+  box-shadow: 0 0 36px rgba(136, 176, 255, 0.28);
+  animation: spin 12s linear infinite;
+}
+
+.story-graphic-core {
+  width: clamp(48px, 8vw, 72px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle, #dce8ff 0%, #96b8ff 45%, rgba(80, 121, 199, 0.6) 100%);
+  box-shadow: 0 0 28px rgba(143, 177, 241, 0.5);
+  animation: pulse 2.4s ease-in-out infinite;
+}
+
+.story-graphic-grid {
+  position: absolute;
+  inset: 8%;
+  border-radius: var(--radius-md);
+  border: 1px dashed rgba(203, 220, 255, 0.36);
+  animation: drift 8s ease-in-out infinite alternate;
+}
+
+.story-media {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.story-stage-content {
+  display: grid;
+  gap: 10px;
+  align-content: start;
+}
+
+.story-slide-index {
+  color: var(--accent);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+}
+
+.story-stage-content p {
+  color: var(--muted);
+}
+
+.story-controls {
+  margin-top: var(--space-2);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.story-controls .btn[disabled] {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.story-timeline {
+  display: grid;
+  gap: 10px;
+}
+
+.story-step {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.01);
+  color: var(--text);
+  text-align: left;
+  cursor: pointer;
+  padding: 10px 12px;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 8px 12px;
+  align-items: center;
+}
+
+.story-step span {
+  color: var(--accent);
+  font-size: 0.78rem;
+}
+
+.story-step strong {
+  font-size: 0.92rem;
+}
+
+.story-step.is-current {
+  border-color: var(--line-strong);
+  background: rgba(167, 195, 255, 0.16);
+}
+
 .filter-btn {
   min-height: 38px;
   padding: 0 14px;
@@ -523,4 +700,28 @@ textarea {
   font-size: 0.85rem;
   color: var(--accent);
   margin-bottom: 4px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(1turn);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.08);
+  }
+}
+
+@keyframes drift {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-10px);
+  }
 }
