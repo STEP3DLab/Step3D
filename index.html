@@ -357,8 +357,18 @@
     .contact-layout { display: grid; grid-template-columns: minmax(0, .98fr) minmax(340px, .72fr); gap: 24px; }
     .contact-form, .contact-side { padding: 24px; }
     .contact-form .fields { margin-top: 20px; }
-    .brief-box { padding: 18px; border-radius: 22px; border: 1px solid var(--line); background: rgba(255,255,255,.03); display: grid; gap: 14px; }
-    .brief-output { min-height: 180px; border: 1px solid var(--line); border-radius: 18px; background: rgba(255,255,255,.02); padding: 16px; color: var(--muted); font-size: 14px; line-height: 1.7; white-space: pre-wrap; }
+    .cta-group { display: flex; flex-wrap: wrap; gap: 10px; }
+    .lead-form { display: grid; gap: 16px; }
+    .lead-form .fields { margin-top: 6px; }
+    .consent { display: grid; grid-template-columns: auto 1fr; gap: 10px; align-items: start; color: var(--muted); font-size: 14px; line-height: 1.6; }
+    .consent input { margin-top: 4px; }
+    .control.is-error, .textarea.is-error { border-color: rgba(255,120,120,.68); box-shadow: 0 0 0 6px rgba(255,120,120,.08); }
+    .field-error { color: #ffb8b8; font-size: 12px; min-height: 16px; }
+    .form-status { border-radius: 18px; border: 1px solid var(--line); padding: 12px 14px; font-size: 14px; display: none; }
+    .form-status.is-visible { display: block; }
+    .form-status.is-success { border-color: rgba(155,255,193,.42); background: rgba(120,214,158,.08); color: var(--green); }
+    .form-status.is-error { border-color: rgba(255,168,168,.42); background: rgba(255,120,120,.08); color: var(--red); }
+    .lead-submit { justify-content: flex-start; }
     .contact-side { display: grid; gap: 14px; align-content: start; }
     .contact-note { padding: 16px; border-radius: 20px; border: 1px solid var(--line); background: rgba(255,255,255,.03); display: grid; gap: 8px; }
     .contact-note strong { font-size: 16px; }
@@ -594,9 +604,10 @@
             <div class="pill"><span class="pill-icon" aria-hidden="true">✦</span><strong>Есть идея</strong> переводим ее в прототип и изделие</div>
             <div class="pill"><span class="pill-icon" aria-hidden="true">⬢</span><strong>Есть файл</strong> готовим к печати и выпуску</div>
           </div>
-          <div class="hero-actions">
-            <a class="btn btn-primary" href="#contact">Обсудить проект <span class="arrow" aria-hidden="true"></span></a>
-            <a class="btn btn-secondary" href="#model">Посмотреть 3D-модель</a>
+          <div class="hero-actions cta-group" data-cta-section="hero">
+            <a class="btn btn-primary js-cta" href="#contact" data-cta-type="application" data-cta-place="hero">Оставить заявку <span class="arrow" aria-hidden="true"></span></a>
+            <a class="btn btn-secondary js-cta" href="tel:+79990000000" data-cta-type="call" data-cta-place="hero">Позвонить</a>
+            <a class="btn btn-secondary js-cta" href="https://t.me/step_3d_mngr" target="_blank" rel="noopener noreferrer" data-cta-type="messenger" data-cta-place="hero">Написать в мессенджер</a>
           </div>
           <div class="hero-metrics">
             <div class="metric"><strong>1</strong><span>один подрядчик на весь маршрут проекта</span></div>
@@ -677,10 +688,10 @@
             <button class="service-tab" type="button" role="tab" aria-selected="false" data-service="print"><small>04</small><div class="service-tab-head"><span class="icon-badge" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 8V4h10v4"/><rect x="4" y="8" width="16" height="8" rx="2"/><path d="M8 16h8v4H8z"/></svg></span><strong>3D-печать</strong></div><span>Готовая деталь под нужный материал.</span></button>
           </div>
           <div class="services-stage glass reveal">
-            <article class="service-panel is-active" data-panel="scan"><div class="service-showcase"><div class="eyebrow">Сценарий 01</div><h3>3D-сканирование.</h3><p class="copy">Получаем точную цифровую основу с реального объекта.</p><div class="service-visual" aria-hidden="true"><div class="wireframe"></div><div class="solid"></div><div class="scan"></div></div><div class="service-meta pill-row"><span class="pill">Физический образец</span><span class="pill">Облако точек / сетка</span><span class="pill">База для CAD</span></div><div class="service-kpis"><div class="service-kpi"><strong>Вход</strong><span>объект, деталь или макет</span></div><div class="service-kpi"><strong>Результат</strong><span>сетка или база для дальнейшей работы</span></div><div class="service-kpi"><strong>Особенность</strong><span>быстрый старт без ручного обмера</span></div></div></div><aside class="service-side"><div class="service-side-card"><strong>Когда подходит</strong><ul><li>есть объект, но нет модели</li><li>нужно снять форму и размеры</li><li>нужна база для CAD или анализа</li></ul></div><div class="service-side-card"><strong>Что важно уточнить заранее</strong><ul><li>габариты и поверхность</li><li>какая точность нужна</li><li>что нужно на выходе: сетка или CAD</li></ul></div><a class="btn btn-secondary" href="#estimate">Оценить такой сценарий</a></aside></article>
-            <article class="service-panel" data-panel="reverse"><div class="service-showcase"><div class="eyebrow">Сценарий 02</div><h3>Реверсивный инжиниринг.</h3><p class="copy">Превращаем скан, STL или образец в редактируемую инженерную модель.</p><div class="service-visual" aria-hidden="true"><div class="wireframe" style="left:10%; top:20%; width:32%; height:48%; transform: rotate(-6deg);"></div><div class="solid" style="right:12%; top:18%; width:34%; height:54%; transform: rotate(9deg);"></div><div class="scan" style="left:44%; bottom:14%; width:22%; height:24%;"></div></div><div class="service-meta pill-row"><span class="pill">Сетка → CAD</span><span class="pill">Редактируемая геометрия</span><span class="pill">Производственная логика</span></div><div class="service-kpis"><div class="service-kpi"><strong>Вход</strong><span>скан, образец, STL или неполная геометрия</span></div><div class="service-kpi"><strong>Результат</strong><span>CAD-модель под задачу</span></div><div class="service-kpi"><strong>Особенность</strong><span>модель можно менять и дорабатывать</span></div></div></div><aside class="service-side"><div class="service-side-card"><strong>Когда подходит</strong><ul><li>надо восстановить геометрию детали</li><li>нужны правки размеров или посадок</li><li>модель пойдет дальше в производство</li></ul></div><div class="service-side-card"><strong>Что важно уточнить заранее</strong><ul><li>как будет использоваться модель</li><li>нужна ли параметрика</li><li>какие ограничения по сроку и точности</li></ul></div><a class="btn btn-secondary" href="#estimate">Оценить такой сценарий</a></aside></article>
-            <article class="service-panel" data-panel="prototype"><div class="service-showcase"><div class="eyebrow">Сценарий 03</div><h3>Прототипирование.</h3><p class="copy">Быстро переводим идею в физический объект для проверки формы, посадки и сборки.</p><div class="service-visual" aria-hidden="true"><div class="wireframe" style="left:11%; top:22%; width:26%; height:44%; transform: rotate(-14deg);"></div><div class="solid" style="right:9%; top:20%; width:38%; height:50%; transform: rotate(6deg);"></div><div class="scan" style="left:40%; bottom:18%; width:28%; height:16%; border-radius: 999px;"></div></div><div class="service-meta pill-row"><span class="pill">Идея → физический тест</span><span class="pill">Проверка формы</span><span class="pill">Быстрый цикл правок</span></div><div class="service-kpis"><div class="service-kpi"><strong>Вход</strong><span>эскиз, задача, CAD-модель или черновая геометрия</span></div><div class="service-kpi"><strong>Результат</strong><span>образец для теста и решения</span></div><div class="service-kpi"><strong>Особенность</strong><span>снижает риск ошибок до финала</span></div></div></div><aside class="service-side"><div class="service-side-card"><strong>Когда подходит</strong><ul><li>надо быстро показать идею</li><li>нужно проверить стык, эргономику или механику</li><li>нужен быстрый цикл правок</li></ul></div><div class="service-side-card"><strong>Что важно уточнить заранее</strong><ul><li>это демонстрация или тест</li><li>сколько правок планируется</li><li>какой уровень поверхности нужен сейчас</li></ul></div><a class="btn btn-secondary" href="#estimate">Оценить такой сценарий</a></aside></article>
-            <article class="service-panel" data-panel="print"><div class="service-showcase"><div class="eyebrow">Сценарий 04</div><h3>3D-печать.</h3><p class="copy">Подбираем материал, технологию и постобработку под реальную цель изделия.</p><div class="service-visual" aria-hidden="true"><div class="wireframe" style="left:13%; top:20%; width:30%; height:50%; transform: rotate(-3deg);"></div><div class="solid" style="right:11%; top:24%; width:30%; height:42%; transform: rotate(8deg);"></div><div class="scan" style="left:38%; bottom:14%; width:24%; height:22%;"></div></div><div class="service-meta pill-row"><span class="pill">Материал и задача</span><span class="pill">Качество поверхности</span><span class="pill">Постобработка</span></div><div class="service-kpis"><div class="service-kpi"><strong>Вход</strong><span>STL, CAD или модель, подготовленная вместе со студией</span></div><div class="service-kpi"><strong>Результат</strong><span>готовый физический объект</span></div><div class="service-kpi"><strong>Особенность</strong><span>печать под задачу, а не вообще</span></div></div></div><aside class="service-side"><div class="service-side-card"><strong>Когда подходит</strong><ul><li>файл уже есть и нужен результат</li><li>нужен тестовый или презентационный образец</li><li>важны материал, прочность или внешний вид</li></ul></div><div class="service-side-card"><strong>Что важно уточнить заранее</strong><ul><li>где будет использоваться изделие</li><li>какая прочность и точность нужны</li><li>нужна ли постобработка</li></ul></div><a class="btn btn-secondary" href="#estimate">Оценить такой сценарий</a></aside></article>
+            <article class="service-panel is-active" data-panel="scan"><div class="service-showcase"><div class="eyebrow">Сценарий 01</div><h3>3D-сканирование.</h3><p class="copy">Получаем точную цифровую основу с реального объекта.</p><div class="service-visual" aria-hidden="true"><div class="wireframe"></div><div class="solid"></div><div class="scan"></div></div><div class="service-meta pill-row"><span class="pill">Физический образец</span><span class="pill">Облако точек / сетка</span><span class="pill">База для CAD</span></div><div class="service-kpis"><div class="service-kpi"><strong>Вход</strong><span>объект, деталь или макет</span></div><div class="service-kpi"><strong>Результат</strong><span>сетка или база для дальнейшей работы</span></div><div class="service-kpi"><strong>Особенность</strong><span>быстрый старт без ручного обмера</span></div></div></div><aside class="service-side"><div class="service-side-card"><strong>Когда подходит</strong><ul><li>есть объект, но нет модели</li><li>нужно снять форму и размеры</li><li>нужна база для CAD или анализа</li></ul></div><div class="service-side-card"><strong>Что важно уточнить заранее</strong><ul><li>габариты и поверхность</li><li>какая точность нужна</li><li>что нужно на выходе: сетка или CAD</li></ul></div><div class="cta-group" data-cta-section="services"><a class="btn btn-secondary js-cta" href="#contact" data-cta-type="application" data-cta-place="services">Оставить заявку</a><a class="btn btn-ghost js-cta" href="tel:+79990000000" data-cta-type="call" data-cta-place="services">Позвонить</a><a class="btn btn-ghost js-cta" href="https://t.me/step_3d_mngr" target="_blank" rel="noopener noreferrer" data-cta-type="messenger" data-cta-place="services">Мессенджер</a></div></aside></article>
+            <article class="service-panel" data-panel="reverse"><div class="service-showcase"><div class="eyebrow">Сценарий 02</div><h3>Реверсивный инжиниринг.</h3><p class="copy">Превращаем скан, STL или образец в редактируемую инженерную модель.</p><div class="service-visual" aria-hidden="true"><div class="wireframe" style="left:10%; top:20%; width:32%; height:48%; transform: rotate(-6deg);"></div><div class="solid" style="right:12%; top:18%; width:34%; height:54%; transform: rotate(9deg);"></div><div class="scan" style="left:44%; bottom:14%; width:22%; height:24%;"></div></div><div class="service-meta pill-row"><span class="pill">Сетка → CAD</span><span class="pill">Редактируемая геометрия</span><span class="pill">Производственная логика</span></div><div class="service-kpis"><div class="service-kpi"><strong>Вход</strong><span>скан, образец, STL или неполная геометрия</span></div><div class="service-kpi"><strong>Результат</strong><span>CAD-модель под задачу</span></div><div class="service-kpi"><strong>Особенность</strong><span>модель можно менять и дорабатывать</span></div></div></div><aside class="service-side"><div class="service-side-card"><strong>Когда подходит</strong><ul><li>надо восстановить геометрию детали</li><li>нужны правки размеров или посадок</li><li>модель пойдет дальше в производство</li></ul></div><div class="service-side-card"><strong>Что важно уточнить заранее</strong><ul><li>как будет использоваться модель</li><li>нужна ли параметрика</li><li>какие ограничения по сроку и точности</li></ul></div><div class="cta-group" data-cta-section="services"><a class="btn btn-secondary js-cta" href="#contact" data-cta-type="application" data-cta-place="services">Оставить заявку</a><a class="btn btn-ghost js-cta" href="tel:+79990000000" data-cta-type="call" data-cta-place="services">Позвонить</a><a class="btn btn-ghost js-cta" href="https://t.me/step_3d_mngr" target="_blank" rel="noopener noreferrer" data-cta-type="messenger" data-cta-place="services">Мессенджер</a></div></aside></article>
+            <article class="service-panel" data-panel="prototype"><div class="service-showcase"><div class="eyebrow">Сценарий 03</div><h3>Прототипирование.</h3><p class="copy">Быстро переводим идею в физический объект для проверки формы, посадки и сборки.</p><div class="service-visual" aria-hidden="true"><div class="wireframe" style="left:11%; top:22%; width:26%; height:44%; transform: rotate(-14deg);"></div><div class="solid" style="right:9%; top:20%; width:38%; height:50%; transform: rotate(6deg);"></div><div class="scan" style="left:40%; bottom:18%; width:28%; height:16%; border-radius: 999px;"></div></div><div class="service-meta pill-row"><span class="pill">Идея → физический тест</span><span class="pill">Проверка формы</span><span class="pill">Быстрый цикл правок</span></div><div class="service-kpis"><div class="service-kpi"><strong>Вход</strong><span>эскиз, задача, CAD-модель или черновая геометрия</span></div><div class="service-kpi"><strong>Результат</strong><span>образец для теста и решения</span></div><div class="service-kpi"><strong>Особенность</strong><span>снижает риск ошибок до финала</span></div></div></div><aside class="service-side"><div class="service-side-card"><strong>Когда подходит</strong><ul><li>надо быстро показать идею</li><li>нужно проверить стык, эргономику или механику</li><li>нужен быстрый цикл правок</li></ul></div><div class="service-side-card"><strong>Что важно уточнить заранее</strong><ul><li>это демонстрация или тест</li><li>сколько правок планируется</li><li>какой уровень поверхности нужен сейчас</li></ul></div><div class="cta-group" data-cta-section="services"><a class="btn btn-secondary js-cta" href="#contact" data-cta-type="application" data-cta-place="services">Оставить заявку</a><a class="btn btn-ghost js-cta" href="tel:+79990000000" data-cta-type="call" data-cta-place="services">Позвонить</a><a class="btn btn-ghost js-cta" href="https://t.me/step_3d_mngr" target="_blank" rel="noopener noreferrer" data-cta-type="messenger" data-cta-place="services">Мессенджер</a></div></aside></article>
+            <article class="service-panel" data-panel="print"><div class="service-showcase"><div class="eyebrow">Сценарий 04</div><h3>3D-печать.</h3><p class="copy">Подбираем материал, технологию и постобработку под реальную цель изделия.</p><div class="service-visual" aria-hidden="true"><div class="wireframe" style="left:13%; top:20%; width:30%; height:50%; transform: rotate(-3deg);"></div><div class="solid" style="right:11%; top:24%; width:30%; height:42%; transform: rotate(8deg);"></div><div class="scan" style="left:38%; bottom:14%; width:24%; height:22%;"></div></div><div class="service-meta pill-row"><span class="pill">Материал и задача</span><span class="pill">Качество поверхности</span><span class="pill">Постобработка</span></div><div class="service-kpis"><div class="service-kpi"><strong>Вход</strong><span>STL, CAD или модель, подготовленная вместе со студией</span></div><div class="service-kpi"><strong>Результат</strong><span>готовый физический объект</span></div><div class="service-kpi"><strong>Особенность</strong><span>печать под задачу, а не вообще</span></div></div></div><aside class="service-side"><div class="service-side-card"><strong>Когда подходит</strong><ul><li>файл уже есть и нужен результат</li><li>нужен тестовый или презентационный образец</li><li>важны материал, прочность или внешний вид</li></ul></div><div class="service-side-card"><strong>Что важно уточнить заранее</strong><ul><li>где будет использоваться изделие</li><li>какая прочность и точность нужны</li><li>нужна ли постобработка</li></ul></div><div class="cta-group" data-cta-section="services"><a class="btn btn-secondary js-cta" href="#contact" data-cta-type="application" data-cta-place="services">Оставить заявку</a><a class="btn btn-ghost js-cta" href="tel:+79990000000" data-cta-type="call" data-cta-place="services">Позвонить</a><a class="btn btn-ghost js-cta" href="https://t.me/step_3d_mngr" target="_blank" rel="noopener noreferrer" data-cta-type="messenger" data-cta-place="services">Мессенджер</a></div></aside></article>
           </div>
         </div>
       </div>
@@ -846,40 +857,40 @@
           <div class="faq-list reveal">
             <div class="faq-item is-open"><button class="faq-q" type="button"><strong>Можно ли прийти только с идеей или референсом, без готовой модели?</strong><span class="faq-icon" aria-hidden="true"></span></button><div class="faq-a" style="max-height: 240px;"><div class="faq-a-inner">Да. Достаточно идеи, референса, фото или образца.</div></div></div>
             <div class="faq-item"><button class="faq-q" type="button"><strong>Если у меня уже есть STL или CAD, это ускорит запуск?</strong><span class="faq-icon" aria-hidden="true"></span></button><div class="faq-a"><div class="faq-a-inner">Часто да, если файл подходит под задачу. При необходимости сначала быстро проверим его.</div></div></div>
-            <div class="faq-item"><button class="faq-q" type="button"><strong>Что лучше отправить в первом сообщении, чтобы не тратить время?</strong><span class="faq-icon" aria-hidden="true"></span></button><div class="faq-a"><div class="faq-a-inner">Описание задачи задачи, 2-4 фотографии или референса, предполагаемую цель результата, желаемый срок и всё, что уже есть: файл, размеры, образец, эскиз. Для этого на странице ниже есть генератор брифа, который помогает быстро собрать нормальное первое сообщение.</div></div></div>
+            <div class="faq-item"><button class="faq-q" type="button"><strong>Что лучше отправить в первом сообщении, чтобы не тратить время?</strong><span class="faq-icon" aria-hidden="true"></span></button><div class="faq-a"><div class="faq-a-inner">Описание задачи задачи, 2-4 фотографии или референса, предполагаемую цель результата, желаемый срок и всё, что уже есть: файл, размеры, образец, эскиз. Для этого на странице ниже есть форма заявки с валидацией и быстрым выбором канала связи.</div></div></div>
             <div class="faq-item"><button class="faq-q" type="button"><strong>Вы делаете только печать или можете вести полный маршрут?</strong><span class="faq-icon" aria-hidden="true"></span></button><div class="faq-a"><div class="faq-a-inner">И печать, и полный маршрут: от сканирования и моделирования до готового изделия.</div></div></div>
           </div>
-          <aside class="faq-side glass reveal"><div class="contact-note"><strong>Что прислать</strong><p>Фото или файл, цель, срок и что особенно важно в результате.</p></div><div class="contact-note"><strong>Как быстро стартовать</strong><p>Соберите бриф ниже или напишите менеджеру STEP_3D в Telegram.</p></div><div class="contact-note"><strong>Когда нужен полный маршрут</strong><p>Если нет модели, нужно пройти несколько этапов или важно держать все в одном месте.</p></div></aside>
+          <aside class="faq-side glass reveal"><div class="contact-note"><strong>Что прислать</strong><p>Фото или файл, цель, срок и что особенно важно в результате.</p></div><div class="contact-note"><strong>Как быстро стартовать</strong><p>Заполните заявку ниже или напишите менеджеру STEP_3D в Telegram.</p></div><div class="contact-note"><strong>Когда нужен полный маршрут</strong><p>Если нет модели, нужно пройти несколько этапов или важно держать все в одном месте.</p></div></aside>
         </div>
       </div>
     </section>
     <section class="section" id="contact">
       <div class="container">
-        <div class="title-row reveal"><div><div class="section-label">Бриф</div><h2>Коротко опишите задачу.</h2></div><p class="lead">Ниже можно собрать готовое сообщение для Telegram или почты.</p></div>
+        <div class="title-row reveal"><div><div class="section-label">Заявка</div><h2>Коротко опишите задачу.</h2></div><p class="lead">Заполните форму, выберите канал отправки и получите обратную связь.</p></div>
         <div class="contact-layout">
           <div class="contact-form glass reveal">
-            <div class="eyebrow">Готовый бриф</div>
-            <h3>Заполните поля и скопируйте текст.</h3>
-            <div class="fields" id="briefForm">
-              <div class="field"><label for="briefName">Ваше имя</label><input class="control" id="briefName" type="text" placeholder="Например: Никита" /></div>
-              <div class="field"><label for="briefContact">Контакт</label><input class="control" id="briefContact" type="text" placeholder="Telegram, e-mail или телефон" /></div>
-              <div class="field"><label for="briefTask">Тип задачи</label><select class="control" id="briefTask"><option>3D-сканирование</option><option>Реверсивный инжиниринг</option><option>Прототипирование</option><option>3D-печать</option><option>Комплексная задача</option></select></div>
-              <div class="field"><label for="briefDeadline">Срок</label><select class="control" id="briefDeadline"><option>Стандартный</option><option>Срочно</option><option>Планово</option></select></div>
-              <div class="field-full"><label for="briefAssets">Что уже есть</label><input class="control" id="briefAssets" type="text" placeholder="Например: деталь, STL, размеры, фотографии, референсы" /></div>
-              <div class="field-full"><label for="briefDesc">Описание задачи задачи</label><textarea class="textarea" id="briefDesc" placeholder="Что нужно получить, где это будет использоваться и что важно: срок, точность, внешний вид, прочность."></textarea></div>
-            </div>
-            <div class="brief-box">
-              <div class="title-row" style="margin-bottom:0;"><strong>Готовый текст</strong><div style="display:flex; gap:10px; flex-wrap:wrap;"><button type="button" class="btn btn-ghost" id="generateBrief">Собрать бриф</button><button type="button" class="btn btn-primary" id="copyBrief">Скопировать <span class="arrow" aria-hidden="true"></span></button></div></div>
-              <div class="brief-output" id="briefOutput">Нажмите «Собрать бриф», чтобы получить готовое сообщение для отправки менеджеру STEP_3D.</div>
-            </div>
+            <div class="eyebrow">Заявка</div>
+            <h3>Оставьте контакт и задачу — вернемся с маршрутом работ.</h3>
+            <form class="lead-form" id="leadForm" data-endpoint="/api/leads" novalidate>
+              <div class="fields">
+                <div class="field"><label for="leadName">Имя</label><input class="control" id="leadName" name="name" type="text" placeholder="Например: Никита" required /><div class="field-error" data-error-for="leadName"></div></div>
+                <div class="field"><label for="leadContact">Контакт</label><input class="control" id="leadContact" name="contact" type="text" placeholder="Telegram, e-mail или телефон" required /><div class="field-error" data-error-for="leadContact"></div></div>
+                <div class="field-full"><label for="leadTask">Задача</label><textarea class="textarea" id="leadTask" name="task" placeholder="Опишите задачу, срок и ожидаемый результат." required></textarea><div class="field-error" data-error-for="leadTask"></div></div>
+                <div class="field"><label for="leadChannel">Канал отправки</label><select class="control" id="leadChannel" name="channel"><option value="email">Email</option><option value="api">API</option><option value="crm_webhook">CRM webhook</option></select></div>
+                <div class="field-full consent"><input id="leadConsent" name="consent" type="checkbox" required /><label for="leadConsent">Я согласен(а) на обработку персональных данных для обратной связи по заявке.</label></div>
+                <div class="field-full"><div class="field-error" data-error-for="leadConsent"></div></div>
+              </div>
+              <div id="leadFormStatus" class="form-status" role="status" aria-live="polite"></div>
+              <button type="submit" class="btn btn-primary lead-submit">Отправить заявку <span class="arrow" aria-hidden="true"></span></button>
+            </form>
           </div>
           <aside class="contact-side glass reveal"><div class="contact-note"><strong>Что указать</strong><p>Цель, срок, что уже есть и что важно в результате.</p></div><div class="contact-note"><strong>Что приложить</strong><p>Фото объекта, STL или CAD, размеры, референсы.</p></div><div class="contact-note"><strong>Куда отправить</strong><p>Telegram @step_3d_mngr, почта или любой удобный канал связи.</p></div><a class="btn btn-secondary" href="#top">Наверх страницы</a></aside>
         </div>
       </div>
     </section>
   </main>
-  <footer class="footer"><div class="container"><div class="footer-card"><div><strong>STEP_3D</strong><p>3D-сканирование, моделирование, реверсивный инжиниринг, прототипирование и 3D-печать.</p></div><div class="footer-links"><a class="btn btn-ghost" href="#services">Услуги</a><a class="btn btn-ghost" href="#cases">Кейсы</a><a class="btn btn-ghost" href="#contact">Бриф</a></div></div></div></footer>
-  <div class="sticky-cta"><span>Соберите бриф и отправьте задачу.</span><a class="btn btn-primary" href="#contact">Начать</a></div>
+  <footer class="footer"><div class="container"><div class="footer-card"><div><strong>STEP_3D</strong><p>3D-сканирование, моделирование, реверсивный инжиниринг, прототипирование и 3D-печать.</p></div><div class="footer-links cta-group" data-cta-section="footer"><a class="btn btn-primary js-cta" href="#contact" data-cta-type="application" data-cta-place="footer">Оставить заявку</a><a class="btn btn-ghost js-cta" href="tel:+79990000000" data-cta-type="call" data-cta-place="footer">Позвонить</a><a class="btn btn-ghost js-cta" href="https://t.me/step_3d_mngr" target="_blank" rel="noopener noreferrer" data-cta-type="messenger" data-cta-place="footer">Мессенджер</a></div></div></div></footer>
+  <div class="sticky-cta"><span>Оставьте заявку или напишите в мессенджер.</span><a class="btn btn-primary js-cta" href="#contact" data-cta-type="application" data-cta-place="sticky">Оставить заявку</a></div>
   <script>
     const caseData = {
       case1: { title: "Реверсивный инжиниринг детали по физическому образцу", stats: [["Формат входа", "Образец или скан"], ["Фокус", "Редактируемая модель"], ["Результат", "CAD для работы"]], columns: [{ title: "Задача", items: ["есть физическая деталь, но нет исходной модели", "нужно восстановить геометрию и сохранить важные сопряжения", "результат должен подходить для дальнейших правок"] }, { title: "Что делаем", items: ["получаем цифровую базу через сканирование или анализ образца", "собираем инженерную модель, а не просто сетку", "проверяем критичные размеры и готовим результат под следующий этап"] }, { title: "Что получает клиент", items: ["редактируемую модель для дальнейшей работы", "понятный маршрут правок и адаптаций", "меньше риска потерять логику детали"] }], footer: "Подходит, когда нужна не просто копия формы, а рабочая инженерная модель." },
@@ -976,24 +987,124 @@
     }
     estimateForm.addEventListener('input', updateEstimate); estimateForm.addEventListener('change', updateEstimate); updateEstimate();
 
-    const briefOutput = document.getElementById('briefOutput');
-    const generateBriefBtn = document.getElementById('generateBrief');
-    const copyBriefBtn = document.getElementById('copyBrief');
-    function buildBrief() {
-      const name = document.getElementById('briefName').value.trim() || 'Не указано';
-      const contact = document.getElementById('briefContact').value.trim() || 'Не указано';
-      const task = document.getElementById('briefTask').value;
-      const deadline = document.getElementById('briefDeadline').value;
-      const assets = document.getElementById('briefAssets').value.trim() || 'Не указано';
-      const desc = document.getElementById('briefDesc').value.trim() || 'Не указано';
-      return [`Здравствуйте. Меня зовут ${name}.`,`Контакт для связи: ${contact}.`,``,`Тип задачи: ${task}.`,`Желаемый срок: ${deadline}.`,`Что уже есть: ${assets}.`,``,`Краткое описание задачи:`,`${desc}`,``,`Прошу подсказать оптимальный маршрут работы и что еще подготовить для быстрого старта проекта.`].join('\n');
+    const analyticsConfig = {
+      endpoint: (window.STEP3D_CONFIG && window.STEP3D_CONFIG.leadEndpoint) || null
+    };
+    window.dataLayer = window.dataLayer || [];
+    function trackEvent(eventName, params = {}) {
+      const payload = { event: eventName, page: 'index', ts: new Date().toISOString(), ...params };
+      window.dataLayer.push(payload);
+      document.dispatchEvent(new CustomEvent('step3d:analytics', { detail: payload }));
     }
-    generateBriefBtn.addEventListener('click', () => { briefOutput.textContent = buildBrief(); });
-    copyBriefBtn.addEventListener('click', async () => {
-      const text = briefOutput.textContent.includes('Нажмите «Собрать бриф»') ? buildBrief() : briefOutput.textContent;
-      try { await navigator.clipboard.writeText(text); copyBriefBtn.textContent = 'Скопировано'; setTimeout(() => { copyBriefBtn.innerHTML = 'Скопировать <span class="arrow" aria-hidden="true"></span>'; }, 1600); }
-      catch (err) { copyBriefBtn.textContent = 'Не удалось скопировать'; setTimeout(() => { copyBriefBtn.innerHTML = 'Скопировать <span class="arrow" aria-hidden="true"></span>'; }, 1600); }
+
+    document.querySelectorAll('.js-cta').forEach(cta => {
+      cta.addEventListener('click', () => {
+        trackEvent('cta_click', {
+          cta_type: cta.dataset.ctaType || 'unknown',
+          cta_place: cta.dataset.ctaPlace || 'unknown',
+          cta_label: cta.textContent.trim()
+        });
+      });
     });
+
+    const leadForm = document.getElementById('leadForm');
+    const leadStatus = document.getElementById('leadFormStatus');
+    const leadFields = {
+      leadName: { required: true, min: 2, message: 'Укажите имя (минимум 2 символа).' },
+      leadContact: { required: true, min: 5, message: 'Укажите контакт для обратной связи.' },
+      leadTask: { required: true, min: 10, message: 'Опишите задачу хотя бы в 10 символах.' },
+      leadConsent: { required: true, message: 'Подтвердите согласие на обработку данных.' }
+    };
+
+    function setFormStatus(type, message) {
+      leadStatus.className = 'form-status is-visible';
+      leadStatus.classList.add(type === 'success' ? 'is-success' : 'is-error');
+      leadStatus.textContent = message;
+    }
+
+    function clearFieldError(fieldId) {
+      const field = document.getElementById(fieldId);
+      const error = document.querySelector(`[data-error-for="${fieldId}"]`);
+      if (field) field.classList.remove('is-error');
+      if (error) error.textContent = '';
+    }
+
+    function setFieldError(fieldId, message) {
+      const field = document.getElementById(fieldId);
+      const error = document.querySelector(`[data-error-for="${fieldId}"]`);
+      if (field) field.classList.add('is-error');
+      if (error) error.textContent = message;
+      trackEvent('validation_error', { field: fieldId, message });
+    }
+
+    function validateLeadForm() {
+      let valid = true;
+      Object.entries(leadFields).forEach(([fieldId, rules]) => {
+        clearFieldError(fieldId);
+        const field = document.getElementById(fieldId);
+        if (!field) return;
+        const value = field.type === 'checkbox' ? field.checked : field.value.trim();
+        if (rules.required && (!value || value.length === 0)) {
+          valid = false;
+          setFieldError(fieldId, rules.message);
+          return;
+        }
+        if (rules.min && typeof value === 'string' && value.length < rules.min) {
+          valid = false;
+          setFieldError(fieldId, rules.message);
+        }
+      });
+      return valid;
+    }
+
+    async function submitLeadForm(event) {
+      event.preventDefault();
+      leadStatus.className = 'form-status';
+      if (!validateLeadForm()) {
+        setFormStatus('error', 'Проверьте поля формы и попробуйте снова.');
+        return;
+      }
+
+      const endpoint = analyticsConfig.endpoint || leadForm.dataset.endpoint;
+      const payload = {
+        name: document.getElementById('leadName').value.trim(),
+        contact: document.getElementById('leadContact').value.trim(),
+        task: document.getElementById('leadTask').value.trim(),
+        channel: document.getElementById('leadChannel').value,
+        consent: document.getElementById('leadConsent').checked,
+        source: 'step3d-site'
+      };
+
+      trackEvent('form_submit_attempt', { form_id: 'leadForm', channel: payload.channel, endpoint });
+
+      try {
+        const response = await fetch(endpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+        setFormStatus('success', 'Заявка отправлена. Мы свяжемся с вами в ближайшее время.');
+        trackEvent('form_submit_success', { form_id: 'leadForm', channel: payload.channel, endpoint });
+        leadForm.reset();
+      } catch (error) {
+        setFormStatus('error', 'Не удалось отправить заявку. Проверьте endpoint и попробуйте еще раз.');
+        trackEvent('form_submit_error', { form_id: 'leadForm', channel: payload.channel, endpoint, reason: error.message });
+      }
+    }
+
+    if (leadForm) {
+      leadForm.addEventListener('submit', submitLeadForm);
+      Object.keys(leadFields).forEach(fieldId => {
+        const field = document.getElementById(fieldId);
+        if (!field) return;
+        const eventName = field.type === 'checkbox' ? 'change' : 'input';
+        field.addEventListener(eventName, () => clearFieldError(fieldId));
+      });
+    }
+
 
     const scrollProgress = document.getElementById('scrollProgress');
     const sectionIds = ['top','story','services','model','workflow','estimate','cases','compare','faq','contact'];
