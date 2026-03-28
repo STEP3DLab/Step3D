@@ -73,23 +73,72 @@ export function initEstimate() {
   const estimateText = document.getElementById('estimateText');
   const estimateChips = document.getElementById('estimateChips');
   const estimateBullets = document.getElementById('estimateBullets');
+  const estimateLiveStatus = document.getElementById('estimateLiveStatus');
   if (!estimateForm || !scoreRing || !scoreValue || !estimateHeadline || !estimateText || !estimateChips || !estimateBullets) {
     return { updateEstimate: () => {} };
   }
 
   const optionGroups = {};
+  const setActiveOption = (group, activeButton) => {
+    optionGroups[group].forEach((el) => {
+      const isActive = el === activeButton;
+      el.classList.toggle('is-active', isActive);
+      el.setAttribute('aria-checked', String(isActive));
+      el.tabIndex = isActive ? 0 : -1;
+    });
+  };
+
   document.querySelectorAll('.option').forEach((btn) => {
     const group = btn.dataset.group;
     if (!optionGroups[group]) optionGroups[group] = [];
     optionGroups[group].push(btn);
+
     btn.addEventListener('click', () => {
-      optionGroups[group].forEach((el) => el.classList.remove('is-active'));
-      btn.classList.add('is-active');
-      updateEstimate();
+      setActiveOption(group, btn);
+      updateEstimate({ announce: true });
+    });
+
+    btn.addEventListener('keydown', (event) => {
+      const groupButtons = optionGroups[group];
+      const index = groupButtons.indexOf(btn);
+
+      if (event.key === 'ArrowRight' || event.key === 'ArrowDown') {
+        event.preventDefault();
+        const next = groupButtons[(index + 1) % groupButtons.length];
+        setActiveOption(group, next);
+        next.focus();
+        updateEstimate({ announce: true });
+      }
+
+      if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') {
+        event.preventDefault();
+        const next = groupButtons[(index - 1 + groupButtons.length) % groupButtons.length];
+        setActiveOption(group, next);
+        next.focus();
+        updateEstimate({ announce: true });
+      }
+
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        setActiveOption(group, btn);
+        updateEstimate({ announce: true });
+      }
+
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        btn.blur();
+      }
     });
   });
 
-  function updateEstimate() {
+  Object.entries(optionGroups).forEach(([group, buttons]) => {
+    const active = buttons.find((btn) => btn.classList.contains('is-active')) || buttons[0];
+    if (active) setActiveOption(group, active);
+  });
+
+  let lastAnnouncement = '';
+
+  function updateEstimate({ announce = false } = {}) {
     const state = calculateEstimateState({
       type: document.getElementById('projectType').value,
       goal: document.getElementById('projectGoal').value,
@@ -106,11 +155,22 @@ export function initEstimate() {
     estimateText.textContent = state.description;
     estimateChips.innerHTML = `<span class="pill"><strong>Маршрут</strong> ${state.chips.route}</span><span class="pill"><strong>Сложность</strong> ${state.chips.complexity}</span><span class="pill"><strong>Ритм</strong> ${state.chips.rhythm}</span>`;
     estimateBullets.innerHTML = state.bullets.map((item) => `<li>${item}</li>`).join('');
+
+    if (estimateLiveStatus && announce) {
+      const announcement = `Оценка обновлена: ${state.score} из 100. ${state.headline}`;
+      if (announcement !== lastAnnouncement) {
+        estimateLiveStatus.textContent = announcement;
+        lastAnnouncement = announcement;
+      }
+    }
   }
 
-  estimateForm.addEventListener('input', updateEstimate);
-  estimateForm.addEventListener('change', updateEstimate);
+  estimateForm.addEventListener('input', (event) => {
+    const shouldAnnounce = event.target.id !== 'projectNotes';
+    updateEstimate({ announce: shouldAnnounce });
+  });
+  estimateForm.addEventListener('change', () => updateEstimate({ announce: true }));
   updateEstimate();
 
-  return { updateEstimate };
+  return { updateEstimate: () => updateEstimate({ announce: true }) };
 }

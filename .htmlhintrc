@@ -7,5 +7,9 @@
   "spec-char-escape": true,
   "id-unique": true,
   "src-not-empty": true,
-  "title-require": true
+  "title-require": true,
+  "alt-require": true,
+  "attr-no-duplication": true,
+  "head-script-disabled": true,
+  "space-tab-mixed-disabled": "space"
 }
