@@ -51,6 +51,11 @@
   .modal-grid {
     grid-template-columns: 1fr;
   }
+
+  .footer-bottom {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 }
 
 @media (max-width: 620px) {

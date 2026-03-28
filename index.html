@@ -75,7 +75,7 @@
     <section id="about" class="section section-soft">
       <div class="container">
         <div class="title-row">
-          <h2>Чем занимается Step3D</h2>
+          <h2>СТЕП_3D - сервис тиражирования и единого производства 3D-услуг</h2>
           <p>Мы тиражируем инженерные 3D-услуги как единый производственный сервис. Вы получаете не отдельную печать или разовую модель, а управляемый маршрут от задачи до готового результата.</p>
         </div>
       </div>
@@ -163,9 +163,16 @@
           <p>Мы работаем как технический партнер: с инженерной ответственностью, сроками и предсказуемым качеством.</p>
         </div>
         <div class="cards two trust-grid">
-          <article class="card">
-            <h3>Один подрядчик вместо цепочки исполнителей</h3>
-            <p>Снижаем потери на стыках между сканированием, CAD и производством. Проект движется быстрее и с меньшим риском ошибок.</p>
+          <article class="card story-card" tabindex="0" role="button" data-story-title="Один подрядчик на весь маршрут" data-story-text="Вы даете исходные данные, мы собираем маршрут, сроки и формат результата. Без разрозненных исполнителей и лишней коммуникации.\n\nЕсть объект → сканирование и цифровая база\nЕсть идея → прототип и проверка\nЕсть файл → подготовка и печать" aria-label="Открыть историю: Один подрядчик на весь маршрут">
+            <span class="story-glow" aria-hidden="true"></span>
+            <h3>Один подрядчик на весь маршрут</h3>
+            <p>Вы даете исходные данные, мы собираем маршрут, сроки и формат результата. Без разрозненных исполнителей и лишней коммуникации.</p>
+            <ul class="story-list">
+              <li>Есть объект → сканирование и цифровая база</li>
+              <li>Есть идея → прототип и проверка</li>
+              <li>Есть файл → подготовка и печать</li>
+            </ul>
+            <p class="story-hint">Нажмите, чтобы открыть на весь экран.</p>
           </article>
           <article class="card">
             <h3>Фокус на практический результат</h3>
@@ -250,7 +257,10 @@
           <label class="full">Описание задачи
             <textarea name="task" placeholder="Что нужно получить на выходе, в какие сроки и с какими ограничениями" required></textarea>
           </label>
-          <p class="form-note full">Кнопка скопирует готовый текст заявки в буфер и откроет почтовый клиент.</p>
+          <label class="full">Файлы проекта (опционально)
+            <input type="file" name="attachments" multiple />
+          </label>
+          <p class="form-note full">Кнопка скопирует заявку в буфер и откроет почтовый клиент. Список прикрепленных файлов добавляется в текст заявки.</p>
           <button class="btn btn-primary full" type="submit">Отправить бриф</button>
         </form>
       </div>
@@ -258,18 +268,36 @@
   </main>
 
   <footer class="footer">
-    <div class="container footer-grid">
-      <div>
-        <p class="footer-brand">Step3D</p>
-        <p>Инженерная студия цифрового производства.</p>
+    <div class="container">
+      <div class="footer-grid footer-top">
+        <div>
+          <p class="footer-brand">Step3D</p>
+          <p>Единое производство 3D-услуг для бизнеса, инженерных команд и проектных студий.</p>
+        </div>
+        <div>
+          <p class="footer-title">Навигация</p>
+          <a href="#services">Услуги</a>
+          <a href="#workflow">Процесс</a>
+          <a href="#cases">Кейсы</a>
+          <a href="#faq">FAQ</a>
+        </div>
+        <div>
+          <p class="footer-title">Ресурсы</p>
+          <a href="#trust">Преимущества</a>
+          <a href="#contact">Оставить заявку</a>
+          <a href="mailto:hello@step3d.pro">Связаться по email</a>
+          <a href="#top">Вернуться наверх</a>
+        </div>
+        <div>
+          <p class="footer-title">Для партнеров</p>
+          <p>hello@step3d.pro</p>
+          <p>Россия · проекты по СНГ и международно</p>
+          <p>Пн–Сб: 09:00–20:00 (UTC+3)</p>
+        </div>
       </div>
-      <div>
-        <p>Контакты: hello@step3d.pro</p>
-        <p>Россия · Работаем с проектами по СНГ и международно</p>
-      </div>
-      <div>
-        <p>© 2026 Step3D. Все права защищены.</p>
-        <a href="#top">Наверх ↑</a>
+      <div class="footer-bottom">
+        <p>© 2026 Step3D</p>
+        <a href="#top">Конфиденциальность и условия</a>
       </div>
     </div>
   </footer>
@@ -278,6 +306,13 @@
     <article class="case-modal-card">
       <button class="modal-close" id="caseModalClose" aria-label="Закрыть">×</button>
       <div id="caseModalContent"></div>
+    </article>
+  </dialog>
+
+  <dialog id="storyModal" class="case-modal" aria-label="Детали процесса">
+    <article class="case-modal-card">
+      <button class="modal-close" id="storyModalClose" aria-label="Закрыть">×</button>
+      <div id="storyModalContent"></div>
     </article>
   </dialog>
 
