@@ -1,24 +1,30 @@
+function activateServiceTab(targetTab, serviceTabs, servicePanels) {
+  const key = targetTab.dataset.service;
+
+  serviceTabs.forEach((tab) => {
+    const isActive = tab === targetTab;
+    tab.classList.toggle('is-active', isActive);
+    tab.setAttribute('aria-selected', String(isActive));
+  });
+
+  servicePanels.forEach((panel) => {
+    const isActive = panel.dataset.panel === key;
+    panel.classList.toggle('is-active', isActive);
+    panel.hidden = !isActive;
+  });
+
+  return key;
+}
+
 export function initServicesTabs({ onTypeChange } = {}) {
-  const serviceTabs = document.querySelectorAll('.service-tab');
-  const servicePanels = document.querySelectorAll('.service-panel');
+  const serviceTabs = [...document.querySelectorAll('.service-tab')];
+  const servicePanels = [...document.querySelectorAll('.service-panel')];
   const select = document.getElementById('projectType');
+  if (!serviceTabs.length || !servicePanels.length) return;
 
   serviceTabs.forEach((tab) => {
     tab.addEventListener('click', () => {
-      const key = tab.dataset.service;
-
-      serviceTabs.forEach((btn) => {
-        btn.classList.remove('is-active');
-        btn.setAttribute('aria-selected', 'false');
-      });
-      servicePanels.forEach((panel) => panel.classList.remove('is-active'));
-
-      tab.classList.add('is-active');
-      tab.setAttribute('aria-selected', 'true');
-
-      const target = document.querySelector(`.service-panel[data-panel="${key}"]`);
-      if (target) target.classList.add('is-active');
-
+      const key = activateServiceTab(tab, serviceTabs, servicePanels);
       if (select && ['scan', 'reverse', 'prototype', 'print'].includes(key)) {
         select.value = key;
         if (typeof onTypeChange === 'function') onTypeChange();
