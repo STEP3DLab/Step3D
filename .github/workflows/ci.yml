@@ -35,6 +35,9 @@ jobs:
       - name: Build
         run: npm run build
 
+      - name: Run tests
+        run: npm test
+
   pr-title:
     name: Conventional PR title
     runs-on: ubuntu-latest

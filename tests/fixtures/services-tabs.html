@@ -1,0 +1,17 @@
+<!doctype html>
+<html>
+  <body>
+    <select id="projectType">
+      <option value="scan">scan</option>
+      <option value="reverse">reverse</option>
+      <option value="prototype">prototype</option>
+      <option value="print">print</option>
+    </select>
+
+    <button class="service-tab is-active" data-service="scan" aria-selected="true">Scan</button>
+    <button class="service-tab" data-service="reverse" aria-selected="false">Reverse</button>
+
+    <section class="service-panel is-active" data-panel="scan"></section>
+    <section class="service-panel" data-panel="reverse" hidden></section>
+  </body>
+</html>

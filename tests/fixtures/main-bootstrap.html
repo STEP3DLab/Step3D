@@ -1,0 +1,43 @@
+<!doctype html>
+<html>
+  <head>
+    <meta name="theme-color" content="#000000" />
+  </head>
+  <body>
+    <div id="scrollProgress"></div>
+    <button id="navToggle" aria-expanded="false" aria-label="Открыть меню">Menu</button>
+    <a class="nav-link" href="#top">Top</a>
+    <a class="rail-link" href="#top">Top rail</a>
+    <section id="top"></section>
+
+    <div id="estimateForm"></div>
+    <div id="scoreRing"></div>
+    <div id="scoreValue"></div>
+    <div id="estimateHeadline"></div>
+    <div id="estimateText"></div>
+    <div id="estimateChips"></div>
+    <ul id="estimateBullets"></ul>
+    <select id="projectType"><option value="scan">scan</option><option value="reverse">reverse</option></select>
+    <select id="projectGoal"><option value="demo">demo</option></select>
+    <select id="projectSource"><option value="idea">idea</option></select>
+    <select id="projectScale"><option value="small">small</option></select>
+    <textarea id="projectNotes"></textarea>
+    <button class="option is-active" data-group="priority" data-value="budget"></button>
+    <button class="option is-active" data-group="deadline" data-value="planned"></button>
+
+    <button class="service-tab" data-service="scan" aria-selected="false"></button>
+    <button class="service-tab" data-service="reverse" aria-selected="false"></button>
+    <section class="service-panel" data-panel="scan"></section>
+    <section class="service-panel" data-panel="reverse" hidden></section>
+
+    <button class="theme-btn" data-theme="midnight" aria-pressed="false">Midnight</button>
+    <button class="theme-btn" data-theme="ivory" aria-pressed="false">Ivory</button>
+
+    <button id="backToTopBtn">Top</button>
+    <button id="toggleContrastBtn" aria-pressed="false">Contrast</button>
+    <button id="toggleMotionBtn" aria-pressed="false">Motion</button>
+    <button id="fontPlusBtn">A+</button>
+    <button id="fontMinusBtn">A-</button>
+    <div id="uiToast"></div>
+  </body>
+</html>
