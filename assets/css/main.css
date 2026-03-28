@@ -1169,3 +1169,32 @@ body.reduce-motion *::after {
   .faq-toolbar { grid-template-columns: 1fr; }
   .ux-dock { right: 10px; bottom: 88px; }
 }
+
+/* Accessibility: screen-reader only utility and unified visible focus */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+:where(
+  a[href],
+  button,
+  input,
+  select,
+  textarea,
+  [role='button'],
+  [role='tab'],
+  [role='radio'],
+  [tabindex]:not([tabindex='-1'])
+):focus-visible {
+  outline: 2px solid var(--accent-3);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 0.25rem color-mix(in srgb, var(--accent-soft) 82%, transparent);
+}

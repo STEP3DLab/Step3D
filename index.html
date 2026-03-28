@@ -22,16 +22,16 @@
   </div>
   <div class="progress-top" aria-hidden="true"><span id="scrollProgress"></span></div>
   <nav class="section-rail" aria-label="Навигация по разделам">
-    <a class="rail-link" data-label="Начало" href="#top"></a>
-    <a class="rail-link" data-label="Логика" href="#story"></a>
-    <a class="rail-link" data-label="Услуги" href="#services"></a>
-    <a class="rail-link" data-label="3D-модель" href="#model"></a>
-    <a class="rail-link" data-label="Процесс" href="#workflow"></a>
-    <a class="rail-link" data-label="Оценка" href="#estimate"></a>
-    <a class="rail-link" data-label="Кейсы" href="#cases"></a>
-    <a class="rail-link" data-label="Сравнение" href="#compare"></a>
-    <a class="rail-link" data-label="FAQ" href="#faq"></a>
-    <a class="rail-link" data-label="Контакт" href="#contact"></a>
+    <a class="rail-link" data-label="Начало" href="#top"><span class="sr-only">Начало</span></a>
+    <a class="rail-link" data-label="Логика" href="#story"><span class="sr-only">Логика</span></a>
+    <a class="rail-link" data-label="Услуги" href="#services"><span class="sr-only">Услуги</span></a>
+    <a class="rail-link" data-label="3D-модель" href="#model"><span class="sr-only">3D-модель</span></a>
+    <a class="rail-link" data-label="Процесс" href="#workflow"><span class="sr-only">Процесс</span></a>
+    <a class="rail-link" data-label="Оценка" href="#estimate"><span class="sr-only">Оценка</span></a>
+    <a class="rail-link" data-label="Кейсы" href="#cases"><span class="sr-only">Кейсы</span></a>
+    <a class="rail-link" data-label="Сравнение" href="#compare"><span class="sr-only">Сравнение</span></a>
+    <a class="rail-link" data-label="FAQ" href="#faq"><span class="sr-only">FAQ</span></a>
+    <a class="rail-link" data-label="Контакт" href="#contact"><span class="sr-only">Контакт</span></a>
   </nav>
   <header class="header" id="top">
     <div class="container header-inner">
@@ -45,7 +45,7 @@
       <button class="nav-toggle" id="navToggle" type="button" aria-controls="mainNav" aria-expanded="false" aria-label="Открыть меню">
         <span></span><span></span><span></span>
       </button>
-      <nav class="nav" id="mainNav" aria-label="Основная навигация">
+      <nav class="nav" id="mainNav" aria-label="Основная навигация" aria-hidden="true">
         <a class="nav-link" href="#services">Услуги</a>
         <a class="nav-link" href="#model">3D-модель</a>
         <a class="nav-link" href="#workflow">Процесс</a>
@@ -218,7 +218,7 @@
 
             <div class="model-stage" aria-label="Интерактивный просмотр 3D-модели">
               <div class="model-stage-ui">
-                <div class="model-status" id="modelLiveStatus">Загружаем модель</div>
+                <div class="model-status" id="modelLiveStatus" role="status" aria-live="polite" aria-atomic="true">Загружаем модель</div>
                 <div class="model-hint">
                   <span>Левая кнопка - вращение</span>
                   <span>Колесо - масштаб</span>
@@ -300,8 +300,8 @@
               <div class="field"><label for="projectGoal">Цель результата</label><select class="control" id="projectGoal"><option value="demo">Демонстрация / презентация</option><option value="test">Функциональный тест</option><option value="restore">Восстановление / повторение</option><option value="adapt">Адаптация / доработка</option><option value="production">Подготовка к производству</option></select></div>
               <div class="field"><label for="projectSource">Что уже есть</label><select class="control" id="projectSource"><option value="object">Физический объект</option><option value="file">Готовый файл</option><option value="idea">Только идея или референс</option><option value="mixed">Частичный набор материалов</option></select></div>
               <div class="field"><label for="projectScale">Масштаб проекта</label><select class="control" id="projectScale"><option value="small">Небольшой</option><option value="medium" selected>Средний</option><option value="large">Сложный / крупный</option></select></div>
-              <div class="field-full"><label>Приоритет</label><div class="option-grid" id="priorityGroup"><button type="button" class="option is-active" data-group="priority" data-value="quality">Точность</button><button type="button" class="option" data-group="priority" data-value="speed">Срок</button><button type="button" class="option" data-group="priority" data-value="budget">Бюджет</button></div></div>
-              <div class="field-full"><label>Срок</label><div class="option-grid" id="deadlineGroup"><button type="button" class="option" data-group="deadline" data-value="rush">Срочно</button><button type="button" class="option is-active" data-group="deadline" data-value="normal">Стандартно</button><button type="button" class="option" data-group="deadline" data-value="planned">Планово</button></div></div>
+              <div class="field-full"><label id="priorityLabel">Приоритет</label><div class="option-grid" id="priorityGroup" role="radiogroup" aria-labelledby="priorityLabel"><button type="button" class="option is-active" data-group="priority" data-value="quality" role="radio" aria-checked="true">Точность</button><button type="button" class="option" data-group="priority" data-value="speed" role="radio" aria-checked="false">Срок</button><button type="button" class="option" data-group="priority" data-value="budget" role="radio" aria-checked="false">Бюджет</button></div></div>
+              <div class="field-full"><label id="deadlineLabel">Срок</label><div class="option-grid" id="deadlineGroup" role="radiogroup" aria-labelledby="deadlineLabel"><button type="button" class="option" data-group="deadline" data-value="rush" role="radio" aria-checked="false">Срочно</button><button type="button" class="option is-active" data-group="deadline" data-value="normal" role="radio" aria-checked="true">Стандартно</button><button type="button" class="option" data-group="deadline" data-value="planned" role="radio" aria-checked="false">Планово</button></div></div>
               <div class="field-full"><label for="projectNotes">Описание задачи</label><textarea class="textarea" id="projectNotes" placeholder="Например: есть деталь, нужно восстановить геометрию, проверить посадку и изготовить образец."></textarea></div>
             </div>
           </form>
@@ -310,6 +310,7 @@
             <div class="score-ring" id="scoreRing" style="--progress:72"><div><strong id="scoreValue">72</strong><span>готовность</span></div></div>
             <h3 id="estimateHeadline">Хороший старт для проекта средней сложности.</h3>
             <p class="copy" id="estimateText">Есть базовая информация для старта. Осталось уточнить срок, требования к точности и формат результата.</p>
+            <p class="sr-only" id="estimateLiveStatus" role="status" aria-live="polite" aria-atomic="true"></p>
             <div class="summary-chips" id="estimateChips"><span class="pill"><strong>Маршрут</strong> Сканирование → подготовка</span><span class="pill"><strong>Сложность</strong> Средняя</span><span class="pill"><strong>Ритм</strong> Стандартный</span></div>
             <div class="summary-card"><strong>Зачем это нужно</strong><span>Вы сразу видите, насколько собрана задача и что добавить перед первым сообщением.</span></div>
             <ul class="estimate-bullets" id="estimateBullets"><li>Подготовить 2-4 фотографии объекта или референса.</li><li>Коротко описать, где будет использоваться результат.</li><li>Уточнить, что сейчас важнее: срок, точность или бюджет.</li></ul>
@@ -367,7 +368,7 @@
           <div class="faq-toolbar-actions">
             <button class="btn btn-ghost" type="button" id="faqExpandAll">Раскрыть все</button>
             <button class="btn btn-ghost" type="button" id="faqCollapseAll">Свернуть все</button>
-            <span class="faq-result-count" id="faqResultCount" aria-live="polite">Показано 4 из 4</span>
+            <span class="faq-result-count" id="faqResultCount" role="status" aria-live="polite" aria-atomic="true">Показано 4 из 4</span>
           </div>
         </div>
         <div class="faq-layout">
@@ -422,7 +423,7 @@
     <button class="ux-btn" id="fontMinusBtn" type="button" aria-label="Уменьшить текст">A-</button>
     <button class="ux-btn" id="toggleMotionBtn" type="button" aria-pressed="false">Без анимаций</button>
   </div>
-  <div class="toast" id="uiToast" role="status" aria-live="polite"></div>
+  <div class="toast" id="uiToast" role="status" aria-live="polite" aria-atomic="true" aria-hidden="true"></div>
   <script type="module" src="assets/js/main.js"></script>
 </body>
 </html>

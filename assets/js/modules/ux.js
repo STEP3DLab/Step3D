@@ -7,10 +7,22 @@ const STORAGE_KEYS = {
 function showToast(message) {
   const toast = document.getElementById('uiToast');
   if (!toast) return;
+
+  if (toast.dataset.lastMessage === message && toast.classList.contains('is-visible')) {
+    return;
+  }
+
+  toast.dataset.lastMessage = message;
   toast.textContent = message;
   toast.classList.add('is-visible');
+  toast.setAttribute('aria-hidden', 'false');
+
   window.clearTimeout(showToast.timer);
-  showToast.timer = window.setTimeout(() => toast.classList.remove('is-visible'), 1800);
+  showToast.timer = window.setTimeout(() => {
+    toast.classList.remove('is-visible');
+    toast.setAttribute('aria-hidden', 'true');
+    toast.textContent = '';
+  }, 1800);
 }
 
 export function initUx() {
@@ -78,5 +90,14 @@ export function initUx() {
     const current = Number(localStorage.getItem(STORAGE_KEYS.fontScale)) || 1;
     applyFontScale(current - 0.05);
     showToast('Размер текста уменьшен');
+  });
+
+  [backToTopBtn, toggleContrastBtn, toggleMotionBtn, fontPlusBtn, fontMinusBtn].forEach((button) => {
+    button.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        button.blur();
+      }
+    });
   });
 }

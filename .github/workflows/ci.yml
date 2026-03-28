@@ -32,6 +32,9 @@ jobs:
       - name: Run linters
         run: npm run lint
 
+      - name: Run accessibility checks
+        run: npm run check:a11y
+
       - name: Build
         run: npm run build
 

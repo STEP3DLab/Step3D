@@ -1,0 +1,20 @@
+{
+  "extends": [
+    "html-validate:recommended"
+  ],
+  "rules": {
+    "void-style": "off",
+    "require-sri": "off",
+    "hidden-focusable": "off",
+    "aria-label-misuse": "off",
+    "heading-level": "off",
+    "element-permitted-content": "off",
+    "unique-landmark": "off",
+    "no-trailing-whitespace": "off",
+    "no-redundant-for": "off",
+    "wcag/h32": "off",
+    "prefer-native-element": "off",
+    "wcag/h30": "error",
+    "no-inline-style": "off"
+  }
+}
