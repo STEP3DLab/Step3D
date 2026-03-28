@@ -21,12 +21,7 @@ Step3D/
 ├── commitlint.config.cjs
 ├── .eslintrc.cjs
 ├── index.html
-├── package.json
-├── CHANGELOG.md
-└── README.md
-```
 
-## 2) Локальный запуск и проверка
 
 ```bash
 npm install
