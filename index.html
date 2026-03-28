@@ -14,6 +14,7 @@
 
 </head>
 <body>
+  <a class="skip-link" href="#mainContent">Перейти к основному контенту</a>
   <div class="announcement-bar" role="status">
     <div class="container">
       <p><span class="announcement-dot" aria-hidden="true"></span>STEP_3D / Новый поток: от идеи до детали за один маршрут и одну команду.</p>
@@ -64,7 +65,7 @@
       </div>
     </div>
   </header>
-  <main>
+  <main id="mainContent">
     <section class="hero section-block section-block--hero" data-block="hero">
       <div class="container hero__container hero-layout">
         <div class="hero__content hero-copy reveal">
@@ -358,6 +359,17 @@
     <section class="section" id="faq">
       <div class="container">
         <div class="title-row reveal"><div><div class="section-label">FAQ</div><h2>Частые вопросы перед стартом.</h2></div><p class="lead">Коротко о том, с чем можно прийти и что нужно для запуска.</p></div>
+        <div class="faq-toolbar reveal" aria-label="Инструменты FAQ">
+          <label class="faq-search-wrap" for="faqSearch">
+            <span>Поиск по вопросам</span>
+            <input class="control" id="faqSearch" type="search" placeholder="Например: STL, CAD, сроки" />
+          </label>
+          <div class="faq-toolbar-actions">
+            <button class="btn btn-ghost" type="button" id="faqExpandAll">Раскрыть все</button>
+            <button class="btn btn-ghost" type="button" id="faqCollapseAll">Свернуть все</button>
+            <span class="faq-result-count" id="faqResultCount" aria-live="polite">Показано 4 из 4</span>
+          </div>
+        </div>
         <div class="faq-layout">
           <div class="faq-list reveal">
             <div class="faq-item is-open"><button class="faq-q" type="button" aria-expanded="true"><strong>Можно ли прийти только с идеей или референсом, без готовой модели?</strong><span class="faq-icon" aria-hidden="true"></span></button><div class="faq-a" style="max-height: 240px;"><div class="faq-a-inner">Да. Достаточно идеи, референса, фото или образца.</div></div></div>
@@ -376,16 +388,23 @@
           <div class="contact-form glass reveal">
             <div class="eyebrow">Готовый бриф</div>
             <h3>Заполните поля и скопируйте текст.</h3>
+            <div class="brief-quick-actions">
+              <strong>Быстрый старт:</strong>
+              <button class="quick-chip" type="button" data-brief-task="3D-сканирование">Только сканирование</button>
+              <button class="quick-chip" type="button" data-brief-task="Реверсивный инжиниринг">Нужен CAD из STL</button>
+              <button class="quick-chip" type="button" data-brief-task="Прототипирование">Проверить идею в прототипе</button>
+              <button class="quick-chip" type="button" data-brief-deadline="Срочно">Срочный запуск</button>
+            </div>
             <div class="fields" id="briefForm">
               <div class="field"><label for="briefName">Ваше имя</label><input class="control" id="briefName" type="text" placeholder="Например: Никита" /></div>
               <div class="field"><label for="briefContact">Контакт</label><input class="control" id="briefContact" type="text" placeholder="Telegram, e-mail или телефон" /></div>
               <div class="field"><label for="briefTask">Тип задачи</label><select class="control" id="briefTask"><option>3D-сканирование</option><option>Реверсивный инжиниринг</option><option>Прототипирование</option><option>3D-печать</option><option>Комплексная задача</option></select></div>
               <div class="field"><label for="briefDeadline">Срок</label><select class="control" id="briefDeadline"><option>Стандартный</option><option>Срочно</option><option>Планово</option></select></div>
               <div class="field-full"><label for="briefAssets">Что уже есть</label><input class="control" id="briefAssets" type="text" placeholder="Например: деталь, STL, размеры, фотографии, референсы" /></div>
-              <div class="field-full"><label for="briefDesc">Описание задачи</label><textarea class="textarea" id="briefDesc" placeholder="Что нужно получить, где это будет использоваться и что важно: срок, точность, внешний вид, прочность."></textarea></div>
+              <div class="field-full"><label for="briefDesc">Описание задачи</label><textarea class="textarea" id="briefDesc" maxlength="600" placeholder="Что нужно получить, где это будет использоваться и что важно: срок, точность, внешний вид, прочность."></textarea><div class="field-meta"><span id="briefDescCounter">0 / 600</span><span id="briefCompleteness">Заполнено 0%</span></div></div>
             </div>
             <div class="brief-box">
-              <div class="title-row" style="margin-bottom:0;"><strong>Готовый текст</strong><div style="display:flex; gap:10px; flex-wrap:wrap;"><button type="button" class="btn btn-ghost" id="generateBrief">Собрать бриф</button><button type="button" class="btn btn-primary" id="copyBrief">Скопировать <span class="arrow" aria-hidden="true"></span></button></div></div>
+              <div class="title-row" style="margin-bottom:0;"><strong>Готовый текст</strong><div style="display:flex; gap:10px; flex-wrap:wrap;"><button type="button" class="btn btn-ghost" id="generateBrief">Собрать бриф</button><button type="button" class="btn btn-primary" id="copyBrief">Скопировать <span class="arrow" aria-hidden="true"></span></button><button type="button" class="btn btn-ghost" id="saveBriefDraft">Сохранить черновик</button><button type="button" class="btn btn-ghost" id="clearBriefDraft">Очистить</button></div></div>
               <div class="brief-output" id="briefOutput">Нажмите «Собрать бриф», чтобы получить готовое сообщение для отправки менеджеру STEP_3D.</div>
             </div>
           </div>
@@ -396,6 +415,14 @@
   </main>
   <footer class="footer section-block section-block--footer" data-block="footer"><div class="container"><div class="footer__panel footer-card"><div><strong>STEP_3D</strong><p>3D-сканирование, моделирование, реверсивный инжиниринг, прототипирование и 3D-печать.</p></div><div class="footer__links footer-links"><a class="btn btn-ghost" href="#services">Услуги</a><a class="btn btn-ghost" href="#cases">Кейсы</a><a class="btn btn-ghost" href="#contact">Бриф</a></div></div></div></footer>
   <div class="sticky-cta"><span>Соберите бриф и отправьте задачу.</span><a class="btn btn-primary" href="#contact">Начать</a></div>
+  <div class="ux-dock" aria-label="Панель удобства">
+    <button class="ux-btn" id="backToTopBtn" type="button" aria-label="Наверх страницы">↑</button>
+    <button class="ux-btn" id="toggleContrastBtn" type="button" aria-pressed="false">Контраст</button>
+    <button class="ux-btn" id="fontPlusBtn" type="button" aria-label="Увеличить текст">A+</button>
+    <button class="ux-btn" id="fontMinusBtn" type="button" aria-label="Уменьшить текст">A-</button>
+    <button class="ux-btn" id="toggleMotionBtn" type="button" aria-pressed="false">Без анимаций</button>
+  </div>
+  <div class="toast" id="uiToast" role="status" aria-live="polite"></div>
   <script type="module" src="assets/js/main.js"></script>
 </body>
 </html>
