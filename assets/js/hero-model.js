@@ -1,9 +1,14 @@
-import * as THREE from 'https://unpkg.com/three@0.160.0/build/three.module.js';
-import { STLLoader } from 'https://unpkg.com/three@0.160.0/examples/jsm/loaders/STLLoader.js';
-
 const mount = document.getElementById('heroModelViewer');
 
-if (mount) {
+const THREE_MODULE = 'https://unpkg.com/three@0.160.0/build/three.module.js';
+const STL_MODULE = 'https://unpkg.com/three@0.160.0/examples/jsm/loaders/STLLoader.js';
+
+async function initModelViewer(target) {
+  const [THREE, { STLLoader }] = await Promise.all([
+    import(THREE_MODULE),
+    import(STL_MODULE),
+  ]);
+
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(34, 1, 0.1, 1000);
   camera.position.set(0, 20, 120);
@@ -11,7 +16,7 @@ if (mount) {
   const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
   renderer.outputColorSpace = THREE.SRGBColorSpace;
-  mount.appendChild(renderer.domElement);
+  target.appendChild(renderer.domElement);
 
   const ambientLight = new THREE.AmbientLight(0xd8e7ff, 0.8);
   scene.add(ambientLight);
@@ -28,10 +33,9 @@ if (mount) {
   scene.add(group);
 
   let mesh = null;
-  const loader = new STLLoader();
 
   const fitRenderer = () => {
-    const { width, height } = mount.getBoundingClientRect();
+    const { width, height } = target.getBoundingClientRect();
     const safeWidth = Math.max(width, 120);
     const safeHeight = Math.max(height, 120);
     renderer.setSize(safeWidth, safeHeight, false);
@@ -39,6 +43,7 @@ if (mount) {
     camera.updateProjectionMatrix();
   };
 
+  const loader = new STLLoader();
   loader.load(
     'Meshy_AI_Polar Sage_1774654256_generate.stl',
     (geometry) => {
@@ -63,42 +68,38 @@ if (mount) {
     },
     undefined,
     () => {
-      mount.classList.add('model-fallback');
-      mount.innerHTML = '<span>3D preview unavailable</span>';
+      target.classList.add('model-fallback');
+      target.innerHTML = '<span>3D preview unavailable</span>';
     },
   );
 
   fitRenderer();
-  window.addEventListener('resize', fitRenderer);
+  window.addEventListener('resize', fitRenderer, { passive: true });
 
-  let rafId = 0;
-  let running = true;
-
-  const animate = () => {
-    if (!running) return;
-    rafId = requestAnimationFrame(animate);
-
-    if (mesh) {
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  renderer.setAnimationLoop(() => {
+    const time = Date.now();
+    if (mesh && !reduceMotion) {
       mesh.rotation.y += 0.0038;
-      mesh.rotation.x = Math.sin(Date.now() * 0.00035) * 0.07;
+      mesh.rotation.x = Math.sin(time * 0.00035) * 0.07;
     }
 
-    group.rotation.z = Math.sin(Date.now() * 0.0002) * 0.03;
+    group.rotation.z = Math.sin(time * 0.0002) * 0.03;
     renderer.render(scene, camera);
-  };
-
-  animate();
-
-  document.addEventListener('visibilitychange', () => {
-    if (document.hidden) {
-      running = false;
-      cancelAnimationFrame(rafId);
-      return;
-    }
-
-    if (!running) {
-      running = true;
-      animate();
-    }
   });
+}
+
+if (mount) {
+  if (!('IntersectionObserver' in window)) {
+    initModelViewer(mount);
+  } else {
+    const observer = new IntersectionObserver((entries) => {
+      const [entry] = entries;
+      if (!entry?.isIntersecting) return;
+      observer.disconnect();
+      initModelViewer(mount);
+    }, { threshold: 0.15 });
+
+    observer.observe(mount);
+  }
 }
