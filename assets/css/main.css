@@ -623,22 +623,28 @@
    ========================================================== */
 
 :root {
-  /* Core color tokens */
-  --background: #070b13;
-  --background-elevated: #0d1420;
-  --surface: rgba(255, 255, 255, 0.048);
-  --surface-2: rgba(255, 255, 255, 0.082);
-  --text-primary: #f5f8ff;
-  --text-secondary: #c8d4e8;
-  --text-muted: #9eaec7;
-  --border: rgba(233, 242, 255, 0.16);
-  --accent: #9fb9ff;
-  --accent-hover: #c7d8ff;
-  --accent-soft: rgba(146, 177, 255, 0.2);
-  --success: #7fdcb2;
-  --warning: #ffd289;
-  --danger: #ff9f9f;
-  --shadow: 0 20px 56px rgba(5, 12, 26, 0.38);
+  /* ===== Color tokens: midnight (default) =====
+     Tuned for stronger contrast hierarchy and cleaner premium depth. */
+  --background: #070b12;
+  --background-elevated: #0d141f;
+  --card: rgba(255, 255, 255, 0.058);
+  --card-strong: rgba(255, 255, 255, 0.092);
+  --surface: var(--card);
+  --surface-2: var(--card-strong);
+  --text-primary: #f4f7ff;
+  --text-secondary: #d0dcf0;
+  --text-muted: #a7b7d0;
+  --border: rgba(223, 236, 255, 0.2);
+  --border-strong: rgba(233, 243, 255, 0.32);
+  --accent: #9ab8ff;
+  --accent-hover: #c2d4ff;
+  --accent-soft: rgba(133, 170, 255, 0.24);
+  --success: #89deb8;
+  --warning: #ffd089;
+  --danger: #ff9b9b;
+  --overlay: rgba(6, 10, 17, 0.64);
+  --shadow-color: rgba(4, 10, 22, 0.42);
+  --shadow: 0 20px 56px var(--shadow-color);
 
   /* Typography scale */
   --font-hero: clamp(2.5rem, 1.9rem + 2.8vw, 5.3rem);
@@ -674,7 +680,7 @@
   --muted: var(--text-secondary);
   --muted-2: var(--text-muted);
   --line: var(--border);
-  --line-2: color-mix(in srgb, var(--border) 70%, var(--accent));
+  --line-2: color-mix(in srgb, var(--border-strong) 65%, var(--accent));
   --panel: var(--surface);
   --panel-2: var(--surface-2);
   --accent-2: var(--accent);
@@ -684,39 +690,50 @@
 }
 
 body[data-theme='graphite'] {
-  --background: #0d121b;
-  --background-elevated: #161d2a;
-  --surface: rgba(255, 255, 255, 0.04);
-  --surface-2: rgba(255, 255, 255, 0.072);
-  --text-primary: #edf3ff;
-  --text-secondary: #becbe0;
-  --text-muted: #90a2be;
-  --border: rgba(181, 196, 219, 0.24);
-  --accent: #95c2ff;
-  --accent-hover: #b9d8ff;
-  --accent-soft: rgba(126, 183, 255, 0.22);
-  --success: #8ce0be;
-  --warning: #ffd599;
-  --danger: #ffacac;
-  --shadow: 0 20px 56px rgba(2, 7, 16, 0.45);
+  --background: #0f141d;
+  --background-elevated: #171f2b;
+  --card: rgba(255, 255, 255, 0.052);
+  --card-strong: rgba(255, 255, 255, 0.082);
+  --surface: var(--card);
+  --surface-2: var(--card-strong);
+  --text-primary: #eef3ff;
+  --text-secondary: #cad5e8;
+  --text-muted: #9caec7;
+  --border: rgba(196, 209, 230, 0.24);
+  --border-strong: rgba(212, 225, 245, 0.34);
+  --accent: #96c1ff;
+  --accent-hover: #b8d7ff;
+  --accent-soft: rgba(125, 181, 255, 0.2);
+  --success: #8adab9;
+  --warning: #ffd39a;
+  --danger: #ffabab;
+  --overlay: rgba(7, 11, 17, 0.6);
+  --shadow-color: rgba(3, 8, 16, 0.46);
+  --shadow: 0 20px 56px var(--shadow-color);
 }
 
 body[data-theme='ivory'] {
-  --background: #f5f7fb;
-  --background-elevated: #e8edf6;
-  --surface: rgba(255, 255, 255, 0.78);
-  --surface-2: rgba(255, 255, 255, 0.94);
-  --text-primary: #101c30;
-  --text-secondary: #32455f;
-  --text-muted: #5a6f8d;
-  --border: rgba(35, 62, 97, 0.2);
-  --accent: #335fbc;
-  --accent-hover: #274c9a;
-  --accent-soft: rgba(66, 114, 204, 0.14);
-  --success: #2f9369;
-  --warning: #b77919;
-  --danger: #bc3a3a;
-  --shadow: 0 20px 44px rgba(25, 38, 58, 0.14);
+  /* Light palette: lower glare, stronger structure, premium neutrals. */
+  --background: #eff3f9;
+  --background-elevated: #e3eaf4;
+  --card: rgba(255, 255, 255, 0.86);
+  --card-strong: rgba(255, 255, 255, 0.96);
+  --surface: var(--card);
+  --surface-2: var(--card-strong);
+  --text-primary: #152238;
+  --text-secondary: #2f415b;
+  --text-muted: #556a87;
+  --border: rgba(46, 71, 104, 0.22);
+  --border-strong: rgba(43, 68, 101, 0.34);
+  --accent: #2f5fbe;
+  --accent-hover: #254f9f;
+  --accent-soft: rgba(55, 98, 186, 0.18);
+  --success: #2b8a63;
+  --warning: #a66e13;
+  --danger: #b33636;
+  --overlay: rgba(19, 31, 48, 0.28);
+  --shadow-color: rgba(25, 38, 58, 0.16);
+  --shadow: 0 20px 44px var(--shadow-color);
 }
 
 body {
@@ -858,6 +875,116 @@ textarea {
 .theme-btn.is-active {
   color: var(--text-primary);
   background: color-mix(in srgb, var(--accent-soft) 68%, transparent);
+}
+
+/* ===== Targeted readability polish for header/cards/forms/footer ===== */
+.announcement-bar p,
+.brand-text span,
+.nav-link,
+.mini-status,
+.service-tab span,
+.pill,
+.faq-a-inner,
+.footer-card p,
+.contact-note p,
+.model-topbar-copy p,
+.panel-caption,
+.control::placeholder,
+.textarea::placeholder,
+.subtle,
+.micro-number,
+.service-tab small,
+.case-item small {
+  color: var(--text-muted);
+}
+
+.lead,
+.copy,
+.metric span,
+.story-point p,
+.story-check p,
+.service-note span,
+.service-kpi span,
+.service-side-card li,
+.workflow-step p,
+.summary-card span,
+.case-stat span,
+.case-column li,
+.compare-card li,
+.insight-bar p,
+.brief-output,
+.model-checks li,
+.model-focus-list li,
+.estimate-bullets li,
+.model-hint {
+  color: var(--text-secondary);
+}
+
+.glass,
+.muted-card,
+.story-check,
+.service-note,
+.service-kpi,
+.service-side-card,
+.workflow-step,
+.summary-card,
+.case-column,
+.case-stat,
+.faq-item,
+.footer-card,
+.brief-box,
+.model-info-card {
+  border-color: var(--border);
+  box-shadow: 0 14px 34px color-mix(in srgb, var(--shadow-color) 70%, transparent);
+}
+
+.header,
+.theme-switch,
+.control,
+.textarea,
+.btn-secondary,
+.btn-ghost,
+.model-mini-btn,
+.service-tab,
+.case-item,
+.option,
+.footer-card,
+.trust-wrap {
+  border-color: color-mix(in srgb, var(--border) 80%, var(--border-strong));
+}
+
+.btn-secondary,
+.btn-ghost,
+.model-mini-btn,
+.option {
+  color: var(--text-primary);
+  background: color-mix(in srgb, var(--surface) 72%, var(--background-elevated));
+}
+
+.btn-secondary:hover,
+.btn-ghost:hover,
+.model-mini-btn:hover,
+.option:hover,
+.service-tab:hover,
+.case-item:hover {
+  border-color: color-mix(in srgb, var(--accent) 38%, var(--border-strong));
+}
+
+.footer-card,
+.footer {
+  background: linear-gradient(180deg, color-mix(in srgb, var(--surface-2) 92%, transparent), color-mix(in srgb, var(--surface) 82%, transparent));
+}
+
+.control:focus,
+.textarea:focus,
+.theme-btn:focus-visible,
+.model-mini-btn:focus-visible,
+.option:focus-visible,
+.btn:focus-visible,
+.nav-link:focus-visible {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 0.24rem color-mix(in srgb, var(--accent-soft) 88%, transparent);
 }
 
 /* Vertical rhythm and readability in content blocks */
