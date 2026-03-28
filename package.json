@@ -8,7 +8,7 @@
     "lint": "npm run lint:html && npm run lint:css && npm run lint:js",
     "lint:html": "htmlhint index.html",
     "lint:css": "stylelint \"index.html\"",
-    "lint:js": "eslint index.html",
+    "lint:js": "eslint assets/js/**/*.js scripts/**/*.mjs tests/**/*.mjs index.html",
     "format": "prettier --write README.md \".github/**/*.md\" \".github/**/*.yml\"",
     "format:check": "prettier --check README.md \".github/**/*.md\" \".github/**/*.yml\"",
     "build": "node scripts/build.mjs",

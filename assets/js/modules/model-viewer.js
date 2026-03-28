@@ -86,7 +86,8 @@ export async function initModelViewer() {
   const hideOverlay = () => modelOverlay?.classList.add('is-hidden');
 
   const blob = new Blob([asciiStl], { type: 'model/stl' });
-  if (downloadButton) downloadButton.href = URL.createObjectURL(blob);
+  const downloadUrl = URL.createObjectURL(blob);
+  if (downloadButton) downloadButton.href = downloadUrl;
 
   if (!hasWebGlSupport()) {
     setStatus('WebGL недоступен');
@@ -125,7 +126,8 @@ export async function initModelViewer() {
     geometry.computeVertexNormals();
     geometry.center();
 
-    const mesh = new THREE.Mesh(geometry, new THREE.MeshStandardMaterial({ color: 0xdfe8ff, metalness: 0.1, roughness: 0.4 }));
+    const material = new THREE.MeshStandardMaterial({ color: 0xdfe8ff, metalness: 0.1, roughness: 0.4 });
+    const mesh = new THREE.Mesh(geometry, material);
     mesh.rotation.x = -Math.PI / 2;
     scene.add(mesh);
 
@@ -139,7 +141,7 @@ export async function initModelViewer() {
       camera.updateProjectionMatrix();
       renderer.setSize(width, height);
     };
-    window.addEventListener('resize', onResize);
+    window.addEventListener('resize', onResize, { passive: true });
 
     const defaultPosition = camera.position.clone();
     const defaultTarget = controls.target.clone();
@@ -165,13 +167,40 @@ export async function initModelViewer() {
       });
     }
 
-    const animate = () => {
+    let rafId = 0;
+    const renderLoop = () => {
       controls.update();
       renderer.render(scene, camera);
-      window.requestAnimationFrame(animate);
+      rafId = window.requestAnimationFrame(renderLoop);
     };
-    animate();
+
+    const onVisibilityChange = () => {
+      if (document.hidden) {
+        window.cancelAnimationFrame(rafId);
+        return;
+      }
+      rafId = window.requestAnimationFrame(renderLoop);
+    };
+
+    document.addEventListener('visibilitychange', onVisibilityChange);
+    rafId = window.requestAnimationFrame(renderLoop);
+
+    window.addEventListener(
+      'pagehide',
+      () => {
+        window.cancelAnimationFrame(rafId);
+        URL.revokeObjectURL(downloadUrl);
+        document.removeEventListener('visibilitychange', onVisibilityChange);
+        window.removeEventListener('resize', onResize);
+        controls.dispose();
+        geometry.dispose();
+        material.dispose();
+        renderer.dispose();
+      },
+      { once: true }
+    );
   } catch (error) {
+    URL.revokeObjectURL(downloadUrl);
     console.error(error);
     setStatus('Просмотр недоступен');
     showOverlay(

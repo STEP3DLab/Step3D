@@ -7,22 +7,21 @@ module.exports = {
   },
   extends: ['eslint:recommended'],
   plugins: ['html'],
+  parserOptions: {
+    ecmaVersion: 'latest',
+    sourceType: 'module'
+  },
   overrides: [
     {
       files: ['index.html'],
-      parserOptions: {
-        ecmaVersion: 'latest',
-        sourceType: 'module'
-      },
       rules: {
         'no-unused-vars': 'off'
       }
     },
     {
-      files: ['scripts/**/*.mjs'],
-      parserOptions: {
-        ecmaVersion: 'latest',
-        sourceType: 'module'
+      files: ['tests/**/*.mjs'],
+      env: {
+        node: true
       }
     }
   ]
