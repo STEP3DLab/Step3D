@@ -11,9 +11,13 @@
   .hero-metrics {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
+
+  .footer-top {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
-@media (max-width: 880px) {
+@media (max-width: 900px) {
   .menu-toggle {
     display: inline-flex;
     margin-left: auto;
@@ -30,7 +34,7 @@
     right: 20px;
     border-radius: 14px;
     border: 1px solid var(--line);
-    background: #0f1a2b;
+    background: #101c2e;
     padding: 14px;
     display: none;
     flex-direction: column;
@@ -47,20 +51,9 @@
   .cards.four,
   .hero-metrics,
   .contact-form,
-  .footer-grid,
-  .modal-grid {
+  .modal-grid,
+  .footer-top {
     grid-template-columns: 1fr;
-  }
-
-  .footer-bottom {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .visual-model {
-    width: min(60%, 250px);
-    right: -20px;
-    bottom: 12px;
   }
 }
 
@@ -70,11 +63,17 @@
   }
 
   .section {
-    padding: 64px 0;
+    padding: 60px 0;
   }
 
   .header-row {
     min-height: 70px;
+  }
+
+  .nav {
+    top: 70px;
+    left: 12px;
+    right: 12px;
   }
 
   .contact-form {
@@ -91,22 +90,5 @@
 
   .actions .btn {
     flex: 1;
-  }
-
-  .story-controls {
-    flex-wrap: wrap;
-  }
-
-  .story-controls span {
-    width: 100%;
-    text-align: center;
-    order: -1;
-  }
-
-  .visual-model {
-    width: min(64%, 210px);
-    right: -32px;
-    bottom: 6px;
-    opacity: 0.8;
   }
 }
