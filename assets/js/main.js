@@ -10298,203 +10298,289 @@ wz4VnmY/LjasQX32ZEOkR+1EII4cQalOVUPixO1EJ2IkQpEiXUMgQu5EAAD6ZiG+rRryPtTuXT8uNqxB
       let scene;
       let modelGroup;
       let animationId;
+      let lastFrameTime = 0;
+      let currentMode;
       const defaultCameraState = { position: new THREE.Vector3(), target: new THREE.Vector3() };
 
       const setStatus = (text) => { if (modelLiveStatus) modelLiveStatus.textContent = text; };
       const hideOverlay = () => { if (modelOverlay) modelOverlay.classList.add('is-hidden'); };
-      const showOverlay = (title, text) => {
+      const showOverlay = (title, text, actionLabel, onAction) => {
         if (!modelOverlay) return;
         modelOverlay.classList.remove('is-hidden');
         modelOverlay.innerHTML = `<div class="model-overlay-card"><strong>${title}</strong><p>${text}</p></div>`;
+        if (actionLabel && typeof onAction === 'function') {
+          const card = modelOverlay.querySelector('.model-overlay-card');
+          const button = document.createElement('button');
+          button.type = 'button';
+          button.className = 'btn btn-secondary';
+          button.textContent = actionLabel;
+          button.style.marginTop = '12px';
+          button.addEventListener('click', onAction, { once: true });
+          card.appendChild(button);
+        }
       };
 
-      try {
-        renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
-        renderer.setSize(modelViewport.clientWidth, modelViewport.clientHeight);
-        renderer.outputColorSpace = THREE.SRGBColorSpace;
-        renderer.shadowMap.enabled = true;
-        renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-        modelViewport.appendChild(renderer.domElement);
+      const detectWebGL = () => {
+        const canvas = document.createElement('canvas');
+        const gl2 = canvas.getContext('webgl2');
+        const gl = gl2 || canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+        return { supported: Boolean(gl), isWebGL2: Boolean(gl2) };
+      };
 
-        scene = new THREE.Scene();
-        scene.fog = new THREE.FogExp2(0x070a10, 0.02);
+      const classifyDevice = () => {
+        const cores = navigator.hardwareConcurrency || 2;
+        const memory = navigator.deviceMemory || 4;
+        const isTouchPrimary = window.matchMedia('(pointer: coarse)').matches;
+        const viewportWidth = Math.min(window.innerWidth || 1920, window.outerWidth || 1920);
+        if (cores <= 4 || memory <= 4 || viewportWidth < 900 || isTouchPrimary) return 'low';
+        if (cores <= 8 || memory <= 8 || viewportWidth < 1400) return 'medium';
+        return 'high';
+      };
 
-        camera = new THREE.PerspectiveCamera(34, modelViewport.clientWidth / modelViewport.clientHeight, 0.1, 2000);
-        camera.position.set(120, 90, 130);
+      const modePresets = {
+        high: { label: 'high', shadows: true, shadowMapSize: 2048, polygonRatio: 1, autoRotate: true, autoRotateSpeed: 1.2, fpsCap: 60 },
+        medium: { label: 'medium', shadows: true, shadowMapSize: 1024, polygonRatio: 0.58, autoRotate: true, autoRotateSpeed: 1, fpsCap: 45 },
+        low: { label: 'low', shadows: false, shadowMapSize: 512, polygonRatio: 0.24, autoRotate: false, autoRotateSpeed: 0.75, fpsCap: 24 }
+      };
 
-        controls = new OrbitControls(camera, renderer.domElement);
-        controls.enableDamping = true;
-        controls.dampingFactor = 0.06;
-        controls.autoRotate = true;
-        controls.autoRotateSpeed = 1.2;
-        controls.enablePan = false;
-        controls.minDistance = 55;
-        controls.maxDistance = 280;
-        controls.target.set(0, 22, 0);
+      const webgl = detectWebGL();
+      const deviceClass = classifyDevice();
+      const suggestedMode = webgl.isWebGL2 ? deviceClass : 'low';
 
-        const ambient = new THREE.HemisphereLight(0xe9f1ff, 0x111722, 1.65);
-        scene.add(ambient);
-
-        const keyLight = new THREE.DirectionalLight(0xf4f7ff, 2.4);
-        keyLight.position.set(90, 120, 80);
-        keyLight.castShadow = true;
-        keyLight.shadow.mapSize.width = 2048;
-        keyLight.shadow.mapSize.height = 2048;
-        keyLight.shadow.camera.near = 1;
-        keyLight.shadow.camera.far = 500;
-        keyLight.shadow.bias = -0.00018;
-        scene.add(keyLight);
-
-        const fillLight = new THREE.DirectionalLight(0x9bb8ff, 1.25);
-        fillLight.position.set(-80, 70, -70);
-        scene.add(fillLight);
-
-        const rimLight = new THREE.PointLight(0xcfe0ff, 70, 500, 2);
-        rimLight.position.set(0, 90, -120);
-        scene.add(rimLight);
-
-        const floor = new THREE.Mesh(
-          new THREE.CircleGeometry(120, 96),
-          new THREE.ShadowMaterial({ color: 0x000000, opacity: 0.22 })
-        );
-        floor.rotation.x = -Math.PI / 2;
-        floor.position.y = -2;
-        floor.receiveShadow = true;
-        scene.add(floor);
-
-        const pedestal = new THREE.Mesh(
-          new THREE.CylinderGeometry(56, 66, 5.5, 96, 1, true),
-          new THREE.MeshPhysicalMaterial({
-            color: 0x0f1723,
-            metalness: 0.75,
-            roughness: 0.5,
-            transparent: true,
-            opacity: 0.72,
-            clearcoat: 0.6,
-            clearcoatRoughness: 0.5
-          })
-        );
-        pedestal.position.y = -1.2;
-        pedestal.receiveShadow = true;
-        scene.add(pedestal);
-
-        const ring = new THREE.Mesh(
-          new THREE.TorusGeometry(64, 1.35, 24, 160),
-          new THREE.MeshBasicMaterial({ color: 0x9ab8ff, transparent: true, opacity: 0.32 })
-        );
-        ring.rotation.x = Math.PI / 2;
-        ring.position.y = 0.8;
-        scene.add(ring);
-
-        const grid = new THREE.GridHelper(160, 24, 0x355289, 0x213049);
-        grid.material.transparent = true;
-        grid.material.opacity = 0.18;
-        grid.position.y = -1.6;
-        scene.add(grid);
-
-        modelGroup = new THREE.Group();
-        scene.add(modelGroup);
-
-        const binary = atob(stlBase64.replace(/\s+/g, ''));
-        const buffer = new Uint8Array(binary.length);
-        for (let i = 0; i < binary.length; i += 1) buffer[i] = binary.charCodeAt(i);
-        const blob = new Blob([buffer], { type: 'model/stl' });
-        if (downloadButton) downloadButton.href = URL.createObjectURL(blob);
-
-        const geometry = new STLLoader().parse(buffer.buffer);
-        geometry.computeVertexNormals();
-        geometry.center();
-
-        const material = new THREE.MeshPhysicalMaterial({
-          color: 0xdfe8ff,
-          metalness: 0.16,
-          roughness: 0.44,
-          clearcoat: 0.75,
-          clearcoatRoughness: 0.32,
-          sheen: 0.45,
-          sheenColor: new THREE.Color(0x93b3ff),
-          sheenRoughness: 0.5
-        });
-
-        const mesh = new THREE.Mesh(geometry, material);
-        mesh.castShadow = true;
-        mesh.receiveShadow = true;
-        mesh.rotation.x = -Math.PI / 2;
-        modelGroup.add(mesh);
-
-        const edges = new THREE.LineSegments(
-          new THREE.EdgesGeometry(geometry, 30),
-          new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.08 })
-        );
-        edges.rotation.x = -Math.PI / 2;
-        modelGroup.add(edges);
-
-        const bbox = new THREE.Box3().setFromObject(modelGroup);
-        const size = bbox.getSize(new THREE.Vector3());
-        const maxDim = Math.max(size.x, size.y, size.z) || 1;
-        const scale = 88 / maxDim;
-        modelGroup.scale.setScalar(scale);
-
-        const scaledBox = new THREE.Box3().setFromObject(modelGroup);
-        const scaledSize = scaledBox.getSize(new THREE.Vector3());
-        const scaledCenter = scaledBox.getCenter(new THREE.Vector3());
-
-        modelGroup.position.x -= scaledCenter.x;
-        modelGroup.position.y -= scaledBox.min.y - 3;
-        modelGroup.position.z -= scaledCenter.z;
-
-        const finalBox = new THREE.Box3().setFromObject(modelGroup);
-        const finalSize = finalBox.getSize(new THREE.Vector3());
-        const finalCenter = finalBox.getCenter(new THREE.Vector3());
-        const distance = Math.max(finalSize.x, finalSize.y, finalSize.z) * 1.7;
-
-        camera.position.set(finalCenter.x + distance * 0.92, finalCenter.y + distance * 0.54, finalCenter.z + distance * 0.96);
-        controls.target.copy(finalCenter);
-        controls.update();
-
-        defaultCameraState.position.copy(camera.position);
-        defaultCameraState.target.copy(controls.target);
-
-        setStatus('Файл из чата открыт');
-        hideOverlay();
-
-        const onResize = () => {
-          if (!renderer || !camera) return;
-          const width = modelViewport.clientWidth || 1;
-          const height = modelViewport.clientHeight || 1;
-          camera.aspect = width / height;
-          camera.updateProjectionMatrix();
-          renderer.setSize(width, height);
-        };
-        window.addEventListener('resize', onResize);
-
-        const animate = () => {
-          animationId = window.requestAnimationFrame(animate);
-          controls.update();
-          renderer.render(scene, camera);
-        };
-        animate();
-
-        if (resetButton) {
-          resetButton.addEventListener('click', () => {
-            camera.position.copy(defaultCameraState.position);
-            controls.target.copy(defaultCameraState.target);
-            controls.update();
-          });
+      const simplifyGeometry = (geometry, ratio) => {
+        if (ratio >= 0.999) return geometry;
+        const base = geometry.toNonIndexed();
+        const srcPos = base.getAttribute('position');
+        const srcNormal = base.getAttribute('normal');
+        const faceCount = Math.floor(srcPos.count / 3);
+        const targetFaceCount = Math.max(200, Math.floor(faceCount * ratio));
+        const stride = Math.max(1, Math.floor(faceCount / targetFaceCount));
+        const selectedFaceCount = Math.max(1, Math.floor(faceCount / stride));
+        const positions = new Float32Array(selectedFaceCount * 9);
+        const normals = srcNormal ? new Float32Array(selectedFaceCount * 9) : null;
+        let out = 0;
+        for (let face = 0; face < faceCount; face += stride) {
+          for (let v = 0; v < 3; v += 1) {
+            const src = (face * 3 + v) * 3;
+            positions[out * 3] = srcPos.array[src];
+            positions[out * 3 + 1] = srcPos.array[src + 1];
+            positions[out * 3 + 2] = srcPos.array[src + 2];
+            if (normals && srcNormal) {
+              normals[out * 3] = srcNormal.array[src];
+              normals[out * 3 + 1] = srcNormal.array[src + 1];
+              normals[out * 3 + 2] = srcNormal.array[src + 2];
+            }
+            out += 1;
+          }
         }
+        const optimized = new THREE.BufferGeometry();
+        optimized.setAttribute('position', new THREE.BufferAttribute(positions.subarray(0, out * 3), 3));
+        if (normals) optimized.setAttribute('normal', new THREE.BufferAttribute(normals.subarray(0, out * 3), 3));
+        optimized.computeVertexNormals();
+        optimized.center();
+        return optimized;
+      };
 
-        if (spinButton) {
-          spinButton.addEventListener('click', () => {
-            controls.autoRotate = !controls.autoRotate;
+      const startViewer = (modeKey) => {
+        currentMode = modePresets[modeKey] || modePresets.medium;
+        try {
+          renderer = new THREE.WebGLRenderer({ antialias: currentMode.label !== 'low', alpha: true, powerPreference: 'high-performance' });
+          renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, currentMode.label === 'high' ? 2 : 1.5));
+          renderer.setSize(modelViewport.clientWidth, modelViewport.clientHeight);
+          renderer.outputColorSpace = THREE.SRGBColorSpace;
+          renderer.shadowMap.enabled = currentMode.shadows;
+          renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+          modelViewport.appendChild(renderer.domElement);
+
+          scene = new THREE.Scene();
+          scene.fog = new THREE.FogExp2(0x070a10, currentMode.label === 'low' ? 0.028 : 0.02);
+
+          camera = new THREE.PerspectiveCamera(34, modelViewport.clientWidth / modelViewport.clientHeight, 0.1, 2000);
+          camera.position.set(120, 90, 130);
+
+          controls = new OrbitControls(camera, renderer.domElement);
+          controls.enableDamping = true;
+          controls.dampingFactor = 0.06;
+          controls.autoRotate = currentMode.autoRotate;
+          controls.autoRotateSpeed = currentMode.autoRotateSpeed;
+          controls.enablePan = false;
+          controls.minDistance = 55;
+          controls.maxDistance = 280;
+          controls.target.set(0, 22, 0);
+
+          const ambient = new THREE.HemisphereLight(0xe9f1ff, 0x111722, currentMode.label === 'low' ? 1.3 : 1.65);
+          scene.add(ambient);
+
+          const keyLight = new THREE.DirectionalLight(0xf4f7ff, currentMode.label === 'low' ? 1.4 : 2.4);
+          keyLight.position.set(90, 120, 80);
+          keyLight.castShadow = currentMode.shadows;
+          keyLight.shadow.mapSize.width = currentMode.shadowMapSize;
+          keyLight.shadow.mapSize.height = currentMode.shadowMapSize;
+          keyLight.shadow.camera.near = 1;
+          keyLight.shadow.camera.far = 500;
+          keyLight.shadow.bias = -0.00018;
+          scene.add(keyLight);
+
+          const fillLight = new THREE.DirectionalLight(0x9bb8ff, currentMode.label === 'low' ? 0.95 : 1.25);
+          fillLight.position.set(-80, 70, -70);
+          scene.add(fillLight);
+
+          const rimLight = new THREE.PointLight(0xcfe0ff, currentMode.label === 'low' ? 42 : 70, 500, 2);
+          rimLight.position.set(0, 90, -120);
+          scene.add(rimLight);
+
+          const floor = new THREE.Mesh(
+            new THREE.CircleGeometry(120, currentMode.label === 'high' ? 96 : 52),
+            new THREE.ShadowMaterial({ color: 0x000000, opacity: currentMode.label === 'low' ? 0.12 : 0.22 })
+          );
+          floor.rotation.x = -Math.PI / 2;
+          floor.position.y = -2;
+          floor.receiveShadow = currentMode.shadows;
+          scene.add(floor);
+
+          const pedestal = new THREE.Mesh(
+            new THREE.CylinderGeometry(56, 66, 5.5, currentMode.label === 'high' ? 96 : 44, 1, true),
+            new THREE.MeshPhysicalMaterial({ color: 0x0f1723, metalness: 0.75, roughness: 0.5, transparent: true, opacity: 0.72, clearcoat: 0.6, clearcoatRoughness: 0.5 })
+          );
+          pedestal.position.y = -1.2;
+          pedestal.receiveShadow = currentMode.shadows;
+          scene.add(pedestal);
+
+          const ring = new THREE.Mesh(
+            new THREE.TorusGeometry(64, 1.35, currentMode.label === 'high' ? 24 : 16, currentMode.label === 'high' ? 160 : 88),
+            new THREE.MeshBasicMaterial({ color: 0x9ab8ff, transparent: true, opacity: 0.32 })
+          );
+          ring.rotation.x = Math.PI / 2;
+          ring.position.y = 0.8;
+          scene.add(ring);
+
+          const grid = new THREE.GridHelper(160, currentMode.label === 'high' ? 24 : 14, 0x355289, 0x213049);
+          grid.material.transparent = true;
+          grid.material.opacity = currentMode.label === 'low' ? 0.12 : 0.18;
+          grid.position.y = -1.6;
+          scene.add(grid);
+
+          modelGroup = new THREE.Group();
+          scene.add(modelGroup);
+
+          const binary = atob(stlBase64.replace(/\s+/g, ''));
+          const buffer = new Uint8Array(binary.length);
+          for (let i = 0; i < binary.length; i += 1) buffer[i] = binary.charCodeAt(i);
+          const blob = new Blob([buffer], { type: 'model/stl' });
+          if (downloadButton) downloadButton.href = URL.createObjectURL(blob);
+
+          const rawGeometry = new STLLoader().parse(buffer.buffer);
+          rawGeometry.computeVertexNormals();
+          rawGeometry.center();
+          const geometry = simplifyGeometry(rawGeometry, currentMode.polygonRatio);
+
+          const material = new THREE.MeshPhysicalMaterial({
+            color: 0xdfe8ff,
+            metalness: 0.16,
+            roughness: 0.44,
+            clearcoat: 0.75,
+            clearcoatRoughness: 0.32,
+            sheen: 0.45,
+            sheenColor: new THREE.Color(0x93b3ff),
+            sheenRoughness: 0.5
+          });
+
+          const mesh = new THREE.Mesh(geometry, material);
+          mesh.castShadow = currentMode.shadows;
+          mesh.receiveShadow = currentMode.shadows;
+          mesh.rotation.x = -Math.PI / 2;
+          modelGroup.add(mesh);
+
+          const edges = new THREE.LineSegments(
+            new THREE.EdgesGeometry(geometry, currentMode.label === 'low' ? 45 : 30),
+            new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: currentMode.label === 'low' ? 0.06 : 0.08 })
+          );
+          edges.rotation.x = -Math.PI / 2;
+          modelGroup.add(edges);
+
+          const bbox = new THREE.Box3().setFromObject(modelGroup);
+          const size = bbox.getSize(new THREE.Vector3());
+          const maxDim = Math.max(size.x, size.y, size.z) || 1;
+          const scale = 88 / maxDim;
+          modelGroup.scale.setScalar(scale);
+
+          const scaledBox = new THREE.Box3().setFromObject(modelGroup);
+          const scaledCenter = scaledBox.getCenter(new THREE.Vector3());
+          modelGroup.position.x -= scaledCenter.x;
+          modelGroup.position.y -= scaledBox.min.y - 3;
+          modelGroup.position.z -= scaledCenter.z;
+
+          const finalBox = new THREE.Box3().setFromObject(modelGroup);
+          const finalSize = finalBox.getSize(new THREE.Vector3());
+          const finalCenter = finalBox.getCenter(new THREE.Vector3());
+          const distance = Math.max(finalSize.x, finalSize.y, finalSize.z) * 1.7;
+
+          camera.position.set(finalCenter.x + distance * 0.92, finalCenter.y + distance * 0.54, finalCenter.z + distance * 0.96);
+          controls.target.copy(finalCenter);
+          controls.update();
+
+          defaultCameraState.position.copy(camera.position);
+          defaultCameraState.target.copy(controls.target);
+
+          setStatus(`Режим ${currentMode.label}: модель активна`);
+          hideOverlay();
+
+          const onResize = () => {
+            if (!renderer || !camera) return;
+            const width = modelViewport.clientWidth || 1;
+            const height = modelViewport.clientHeight || 1;
+            camera.aspect = width / height;
+            camera.updateProjectionMatrix();
+            renderer.setSize(width, height);
+          };
+          window.addEventListener('resize', onResize);
+
+          const animate = (time = 0) => {
+            animationId = window.requestAnimationFrame(animate);
+            if (time - lastFrameTime < (1000 / currentMode.fpsCap)) return;
+            lastFrameTime = time;
+            controls.update();
+            renderer.render(scene, camera);
+          };
+          animate();
+
+          if (resetButton) {
+            resetButton.addEventListener('click', () => {
+              camera.position.copy(defaultCameraState.position);
+              controls.target.copy(defaultCameraState.target);
+              controls.update();
+            });
+          }
+
+          if (spinButton) {
             spinButton.classList.toggle('is-active', controls.autoRotate);
             spinButton.textContent = controls.autoRotate ? 'Автоповорот' : 'Повернуть вручную';
-          });
+            spinButton.addEventListener('click', () => {
+              controls.autoRotate = !controls.autoRotate;
+              spinButton.classList.toggle('is-active', controls.autoRotate);
+              spinButton.textContent = controls.autoRotate ? 'Автоповорот' : 'Повернуть вручную';
+            });
+          }
+        } catch (error) {
+          console.error(error);
+          setStatus('Просмотр недоступен');
+          showOverlay('Не удалось открыть 3D-просмотр', 'Если браузер не загрузил движок просмотра, обновите страницу при подключении к интернету. STL-файл все равно можно скачать кнопкой выше.');
         }
-      } catch (error) {
-        console.error(error);
-        setStatus('Просмотр недоступен');
-        showOverlay('Не удалось открыть 3D-просмотр', 'Если браузер не загрузил движок просмотра, обновите страницу при подключении к интернету. STL-файл все равно можно скачать кнопкой выше.');
+      };
+
+      if (!webgl.supported) {
+        setStatus('WebGL недоступен');
+        showOverlay('3D недоступен в браузере', 'Ваш браузер не поддерживает WebGL. Можно скачать STL-файл и открыть его в любом внешнем просмотрщике.');
+      } else if (suggestedMode === 'low') {
+        setStatus('Легкий предпросмотр');
+        showOverlay(
+          'Легкий предпросмотр',
+          'Мы включили упрощенный режим для этого устройства: меньше полигонов, без тяжелых теней и с ограничением FPS. Нажмите кнопку ниже, чтобы запустить полный просмотр.',
+          'Открыть полный режим',
+          () => startViewer('medium')
+        );
+      } else {
+        startViewer(suggestedMode);
       }
     }
-  
+
