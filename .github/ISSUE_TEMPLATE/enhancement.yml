@@ -1,0 +1,38 @@
+name: "✨ Enhancement"
+description: Запрос улучшения функциональности или UX.
+title: "feat: "
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Какую проблему решаем?
+      placeholder: Пользователь не понимает, какие услуги доступны.
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Предлагаемое решение
+      placeholder: Добавить блок услуг над формой заявки.
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Альтернативы
+      placeholder: Можно также изменить структуру hero-блока.
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Чеклист проверки
+      options:
+        - label: Я описал(а) бизнес-ценность изменения.
+          required: true
+        - label: Я указал(а) критерий успеха (метрику).
+          required: true
