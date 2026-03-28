@@ -8,6 +8,11 @@
     grid-template-columns: 1fr;
   }
 
+  .story-hub,
+  .story-stage-main {
+    grid-template-columns: 1fr;
+  }
+
   .hero-metrics {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
