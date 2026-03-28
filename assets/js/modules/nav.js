@@ -35,7 +35,17 @@ export function initNav() {
     setActiveNav(current);
   };
 
-  window.addEventListener('scroll', onScroll, { passive: true });
+  let isTicking = false;
+  const requestScrollUpdate = () => {
+    if (isTicking) return;
+    isTicking = true;
+    window.requestAnimationFrame(() => {
+      onScroll();
+      isTicking = false;
+    });
+  };
+
+  window.addEventListener('scroll', requestScrollUpdate, { passive: true });
   onScroll();
 
   if (navToggle) {
