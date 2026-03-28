@@ -61,19 +61,29 @@ document.addEventListener('DOMContentLoaded', () => {
   const storyModal = document.getElementById('storyModal');
   const storyModalContent = document.getElementById('storyModalContent');
   const storyModalClose = document.getElementById('storyModalClose');
-  const cases = window.STEP3D_CASES || [];
+  const fallbackText = '—';
+  const toText = (value, fallback = fallbackText) => {
+    if (typeof value === 'string') {
+      const normalized = value.trim();
+      return normalized || fallback;
+    }
+    return fallback;
+  };
+
+  const cases = Array.isArray(window.STEP3D_CASES) ? window.STEP3D_CASES : [];
 
   const renderCaseCard = (item) => {
     const card = document.createElement('article');
     card.className = 'case-card';
+    const timeline = toText(item.timeline);
     card.innerHTML = `
       <div class="case-top">
-        <p class="case-type">${item.categoryLabel}</p>
-        <p class="case-meta">${item.timeline}</p>
+        <p class="case-type">${toText(item.categoryLabel)}</p>
+        <p class="case-meta">${timeline}</p>
       </div>
-      <h3>${item.title}</h3>
-      <p>${item.problem}</p>
-      <p class="case-meta">Формат: ${item.output}</p>
+      <h3>${toText(item.title)}</h3>
+      <p>${toText(item.problem)}</p>
+      <p class="case-meta">Формат: ${toText(item.output)}</p>
       <button class="case-link" data-case-id="${item.id}" type="button">Открыть кейс →</button>
     `;
     return card;
@@ -82,7 +92,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const renderCases = (filter = 'all') => {
     if (!caseGrid) return;
 
-    const filtered = cases.filter((item) => filter === 'all' || item.type.includes(filter));
+    const filtered = cases.filter((item) => {
+      const types = Array.isArray(item?.type) ? item.type : [];
+      return filter === 'all' || types.includes(filter);
+    });
     caseGrid.innerHTML = '';
 
     if (!filtered.length) {
@@ -97,17 +110,23 @@ document.addEventListener('DOMContentLoaded', () => {
     const selected = cases.find((item) => item.id === caseId);
     if (!selected || !caseModal || !caseModalContent) return;
 
+    const timeline = toText(selected.timeline);
+    const budget = toText(selected.budget);
+    const timelineBudget = timeline === fallbackText && budget === fallbackText
+      ? fallbackText
+      : `${timeline} · ${budget}`;
+
     caseModalContent.innerHTML = `
-      <p class="case-type">${selected.categoryLabel}</p>
-      <h3 class="modal-title">${selected.title}</h3>
-      <p>${selected.problem}</p>
+      <p class="case-type">${toText(selected.categoryLabel)}</p>
+      <h3 class="modal-title">${toText(selected.title)}</h3>
+      <p>${toText(selected.problem)}</p>
       <div class="modal-grid">
-        <div><strong>Тип задачи</strong><p>${selected.taskType}</p></div>
-        <div><strong>Что сделали</strong><p>${selected.solution}</p></div>
-        <div><strong>Результат</strong><p>${selected.result}</p></div>
-        <div><strong>Срок / бюджет</strong><p>${selected.timeline} · ${selected.budget}</p></div>
+        <div><strong>Тип задачи</strong><p>${toText(selected.taskType)}</p></div>
+        <div><strong>Что сделали</strong><p>${toText(selected.solution)}</p></div>
+        <div><strong>Результат</strong><p>${toText(selected.result)}</p></div>
+        <div><strong>Срок / бюджет</strong><p>${timelineBudget}</p></div>
       </div>
-      <p class="modal-format"><strong>Формат результата:</strong> ${selected.output}</p>
+      <p class="modal-format"><strong>Формат результата:</strong> ${toText(selected.output)}</p>
     `;
 
     caseModal.showModal();
@@ -141,77 +160,70 @@ document.addEventListener('DOMContentLoaded', () => {
 
   renderCases();
 
-  const stories = {
-    pipeline: {
-      title: 'Pipeline: от входных данных до готового изделия',
-      subtitle: 'Интерактивный маршрут Step3D',
-      slides: [
-        { title: 'Scan / Input', text: 'Собираем исходные данные: скан, фото, CAD или физический образец.' },
-        { title: 'CAD / Reverse', text: 'Превращаем геометрию в чистую редактируемую инженерную модель.' },
-        { title: 'Prototype / Print', text: 'Выпускаем прототипы и малые серии с быстрыми итерациями.' },
-        { title: 'Validation / Delivery', text: 'Контроль параметров, передача файлов, деталей и инструкций.' },
-        {
-          title: 'Производственный обзор',
-          text: 'Видео-формат для презентации маршрута и команды.',
-          media: { type: 'video', src: 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4' },
-        },
-      ],
-    },
-    scan: {
-      title: '3D-сканирование',
-      subtitle: 'История направления',
-      slides: [
-        { title: 'Подготовка объекта', text: 'Фиксируем базу, метки и зоны критической точности.' },
-        { title: 'Съёмка геометрии', text: 'Многопроходное сканирование для плотного и чистого облака точек.' },
-        { title: 'Валидация', text: 'Проверяем отклонения и готовим результат под CAD/Reverse.' },
-      ],
-    },
-    cad: {
-      title: '3D-моделирование',
-      subtitle: 'История направления',
-      slides: [
-        { title: 'ТЗ и допуски', text: 'Фиксируем ограничения и монтажные зоны под реальные условия.' },
-        { title: 'Параметрическая сборка', text: 'Строим модель, которую можно безопасно править и масштабировать.' },
-        { title: 'Документация', text: 'Готовим STEP/STL и пакет для передачи в производство.' },
-      ],
-    },
-    reverse: {
-      title: 'Реверсивный инжиниринг',
-      subtitle: 'История направления',
-      slides: [
-        { title: 'Из облака в поверхность', text: 'Очищаем mesh и собираем точную геометрию под CAD-редактирование.' },
-        { title: 'Функциональные узлы', text: 'Восстанавливаем посадки, резьбы и монтажные базы.' },
-        { title: 'Проверка перед выпуском', text: 'Сравниваем модель с оригиналом и подтверждаем отклонения.' },
-      ],
-    },
-    print: {
-      title: '3D-печать',
-      subtitle: 'История направления',
-      slides: [
-        { title: 'Выбор технологии', text: 'Подбираем FDM/SLA/SLS под механику, бюджет и срок.' },
-        { title: 'Печать и постобработка', text: 'Стабильное качество слоёв и аккуратная финишная обработка.' },
-        { title: 'Контроль серии', text: 'Сверяем повторяемость между деталями и готовим отгрузку.' },
-      ],
-    },
-    prototype: {
-      title: 'Прототипирование',
-      subtitle: 'История направления',
-      slides: [
-        { title: 'Быстрый макет', text: 'Первый рабочий образец для проверки габаритов и логики сборки.' },
-        { title: 'Итерации', text: 'Корректируем форму и узлы до уверенного результата.' },
-        { title: 'Переход в серию', text: 'Фиксируем финальный вариант и маршрут выпуска.' },
-      ],
-    },
-    engineering: {
-      title: 'Инженерное сопровождение',
-      subtitle: 'История направления',
-      slides: [
-        { title: 'Маршрут проекта', text: 'Разбиваем задачу на этапы с контрольными точками.' },
-        { title: 'Координация команд', text: 'Сводим скан, CAD и производство в единую коммуникацию.' },
-        { title: 'Финальный пакет', text: 'Передаём результат в формате, готовом к внедрению.' },
-      ],
-    },
+  const normalizeStorySlide = (storyId, slide, slideIndex) => {
+    if (!slide || typeof slide !== 'object') {
+      console.warn(`[STEP3D_STORIES] Пропущен слайд ${slideIndex + 1} в истории "${storyId}": ожидается объект.`);
+      return null;
+    }
+
+    const title = toText(slide.title);
+    const text = toText(slide.text);
+
+    if (title === fallbackText || text === fallbackText) {
+      console.warn(`[STEP3D_STORIES] Пропущен слайд ${slideIndex + 1} в истории "${storyId}": обязательны поля title и text.`);
+      return null;
+    }
+
+    let media;
+    if (slide.media && typeof slide.media === 'object') {
+      const mediaType = toText(slide.media.type, '');
+      const mediaSrc = toText(slide.media.src, '');
+      if ((mediaType === 'image' || mediaType === 'video') && mediaSrc) {
+        media = { type: mediaType, src: mediaSrc };
+      } else {
+        console.warn(`[STEP3D_STORIES] Игнорируется media у слайда ${slideIndex + 1} истории "${storyId}": нужны type (image|video) и src.`);
+      }
+    }
+
+    return { title, text, media };
   };
+
+  const validateStories = (rawStories) => {
+    if (!Array.isArray(rawStories)) {
+      console.warn('[STEP3D_STORIES] Ожидался массив историй. Загружен пустой набор.');
+      return {};
+    }
+
+    return rawStories.reduce((acc, story, storyIndex) => {
+      if (!story || typeof story !== 'object') {
+        console.warn(`[STEP3D_STORIES] Пропущена запись #${storyIndex + 1}: ожидается объект.`);
+        return acc;
+      }
+
+      const id = toText(story.id, '');
+      const title = toText(story.title, '');
+      const slidesRaw = Array.isArray(story.slides) ? story.slides : [];
+      const slides = slidesRaw
+        .map((slide, slideIndex) => normalizeStorySlide(id || `#${storyIndex + 1}`, slide, slideIndex))
+        .filter(Boolean);
+
+      if (!id || !title || !slides.length) {
+        console.warn(`[STEP3D_STORIES] Пропущена история #${storyIndex + 1}: обязательны id/title и минимум один валидный слайд.`);
+        return acc;
+      }
+
+      acc[id] = {
+        id,
+        title,
+        subtitle: toText(story.subtitle, 'История направления'),
+        slides,
+      };
+      return acc;
+    }, {});
+  };
+
+  const stories = validateStories(window.STEP3D_STORIES);
+
 
   let storyState = null;
   let storyTimer = 0;
@@ -235,7 +247,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const currentStory = stories[storyState.storyId];
     if (!currentStory) return;
 
-    const slides = currentStory.slides;
+    const slides = Array.isArray(currentStory.slides) ? currentStory.slides : [];
+    if (!slides.length) return;
     const index = Math.max(0, Math.min(storyState.index, slides.length - 1));
     storyState.index = index;
     const slide = slides[index];
@@ -257,11 +270,11 @@ document.addEventListener('DOMContentLoaded', () => {
     storyModalContent.innerHTML = `
       <div class="story-viewer">
         <div class="story-progress" aria-hidden="true">${progressBars}</div>
-        <p class="case-type">${currentStory.subtitle}</p>
-        <h3 class="modal-title">${currentStory.title}</h3>
+        <p class="case-type">${toText(currentStory.subtitle, 'История направления')}</p>
+        <h3 class="modal-title">${toText(currentStory.title)}</h3>
         <article class="story-slide" data-slide="${index}">
-          <h4>${slide.title}</h4>
-          <p>${slide.text}</p>
+          <h4>${toText(slide.title)}</h4>
+          <p>${toText(slide.text)}</p>
           ${mediaMarkup}
         </article>
         <div class="story-controls">
