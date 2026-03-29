@@ -141,7 +141,7 @@
           <h1>Закрываем весь 3D-контур: от входных данных до готового изделия.</h1>
           <p class="lead">Один технический партнер на весь маршрут: сканирование, CAD, реверс, прототипирование, малые серии и инженерное сопровождение. Вы получаете предсказуемый результат без разрозненных подрядчиков.</p>
           <div class="actions">
-            <a class="btn btn-primary" href="#contact">Отправить задачу</a>
+            <button class="btn btn-primary" type="button" data-open-wizard="hero">Рассчитать маршрут проекта</button>
             <a class="btn btn-secondary" href="#cases">Посмотреть кейсы</a>
           </div>
           <div class="hero-chips" aria-label="Преимущества сотрудничества">
@@ -385,7 +385,100 @@
           <p>Заполните форму, и мы вернемся с первичной оценкой, техническим маршрутом и следующими шагами.</p>
         </div>
 
-        <form class="contact-form" id="contactForm" novalidate>
+        <div class="project-wizard" id="projectWizard" data-state="step-1">
+          <div class="wizard-head">
+            <p class="wizard-kicker">Мастер запуска</p>
+            <h3>Соберите вводные за 3 шага</h3>
+            <p class="wizard-step-label" id="wizardStepLabel">Шаг 1 из 3 · Тип задачи</p>
+          </div>
+          <div class="wizard-progress" aria-label="Прогресс мастера">
+            <div class="wizard-progress-bar" id="wizardProgressBar"></div>
+          </div>
+          <form class="wizard-form" id="projectWizardForm" novalidate>
+            <section class="wizard-step is-active" data-step="1" aria-label="Тип задачи">
+              <p class="wizard-step-title">Шаг 1. Выберите тип задачи</p>
+              <div class="wizard-task-grid" role="radiogroup" aria-label="Тип задачи">
+                <label class="wizard-task-option">
+                  <input type="radio" name="wizardType" value="scan" />
+                  <strong>3D-сканирование</strong>
+                  <span>Оцифровка геометрии, контроль и подготовка данных.</span>
+                </label>
+                <label class="wizard-task-option">
+                  <input type="radio" name="wizardType" value="reverse" />
+                  <strong>Реверс-инжиниринг</strong>
+                  <span>Восстановление CAD-модели и подготовка к производству.</span>
+                </label>
+                <label class="wizard-task-option">
+                  <input type="radio" name="wizardType" value="print" />
+                  <strong>3D-печать / серия</strong>
+                  <span>Изготовление функциональных деталей и малых серий.</span>
+                </label>
+                <label class="wizard-task-option">
+                  <input type="radio" name="wizardType" value="prototype" />
+                  <strong>Прототипирование</strong>
+                  <span>Проверка гипотез и быстрая инженерная итерация.</span>
+                </label>
+              </div>
+              <p class="wizard-error" id="wizardErrorStep1" hidden>Выберите тип задачи, чтобы перейти к релевантным кейсам.</p>
+            </section>
+
+            <section class="wizard-step" data-step="2" aria-label="Кейсы и ожидания">
+              <p class="wizard-step-title">Шаг 2. Подтвердите ожидания по срокам и результату</p>
+              <p class="wizard-muted">После выбора типа задачи ниже автоматически фильтруются релевантные кейсы.</p>
+              <div class="wizard-fields">
+                <label>Желаемый срок
+                  <select name="wizardTimeline" required>
+                    <option value="">Выберите ориентир</option>
+                    <option value="urgent">Срочно (до 7 дней)</option>
+                    <option value="standard">Стандартно (1–3 недели)</option>
+                    <option value="long">Долгий цикл (более 3 недель)</option>
+                  </select>
+                </label>
+                <label>Ожидаемый результат
+                  <select name="wizardOutcome" required>
+                    <option value="">Выберите формат результата</option>
+                    <option value="files">Инженерные файлы (STEP/STL/IGES)</option>
+                    <option value="physical">Физический прототип / деталь</option>
+                    <option value="full">Полный маршрут: от скана до изделия</option>
+                  </select>
+                </label>
+              </div>
+              <label>Контекст задачи
+                <textarea name="wizardTask" id="wizardTaskField" placeholder="Кратко: что нужно получить, какие ограничения и дедлайн." maxlength="700" required></textarea>
+                <small class="input-meta" id="wizardTaskCounter">0 / 700</small>
+              </label>
+              <p class="wizard-error" id="wizardErrorStep2" hidden>Уточните срок, результат и задачу (минимум 10 символов).</p>
+            </section>
+
+            <section class="wizard-step" data-step="3" aria-label="Контакты">
+              <p class="wizard-step-title">Шаг 3. Оставьте контакт для маршрута проекта</p>
+              <div class="wizard-fields">
+                <label>Имя и фамилия
+                  <input type="text" name="wizardName" placeholder="Например: Алексей Смирнов" required autocomplete="name" />
+                </label>
+                <label>Компания / роль
+                  <input type="text" name="wizardCompany" placeholder="Компания и должность" autocomplete="organization" />
+                </label>
+                <label>Контакт для связи
+                  <input type="text" name="wizardContact" placeholder="Телефон, email или Telegram" required autocomplete="email" />
+                </label>
+              </div>
+              <label class="checkbox-row">
+                <input type="checkbox" name="wizardConsent" required />
+                <span>Согласен(а) на обработку данных для обратной связи по заявке.</span>
+              </label>
+              <p class="wizard-error" id="wizardErrorStep3" hidden>Проверьте имя, контакт и согласие на обработку данных.</p>
+            </section>
+          </form>
+          <div class="wizard-footer" id="wizardFooter">
+            <button class="btn btn-secondary" type="button" id="wizardPrevBtn">Назад</button>
+            <button class="btn btn-primary" type="button" id="wizardNextBtn">Далее</button>
+          </div>
+          <div class="form-submit-status" id="wizardSubmitStatus" role="status" aria-live="polite" aria-atomic="true" hidden></div>
+          <button class="btn btn-secondary wizard-fallback-toggle" type="button" id="wizardFallbackToggle">Заполнить классическую форму</button>
+        </div>
+
+        <form class="contact-form is-fallback-hidden" id="contactForm" novalidate>
           <div class="form-progress full" aria-label="Заполненность формы">
             <div class="form-progress-bar" id="formProgressBar"></div>
           </div>

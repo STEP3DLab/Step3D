@@ -115,6 +115,37 @@
   .story-controls .btn {
     width: 100%;
   }
+
+  .project-wizard {
+    min-height: calc(100dvh - 120px);
+    border-radius: 18px;
+    padding-bottom: 96px;
+    position: relative;
+  }
+
+  .wizard-task-grid,
+  .wizard-fields {
+    grid-template-columns: 1fr;
+  }
+
+  .wizard-footer {
+    position: fixed;
+    left: 12px;
+    right: 12px;
+    bottom: 10px;
+    z-index: 150;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    background: color-mix(in srgb, var(--surface) 94%, transparent);
+    padding: 10px;
+    box-shadow: var(--shadow-lg);
+  }
+
+  .wizard-footer .btn {
+    flex: 1;
+    min-height: 46px;
+    min-width: 0;
+  }
 }
 
 /* Мобильные 430 / 390 / 360 */
