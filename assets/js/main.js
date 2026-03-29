@@ -121,9 +121,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const caseModal = document.getElementById('caseModal');
   const caseModalContent = document.getElementById('caseModalContent');
   const caseModalClose = document.getElementById('caseModalClose');
+  const caseDetail = document.getElementById('caseDetail');
   const cases = Array.isArray(window.STEP3D_CASES) ? window.STEP3D_CASES : [];
   const fallbackText = 'По запросу';
   const toText = (value) => (typeof value === 'string' && value.trim().length ? value.trim() : fallbackText);
+  const baseTitle = document.title;
+  const canonicalLink = document.querySelector('link[rel="canonical"]');
 
   const renderCaseCard = (item) => {
     const card = document.createElement('article');
@@ -135,7 +138,7 @@ document.addEventListener('DOMContentLoaded', () => {
       </div>
       <h3>${toText(item.title)}</h3>
       <p>${toText(item.problem)}</p>
-      <button class="case-link" data-case-id="${item.id}" type="button">Открыть кейс →</button>
+      <a class="case-link" data-case-id="${item.id}" href="?case=${encodeURIComponent(item.id)}#cases">Открыть кейс →</a>
     `;
     return card;
   };
@@ -164,26 +167,51 @@ document.addEventListener('DOMContentLoaded', () => {
     filtered.forEach((item) => caseGrid.appendChild(renderCaseCard(item)));
   };
 
-  const openCaseModal = (caseId) => {
+  const renderCaseDetail = (caseId, pushState = true) => {
     const selected = cases.find((item) => item.id === caseId);
-    if (!selected || !caseModal || !caseModalContent) return;
+    if (!selected || !caseDetail) return;
 
     const timeline = toText(selected.timeline);
     const budget = toText(selected.budget);
 
-    caseModalContent.innerHTML = `
+    caseDetail.hidden = false;
+    caseDetail.innerHTML = `
       <h3>${toText(selected.title)}</h3>
       <p>${toText(selected.problem)}</p>
       <div class="modal-grid">
         <div><strong>Тип задачи</strong><p>${toText(selected.taskType)}</p></div>
         <div><strong>Что сделали</strong><p>${toText(selected.solution)}</p></div>
         <div><strong>Результат</strong><p>${toText(selected.result)}</p></div>
+        <div><strong>Галерея</strong><p>${toText(selected.gallery)}</p></div>
         <div><strong>Срок / бюджет</strong><p>${timeline} · ${budget}</p></div>
+        <div><strong>Выходной результат</strong><p>${toText(selected.output)}</p></div>
       </div>
+      <p><a class="btn btn-secondary" href="#contact">Обсудить похожий проект</a></p>
     `;
 
-    caseModal.showModal();
-    body.classList.add('modal-open');
+    const nextUrl = `${window.location.pathname}?case=${encodeURIComponent(caseId)}#cases`;
+    if (pushState) {
+      window.history.pushState({ caseId }, '', nextUrl);
+    }
+    document.title = `${toText(selected.title)} — кейс Step3D`;
+    if (canonicalLink instanceof HTMLLinkElement) {
+      canonicalLink.href = `${window.location.origin}${nextUrl}`;
+    }
+    caseDetail.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+
+  const clearCaseDetail = (pushState = true) => {
+    if (caseDetail) {
+      caseDetail.hidden = true;
+      caseDetail.innerHTML = '';
+    }
+    document.title = baseTitle;
+    if (canonicalLink instanceof HTMLLinkElement) {
+      canonicalLink.href = `${window.location.origin}${window.location.pathname}`;
+    }
+    if (pushState) {
+      window.history.pushState({}, '', `${window.location.pathname}#cases`);
+    }
   };
 
   let activeCaseFilter = 'all';
@@ -205,7 +233,8 @@ document.addEventListener('DOMContentLoaded', () => {
   caseGrid?.addEventListener('click', (event) => {
     const target = event.target;
     if (target instanceof HTMLElement && target.matches('.case-link')) {
-      openCaseModal(target.dataset.caseId || '');
+      event.preventDefault();
+      renderCaseDetail(target.dataset.caseId || '');
     }
   });
 
@@ -224,6 +253,20 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   renderCases();
+
+  const initialCaseId = new URLSearchParams(window.location.search).get('case');
+  if (initialCaseId) {
+    renderCaseDetail(initialCaseId, false);
+  }
+
+  window.addEventListener('popstate', () => {
+    const caseId = new URLSearchParams(window.location.search).get('case');
+    if (caseId) {
+      renderCaseDetail(caseId, false);
+    } else {
+      clearCaseDetail(false);
+    }
+  });
 
   toTopBtn?.addEventListener('click', () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
