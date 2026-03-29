@@ -25,16 +25,20 @@ if (!canvas || !stage || !dimensionsBox) {
   const camera = new THREE.PerspectiveCamera(36, 1, 0.01, 2000);
   camera.position.set(0, 0, 130);
 
-  const hemi = new THREE.HemisphereLight(0x9ab9ff, 0x121821, 0.85);
+  const hemi = new THREE.HemisphereLight(0xa5c4ff, 0x101827, 1.05);
   scene.add(hemi);
 
-  const keyLight = new THREE.DirectionalLight(0xffffff, 1.2);
+  const keyLight = new THREE.DirectionalLight(0xffffff, 1.35);
   keyLight.position.set(120, 90, 100);
   scene.add(keyLight);
 
-  const fillLight = new THREE.DirectionalLight(0x7fb7ff, 0.56);
+  const fillLight = new THREE.DirectionalLight(0x7fb7ff, 0.62);
   fillLight.position.set(-100, -40, 70);
   scene.add(fillLight);
+
+  const rimLight = new THREE.DirectionalLight(0x8fd7ff, 0.3);
+  rimLight.position.set(20, 20, -120);
+  scene.add(rimLight);
 
   const grid = new THREE.GridHelper(180, 8, 0x2f4f6f, 0x223347);
   grid.material.opacity = 0.25;
@@ -44,14 +48,16 @@ if (!canvas || !stage || !dimensionsBox) {
 
   const material = new THREE.MeshPhysicalMaterial({
     color: 0x9ec8ff,
-    metalness: 0.24,
-    roughness: 0.36,
-    clearcoat: 0.3,
-    clearcoatRoughness: 0.35,
+    metalness: 0.16,
+    roughness: 0.34,
+    clearcoat: 0.36,
+    clearcoatRoughness: 0.32,
+    side: THREE.DoubleSide,
   });
 
   let mesh = null;
   let rafId = 0;
+  let fitDistance = 130;
 
   const formatMM = (value) => `${Math.round(value).toLocaleString('ru-RU')} мм`;
 
@@ -76,12 +82,12 @@ if (!canvas || !stage || !dimensionsBox) {
 
     const maxSize = Math.max(size.x, size.y, size.z);
     const fitHeightDistance = maxSize / (2 * Math.tan((Math.PI * camera.fov) / 360));
-    const fitWidthDistance = fitHeightDistance / camera.aspect;
-    const distance = Math.max(fitHeightDistance, fitWidthDistance) * 1.38;
+    const fitWidthDistance = fitHeightDistance / Math.max(camera.aspect, 0.5);
+    fitDistance = Math.max(fitHeightDistance, fitWidthDistance) * 1.34;
 
-    camera.position.set(distance * 0.35, distance * 0.2, distance);
-    camera.near = Math.max(distance / 100, 0.01);
-    camera.far = distance * 100;
+    camera.position.set(fitDistance * 0.34, fitDistance * 0.18, fitDistance);
+    camera.near = Math.max(fitDistance / 120, 0.01);
+    camera.far = fitDistance * 100;
     camera.lookAt(0, 0, 0);
     camera.updateProjectionMatrix();
   };
@@ -96,36 +102,53 @@ if (!canvas || !stage || !dimensionsBox) {
 
   const animate = () => {
     if (mesh && !lowMotion) {
+      const t = performance.now();
       mesh.rotation.y += 0.0038;
-      mesh.rotation.x = Math.sin(performance.now() * 0.00025) * 0.06;
+      mesh.rotation.x = Math.sin(t * 0.00022) * 0.06;
+      camera.position.x = Math.sin(t * 0.00012) * (fitDistance * 0.03) + (fitDistance * 0.34);
+      camera.lookAt(0, 0, 0);
     }
     renderer.render(scene, camera);
     rafId = window.requestAnimationFrame(animate);
   };
 
   const loader = new STLLoader();
-  const modelUrl = new URL('../Meshy_AI_Polar Sage_1774654464_texture.stl', import.meta.url);
 
-  loader.load(
-    modelUrl.href,
-    (geometry) => {
-      geometry.computeVertexNormals();
-      geometry.center();
-      mesh = new THREE.Mesh(geometry, material);
-      mesh.castShadow = false;
-      mesh.receiveShadow = false;
-      scene.add(mesh);
-      onResize();
-      fitCameraToObject(mesh);
-      animate();
-    },
-    undefined,
-    (error) => {
-      stage.classList.add('model-stage--error');
-      // eslint-disable-next-line no-console
-      console.error('Не удалось загрузить 3D-модель:', modelUrl.href, error);
-    },
-  );
+  const modelFilename = 'Meshy_AI_Polar Sage_1774654464_texture.stl';
+  const modelCandidates = [
+    new URL(`../${modelFilename}`, import.meta.url).href,
+    new URL(`assets/${modelFilename}`, document.baseURI).href,
+  ];
+
+  const loadModel = async () => {
+    for (const modelUrl of modelCandidates) {
+      try {
+        // eslint-disable-next-line no-await-in-loop
+        const geometry = await loader.loadAsync(modelUrl);
+        geometry.computeBoundingBox();
+        geometry.computeVertexNormals();
+        geometry.center();
+        mesh = new THREE.Mesh(geometry, material);
+        mesh.castShadow = false;
+        mesh.receiveShadow = false;
+        scene.add(mesh);
+        stage.classList.remove('model-stage--error');
+        onResize();
+        fitCameraToObject(mesh);
+        animate();
+        return;
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.warn('Не удалось загрузить 3D-модель по пути:', modelUrl, error);
+      }
+    }
+
+    stage.classList.add('model-stage--error');
+    // eslint-disable-next-line no-console
+    console.error('Не удалось загрузить 3D-модель. Проверены пути:', modelCandidates.join(', '));
+  };
+
+  loadModel();
 
   const resizeObserver = new ResizeObserver(() => {
     onResize();
