@@ -59,6 +59,11 @@
             <a class="btn btn-primary" href="#contact">Отправить задачу</a>
             <a class="btn btn-secondary" href="#cases">Посмотреть кейсы</a>
           </div>
+          <div class="hero-chips" aria-label="Преимущества сотрудничества">
+            <span class="chip">Ответ в течение 24 часов</span>
+            <span class="chip">NDA по запросу</span>
+            <span class="chip">Прозрачные этапы и отчётность</span>
+          </div>
           <ul class="hero-metrics" aria-label="Ключевые показатели">
             <li><strong>24–48 часов</strong><span>первичная оценка и старт работ</span></li>
             <li><strong>до ±0.03 мм</strong><span>точность по критическим зонам</span></li>
@@ -155,6 +160,11 @@
           <button class="filter-btn" data-filter="prototype" role="tab" aria-selected="false">Прототипы</button>
         </div>
 
+        <div class="cases-toolbar">
+          <label class="case-search-label" for="caseSearch">Поиск по кейсам</label>
+          <input id="caseSearch" class="case-search" type="search" placeholder="Например: медицина, оснастка, сканирование" aria-label="Поиск по кейсам" />
+          <p class="cases-count" id="casesCount" aria-live="polite"></p>
+        </div>
         <div class="cards two" id="caseGrid" aria-live="polite"></div>
       </div>
     </section>
@@ -179,6 +189,10 @@
         <div class="title-row">
           <h2>FAQ</h2>
           <p>Частые вопросы перед стартом проекта.</p>
+        </div>
+        <div class="faq-controls">
+          <button class="btn btn-secondary" type="button" id="faqExpandAll">Раскрыть все</button>
+          <button class="btn btn-secondary" type="button" id="faqCollapseAll">Свернуть все</button>
         </div>
         <div class="faq-list">
           <article class="faq-item">
@@ -219,6 +233,10 @@
         </div>
 
         <form class="contact-form" id="contactForm" novalidate>
+          <div class="form-progress full" aria-label="Заполненность формы">
+            <div class="form-progress-bar" id="formProgressBar"></div>
+          </div>
+          <p class="form-progress-text full" id="formProgressText">Заполнено 0% обязательных полей</p>
           <label>Имя и фамилия
             <input type="text" name="name" placeholder="Например: Алексей Смирнов" required autocomplete="name" />
           </label>
@@ -240,10 +258,12 @@
             </select>
           </label>
           <label class="full">Описание задачи
-            <textarea name="task" placeholder="Что нужно получить, в какие сроки и какие ограничения критичны" required></textarea>
+            <textarea name="task" id="taskField" placeholder="Что нужно получить, в какие сроки и какие ограничения критичны" required maxlength="1200"></textarea>
+            <small class="input-meta" id="taskCounter">0 / 1200</small>
           </label>
           <label class="full">Файлы проекта (опционально)
-            <input type="file" name="attachments" multiple />
+            <input type="file" name="attachments" id="fileInput" multiple />
+            <small class="input-meta" id="fileSummary">Файлы не выбраны</small>
           </label>
           <label class="full checkbox-row">
             <input type="checkbox" name="consent" required />
@@ -297,6 +317,9 @@
       <div id="caseModalContent"></div>
     </article>
   </dialog>
+
+  <a class="quick-contact" href="#contact" aria-label="Быстрая заявка">Быстрая заявка</a>
+  <button class="to-top" id="toTopBtn" type="button" aria-label="Вернуться наверх">↑</button>
 
   <script src="assets/js/cases.js" defer></script>
   <script src="assets/js/stories.js" defer></script>

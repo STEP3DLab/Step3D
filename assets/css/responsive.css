@@ -173,3 +173,20 @@
     padding: 0 16px 16px;
   }
 }
+
+@media (max-width: 620px) {
+  .faq-controls .btn {
+    width: 100%;
+  }
+
+  .quick-contact {
+    left: 12px;
+    right: 12px;
+    justify-content: center;
+  }
+
+  .to-top {
+    right: 12px;
+    bottom: 76px;
+  }
+}
