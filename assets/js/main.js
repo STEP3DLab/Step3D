@@ -8,6 +8,19 @@ document.addEventListener('DOMContentLoaded', () => {
   const navLinks = [...document.querySelectorAll('.nav a')];
   const sections = [...document.querySelectorAll('main section[id]')];
 
+  const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const getLowPowerMode = () => {
+    const memory = navigator.deviceMemory || 0;
+    const cpu = navigator.hardwareConcurrency || 0;
+    return motionQuery.matches || (memory > 0 && memory <= 4) || (cpu > 0 && cpu <= 4);
+  };
+  const applyPerformanceMode = () => {
+    body.classList.toggle('is-low-motion', getLowPowerMode());
+  };
+
+  applyPerformanceMode();
+  motionQuery.addEventListener?.('change', applyPerformanceMode);
+
   const applyTheme = (theme) => {
     root.setAttribute('data-theme', theme);
     localStorage.setItem('step3d-theme', theme);
@@ -66,29 +79,103 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const toTopBtn = document.getElementById('toTopBtn');
 
-  const onScroll = () => {
-    const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-    if (progress) {
-      progress.style.width = `${maxScroll > 0 ? (window.scrollY / maxScroll) * 100 : 0}%`;
-    }
-    toTopBtn?.classList.toggle('is-visible', window.scrollY > 560);
+  let activeId = sections[0]?.id || '';
 
-    let activeId = '';
-    sections.forEach((section) => {
-      if (section.getBoundingClientRect().top <= 140) {
-        activeId = section.id;
-      }
-    });
-
+  const setActiveNavLink = (id) => {
     navLinks.forEach((link) => {
-      const isCurrent = link.getAttribute('href') === `#${activeId}`;
+      const isCurrent = !!id && link.getAttribute('href') === `#${id}`;
       link.classList.toggle('is-active', isCurrent);
       link.setAttribute('aria-current', isCurrent ? 'page' : 'false');
     });
   };
 
-  window.addEventListener('scroll', onScroll, { passive: true });
-  onScroll();
+  const updateScrollProgress = () => {
+    if (!progress) return;
+    const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+    progress.style.width = `${maxScroll > 0 ? (window.scrollY / maxScroll) * 100 : 0}%`;
+  };
+
+  const onScrollShared = () => {
+    updateScrollProgress();
+    toTopBtn?.classList.toggle('is-visible', window.scrollY > 560);
+  };
+
+  let scrollTicking = false;
+  const onScroll = () => {
+    if (scrollTicking) return;
+    scrollTicking = true;
+    window.requestAnimationFrame(() => {
+      onScrollShared();
+      scrollTicking = false;
+    });
+  };
+
+  if ('IntersectionObserver' in window && sections.length) {
+    const sectionPositions = new Map(sections.map((section, index) => [section.id, index]));
+    const intersectionState = new Map();
+
+    const sectionObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          const id = entry.target.id;
+          if (!id) return;
+          if (entry.isIntersecting) {
+            intersectionState.set(id, entry.intersectionRatio);
+          } else {
+            intersectionState.delete(id);
+          }
+        });
+
+        const nextId = [...intersectionState.entries()]
+          .sort((a, b) => {
+            if (b[1] !== a[1]) return b[1] - a[1];
+            return (sectionPositions.get(a[0]) ?? 0) - (sectionPositions.get(b[0]) ?? 0);
+          })[0]?.[0];
+
+        if (nextId && nextId !== activeId) {
+          activeId = nextId;
+          setActiveNavLink(activeId);
+        }
+      },
+      {
+        rootMargin: '-35% 0px -45% 0px',
+        threshold: [0.1, 0.25, 0.5, 0.75],
+      },
+    );
+
+    sections.forEach((section) => sectionObserver.observe(section));
+  } else {
+    const updateActiveFromScroll = () => {
+      let nextActiveId = '';
+      sections.forEach((section) => {
+        if (section.getBoundingClientRect().top <= 140) {
+          nextActiveId = section.id;
+        }
+      });
+      if (nextActiveId !== activeId) {
+        activeId = nextActiveId;
+        setActiveNavLink(activeId);
+      }
+    };
+
+    window.addEventListener(
+      'scroll',
+      () => {
+        onScroll();
+        updateActiveFromScroll();
+      },
+      { passive: true },
+    );
+
+    updateActiveFromScroll();
+  }
+
+  if ('IntersectionObserver' in window && sections.length) {
+    window.addEventListener('scroll', onScroll, { passive: true });
+    setActiveNavLink(activeId);
+  }
+
+  onScrollShared();
 
   const faqItems = [...document.querySelectorAll('.faq-item')];
   const faqExpandAll = document.getElementById('faqExpandAll');
@@ -121,9 +208,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const caseModal = document.getElementById('caseModal');
   const caseModalContent = document.getElementById('caseModalContent');
   const caseModalClose = document.getElementById('caseModalClose');
+  const caseDetail = document.getElementById('caseDetail');
   const cases = Array.isArray(window.STEP3D_CASES) ? window.STEP3D_CASES : [];
   const fallbackText = 'По запросу';
   const toText = (value) => (typeof value === 'string' && value.trim().length ? value.trim() : fallbackText);
+  const baseTitle = document.title;
+  const canonicalLink = document.querySelector('link[rel="canonical"]');
 
   const renderCaseCard = (item) => {
     const card = document.createElement('article');
@@ -135,7 +225,7 @@ document.addEventListener('DOMContentLoaded', () => {
       </div>
       <h3>${toText(item.title)}</h3>
       <p>${toText(item.problem)}</p>
-      <button class="case-link" data-case-id="${item.id}" type="button">Открыть кейс →</button>
+      <a class="case-link" data-case-id="${item.id}" href="?case=${encodeURIComponent(item.id)}#cases">Открыть кейс →</a>
     `;
     return card;
   };
@@ -164,26 +254,51 @@ document.addEventListener('DOMContentLoaded', () => {
     filtered.forEach((item) => caseGrid.appendChild(renderCaseCard(item)));
   };
 
-  const openCaseModal = (caseId) => {
+  const renderCaseDetail = (caseId, pushState = true) => {
     const selected = cases.find((item) => item.id === caseId);
-    if (!selected || !caseModal || !caseModalContent) return;
+    if (!selected || !caseDetail) return;
 
     const timeline = toText(selected.timeline);
     const budget = toText(selected.budget);
 
-    caseModalContent.innerHTML = `
+    caseDetail.hidden = false;
+    caseDetail.innerHTML = `
       <h3>${toText(selected.title)}</h3>
       <p>${toText(selected.problem)}</p>
       <div class="modal-grid">
         <div><strong>Тип задачи</strong><p>${toText(selected.taskType)}</p></div>
         <div><strong>Что сделали</strong><p>${toText(selected.solution)}</p></div>
         <div><strong>Результат</strong><p>${toText(selected.result)}</p></div>
+        <div><strong>Галерея</strong><p>${toText(selected.gallery)}</p></div>
         <div><strong>Срок / бюджет</strong><p>${timeline} · ${budget}</p></div>
+        <div><strong>Выходной результат</strong><p>${toText(selected.output)}</p></div>
       </div>
+      <p><a class="btn btn-secondary" href="#contact">Обсудить похожий проект</a></p>
     `;
 
-    caseModal.showModal();
-    body.classList.add('modal-open');
+    const nextUrl = `${window.location.pathname}?case=${encodeURIComponent(caseId)}#cases`;
+    if (pushState) {
+      window.history.pushState({ caseId }, '', nextUrl);
+    }
+    document.title = `${toText(selected.title)} — кейс Step3D`;
+    if (canonicalLink instanceof HTMLLinkElement) {
+      canonicalLink.href = `${window.location.origin}${nextUrl}`;
+    }
+    caseDetail.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+
+  const clearCaseDetail = (pushState = true) => {
+    if (caseDetail) {
+      caseDetail.hidden = true;
+      caseDetail.innerHTML = '';
+    }
+    document.title = baseTitle;
+    if (canonicalLink instanceof HTMLLinkElement) {
+      canonicalLink.href = `${window.location.origin}${window.location.pathname}`;
+    }
+    if (pushState) {
+      window.history.pushState({}, '', `${window.location.pathname}#cases`);
+    }
   };
 
   let activeCaseFilter = 'all';
@@ -205,7 +320,8 @@ document.addEventListener('DOMContentLoaded', () => {
   caseGrid?.addEventListener('click', (event) => {
     const target = event.target;
     if (target instanceof HTMLElement && target.matches('.case-link')) {
-      openCaseModal(target.dataset.caseId || '');
+      event.preventDefault();
+      renderCaseDetail(target.dataset.caseId || '');
     }
   });
 
@@ -224,6 +340,20 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   renderCases();
+
+  const initialCaseId = new URLSearchParams(window.location.search).get('case');
+  if (initialCaseId) {
+    renderCaseDetail(initialCaseId, false);
+  }
+
+  window.addEventListener('popstate', () => {
+    const caseId = new URLSearchParams(window.location.search).get('case');
+    if (caseId) {
+      renderCaseDetail(caseId, false);
+    } else {
+      clearCaseDetail(false);
+    }
+  });
 
   toTopBtn?.addEventListener('click', () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
