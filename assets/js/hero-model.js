@@ -104,8 +104,10 @@ if (!canvas || !stage || !dimensionsBox) {
   };
 
   const loader = new STLLoader();
+  const modelUrl = new URL('../Meshy_AI_Polar Sage_1774654464_texture.stl', import.meta.url);
+
   loader.load(
-    'assets/Meshy_AI_Polar Sage_1774654464_texture.stl',
+    modelUrl.href,
     (geometry) => {
       geometry.computeVertexNormals();
       geometry.center();
@@ -118,8 +120,10 @@ if (!canvas || !stage || !dimensionsBox) {
       animate();
     },
     undefined,
-    () => {
+    (error) => {
       stage.classList.add('model-stage--error');
+      // eslint-disable-next-line no-console
+      console.error('Не удалось загрузить 3D-модель:', modelUrl.href, error);
     },
   );
 
