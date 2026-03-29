@@ -2,7 +2,7 @@
   position: sticky;
   top: 0;
   z-index: 100;
-  background: rgba(11, 18, 32, 0.83);
+  background: color-mix(in srgb, var(--bg) 88%, transparent);
   border-bottom: 1px solid var(--line);
   backdrop-filter: blur(10px);
 }
@@ -65,6 +65,15 @@
   color: var(--text);
 }
 
+.theme-toggle {
+  min-height: 40px;
+  padding: 0 12px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--text);
+}
+
 .scroll-progress {
   height: 2px;
   width: 0;
@@ -95,6 +104,7 @@ select:focus-visible,
 .faq-btn:focus-visible,
 .case-link:focus-visible,
 .menu-toggle:focus-visible,
+.theme-toggle:focus-visible,
 .modal-close:focus-visible {
   outline: 2px solid var(--accent-strong);
   outline-offset: 2px;
@@ -661,7 +671,7 @@ textarea {
   border: 1px solid var(--line);
   border-radius: var(--radius-lg);
   padding: 0;
-  background: rgba(10, 18, 32, 0.96);
+  background: color-mix(in srgb, var(--bg) 96%, transparent);
   color: var(--text);
 }
 
