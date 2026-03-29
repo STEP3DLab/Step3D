@@ -110,6 +110,15 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   };
 
+  const hydrateActiveStoryMedia = () => {
+    const video = storyStage.querySelector('.story-media[data-src]');
+    if (!(video instanceof HTMLVideoElement)) return;
+    const src = video.dataset.src;
+    if (!src || video.getAttribute('src')) return;
+    video.src = src;
+    video.load();
+  };
+
   const renderStoryStage = () => {
     const story = getStoryById(activeStoryId);
     const slides = story.slides || [];
@@ -118,7 +127,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!slide) return;
 
     const mediaHTML = slide.media?.type === 'video'
-      ? `<video class="story-media" controls preload="metadata" src="${slide.media.src}"></video>`
+      ? `<video class="story-media" controls preload="none" data-src="${slide.media.src}" playsinline></video>`
       : `
       <div class="story-graphic" aria-hidden="true">
         <span class="story-graphic-ring"></span>
@@ -162,6 +171,17 @@ document.addEventListener('DOMContentLoaded', () => {
   setActiveStoryButton();
   renderStoryStage();
 
+  if ('IntersectionObserver' in window) {
+    const storyObserver = new IntersectionObserver((entries) => {
+      if (entries.some((entry) => entry.isIntersecting)) {
+        hydrateActiveStoryMedia();
+      }
+    }, { rootMargin: '160px 0px' });
+    storyObserver.observe(storyStage);
+  } else {
+    hydrateActiveStoryMedia();
+  }
+
   storyList.addEventListener('click', (event) => {
     const target = event.target;
     if (!(target instanceof HTMLElement)) return;
@@ -171,6 +191,7 @@ document.addEventListener('DOMContentLoaded', () => {
     activeSlideIndex = 0;
     setActiveStoryButton();
     renderStoryStage();
+    hydrateActiveStoryMedia();
   });
 
   storyStage.addEventListener('click', (event) => {
@@ -182,11 +203,13 @@ document.addEventListener('DOMContentLoaded', () => {
     if (target.closest('.story-prev')) {
       activeSlideIndex = Math.max(activeSlideIndex - 1, 0);
       renderStoryStage();
+      hydrateActiveStoryMedia();
       return;
     }
     if (target.closest('.story-next')) {
       activeSlideIndex = Math.min(activeSlideIndex + 1, maxIndex);
       renderStoryStage();
+      hydrateActiveStoryMedia();
       return;
     }
 
@@ -195,6 +218,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const parsedIndex = Number.parseInt(step.dataset.stepIndex || '0', 10);
       activeSlideIndex = Number.isNaN(parsedIndex) ? 0 : Math.max(0, Math.min(parsedIndex, maxIndex));
       renderStoryStage();
+      hydrateActiveStoryMedia();
     }
   });
 });
