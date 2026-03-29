@@ -31,7 +31,8 @@ jobs:
       - name: Prepare Pages artifact
         run: |
           mkdir -p dist
-          cp -R index.html assets content dist/
+          cp -R index.html assets dist/
+          if [ -d content ]; then cp -R content dist/; fi
           touch dist/.nojekyll
 
       - name: Upload Pages artifact
