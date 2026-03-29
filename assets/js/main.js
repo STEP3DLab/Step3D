@@ -64,11 +64,14 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  const toTopBtn = document.getElementById('toTopBtn');
+
   const onScroll = () => {
     const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
     if (progress) {
       progress.style.width = `${maxScroll > 0 ? (window.scrollY / maxScroll) * 100 : 0}%`;
     }
+    toTopBtn?.classList.toggle('is-visible', window.scrollY > 560);
 
     let activeId = '';
     sections.forEach((section) => {
@@ -87,19 +90,30 @@ document.addEventListener('DOMContentLoaded', () => {
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
 
-  document.querySelectorAll('.faq-item').forEach((item) => {
+  const faqItems = [...document.querySelectorAll('.faq-item')];
+  const faqExpandAll = document.getElementById('faqExpandAll');
+  const faqCollapseAll = document.getElementById('faqCollapseAll');
+
+  faqItems.forEach((item) => {
     const button = item.querySelector('.faq-btn');
     button?.addEventListener('click', () => {
       const willOpen = !item.classList.contains('is-open');
-      document.querySelectorAll('.faq-item').forEach((other) => {
-        other.classList.remove('is-open');
-        other.querySelector('.faq-btn')?.setAttribute('aria-expanded', 'false');
-      });
+      item.classList.toggle('is-open', willOpen);
+      button.setAttribute('aria-expanded', String(willOpen));
+    });
+  });
 
-      if (willOpen) {
-        item.classList.add('is-open');
-        button.setAttribute('aria-expanded', 'true');
-      }
+  faqExpandAll?.addEventListener('click', () => {
+    faqItems.forEach((item) => {
+      item.classList.add('is-open');
+      item.querySelector('.faq-btn')?.setAttribute('aria-expanded', 'true');
+    });
+  });
+
+  faqCollapseAll?.addEventListener('click', () => {
+    faqItems.forEach((item) => {
+      item.classList.remove('is-open');
+      item.querySelector('.faq-btn')?.setAttribute('aria-expanded', 'false');
     });
   });
 
@@ -126,10 +140,21 @@ document.addEventListener('DOMContentLoaded', () => {
     return card;
   };
 
-  const renderCases = (filter = 'all') => {
+  const caseSearch = document.getElementById('caseSearch');
+  const casesCount = document.getElementById('casesCount');
+
+  const renderCases = (filter = 'all', query = '') => {
     if (!caseGrid) return;
     caseGrid.innerHTML = '';
-    const filtered = filter === 'all' ? cases : cases.filter((item) => Array.isArray(item.type) && item.type.includes(filter));
+    const filteredByType = filter === 'all' ? cases : cases.filter((item) => Array.isArray(item.type) && item.type.includes(filter));
+    const normalizedQuery = query.trim().toLowerCase();
+    const filtered = normalizedQuery
+      ? filteredByType.filter((item) => [item.title, item.problem, item.solution, item.result, item.taskType, item.categoryLabel].join(' ').toLowerCase().includes(normalizedQuery))
+      : filteredByType;
+
+    if (casesCount) {
+      casesCount.textContent = `Найдено кейсов: ${filtered.length}`;
+    }
 
     if (!filtered.length) {
       caseGrid.innerHTML = '<article class="card"><h3>Нет кейсов в этой категории</h3><p>Выберите другой фильтр или отправьте задачу — подберем релевантные примеры.</p></article>';
@@ -161,16 +186,19 @@ document.addEventListener('DOMContentLoaded', () => {
     body.classList.add('modal-open');
   };
 
+  let activeCaseFilter = 'all';
+
   document.querySelectorAll('.filter-btn').forEach((button) => {
     button.addEventListener('click', () => {
       const filter = button.dataset.filter || 'all';
+      activeCaseFilter = filter;
       document.querySelectorAll('.filter-btn').forEach((item) => {
         item.classList.remove('is-active');
         item.setAttribute('aria-selected', 'false');
       });
       button.classList.add('is-active');
       button.setAttribute('aria-selected', 'true');
-      renderCases(filter);
+      renderCases(filter, caseSearch instanceof HTMLInputElement ? caseSearch.value : '');
     });
   });
 
@@ -179,6 +207,10 @@ document.addEventListener('DOMContentLoaded', () => {
     if (target instanceof HTMLElement && target.matches('.case-link')) {
       openCaseModal(target.dataset.caseId || '');
     }
+  });
+
+  caseSearch?.addEventListener('input', () => {
+    renderCases(activeCaseFilter, caseSearch instanceof HTMLInputElement ? caseSearch.value : '');
   });
 
   const closeCaseModal = () => {
@@ -193,13 +225,63 @@ document.addEventListener('DOMContentLoaded', () => {
 
   renderCases();
 
+  toTopBtn?.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
   const contactForm = document.getElementById('contactForm');
   const contactFormStatus = document.getElementById('contactFormStatus');
   const submitButton = contactForm?.querySelector('button[type="submit"]');
+  const taskField = document.getElementById('taskField');
+  const taskCounter = document.getElementById('taskCounter');
+  const fileInput = document.getElementById('fileInput');
+  const fileSummary = document.getElementById('fileSummary');
+  const formProgressBar = document.getElementById('formProgressBar');
+  const formProgressText = document.getElementById('formProgressText');
 
   const normalizeSpaces = (value) => value.replace(/\s+/g, ' ').trim();
   const normalizeTask = (value) => value.replace(/\r\n/g, '\n').split('\n').map((line) => line.trim()).filter(Boolean).join('\n');
   const validateRequired = (value, minLength = 2) => value.length >= minLength;
+
+
+  const updateTaskCounter = () => {
+    if (!(taskField instanceof HTMLTextAreaElement) || !taskCounter) return;
+    taskCounter.textContent = `${taskField.value.length} / ${taskField.maxLength || 1200}`;
+  };
+
+  const updateFileSummary = () => {
+    if (!(fileInput instanceof HTMLInputElement) || !fileSummary) return;
+    const total = fileInput.files?.length || 0;
+    fileSummary.textContent = total ? `Выбрано файлов: ${total}` : 'Файлы не выбраны';
+  };
+
+  const setFieldValidityState = (field, valid) => {
+    if (!(field instanceof HTMLElement)) return;
+    field.classList.toggle('is-invalid', !valid);
+    field.setAttribute('aria-invalid', String(!valid));
+  };
+
+  const updateFormProgress = () => {
+    if (!contactForm || !formProgressBar || !formProgressText) return;
+    const requiredFields = [...contactForm.querySelectorAll('[required]')];
+    const completed = requiredFields.filter((field) => {
+      if (field instanceof HTMLInputElement && field.type === 'checkbox') return field.checked;
+      return String(field.value || '').trim().length > 0;
+    }).length;
+    const percent = requiredFields.length ? Math.round((completed / requiredFields.length) * 100) : 0;
+    formProgressBar.style.width = `${percent}%`;
+    formProgressText.textContent = `Заполнено ${percent}% обязательных полей`;
+  };
+
+  taskField?.addEventListener('input', updateTaskCounter);
+  fileInput?.addEventListener('change', updateFileSummary);
+
+  contactForm?.addEventListener('input', updateFormProgress);
+  contactForm?.addEventListener('change', updateFormProgress);
+
+  updateTaskCounter();
+  updateFileSummary();
+  updateFormProgress();
 
   const setSubmitState = (state, message) => {
     if (!contactFormStatus) return;
@@ -220,11 +302,29 @@ document.addEventListener('DOMContentLoaded', () => {
     const task = normalizeTask(String(formData.get('task') || ''));
     const consent = formData.get('consent');
 
-    if (!validateRequired(name)) return setSubmitState('error', 'Укажите имя и фамилию (минимум 2 символа).');
-    if (!validateRequired(contact, 3)) return setSubmitState('error', 'Укажите корректный контакт для связи.');
-    if (!type) return setSubmitState('error', 'Выберите тип проекта.');
-    if (!validateRequired(task, 10)) return setSubmitState('error', 'Добавьте более подробное описание задачи (минимум 10 символов).');
-    if (!consent) return setSubmitState('error', 'Подтвердите согласие на обработку данных.');
+    const nameField = contactForm?.elements.namedItem('name');
+    const contactField = contactForm?.elements.namedItem('contact');
+    const typeField = contactForm?.elements.namedItem('type');
+    const taskTextField = contactForm?.elements.namedItem('task');
+    const consentField = contactForm?.elements.namedItem('consent');
+
+    const isNameValid = validateRequired(name);
+    const isContactValid = validateRequired(contact, 3);
+    const isTypeValid = Boolean(type);
+    const isTaskValid = validateRequired(task, 10);
+    const isConsentValid = Boolean(consent);
+
+    setFieldValidityState(nameField, isNameValid);
+    setFieldValidityState(contactField, isContactValid);
+    setFieldValidityState(typeField, isTypeValid);
+    setFieldValidityState(taskTextField, isTaskValid);
+    setFieldValidityState(consentField, isConsentValid);
+
+    if (!isNameValid) return setSubmitState('error', 'Укажите имя и фамилию (минимум 2 символа).');
+    if (!isContactValid) return setSubmitState('error', 'Укажите корректный контакт для связи.');
+    if (!isTypeValid) return setSubmitState('error', 'Выберите тип проекта.');
+    if (!isTaskValid) return setSubmitState('error', 'Добавьте более подробное описание задачи (минимум 10 символов).');
+    if (!isConsentValid) return setSubmitState('error', 'Подтвердите согласие на обработку данных.');
 
     const message = [
       'Новая заявка с сайта Step3D',
