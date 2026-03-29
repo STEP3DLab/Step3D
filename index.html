@@ -156,15 +156,20 @@
           </ul>
         </div>
 
-        <aside class="hero-visual" aria-label="Инженерный pipeline Step3D">
+        <aside class="hero-visual" aria-label="3D-превью изделия с размерами">
           <article class="visual-frame">
-            <p class="visual-title">Engineering Pipeline</p>
-            <ol class="pipeline-list">
-              <li><strong>01</strong><span>Input / Scan</span><p>Собираем исходные данные: файл, образец, фото или техническое задание.</p></li>
-              <li><strong>02</strong><span>CAD / Reverse</span><p>Строим редактируемую модель и согласуем допуски под ваш процесс.</p></li>
-              <li><strong>03</strong><span>Prototype / Print</span><p>Выпускаем прототип или малую серию под целевой сценарий применения.</p></li>
-              <li><strong>04</strong><span>Validation / Delivery</span><p>Передаем проверенный комплект файлов, изделий и рекомендации.</p></li>
-            </ol>
+            <p class="visual-title">3D Model Preview</p>
+            <div class="model-stage" id="heroModelStage">
+              <canvas class="model-canvas" id="heroModelCanvas" aria-label="3D-модель изделия"></canvas>
+              <div class="model-dimensions" id="heroModelDimensions" aria-live="polite">
+                <p class="dims-title">Габариты, мм</p>
+                <ul>
+                  <li><span>X</span><strong>—</strong></li>
+                  <li><span>Y</span><strong>—</strong></li>
+                  <li><span>Z</span><strong>—</strong></li>
+                </ul>
+              </div>
+            </div>
             <div class="visual-mesh" aria-hidden="true"></div>
           </article>
         </aside>
@@ -472,5 +477,6 @@
   <script src="assets/js/cases.js" defer></script>
   <script src="assets/js/stories.js" defer></script>
   <script src="assets/js/main.js" defer></script>
+  <script type="module" src="assets/js/hero-model.js"></script>
 </body>
 </html>
