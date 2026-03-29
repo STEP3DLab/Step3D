@@ -7,6 +7,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const themeToggle = document.getElementById('themeToggle');
   const navLinks = [...document.querySelectorAll('.nav a')];
   const sections = [...document.querySelectorAll('main section[id]')];
+  const getFocusableElements = (container) => {
+    if (!(container instanceof HTMLElement)) return [];
+    return [...container.querySelectorAll('a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])')]
+      .filter((node) => node instanceof HTMLElement && !node.hasAttribute('hidden') && node.getAttribute('aria-hidden') !== 'true');
+  };
 
   const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
   const getLowPowerMode = () => {
@@ -43,10 +48,13 @@ document.addEventListener('DOMContentLoaded', () => {
     applyTheme(nextTheme);
   });
 
-  const closeMobileNav = () => {
+  const closeMobileNav = ({ restoreFocus = true } = {}) => {
     nav?.classList.remove('is-open');
     menuToggle?.setAttribute('aria-expanded', 'false');
     body.classList.remove('menu-open');
+    if (restoreFocus && menuToggle instanceof HTMLButtonElement) {
+      menuToggle.focus();
+    }
   };
 
   if (menuToggle && nav) {
@@ -54,25 +62,47 @@ document.addEventListener('DOMContentLoaded', () => {
       const isOpen = nav.classList.toggle('is-open');
       menuToggle.setAttribute('aria-expanded', String(isOpen));
       body.classList.toggle('menu-open', isOpen);
+      if (isOpen) {
+        const firstFocusable = getFocusableElements(nav)[0];
+        if (firstFocusable) {
+          firstFocusable.focus();
+        }
+      } else {
+        closeMobileNav({ restoreFocus: true });
+      }
     });
 
-    navLinks.forEach((link) => link.addEventListener('click', closeMobileNav));
+    navLinks.forEach((link) => link.addEventListener('click', () => closeMobileNav({ restoreFocus: false })));
 
     document.addEventListener('click', (event) => {
       const target = event.target;
       if (!(target instanceof HTMLElement)) return;
       if (!nav.classList.contains('is-open')) return;
       if (target.closest('#nav') || target.closest('#menuToggle')) return;
-      closeMobileNav();
+      closeMobileNav({ restoreFocus: false });
     });
 
     document.addEventListener('keydown', (event) => {
-      if (event.key === 'Escape') closeMobileNav();
+      if (!nav.classList.contains('is-open')) return;
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        closeMobileNav({ restoreFocus: true });
+        return;
+      }
+      if (event.key !== 'Tab') return;
+      const focusable = [menuToggle, ...getFocusableElements(nav)].filter((element) => element instanceof HTMLElement);
+      if (!focusable.length) return;
+      const currentIndex = focusable.indexOf(document.activeElement);
+      const nextIndex = event.shiftKey
+        ? (currentIndex <= 0 ? focusable.length - 1 : currentIndex - 1)
+        : (currentIndex === focusable.length - 1 ? 0 : currentIndex + 1);
+      event.preventDefault();
+      focusable[nextIndex]?.focus();
     });
 
     window.addEventListener('resize', () => {
       if (window.innerWidth > 900) {
-        closeMobileNav();
+        closeMobileNav({ restoreFocus: false });
       }
     });
   }
@@ -180,27 +210,54 @@ document.addEventListener('DOMContentLoaded', () => {
   const faqItems = [...document.querySelectorAll('.faq-item')];
   const faqExpandAll = document.getElementById('faqExpandAll');
   const faqCollapseAll = document.getElementById('faqCollapseAll');
+  const faqButtons = faqItems.map((item) => item.querySelector('.faq-btn')).filter((button) => button instanceof HTMLButtonElement);
+
+  const setFaqItemState = (item, isOpen) => {
+    const button = item.querySelector('.faq-btn');
+    const panelId = button?.getAttribute('aria-controls');
+    const panel = panelId ? document.getElementById(panelId) : null;
+    item.classList.toggle('is-open', isOpen);
+    button?.setAttribute('aria-expanded', String(isOpen));
+    if (panel instanceof HTMLElement) {
+      panel.hidden = !isOpen;
+      panel.setAttribute('aria-hidden', String(!isOpen));
+    }
+  };
 
   faqItems.forEach((item) => {
     const button = item.querySelector('.faq-btn');
-    button?.addEventListener('click', () => {
-      const willOpen = !item.classList.contains('is-open');
-      item.classList.toggle('is-open', willOpen);
-      button.setAttribute('aria-expanded', String(willOpen));
+    if (!(button instanceof HTMLButtonElement)) return;
+    const isOpen = item.classList.contains('is-open');
+    setFaqItemState(item, isOpen);
+    button.addEventListener('click', () => {
+      setFaqItemState(item, !item.classList.contains('is-open'));
+    });
+    button.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        button.click();
+        return;
+      }
+      if (!['ArrowDown', 'ArrowUp'].includes(event.key)) return;
+      event.preventDefault();
+      const currentIndex = faqButtons.indexOf(button);
+      if (currentIndex === -1) return;
+      const nextIndex = event.key === 'ArrowDown'
+        ? (currentIndex + 1) % faqButtons.length
+        : (currentIndex - 1 + faqButtons.length) % faqButtons.length;
+      faqButtons[nextIndex]?.focus();
     });
   });
 
   faqExpandAll?.addEventListener('click', () => {
     faqItems.forEach((item) => {
-      item.classList.add('is-open');
-      item.querySelector('.faq-btn')?.setAttribute('aria-expanded', 'true');
+      setFaqItemState(item, true);
     });
   });
 
   faqCollapseAll?.addEventListener('click', () => {
     faqItems.forEach((item) => {
-      item.classList.remove('is-open');
-      item.querySelector('.faq-btn')?.setAttribute('aria-expanded', 'false');
+      setFaqItemState(item, false);
     });
   });
 
@@ -209,15 +266,75 @@ document.addEventListener('DOMContentLoaded', () => {
   const caseModalContent = document.getElementById('caseModalContent');
   const caseModalClose = document.getElementById('caseModalClose');
   const caseDetail = document.getElementById('caseDetail');
+  const casesPanel = document.getElementById('cases-panel');
   const cases = Array.isArray(window.STEP3D_CASES) ? window.STEP3D_CASES : [];
   const fallbackText = 'По запросу';
   const toText = (value) => (typeof value === 'string' && value.trim().length ? value.trim() : fallbackText);
+  const scenarioConfig = {
+    production: {
+      title: 'Производство',
+      cta: 'Запросить анти-простой маршрут',
+      projectType: 'Реверсивный инжиниринг',
+      taskHint: 'Укажите узел, текущий простой, критичные допуски и когда нужно вернуть линию в работу.',
+      statusLoading: 'Формируем anti-downtime пакет: SLA, этапы и контрольные точки…',
+      statusSuccess: 'Маршрут по производственному сценарию подготовлен. Проверьте письмо и отправьте его.',
+      evidence: {
+        metric: 'Снижение простоя до 41%',
+        sla: 'SLA: ответ ≤24ч, старт 24–48ч',
+        output: 'Пакет: STEP + STL + отчет отклонений + чек-лист запуска',
+      },
+    },
+    medtech: {
+      title: 'Медтех',
+      cta: 'Получить маршрут валидации прототипа',
+      projectType: 'Прототипирование',
+      taskHint: 'Опишите версию изделия, требования к сборке, ограничения материалов и дату пилота.',
+      statusLoading: 'Собираем медтех-план: итерации, валидация и пакет для пилота…',
+      statusSuccess: 'План медтех-валидации подготовлен. Проверьте письмо и отправьте его.',
+      evidence: {
+        metric: '−52% поздних изменений в корпусе',
+        sla: 'SLA: обновления статуса каждые 2 дня',
+        output: 'Пакет: ревизии STL/STEP + протокол отклонений + рекомендации',
+      },
+    },
+    rnd: {
+      title: 'R&D',
+      cta: 'Зафиксировать гипотезу и go/no-go',
+      projectType: 'Комплексный инженерный проект',
+      taskHint: 'Опишите гипотезу, критерии успеха эксперимента и формат артефакта для проверки.',
+      statusLoading: 'Формируем R&D-спринт: гипотеза, артефакт, метрики и решение go/no-go…',
+      statusSuccess: 'R&D-пакет подготовлен. Проверьте письмо и отправьте его.',
+      evidence: {
+        metric: 'До 3 инженерных итераций за 1 спринт',
+        sla: 'SLA: старт пилота за 48ч после брифа',
+        output: 'Пакет: CAD/STL + протокол теста + рекомендации следующего шага',
+      },
+    },
+    architecture: {
+      title: 'Архитектура',
+      cta: 'Получить тендерный производственный план',
+      projectType: '3D-печать / малая серия',
+      taskHint: 'Укажите дату защиты, число модулей, требования к повторяемости и визуальной чистоте.',
+      statusLoading: 'Собираем серию под дедлайн: производство, резерв и контроль качества…',
+      statusSuccess: 'Сценарий архитектурной серии подготовлен. Проверьте письмо и отправьте его.',
+      evidence: {
+        metric: '120 модулей в срок без критичного брака',
+        sla: 'SLA: контрольные апдейты по каждой партии',
+        output: 'Пакет: серия деталей + резервные STL + инструкция сборки',
+      },
+    },
+  };
   const baseTitle = document.title;
   const canonicalLink = document.querySelector('link[rel="canonical"]');
+
+  const urgencyMap = { critical: 'Критично', high: 'Высокий', medium: 'Стандарт', low: 'Планово' };
+  const resultTypeMap = { file: 'Файл', detail: 'Деталь', series: 'Серия' };
 
   const renderCaseCard = (item) => {
     const card = document.createElement('article');
     card.className = 'case-card';
+    const scenario = scenarioConfig[item.scenario];
+    const tags = Array.isArray(item.industryTags) ? item.industryTags.slice(0, 3) : [];
     card.innerHTML = `
       <div class="case-top">
         <p class="case-type">${toText(item.categoryLabel)}</p>
@@ -225,6 +342,12 @@ document.addEventListener('DOMContentLoaded', () => {
       </div>
       <h3>${toText(item.title)}</h3>
       <p>${toText(item.problem)}</p>
+      <div class="case-badges">
+        <span class="case-badge">Сценарий: ${toText(scenario?.title)}</span>
+        <span class="case-badge">Срочность: ${urgencyMap[item.urgencyLevel] || '—'}</span>
+        <span class="case-badge">Результат: ${resultTypeMap[item.resultType] || '—'}</span>
+      </div>
+      ${tags.length ? `<p class="case-tags">${tags.map((tag) => `<span>#${tag}</span>`).join('')}</p>` : ''}
       <a class="case-link" data-case-id="${item.id}" href="?case=${encodeURIComponent(item.id)}#cases">Открыть кейс →</a>
     `;
     return card;
@@ -233,14 +356,62 @@ document.addEventListener('DOMContentLoaded', () => {
   const caseSearch = document.getElementById('caseSearch');
   const casesCount = document.getElementById('casesCount');
   const filterButtons = [...document.querySelectorAll('.filter-btn')];
+  const scenarioSegments = [...document.querySelectorAll('[data-scenario]')];
+  const scenarioEvidence = document.getElementById('scenarioEvidence');
+  const scenarioCta = document.getElementById('scenarioCta');
+  let activeScenario = 'production';
+  let lastCaseTrigger = null;
+
+  const applyScenarioToForm = (scenarioKey) => {
+    const scenario = scenarioConfig[scenarioKey];
+    if (!scenario) return;
+    const projectTypeSelect = document.querySelector('#contactForm select[name="type"]');
+    if (projectTypeSelect instanceof HTMLSelectElement) {
+      const wanted = scenario.projectType;
+      const option = [...projectTypeSelect.options].find((item) => item.textContent?.trim() === wanted);
+      projectTypeSelect.value = option?.value || wanted;
+    }
+    const mainTaskField = document.getElementById('taskField');
+    if (mainTaskField instanceof HTMLTextAreaElement) {
+      mainTaskField.placeholder = scenario.taskHint;
+    }
+    if (scenarioCta instanceof HTMLAnchorElement) {
+      scenarioCta.textContent = scenario.cta;
+    }
+    if (scenarioEvidence) {
+      scenarioEvidence.innerHTML = `
+        <span><strong>${scenario.evidence.metric}</strong></span>
+        <span>${scenario.evidence.sla}</span>
+        <span>${scenario.evidence.output}</span>
+      `;
+    }
+    scenarioSegments.forEach((button) => {
+      const isCurrent = button.getAttribute('data-scenario') === scenarioKey;
+      button.classList.toggle('is-active', isCurrent);
+      button.setAttribute('aria-pressed', String(isCurrent));
+    });
+  };
+
+  const resolveScenarioFromCase = (item) => {
+    if (!item) return;
+    const nextScenario = item.scenario && scenarioConfig[item.scenario] ? item.scenario : activeScenario;
+    activeScenario = nextScenario;
+    applyScenarioToForm(activeScenario);
+  };
 
   const setCaseFilter = (filter) => {
     activeCaseFilter = filter;
+    let selectedTabId = '';
     filterButtons.forEach((item) => {
       const isCurrent = (item.dataset.filter || 'all') === filter;
       item.classList.toggle('is-active', isCurrent);
       item.setAttribute('aria-selected', String(isCurrent));
+      item.setAttribute('tabindex', isCurrent ? '0' : '-1');
+      if (isCurrent) selectedTabId = item.id;
     });
+    if (casesPanel && selectedTabId) {
+      casesPanel.setAttribute('aria-labelledby', selectedTabId);
+    }
   };
 
   const renderCases = (filter = 'all', query = '') => {
@@ -249,7 +420,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const filteredByType = filter === 'all' ? cases : cases.filter((item) => Array.isArray(item.type) && item.type.includes(filter));
     const normalizedQuery = query.trim().toLowerCase();
     const filtered = normalizedQuery
-      ? filteredByType.filter((item) => [item.title, item.problem, item.solution, item.result, item.taskType, item.categoryLabel].join(' ').toLowerCase().includes(normalizedQuery))
+      ? filteredByType.filter((item) => [item.title, item.problem, item.solution, item.result, item.taskType, item.categoryLabel, ...(item.industryTags || []), item.scenario, item.urgencyLevel, item.resultType].join(' ').toLowerCase().includes(normalizedQuery))
       : filteredByType;
 
     if (casesCount) {
@@ -270,10 +441,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const timeline = toText(selected.timeline);
     const budget = toText(selected.budget);
+    resolveScenarioFromCase(selected);
 
     caseDetail.hidden = false;
     caseDetail.innerHTML = `
-      <h3>${toText(selected.title)}</h3>
+      <h3 id="caseDetailHeading" tabindex="-1">${toText(selected.title)}</h3>
       <p>${toText(selected.problem)}</p>
       <div class="modal-grid">
         <div><strong>Тип задачи</strong><p>${toText(selected.taskType)}</p></div>
@@ -283,7 +455,10 @@ document.addEventListener('DOMContentLoaded', () => {
         <div><strong>Срок / бюджет</strong><p>${timeline} · ${budget}</p></div>
         <div><strong>Выходной результат</strong><p>${toText(selected.output)}</p></div>
       </div>
-      <p><a class="btn btn-secondary" href="#contact">Обсудить похожий проект</a></p>
+      <p class="case-detail-actions">
+        <button class="btn btn-secondary" type="button" id="caseDetailBackBtn">Назад к списку кейсов</button>
+        <a class="btn btn-secondary" href="#contact">Обсудить похожий проект</a>
+      </p>
     `;
 
     const nextUrl = `${window.location.pathname}?case=${encodeURIComponent(caseId)}#cases`;
@@ -295,6 +470,14 @@ document.addEventListener('DOMContentLoaded', () => {
       canonicalLink.href = `${window.location.origin}${nextUrl}`;
     }
     caseDetail.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    document.getElementById('caseDetailHeading')?.focus();
+    document.getElementById('caseDetailBackBtn')?.addEventListener('click', () => {
+      if (window.history.state?.caseId) {
+        window.history.back();
+      } else {
+        clearCaseDetail(true);
+      }
+    });
   };
 
   const clearCaseDetail = (pushState = true) => {
@@ -309,6 +492,11 @@ document.addEventListener('DOMContentLoaded', () => {
     if (pushState) {
       window.history.pushState({}, '', `${window.location.pathname}#cases`);
     }
+    if (lastCaseTrigger instanceof HTMLElement && document.contains(lastCaseTrigger)) {
+      lastCaseTrigger.focus();
+    } else {
+      filterButtons.find((button) => button.getAttribute('aria-selected') === 'true')?.focus();
+    }
   };
 
   let activeCaseFilter = 'all';
@@ -318,6 +506,23 @@ document.addEventListener('DOMContentLoaded', () => {
       const filter = button.dataset.filter || 'all';
       setCaseFilter(filter);
       renderCases(filter, caseSearch instanceof HTMLInputElement ? caseSearch.value : '');
+      button.focus();
+    });
+
+    button.addEventListener('keydown', (event) => {
+      if (!['ArrowRight', 'ArrowLeft', 'Home', 'End'].includes(event.key)) return;
+      event.preventDefault();
+      const currentIndex = filterButtons.indexOf(button);
+      if (currentIndex < 0) return;
+      let nextIndex = currentIndex;
+      if (event.key === 'ArrowRight') nextIndex = (currentIndex + 1) % filterButtons.length;
+      if (event.key === 'ArrowLeft') nextIndex = (currentIndex - 1 + filterButtons.length) % filterButtons.length;
+      if (event.key === 'Home') nextIndex = 0;
+      if (event.key === 'End') nextIndex = filterButtons.length - 1;
+      const nextButton = filterButtons[nextIndex];
+      if (!(nextButton instanceof HTMLButtonElement)) return;
+      nextButton.focus();
+      nextButton.click();
     });
   });
 
@@ -325,12 +530,27 @@ document.addEventListener('DOMContentLoaded', () => {
     const target = event.target;
     if (target instanceof HTMLElement && target.matches('.case-link')) {
       event.preventDefault();
+      lastCaseTrigger = target;
       renderCaseDetail(target.dataset.caseId || '');
     }
   });
 
   caseSearch?.addEventListener('input', () => {
     renderCases(activeCaseFilter, caseSearch instanceof HTMLInputElement ? caseSearch.value : '');
+  });
+
+  scenarioSegments.forEach((segment) => {
+    segment.addEventListener('click', () => {
+      const scenario = segment.getAttribute('data-scenario') || 'production';
+      activeScenario = scenario;
+      applyScenarioToForm(activeScenario);
+      const relatedCase = cases.find((item) => item.scenario === activeScenario);
+      if (relatedCase) {
+        setCaseFilter(relatedCase.type?.[0] || 'all');
+        renderCases(activeCaseFilter, caseSearch instanceof HTMLInputElement ? caseSearch.value : '');
+      }
+      pushAnalytics('scenario_switch', { scenario: activeScenario });
+    });
   });
 
   const closeCaseModal = () => {
@@ -343,7 +563,9 @@ document.addEventListener('DOMContentLoaded', () => {
     if (event.target === caseModal) closeCaseModal();
   });
 
-  renderCases();
+  setCaseFilter(activeCaseFilter);
+  applyScenarioToForm(activeScenario);
+  renderCases(activeCaseFilter);
 
   const initialCaseId = new URLSearchParams(window.location.search).get('case');
   if (initialCaseId) {
@@ -422,7 +644,13 @@ document.addEventListener('DOMContentLoaded', () => {
   taskField?.addEventListener('input', updateTaskCounter);
   fileInput?.addEventListener('change', updateFileSummary);
 
-  contactForm?.addEventListener('input', updateFormProgress);
+  contactForm?.addEventListener('input', (event) => {
+    if (!kpiState.startedAt && event.target instanceof HTMLElement && event.target.closest('#contactForm')) {
+      kpiState.startedAt = Date.now();
+      pushAnalytics('kpi_form_start', { scenario: activeScenario });
+    }
+    updateFormProgress();
+  });
   contactForm?.addEventListener('change', updateFormProgress);
 
   updateTaskCounter();
@@ -447,6 +675,31 @@ document.addEventListener('DOMContentLoaded', () => {
     window.dataLayer.push(eventPayload);
     window.dispatchEvent(new CustomEvent('step3d:analytics', { detail: eventPayload }));
   };
+
+  const kpiState = {
+    startedAt: 0,
+    ctaClicks: 0,
+    reachedContact: false,
+  };
+
+  document.querySelectorAll('a[href="#contact"], button[data-open-wizard]').forEach((cta) => {
+    cta.addEventListener('click', () => {
+      kpiState.ctaClicks += 1;
+      pushAnalytics('kpi_cta_click', { total: kpiState.ctaClicks, scenario: activeScenario });
+    });
+  });
+
+  const contactSection = document.getElementById('contact');
+  if ('IntersectionObserver' in window && contactSection) {
+    const contactObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting || kpiState.reachedContact) return;
+        kpiState.reachedContact = true;
+        pushAnalytics('kpi_scroll_depth_contact', { scenario: activeScenario });
+      });
+    }, { threshold: 0.4 });
+    contactObserver.observe(contactSection);
+  }
 
   const wizardState = {
     step: 1,
@@ -751,7 +1004,8 @@ document.addEventListener('DOMContentLoaded', () => {
       `Описание: ${task}`,
     ].join('\n');
 
-    setSubmitState('loading', 'Проверяем заявку и подготавливаем отправку…');
+    const activeScenarioConfig = scenarioConfig[activeScenario] || scenarioConfig.production;
+    setSubmitState('loading', activeScenarioConfig.statusLoading);
     if (submitButton instanceof HTMLButtonElement) {
       submitButton.disabled = true;
       submitButton.setAttribute('aria-busy', 'true');
@@ -760,8 +1014,13 @@ document.addEventListener('DOMContentLoaded', () => {
     try {
       await navigator.clipboard.writeText(message);
       window.location.href = `mailto:hello@step3d.pro?subject=${encodeURIComponent('Новая заявка Step3D')}&body=${encodeURIComponent(message)}`;
-      setSubmitState('success', 'Заявка подготовлена. Проверьте письмо и отправьте его — после этого мы свяжемся с вами.');
+      setSubmitState('success', activeScenarioConfig.statusSuccess);
       contactForm.reset();
+      pushAnalytics('kpi_form_completion', { scenario: activeScenario });
+      if (kpiState.startedAt) {
+        pushAnalytics('kpi_time_to_submit', { scenario: activeScenario, seconds: Math.round((Date.now() - kpiState.startedAt) / 1000) });
+      }
+      kpiState.startedAt = 0;
     } catch {
       setSubmitState('error', 'Не удалось сформировать отправку автоматически. Напишите нам на hello@step3d.pro.');
     } finally {

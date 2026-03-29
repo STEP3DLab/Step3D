@@ -247,3 +247,9 @@
     bottom: 76px;
   }
 }
+
+@media (max-width: 1080px) {
+  .decision-cards {
+    grid-template-columns: 1fr;
+  }
+}
