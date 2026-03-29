@@ -270,12 +270,71 @@ document.addEventListener('DOMContentLoaded', () => {
   const cases = Array.isArray(window.STEP3D_CASES) ? window.STEP3D_CASES : [];
   const fallbackText = 'По запросу';
   const toText = (value) => (typeof value === 'string' && value.trim().length ? value.trim() : fallbackText);
+  const scenarioConfig = {
+    production: {
+      title: 'Производство',
+      cta: 'Запросить анти-простой маршрут',
+      projectType: 'Реверсивный инжиниринг',
+      taskHint: 'Укажите узел, текущий простой, критичные допуски и когда нужно вернуть линию в работу.',
+      statusLoading: 'Формируем anti-downtime пакет: SLA, этапы и контрольные точки…',
+      statusSuccess: 'Маршрут по производственному сценарию подготовлен. Проверьте письмо и отправьте его.',
+      evidence: {
+        metric: 'Снижение простоя до 41%',
+        sla: 'SLA: ответ ≤24ч, старт 24–48ч',
+        output: 'Пакет: STEP + STL + отчет отклонений + чек-лист запуска',
+      },
+    },
+    medtech: {
+      title: 'Медтех',
+      cta: 'Получить маршрут валидации прототипа',
+      projectType: 'Прототипирование',
+      taskHint: 'Опишите версию изделия, требования к сборке, ограничения материалов и дату пилота.',
+      statusLoading: 'Собираем медтех-план: итерации, валидация и пакет для пилота…',
+      statusSuccess: 'План медтех-валидации подготовлен. Проверьте письмо и отправьте его.',
+      evidence: {
+        metric: '−52% поздних изменений в корпусе',
+        sla: 'SLA: обновления статуса каждые 2 дня',
+        output: 'Пакет: ревизии STL/STEP + протокол отклонений + рекомендации',
+      },
+    },
+    rnd: {
+      title: 'R&D',
+      cta: 'Зафиксировать гипотезу и go/no-go',
+      projectType: 'Комплексный инженерный проект',
+      taskHint: 'Опишите гипотезу, критерии успеха эксперимента и формат артефакта для проверки.',
+      statusLoading: 'Формируем R&D-спринт: гипотеза, артефакт, метрики и решение go/no-go…',
+      statusSuccess: 'R&D-пакет подготовлен. Проверьте письмо и отправьте его.',
+      evidence: {
+        metric: 'До 3 инженерных итераций за 1 спринт',
+        sla: 'SLA: старт пилота за 48ч после брифа',
+        output: 'Пакет: CAD/STL + протокол теста + рекомендации следующего шага',
+      },
+    },
+    architecture: {
+      title: 'Архитектура',
+      cta: 'Получить тендерный производственный план',
+      projectType: '3D-печать / малая серия',
+      taskHint: 'Укажите дату защиты, число модулей, требования к повторяемости и визуальной чистоте.',
+      statusLoading: 'Собираем серию под дедлайн: производство, резерв и контроль качества…',
+      statusSuccess: 'Сценарий архитектурной серии подготовлен. Проверьте письмо и отправьте его.',
+      evidence: {
+        metric: '120 модулей в срок без критичного брака',
+        sla: 'SLA: контрольные апдейты по каждой партии',
+        output: 'Пакет: серия деталей + резервные STL + инструкция сборки',
+      },
+    },
+  };
   const baseTitle = document.title;
   const canonicalLink = document.querySelector('link[rel="canonical"]');
+
+  const urgencyMap = { critical: 'Критично', high: 'Высокий', medium: 'Стандарт', low: 'Планово' };
+  const resultTypeMap = { file: 'Файл', detail: 'Деталь', series: 'Серия' };
 
   const renderCaseCard = (item) => {
     const card = document.createElement('article');
     card.className = 'case-card';
+    const scenario = scenarioConfig[item.scenario];
+    const tags = Array.isArray(item.industryTags) ? item.industryTags.slice(0, 3) : [];
     card.innerHTML = `
       <div class="case-top">
         <p class="case-type">${toText(item.categoryLabel)}</p>
@@ -283,6 +342,12 @@ document.addEventListener('DOMContentLoaded', () => {
       </div>
       <h3>${toText(item.title)}</h3>
       <p>${toText(item.problem)}</p>
+      <div class="case-badges">
+        <span class="case-badge">Сценарий: ${toText(scenario?.title)}</span>
+        <span class="case-badge">Срочность: ${urgencyMap[item.urgencyLevel] || '—'}</span>
+        <span class="case-badge">Результат: ${resultTypeMap[item.resultType] || '—'}</span>
+      </div>
+      ${tags.length ? `<p class="case-tags">${tags.map((tag) => `<span>#${tag}</span>`).join('')}</p>` : ''}
       <a class="case-link" data-case-id="${item.id}" href="?case=${encodeURIComponent(item.id)}#cases">Открыть кейс →</a>
     `;
     return card;
@@ -291,7 +356,48 @@ document.addEventListener('DOMContentLoaded', () => {
   const caseSearch = document.getElementById('caseSearch');
   const casesCount = document.getElementById('casesCount');
   const filterButtons = [...document.querySelectorAll('.filter-btn')];
+  const scenarioSegments = [...document.querySelectorAll('[data-scenario]')];
+  const scenarioEvidence = document.getElementById('scenarioEvidence');
+  const scenarioCta = document.getElementById('scenarioCta');
+  let activeScenario = 'production';
   let lastCaseTrigger = null;
+
+  const applyScenarioToForm = (scenarioKey) => {
+    const scenario = scenarioConfig[scenarioKey];
+    if (!scenario) return;
+    const projectTypeSelect = document.querySelector('#contactForm select[name="type"]');
+    if (projectTypeSelect instanceof HTMLSelectElement) {
+      const wanted = scenario.projectType;
+      const option = [...projectTypeSelect.options].find((item) => item.textContent?.trim() === wanted);
+      projectTypeSelect.value = option?.value || wanted;
+    }
+    const mainTaskField = document.getElementById('taskField');
+    if (mainTaskField instanceof HTMLTextAreaElement) {
+      mainTaskField.placeholder = scenario.taskHint;
+    }
+    if (scenarioCta instanceof HTMLAnchorElement) {
+      scenarioCta.textContent = scenario.cta;
+    }
+    if (scenarioEvidence) {
+      scenarioEvidence.innerHTML = `
+        <span><strong>${scenario.evidence.metric}</strong></span>
+        <span>${scenario.evidence.sla}</span>
+        <span>${scenario.evidence.output}</span>
+      `;
+    }
+    scenarioSegments.forEach((button) => {
+      const isCurrent = button.getAttribute('data-scenario') === scenarioKey;
+      button.classList.toggle('is-active', isCurrent);
+      button.setAttribute('aria-pressed', String(isCurrent));
+    });
+  };
+
+  const resolveScenarioFromCase = (item) => {
+    if (!item) return;
+    const nextScenario = item.scenario && scenarioConfig[item.scenario] ? item.scenario : activeScenario;
+    activeScenario = nextScenario;
+    applyScenarioToForm(activeScenario);
+  };
 
   const setCaseFilter = (filter) => {
     activeCaseFilter = filter;
@@ -314,7 +420,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const filteredByType = filter === 'all' ? cases : cases.filter((item) => Array.isArray(item.type) && item.type.includes(filter));
     const normalizedQuery = query.trim().toLowerCase();
     const filtered = normalizedQuery
-      ? filteredByType.filter((item) => [item.title, item.problem, item.solution, item.result, item.taskType, item.categoryLabel].join(' ').toLowerCase().includes(normalizedQuery))
+      ? filteredByType.filter((item) => [item.title, item.problem, item.solution, item.result, item.taskType, item.categoryLabel, ...(item.industryTags || []), item.scenario, item.urgencyLevel, item.resultType].join(' ').toLowerCase().includes(normalizedQuery))
       : filteredByType;
 
     if (casesCount) {
@@ -335,6 +441,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const timeline = toText(selected.timeline);
     const budget = toText(selected.budget);
+    resolveScenarioFromCase(selected);
 
     caseDetail.hidden = false;
     caseDetail.innerHTML = `
@@ -432,6 +539,20 @@ document.addEventListener('DOMContentLoaded', () => {
     renderCases(activeCaseFilter, caseSearch instanceof HTMLInputElement ? caseSearch.value : '');
   });
 
+  scenarioSegments.forEach((segment) => {
+    segment.addEventListener('click', () => {
+      const scenario = segment.getAttribute('data-scenario') || 'production';
+      activeScenario = scenario;
+      applyScenarioToForm(activeScenario);
+      const relatedCase = cases.find((item) => item.scenario === activeScenario);
+      if (relatedCase) {
+        setCaseFilter(relatedCase.type?.[0] || 'all');
+        renderCases(activeCaseFilter, caseSearch instanceof HTMLInputElement ? caseSearch.value : '');
+      }
+      pushAnalytics('scenario_switch', { scenario: activeScenario });
+    });
+  });
+
   const closeCaseModal = () => {
     caseModal?.close();
     body.classList.remove('modal-open');
@@ -443,6 +564,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   setCaseFilter(activeCaseFilter);
+  applyScenarioToForm(activeScenario);
   renderCases(activeCaseFilter);
 
   const initialCaseId = new URLSearchParams(window.location.search).get('case');
@@ -522,7 +644,13 @@ document.addEventListener('DOMContentLoaded', () => {
   taskField?.addEventListener('input', updateTaskCounter);
   fileInput?.addEventListener('change', updateFileSummary);
 
-  contactForm?.addEventListener('input', updateFormProgress);
+  contactForm?.addEventListener('input', (event) => {
+    if (!kpiState.startedAt && event.target instanceof HTMLElement && event.target.closest('#contactForm')) {
+      kpiState.startedAt = Date.now();
+      pushAnalytics('kpi_form_start', { scenario: activeScenario });
+    }
+    updateFormProgress();
+  });
   contactForm?.addEventListener('change', updateFormProgress);
 
   updateTaskCounter();
@@ -547,6 +675,31 @@ document.addEventListener('DOMContentLoaded', () => {
     window.dataLayer.push(eventPayload);
     window.dispatchEvent(new CustomEvent('step3d:analytics', { detail: eventPayload }));
   };
+
+  const kpiState = {
+    startedAt: 0,
+    ctaClicks: 0,
+    reachedContact: false,
+  };
+
+  document.querySelectorAll('a[href="#contact"], button[data-open-wizard]').forEach((cta) => {
+    cta.addEventListener('click', () => {
+      kpiState.ctaClicks += 1;
+      pushAnalytics('kpi_cta_click', { total: kpiState.ctaClicks, scenario: activeScenario });
+    });
+  });
+
+  const contactSection = document.getElementById('contact');
+  if ('IntersectionObserver' in window && contactSection) {
+    const contactObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting || kpiState.reachedContact) return;
+        kpiState.reachedContact = true;
+        pushAnalytics('kpi_scroll_depth_contact', { scenario: activeScenario });
+      });
+    }, { threshold: 0.4 });
+    contactObserver.observe(contactSection);
+  }
 
   const wizardState = {
     step: 1,
@@ -851,7 +1004,8 @@ document.addEventListener('DOMContentLoaded', () => {
       `Описание: ${task}`,
     ].join('\n');
 
-    setSubmitState('loading', 'Проверяем заявку и подготавливаем отправку…');
+    const activeScenarioConfig = scenarioConfig[activeScenario] || scenarioConfig.production;
+    setSubmitState('loading', activeScenarioConfig.statusLoading);
     if (submitButton instanceof HTMLButtonElement) {
       submitButton.disabled = true;
       submitButton.setAttribute('aria-busy', 'true');
@@ -860,8 +1014,13 @@ document.addEventListener('DOMContentLoaded', () => {
     try {
       await navigator.clipboard.writeText(message);
       window.location.href = `mailto:hello@step3d.pro?subject=${encodeURIComponent('Новая заявка Step3D')}&body=${encodeURIComponent(message)}`;
-      setSubmitState('success', 'Заявка подготовлена. Проверьте письмо и отправьте его — после этого мы свяжемся с вами.');
+      setSubmitState('success', activeScenarioConfig.statusSuccess);
       contactForm.reset();
+      pushAnalytics('kpi_form_completion', { scenario: activeScenario });
+      if (kpiState.startedAt) {
+        pushAnalytics('kpi_time_to_submit', { scenario: activeScenario, seconds: Math.round((Date.now() - kpiState.startedAt) / 1000) });
+      }
+      kpiState.startedAt = 0;
     } catch {
       setSubmitState('error', 'Не удалось сформировать отправку автоматически. Напишите нам на hello@step3d.pro.');
     } finally {

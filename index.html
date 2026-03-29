@@ -242,6 +242,13 @@
           <p>Каждый кейс показывает задачу, решение, срок и практический эффект для клиента.</p>
         </div>
 
+        <div class="scenario-segments" aria-label="Сценарии запуска">
+          <button class="scenario-segment is-active" type="button" data-scenario="production" aria-pressed="true">Производство</button>
+          <button class="scenario-segment" type="button" data-scenario="medtech" aria-pressed="false">Медтех</button>
+          <button class="scenario-segment" type="button" data-scenario="rnd" aria-pressed="false">R&amp;D</button>
+          <button class="scenario-segment" type="button" data-scenario="architecture" aria-pressed="false">Архитектура</button>
+        </div>
+
         <div class="filters" role="tablist" aria-label="Фильтры кейсов">
           <button id="case-tab-all" class="filter-btn is-active" data-filter="all" role="tab" aria-controls="cases-panel" aria-selected="true" tabindex="0">Все кейсы</button>
           <button id="case-tab-scan" class="filter-btn" data-filter="scan" role="tab" aria-controls="cases-panel" aria-selected="false" tabindex="-1">Сканирование</button>
@@ -283,18 +290,30 @@
           <h2>Решения по высокоинтентным запросам</h2>
           <p>Подготовили отдельные контентные блоки под задачи, где решение выбирают быстро: 3D-сканирование, реверс и прототипирование.</p>
         </div>
-        <div class="cards three">
-          <article class="card">
+        <div class="decision-cards">
+          <article class="decision-card">
             <h3><a href="#intent-scan">3D-сканирование деталей и объектов</a></h3>
-            <p>Точность до ±0.03 мм, подготовка данных под контроль геометрии, реверс или документацию.</p>
+            <ul>
+              <li><strong>Скорость:</strong> 1–3 дня на съемку и подготовку mesh</li>
+              <li><strong>Точность:</strong> до ±0.03 мм в критичных зонах</li>
+              <li><strong>Стоимость:</strong> низкий вход, оптимально для старта маршрута</li>
+            </ul>
           </article>
-          <article class="card">
+          <article class="decision-card">
             <h3><a href="#intent-reverse">Реверсивный инжиниринг под производство</a></h3>
-            <p>Восстановление параметрической CAD-геометрии и согласование допусков под реальный технологический процесс.</p>
+            <ul>
+              <li><strong>Скорость:</strong> 3–7 дней до CAD под производство</li>
+              <li><strong>Точность:</strong> параметрическая модель и контроль допусков</li>
+              <li><strong>Стоимость:</strong> выше старта, но снижает риск брака</li>
+            </ul>
           </article>
-          <article class="card">
+          <article class="decision-card">
             <h3><a href="#intent-prototype">Инженерное прототипирование и пилоты</a></h3>
-            <p>Быстрые итерации перед оснасткой и серией с валидацией сборки, эргономики и эксплуатационных ограничений.</p>
+            <ul>
+              <li><strong>Скорость:</strong> 2–6 дней до физического образца</li>
+              <li><strong>Точность:</strong> проверка сборки и сценариев эксплуатации</li>
+              <li><strong>Стоимость:</strong> оптимально перед оснасткой и серией</li>
+            </ul>
           </article>
         </div>
       </div>
@@ -375,7 +394,12 @@
         <div class="cta-box">
           <h2>Нужен понятный инженерный план без потерь по срокам?</h2>
           <p>Отправьте вводные — предложим маршрут, сроки и формат результата под вашу задачу.</p>
-          <a class="btn btn-primary" href="#contact">Оставить заявку</a>
+          <div class="scenario-evidence" id="scenarioEvidence" aria-live="polite">
+            <span><strong>Снижение простоя до 41%</strong></span>
+            <span>SLA: ответ ≤24ч, старт 24–48ч</span>
+            <span>Пакет: STEP + STL + отчет отклонений + чек-лист запуска</span>
+          </div>
+          <a class="btn btn-primary" id="scenarioCta" href="#contact">Запросить анти-простой маршрут</a>
         </div>
       </div>
     </section>
@@ -527,6 +551,16 @@
           <p><strong>География:</strong> Россия, СНГ и международные проекты</p>
           <p><strong>График:</strong> Пн–Сб, 09:00–20:00 (UTC+3)</p>
         </div>
+
+        <article class="card ux-kpi" id="uxKpi">
+          <h3>UX KPI на этот релиз</h3>
+          <ul>
+            <li><strong>CTR CTA:</strong> доля кликов по кнопкам сценариев и hero CTA.</li>
+            <li><strong>Completion формы:</strong> доля отправок относительно стартов ввода.</li>
+            <li><strong>Глубина скролла:</strong> факт доскролла до блока #contact.</li>
+            <li><strong>Time-to-submit:</strong> время от первого ввода до успешной отправки.</li>
+          </ul>
+        </article>
       </div>
     </section>
   </main>
