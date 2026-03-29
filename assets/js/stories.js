@@ -1,84 +1,53 @@
-window.STEP3D_STORIES = [
-  {
-    id: 'pipeline',
-    title: 'Pipeline: от входных данных до готового изделия',
-    subtitle: 'Интерактивный маршрут Step3D',
-    slides: [
-      { title: 'Scan / Input', text: 'Собираем исходные данные: скан, фото, CAD или физический образец.' },
-      { title: 'CAD / Reverse', text: 'Превращаем геометрию в чистую редактируемую инженерную модель.' },
-      { title: 'Prototype / Print', text: 'Выпускаем прототипы и малые серии с быстрыми итерациями.' },
-      { title: 'Validation / Delivery', text: 'Контроль параметров, передача файлов, деталей и инструкций.' },
-      {
-        title: 'Производственный обзор',
-        text: 'Видео-формат для презентации маршрута и команды.',
-        media: { type: 'video', src: 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4' },
-      },
-    ],
-  },
-  {
-    id: 'scan',
-    title: '3D-сканирование',
-    subtitle: 'История направления',
-    slides: [
-      { title: 'Подготовка объекта', text: 'Фиксируем базу, метки и зоны критической точности.' },
-      { title: 'Съёмка геометрии', text: 'Многопроходное сканирование для плотного и чистого облака точек.' },
-      { title: 'Валидация', text: 'Проверяем отклонения и готовим результат под CAD/Reverse.' },
-    ],
-  },
-  {
-    id: 'cad',
-    title: '3D-моделирование',
-    subtitle: 'История направления',
-    slides: [
-      { title: 'ТЗ и допуски', text: 'Фиксируем ограничения и монтажные зоны под реальные условия.' },
-      { title: 'Параметрическая сборка', text: 'Строим модель, которую можно безопасно править и масштабировать.' },
-      { title: 'Документация', text: 'Готовим STEP/STL и пакет для передачи в производство.' },
-    ],
-  },
-  {
-    id: 'reverse',
-    title: 'Реверсивный инжиниринг',
-    subtitle: 'История направления',
-    slides: [
-      { title: 'Из облака в поверхность', text: 'Очищаем mesh и собираем точную геометрию под CAD-редактирование.' },
-      { title: 'Функциональные узлы', text: 'Восстанавливаем посадки, резьбы и монтажные базы.' },
-      { title: 'Проверка перед выпуском', text: 'Сравниваем модель с оригиналом и подтверждаем отклонения.' },
-    ],
-  },
-  {
-    id: 'print',
-    title: '3D-печать',
-    subtitle: 'История направления',
-    slides: [
-      { title: 'Выбор технологии', text: 'Подбираем FDM/SLA/SLS под механику, бюджет и срок.' },
-      { title: 'Печать и постобработка', text: 'Стабильное качество слоёв и аккуратная финишная обработка.' },
-      { title: 'Контроль серии', text: 'Сверяем повторяемость между деталями и готовим отгрузку.' },
-    ],
-  },
-  {
-    id: 'prototype',
-    title: 'Прототипирование',
-    subtitle: 'История направления',
-    slides: [
-      { title: 'Быстрый макет', text: 'Первый рабочий образец для проверки габаритов и логики сборки.' },
-      { title: 'Итерации', text: 'Корректируем форму и узлы до уверенного результата.' },
-      { title: 'Переход в серию', text: 'Фиксируем финальный вариант и маршрут выпуска.' },
-    ],
-  },
-  {
-    id: 'engineering',
-    title: 'Инженерное сопровождение',
-    subtitle: 'История направления',
-    slides: [
-      { title: 'Маршрут проекта', text: 'Разбиваем задачу на этапы с контрольными точками.' },
-      { title: 'Координация команд', text: 'Сводим скан, CAD и производство в единую коммуникацию.' },
-      { title: 'Финальный пакет', text: 'Передаём результат в формате, готовом к внедрению.' },
-    ],
-  },
-];
+document.addEventListener('DOMContentLoaded', async () => {
+  const formatLayer = window.STEP3D_FORMAT;
+  const locale = formatLayer?.detectLocale?.() || 'ru';
 
-document.addEventListener('DOMContentLoaded', () => {
-  const stories = Array.isArray(window.STEP3D_STORIES) ? window.STEP3D_STORIES : [];
+  const FALLBACK_STORIES = [
+    {
+      id: 'pipeline',
+      type: 'story',
+      title: { ru: 'Pipeline: от входных данных до готового изделия', en: 'Pipeline: from input data to ready product' },
+      subtitle: { ru: 'Интерактивный маршрут Step3D', en: 'Interactive Step3D workflow' },
+      problem: { ru: 'Разрозненные подрядчики и отсутствие единого маршрута увеличивают риски проекта.', en: 'Fragmented vendors increase project risks.' },
+      solution: { ru: 'Единый инженерный пайплайн от входа до передачи.', en: 'Unified engineering pipeline from intake to delivery.' },
+      result: { ru: 'Предсказуемый маршрут и прозрачные этапы.', en: 'Predictable flow and transparent milestones.' },
+      slides: [
+        { title: { ru: 'Scan / Input', en: 'Scan / Input' }, text: { ru: 'Собираем исходные данные.', en: 'Collect source data.' } },
+        { title: { ru: 'CAD / Reverse', en: 'CAD / Reverse' }, text: { ru: 'Готовим редактируемую модель.', en: 'Build an editable model.' } },
+      ],
+    },
+  ];
+
+  const isLocalizedValue = (value) => typeof value === 'string' || (value && typeof value === 'object');
+  const isValidSlide = (slide) => {
+    if (!slide || typeof slide !== 'object') return false;
+    return isLocalizedValue(slide.title) && isLocalizedValue(slide.text);
+  };
+
+  const isValidStory = (item) => {
+    if (!item || typeof item !== 'object') return false;
+    if (typeof item.id !== 'string' || !item.id.trim()) return false;
+    if (typeof item.type !== 'string' || !item.type.trim()) return false;
+    if (!['title', 'problem', 'solution', 'result'].every((key) => isLocalizedValue(item[key]))) return false;
+    if (!Array.isArray(item.slides) || !item.slides.length || !item.slides.every(isValidSlide)) return false;
+    return true;
+  };
+
+  const loadStories = async () => {
+    try {
+      const response = await fetch('assets/data/stories.json', { cache: 'no-store' });
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      const payload = await response.json();
+      const items = Array.isArray(payload?.items) ? payload.items.filter(isValidStory) : [];
+      if (items.length) return items;
+      throw new Error('Schema validation failed for stories.json');
+    } catch (error) {
+      console.warn('[Step3D] Using fallback stories data:', error);
+      return FALLBACK_STORIES.filter(isValidStory);
+    }
+  };
+
+  const stories = await loadStories();
   const storyList = document.getElementById('storyList');
   const storyStage = document.getElementById('storyStage');
 
@@ -87,6 +56,9 @@ document.addEventListener('DOMContentLoaded', () => {
   let activeStoryId = stories[0].id;
   let activeSlideIndex = 0;
 
+  const localize = (value) => formatLayer?.localize?.(value, locale, '') || '';
+  const textOrFallback = (value) => formatLayer?.textOrFallback?.(value, locale) || '';
+
   const getStoryById = (storyId) => stories.find((story) => story.id === storyId) || stories[0];
 
   const createStoryCard = (story) => {
@@ -94,11 +66,20 @@ document.addEventListener('DOMContentLoaded', () => {
     button.type = 'button';
     button.className = 'story-card';
     button.dataset.storyId = story.id;
-    button.innerHTML = `
-      <span class="story-card-title">${story.title}</span>
-      <span class="story-card-subtitle">${story.subtitle}</span>
-      <span class="story-card-count">${story.slides.length} этапов</span>
-    `;
+
+    const title = document.createElement('span');
+    title.className = 'story-card-title';
+    title.textContent = textOrFallback(story.title);
+
+    const subtitle = document.createElement('span');
+    subtitle.className = 'story-card-subtitle';
+    subtitle.textContent = textOrFallback(story.subtitle);
+
+    const count = document.createElement('span');
+    count.className = 'story-card-count';
+    count.textContent = formatLayer?.getLabel?.(locale, 'storySteps', story.slides.length) || `${story.slides.length}`;
+
+    button.append(title, subtitle, count);
     return button;
   };
 
@@ -110,6 +91,22 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   };
 
+  const createGraphic = () => {
+    const graphic = document.createElement('div');
+    graphic.className = 'story-graphic';
+    graphic.setAttribute('aria-hidden', 'true');
+
+    const ring = document.createElement('span');
+    ring.className = 'story-graphic-ring';
+    const core = document.createElement('span');
+    core.className = 'story-graphic-core';
+    const grid = document.createElement('span');
+    grid.className = 'story-graphic-grid';
+
+    graphic.append(ring, core, grid);
+    return graphic;
+  };
+
   const renderStoryStage = () => {
     const story = getStoryById(activeStoryId);
     const slides = story.slides || [];
@@ -117,45 +114,92 @@ document.addEventListener('DOMContentLoaded', () => {
     const slide = slides[safeIndex];
     if (!slide) return;
 
-    const mediaHTML = slide.media?.type === 'video'
-      ? `<video class="story-media" controls preload="metadata" src="${slide.media.src}"></video>`
-      : `
-      <div class="story-graphic" aria-hidden="true">
-        <span class="story-graphic-ring"></span>
-        <span class="story-graphic-core"></span>
-        <span class="story-graphic-grid"></span>
-      </div>
-    `;
+    storyStage.textContent = '';
 
-    const timelineSteps = slides
-      .map((item, index) => `
-        <button type="button" class="story-step ${index === safeIndex ? 'is-current' : ''}" data-step-index="${index}">
-          <span>${String(index + 1).padStart(2, '0')}</span>
-          <strong>${item.title}</strong>
-        </button>
-      `)
-      .join('');
+    const header = document.createElement('header');
+    header.className = 'story-stage-head';
 
-    storyStage.innerHTML = `
-      <header class="story-stage-head">
-        <p class="eyebrow">Story Mode · Step3D</p>
-        <h3>${story.title}</h3>
-        <p>${story.subtitle}</p>
-      </header>
-      <div class="story-stage-main">
-        <div class="story-stage-media">${mediaHTML}</div>
-        <div class="story-stage-content">
-          <p class="story-slide-index">Этап ${safeIndex + 1} из ${slides.length}</p>
-          <h4>${slide.title}</h4>
-          <p>${slide.text}</p>
-          <div class="story-controls">
-            <button type="button" class="btn btn-secondary story-prev" ${safeIndex === 0 ? 'disabled' : ''}>Назад</button>
-            <button type="button" class="btn btn-primary story-next" ${safeIndex === slides.length - 1 ? 'disabled' : ''}>Дальше</button>
-          </div>
-        </div>
-      </div>
-      <div class="story-timeline">${timelineSteps}</div>
-    `;
+    const eyebrow = document.createElement('p');
+    eyebrow.className = 'eyebrow';
+    eyebrow.textContent = formatLayer?.getLabel?.(locale, 'storyMode') || 'Story Mode · Step3D';
+
+    const title = document.createElement('h3');
+    title.textContent = textOrFallback(story.title);
+
+    const subtitle = document.createElement('p');
+    subtitle.textContent = textOrFallback(story.subtitle);
+
+    header.append(eyebrow, title, subtitle);
+
+    const main = document.createElement('div');
+    main.className = 'story-stage-main';
+
+    const mediaWrap = document.createElement('div');
+    mediaWrap.className = 'story-stage-media';
+
+    if (slide.media?.type === 'video' && typeof slide.media.src === 'string') {
+      const video = document.createElement('video');
+      video.className = 'story-media';
+      video.controls = true;
+      video.preload = 'metadata';
+      video.src = slide.media.src;
+      mediaWrap.appendChild(video);
+    } else {
+      mediaWrap.appendChild(createGraphic());
+    }
+
+    const content = document.createElement('div');
+    content.className = 'story-stage-content';
+
+    const slideIndex = document.createElement('p');
+    slideIndex.className = 'story-slide-index';
+    slideIndex.textContent = formatLayer?.getLabel?.(locale, 'stageFrom', safeIndex + 1, slides.length) || `${safeIndex + 1}/${slides.length}`;
+
+    const slideTitle = document.createElement('h4');
+    slideTitle.textContent = textOrFallback(slide.title);
+
+    const slideText = document.createElement('p');
+    slideText.textContent = textOrFallback(slide.text);
+
+    const controls = document.createElement('div');
+    controls.className = 'story-controls';
+
+    const prevButton = document.createElement('button');
+    prevButton.type = 'button';
+    prevButton.className = 'btn btn-secondary story-prev';
+    prevButton.disabled = safeIndex === 0;
+    prevButton.textContent = formatLayer?.getLabel?.(locale, 'previous') || 'Назад';
+
+    const nextButton = document.createElement('button');
+    nextButton.type = 'button';
+    nextButton.className = 'btn btn-primary story-next';
+    nextButton.disabled = safeIndex === slides.length - 1;
+    nextButton.textContent = formatLayer?.getLabel?.(locale, 'next') || 'Дальше';
+
+    controls.append(prevButton, nextButton);
+    content.append(slideIndex, slideTitle, slideText, controls);
+    main.append(mediaWrap, content);
+
+    const timeline = document.createElement('div');
+    timeline.className = 'story-timeline';
+
+    slides.forEach((item, index) => {
+      const stepButton = document.createElement('button');
+      stepButton.type = 'button';
+      stepButton.className = `story-step ${index === safeIndex ? 'is-current' : ''}`;
+      stepButton.dataset.stepIndex = String(index);
+
+      const stepNum = document.createElement('span');
+      stepNum.textContent = String(index + 1).padStart(2, '0');
+
+      const stepTitle = document.createElement('strong');
+      stepTitle.textContent = localize(item.title);
+
+      stepButton.append(stepNum, stepTitle);
+      timeline.appendChild(stepButton);
+    });
+
+    storyStage.append(header, main, timeline);
   };
 
   stories.forEach((story) => storyList.appendChild(createStoryCard(story)));

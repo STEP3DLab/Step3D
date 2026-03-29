@@ -1,0 +1,35 @@
+{
+  "version": 1,
+  "items": [
+    {
+      "id": "pipeline",
+      "type": "story",
+      "title": {"ru": "Pipeline: от входных данных до готового изделия", "en": "Pipeline: from input data to ready product"},
+      "subtitle": {"ru": "Интерактивный маршрут Step3D", "en": "Interactive Step3D workflow"},
+      "problem": {"ru": "Разрозненные подрядчики и отсутствие единого маршрута увеличивают риски проекта.", "en": "Fragmented vendors and no unified flow increase project risks."},
+      "solution": {"ru": "Единый инженерный пайплайн от сбора входных данных до финальной передачи результата.", "en": "A single engineering pipeline from data intake to final delivery."},
+      "result": {"ru": "Прозрачный и управляемый цикл с предсказуемыми этапами.", "en": "A transparent, manageable cycle with predictable stages."},
+      "slides": [
+        {"title": {"ru": "Scan / Input", "en": "Scan / Input"}, "text": {"ru": "Собираем исходные данные: скан, фото, CAD или физический образец.", "en": "We collect source data: scan, photos, CAD, or a physical sample."}},
+        {"title": {"ru": "CAD / Reverse", "en": "CAD / Reverse"}, "text": {"ru": "Превращаем геометрию в чистую редактируемую инженерную модель.", "en": "We turn geometry into a clean, editable engineering model."}},
+        {"title": {"ru": "Prototype / Print", "en": "Prototype / Print"}, "text": {"ru": "Выпускаем прототипы и малые серии с быстрыми итерациями.", "en": "We produce prototypes and short-runs with fast iterations."}},
+        {"title": {"ru": "Validation / Delivery", "en": "Validation / Delivery"}, "text": {"ru": "Контроль параметров, передача файлов, деталей и инструкций.", "en": "Parameter validation and transfer of files, parts, and instructions."}},
+        {"title": {"ru": "Производственный обзор", "en": "Production overview"}, "text": {"ru": "Видео-формат для презентации маршрута и команды.", "en": "Video format to present the workflow and team."}, "media": {"type": "video", "src": "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"}}
+      ]
+    },
+    {
+      "id": "scan",
+      "type": "story",
+      "title": {"ru": "3D-сканирование", "en": "3D scanning"},
+      "subtitle": {"ru": "История направления", "en": "Service story"},
+      "problem": {"ru": "Необходима точная цифровая геометрия физического объекта.", "en": "Precise digital geometry of a physical object is required."},
+      "solution": {"ru": "Подготовка, многопроходная съемка и проверка отклонений.", "en": "Preparation, multi-pass capture, and deviation validation."},
+      "result": {"ru": "Чистые данные для CAD, реверса и производства.", "en": "Clean data ready for CAD, reverse engineering, and manufacturing."},
+      "slides": [
+        {"title": {"ru": "Подготовка объекта", "en": "Object preparation"}, "text": {"ru": "Фиксируем базу, метки и зоны критической точности.", "en": "We define references, markers, and critical-accuracy zones."}},
+        {"title": {"ru": "Съёмка геометрии", "en": "Geometry capture"}, "text": {"ru": "Многопроходное сканирование для плотного и чистого облака точек.", "en": "Multi-pass scanning for a dense, clean point cloud."}},
+        {"title": {"ru": "Валидация", "en": "Validation"}, "text": {"ru": "Проверяем отклонения и готовим результат под CAD/Reverse.", "en": "We verify deviations and prepare output for CAD/Reverse."}}
+      ]
+    }
+  ]
+}

@@ -1,12 +1,56 @@
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
   const body = document.body;
   const root = document.documentElement;
   const menuToggle = document.getElementById('menuToggle');
   const nav = document.getElementById('nav');
   const progress = document.getElementById('scrollProgress');
   const themeToggle = document.getElementById('themeToggle');
+  const localeToggle = document.getElementById('localeToggle');
   const navLinks = [...document.querySelectorAll('.nav a')];
   const sections = [...document.querySelectorAll('main section[id]')];
+
+  const formatLayer = window.STEP3D_FORMAT;
+  const locale = formatLayer?.detectLocale?.() || 'ru';
+  formatLayer?.setLocale?.(locale);
+
+  const FALLBACK_CASES = [];
+
+  const isLocalizedValue = (value) => typeof value === 'string' || (value && typeof value === 'object');
+  const isValidCase = (item) => {
+    if (!item || typeof item !== 'object') return false;
+    if (typeof item.id !== 'string' || !item.id.trim()) return false;
+    if (!Array.isArray(item.type) || !item.type.length || !item.type.every((entry) => typeof entry === 'string' && entry.trim())) return false;
+    return ['title', 'problem', 'solution', 'result'].every((key) => isLocalizedValue(item[key]));
+  };
+
+  const loadCases = async () => {
+    try {
+      const response = await fetch('assets/data/cases.json', { cache: 'no-store' });
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      const payload = await response.json();
+      const items = Array.isArray(payload?.items) ? payload.items.filter(isValidCase) : [];
+      if (items.length) return items;
+      throw new Error('Schema validation failed for cases.json');
+    } catch (error) {
+      console.warn('[Step3D] Using fallback cases data:', error);
+      return FALLBACK_CASES.filter(isValidCase);
+    }
+  };
+
+  const cases = await loadCases();
+
+  const applyLocale = (nextLocale) => {
+    const normalized = formatLayer?.setLocale?.(nextLocale) || nextLocale;
+    if (localeToggle) localeToggle.textContent = normalized === 'ru' ? 'EN' : 'RU';
+  };
+  applyLocale(locale);
+
+  localeToggle?.addEventListener('click', () => {
+    const currentLocale = formatLayer?.detectLocale?.() || locale;
+    const nextLocale = currentLocale === 'ru' ? 'en' : 'ru';
+    applyLocale(nextLocale);
+    window.location.reload();
+  });
 
   const applyTheme = (theme) => {
     root.setAttribute('data-theme', theme);
@@ -117,26 +161,44 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  const localize = (value) => formatLayer?.localize?.(value, locale, '') || '';
+  const textOrFallback = (value) => formatLayer?.textOrFallback?.(value, locale) || 'По запросу';
+
   const caseGrid = document.getElementById('caseGrid');
   const caseModal = document.getElementById('caseModal');
   const caseModalContent = document.getElementById('caseModalContent');
   const caseModalClose = document.getElementById('caseModalClose');
-  const cases = Array.isArray(window.STEP3D_CASES) ? window.STEP3D_CASES : [];
-  const fallbackText = 'По запросу';
-  const toText = (value) => (typeof value === 'string' && value.trim().length ? value.trim() : fallbackText);
 
   const renderCaseCard = (item) => {
     const card = document.createElement('article');
     card.className = 'case-card';
-    card.innerHTML = `
-      <div class="case-top">
-        <p class="case-type">${toText(item.categoryLabel)}</p>
-        <p class="case-meta">${toText(item.timeline)}</p>
-      </div>
-      <h3>${toText(item.title)}</h3>
-      <p>${toText(item.problem)}</p>
-      <button class="case-link" data-case-id="${item.id}" type="button">Открыть кейс →</button>
-    `;
+
+    const top = document.createElement('div');
+    top.className = 'case-top';
+
+    const type = document.createElement('p');
+    type.className = 'case-type';
+    type.textContent = textOrFallback(item.categoryLabel);
+
+    const meta = document.createElement('p');
+    meta.className = 'case-meta';
+    meta.textContent = textOrFallback(item.timeline);
+
+    top.append(type, meta);
+
+    const title = document.createElement('h3');
+    title.textContent = textOrFallback(item.title);
+
+    const problem = document.createElement('p');
+    problem.textContent = textOrFallback(item.problem);
+
+    const openButton = document.createElement('button');
+    openButton.className = 'case-link';
+    openButton.type = 'button';
+    openButton.dataset.caseId = item.id;
+    openButton.textContent = formatLayer?.getLabel?.(locale, 'openCase') || 'Открыть кейс →';
+
+    card.append(top, title, problem, openButton);
     return card;
   };
 
@@ -145,19 +207,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const renderCases = (filter = 'all', query = '') => {
     if (!caseGrid) return;
-    caseGrid.innerHTML = '';
+    caseGrid.textContent = '';
     const filteredByType = filter === 'all' ? cases : cases.filter((item) => Array.isArray(item.type) && item.type.includes(filter));
     const normalizedQuery = query.trim().toLowerCase();
     const filtered = normalizedQuery
-      ? filteredByType.filter((item) => [item.title, item.problem, item.solution, item.result, item.taskType, item.categoryLabel].join(' ').toLowerCase().includes(normalizedQuery))
+      ? filteredByType.filter((item) => [item.title, item.problem, item.solution, item.result, item.taskType, item.categoryLabel].map(localize).join(' ').toLowerCase().includes(normalizedQuery))
       : filteredByType;
 
     if (casesCount) {
-      casesCount.textContent = `Найдено кейсов: ${filtered.length}`;
+      casesCount.textContent = formatLayer?.getLabel?.(locale, 'casesFound', filtered.length) || `Найдено кейсов: ${filtered.length}`;
     }
 
     if (!filtered.length) {
-      caseGrid.innerHTML = '<article class="card"><h3>Нет кейсов в этой категории</h3><p>Выберите другой фильтр или отправьте задачу — подберем релевантные примеры.</p></article>';
+      const emptyCard = document.createElement('article');
+      emptyCard.className = 'card';
+      const h3 = document.createElement('h3');
+      h3.textContent = formatLayer?.getLabel?.(locale, 'noCasesTitle') || 'Нет кейсов в этой категории';
+      const p = document.createElement('p');
+      p.textContent = formatLayer?.getLabel?.(locale, 'noCasesBody') || 'Выберите другой фильтр или отправьте задачу — подберем релевантные примеры.';
+      emptyCard.append(h3, p);
+      caseGrid.appendChild(emptyCard);
       return;
     }
 
@@ -168,19 +237,38 @@ document.addEventListener('DOMContentLoaded', () => {
     const selected = cases.find((item) => item.id === caseId);
     if (!selected || !caseModal || !caseModalContent) return;
 
-    const timeline = toText(selected.timeline);
-    const budget = toText(selected.budget);
+    caseModalContent.textContent = '';
 
-    caseModalContent.innerHTML = `
-      <h3>${toText(selected.title)}</h3>
-      <p>${toText(selected.problem)}</p>
-      <div class="modal-grid">
-        <div><strong>Тип задачи</strong><p>${toText(selected.taskType)}</p></div>
-        <div><strong>Что сделали</strong><p>${toText(selected.solution)}</p></div>
-        <div><strong>Результат</strong><p>${toText(selected.result)}</p></div>
-        <div><strong>Срок / бюджет</strong><p>${timeline} · ${budget}</p></div>
-      </div>
-    `;
+    const heading = document.createElement('h3');
+    heading.textContent = textOrFallback(selected.title);
+
+    const problem = document.createElement('p');
+    problem.textContent = textOrFallback(selected.problem);
+
+    const grid = document.createElement('div');
+    grid.className = 'modal-grid';
+
+    const modalRows = [
+      [formatLayer?.getLabel?.(locale, 'modalTaskType') || 'Тип задачи', selected.taskType],
+      [formatLayer?.getLabel?.(locale, 'modalSolution') || 'Что сделали', selected.solution],
+      [formatLayer?.getLabel?.(locale, 'modalResult') || 'Результат', selected.result],
+      [
+        formatLayer?.getLabel?.(locale, 'modalTimelineBudget') || 'Срок / бюджет',
+        formatLayer?.formatTimelineBudget?.(selected.timeline, selected.budget, locale) || `${textOrFallback(selected.timeline)} · ${textOrFallback(selected.budget)}`,
+      ],
+    ];
+
+    modalRows.forEach(([label, value]) => {
+      const wrapper = document.createElement('div');
+      const strong = document.createElement('strong');
+      strong.textContent = String(label);
+      const text = document.createElement('p');
+      text.textContent = typeof value === 'string' ? value : textOrFallback(value);
+      wrapper.append(strong, text);
+      grid.appendChild(wrapper);
+    });
+
+    caseModalContent.append(heading, problem, grid);
 
     caseModal.showModal();
     body.classList.add('modal-open');

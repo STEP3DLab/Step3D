@@ -1,0 +1,61 @@
+{
+  "version": 1,
+  "items": [
+    {
+      "id": "pump-impeller",
+      "title": {"ru": "Восстановление крыльчатки насосного узла", "en": "Pump impeller reverse engineering"},
+      "categoryLabel": {"ru": "Реверсивный инжиниринг", "en": "Reverse engineering"},
+      "type": ["scan", "reverse"],
+      "taskType": {"ru": "Импортозамещение критичной детали", "en": "Critical spare part replacement"},
+      "problem": {"ru": "Оригинальная запчасть недоступна, простой производственной линии приводил к потерям.", "en": "The original spare part was unavailable, causing production downtime and losses."},
+      "solution": {"ru": "Провели высокоточное сканирование, собрали параметрическую CAD-модель и подготовили комплект для повторного производства.", "en": "We performed high-precision scanning, built a parametric CAD model, and prepared a package for repeat manufacturing."},
+      "result": {"ru": "Линия возвращена в работу, сформирована цифровая база детали для последующих заказов.", "en": "The production line was restored, and a digital part baseline was created for future orders."},
+      "timeline": {"ru": "6 рабочих дней", "en": "6 business days"},
+      "budget": {"ru": "от 95 000 ₽", "en": "from ₽95,000"},
+      "output": {"ru": "STEP + контрольная STL + отчет по отклонениям", "en": "STEP + validation STL + deviation report"},
+      "gallery": {"ru": "2 ракурса скана + CAD-сборка + фото контрольной детали", "en": "2 scan views + CAD assembly + validation part photo"}
+    },
+    {
+      "id": "medical-enclosure",
+      "title": {"ru": "Функциональный прототип корпуса медицинского прибора", "en": "Functional prototype for a medical device enclosure"},
+      "categoryLabel": {"ru": "Прототипирование", "en": "Prototyping"},
+      "type": ["prototype", "print"],
+      "taskType": {"ru": "Проверка эргономики и сборки", "en": "Ergonomics and assembly validation"},
+      "problem": {"ru": "Команде требовалось подтвердить компоновку до запуска дорогой оснастки.", "en": "The team had to validate layout decisions before launching costly tooling."},
+      "solution": {"ru": "Разработали корпус с учетом крепежа и допусков, изготовили 3 итерации прототипов с корректировками.", "en": "We engineered the enclosure with mounting points and tolerances, then produced three prototype iterations."},
+      "result": {"ru": "Снижены риски поздних изменений, ускорен выход на этап пилотной серии.", "en": "Late-stage change risks were reduced and pilot production started faster."},
+      "timeline": {"ru": "4 рабочих дня", "en": "4 business days"},
+      "budget": {"ru": "от 48 000 ₽", "en": "from ₽48,000"},
+      "output": {"ru": "Физические прототипы + STL/STEP", "en": "Physical prototypes + STL/STEP"},
+      "gallery": {"ru": "Фото 3 итераций + схема сборки + итоговый вариант", "en": "Photos of 3 iterations + assembly diagram + final variant"}
+    },
+    {
+      "id": "facade-module",
+      "title": {"ru": "Малосерийный выпуск модулей архитектурного макета", "en": "Short-run production of architectural model modules"},
+      "categoryLabel": {"ru": "3D-печать и серии", "en": "3D printing and short-runs"},
+      "type": ["print", "prototype"],
+      "taskType": {"ru": "Сроковой тендерный проект", "en": "Deadline-driven tender project"},
+      "problem": {"ru": "Нужна была серия одинаковых элементов в стабильном качестве и жестком сроке.", "en": "The client needed a series of identical elements with stable quality under a strict deadline."},
+      "solution": {"ru": "Оптимизировали печатные профили и ориентацию, выпустили серию из 120 модулей с постобработкой.", "en": "We optimized print profiles and orientation, then produced 120 modules with post-processing."},
+      "result": {"ru": "Макет собран без доработок, команда вовремя вышла на международную презентацию.", "en": "The model was assembled without rework, and the team met the international presentation deadline."},
+      "timeline": {"ru": "8 рабочих дней", "en": "8 business days"},
+      "budget": {"ru": "по запросу", "en": "on request"},
+      "output": {"ru": "Серия изделий + комплект STL", "en": "Product batch + STL package"},
+      "gallery": {"ru": "Галерея печати партии + фото готового макета", "en": "Batch printing gallery + final model photos"}
+    },
+    {
+      "id": "museum-replica",
+      "title": {"ru": "Цифровая копия музейного объекта для выездной экспозиции", "en": "Digital replica of a museum object for a traveling exhibition"},
+      "categoryLabel": {"ru": "Сканирование и моделирование", "en": "Scanning and modeling"},
+      "type": ["scan", "prototype"],
+      "taskType": {"ru": "Культурный проект", "en": "Cultural heritage project"},
+      "problem": {"ru": "Оригинал нельзя транспортировать, но требовалась максимально точная демонстрационная копия.", "en": "The original artifact could not be transported, but a highly accurate display replica was required."},
+      "solution": {"ru": "Сделали деликатное сканирование, восстановили mesh, изготовили экспозиционную реплику.", "en": "We performed non-invasive scanning, restored the mesh, and produced an exhibition-grade replica."},
+      "result": {"ru": "Оригинал сохранен, выставка получила высокодетализированную физическую копию.", "en": "The original remained safe, while the exhibition received a high-detail physical copy."},
+      "timeline": {"ru": "7 рабочих дней", "en": "7 business days"},
+      "budget": {"ru": "от 72 000 ₽", "en": "from ₽72,000"},
+      "output": {"ru": "STL + экспозиционная реплика", "en": "STL + exhibition replica"},
+      "gallery": {"ru": "Скан-процесс + сетка + фото реплики в экспозиции", "en": "Scanning process + mesh + replica-in-exhibition photos"}
+    }
+  ]
+}
