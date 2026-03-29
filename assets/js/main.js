@@ -232,6 +232,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const caseSearch = document.getElementById('caseSearch');
   const casesCount = document.getElementById('casesCount');
+  const filterButtons = [...document.querySelectorAll('.filter-btn')];
+
+  const setCaseFilter = (filter) => {
+    activeCaseFilter = filter;
+    filterButtons.forEach((item) => {
+      const isCurrent = (item.dataset.filter || 'all') === filter;
+      item.classList.toggle('is-active', isCurrent);
+      item.setAttribute('aria-selected', String(isCurrent));
+    });
+  };
 
   const renderCases = (filter = 'all', query = '') => {
     if (!caseGrid) return;
@@ -303,16 +313,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   let activeCaseFilter = 'all';
 
-  document.querySelectorAll('.filter-btn').forEach((button) => {
+  filterButtons.forEach((button) => {
     button.addEventListener('click', () => {
       const filter = button.dataset.filter || 'all';
-      activeCaseFilter = filter;
-      document.querySelectorAll('.filter-btn').forEach((item) => {
-        item.classList.remove('is-active');
-        item.setAttribute('aria-selected', 'false');
-      });
-      button.classList.add('is-active');
-      button.setAttribute('aria-selected', 'true');
+      setCaseFilter(filter);
       renderCases(filter, caseSearch instanceof HTMLInputElement ? caseSearch.value : '');
     });
   });
@@ -368,6 +372,18 @@ document.addEventListener('DOMContentLoaded', () => {
   const fileSummary = document.getElementById('fileSummary');
   const formProgressBar = document.getElementById('formProgressBar');
   const formProgressText = document.getElementById('formProgressText');
+  const projectWizard = document.getElementById('projectWizard');
+  const wizardForm = document.getElementById('projectWizardForm');
+  const wizardProgressBar = document.getElementById('wizardProgressBar');
+  const wizardStepLabel = document.getElementById('wizardStepLabel');
+  const wizardPrevBtn = document.getElementById('wizardPrevBtn');
+  const wizardNextBtn = document.getElementById('wizardNextBtn');
+  const wizardFooter = document.getElementById('wizardFooter');
+  const wizardFallbackToggle = document.getElementById('wizardFallbackToggle');
+  const wizardSubmitStatus = document.getElementById('wizardSubmitStatus');
+  const heroWizardTriggers = [...document.querySelectorAll('[data-open-wizard]')];
+  const wizardTaskField = document.getElementById('wizardTaskField');
+  const wizardTaskCounter = document.getElementById('wizardTaskCounter');
 
   const normalizeSpaces = (value) => value.replace(/\s+/g, ' ').trim();
   const normalizeTask = (value) => value.replace(/\r\n/g, '\n').split('\n').map((line) => line.trim()).filter(Boolean).join('\n');
@@ -420,6 +436,276 @@ document.addEventListener('DOMContentLoaded', () => {
     contactFormStatus.classList.remove('is-loading', 'is-success', 'is-error');
     contactFormStatus.classList.add(`is-${state}`);
   };
+
+  const pushAnalytics = (eventName, payload = {}) => {
+    const eventPayload = {
+      event: eventName,
+      timestamp: new Date().toISOString(),
+      ...payload,
+    };
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push(eventPayload);
+    window.dispatchEvent(new CustomEvent('step3d:analytics', { detail: eventPayload }));
+  };
+
+  const wizardState = {
+    step: 1,
+    data: {
+      type: '',
+      timeline: '',
+      outcome: '',
+      task: '',
+      name: '',
+      company: '',
+      contact: '',
+      consent: false,
+    },
+    submitted: false,
+  };
+
+  const wizardLabels = {
+    1: 'Шаг 1 из 3 · Тип задачи',
+    2: 'Шаг 2 из 3 · Сроки и результат',
+    3: 'Шаг 3 из 3 · Контакт',
+  };
+
+  const getWizardErrorNode = (step) => document.getElementById(`wizardErrorStep${step}`);
+
+  const hideWizardError = (step) => {
+    const node = getWizardErrorNode(step);
+    if (!node) return;
+    node.hidden = true;
+  };
+
+  const showWizardError = (step, message) => {
+    const node = getWizardErrorNode(step);
+    if (!node) return;
+    if (message) node.textContent = message;
+    node.hidden = false;
+  };
+
+  const updateWizardTaskCounter = () => {
+    if (!(wizardTaskField instanceof HTMLTextAreaElement) || !wizardTaskCounter) return;
+    wizardTaskCounter.textContent = `${wizardTaskField.value.length} / ${wizardTaskField.maxLength || 700}`;
+  };
+
+  const syncWizardFromDom = () => {
+    if (!(wizardForm instanceof HTMLFormElement)) return;
+    const formData = new FormData(wizardForm);
+    wizardState.data.type = String(formData.get('wizardType') || '');
+    wizardState.data.timeline = String(formData.get('wizardTimeline') || '');
+    wizardState.data.outcome = String(formData.get('wizardOutcome') || '');
+    wizardState.data.task = normalizeTask(String(formData.get('wizardTask') || ''));
+    wizardState.data.name = normalizeSpaces(String(formData.get('wizardName') || ''));
+    wizardState.data.company = normalizeSpaces(String(formData.get('wizardCompany') || ''));
+    wizardState.data.contact = normalizeSpaces(String(formData.get('wizardContact') || ''));
+    wizardState.data.consent = Boolean(formData.get('wizardConsent'));
+  };
+
+  const syncWizardToDom = () => {
+    if (!(wizardForm instanceof HTMLFormElement)) return;
+    const setValue = (name, value) => {
+      const field = wizardForm.elements.namedItem(name);
+      if (!field) return;
+      if (field instanceof RadioNodeList) {
+        [...field].forEach((radio) => {
+          if (radio instanceof HTMLInputElement) {
+            radio.checked = radio.value === value;
+          }
+        });
+        return;
+      }
+      if (field instanceof HTMLInputElement && field.type === 'checkbox') {
+        field.checked = Boolean(value);
+        return;
+      }
+      if (field instanceof HTMLInputElement || field instanceof HTMLTextAreaElement || field instanceof HTMLSelectElement) {
+        field.value = String(value || '');
+      }
+    };
+
+    setValue('wizardType', wizardState.data.type);
+    setValue('wizardTimeline', wizardState.data.timeline);
+    setValue('wizardOutcome', wizardState.data.outcome);
+    setValue('wizardTask', wizardState.data.task);
+    setValue('wizardName', wizardState.data.name);
+    setValue('wizardCompany', wizardState.data.company);
+    setValue('wizardContact', wizardState.data.contact);
+    setValue('wizardConsent', wizardState.data.consent);
+    updateWizardTaskCounter();
+  };
+
+  const applyWizardCaseFilter = () => {
+    const nextFilter = wizardState.data.type || 'all';
+    setCaseFilter(nextFilter);
+    renderCases(nextFilter, caseSearch instanceof HTMLInputElement ? caseSearch.value : '');
+  };
+
+  const setWizardStatus = (state, message) => {
+    if (!wizardSubmitStatus) return;
+    wizardSubmitStatus.hidden = false;
+    wizardSubmitStatus.textContent = message;
+    wizardSubmitStatus.classList.remove('is-loading', 'is-success', 'is-error');
+    wizardSubmitStatus.classList.add(`is-${state}`);
+  };
+
+  const updateWizardUI = () => {
+    if (!projectWizard) return;
+    projectWizard.setAttribute('data-state', `step-${wizardState.step}`);
+    if (wizardStepLabel) wizardStepLabel.textContent = wizardLabels[wizardState.step];
+    if (wizardProgressBar) wizardProgressBar.style.width = `${(wizardState.step / 3) * 100}%`;
+    [...projectWizard.querySelectorAll('.wizard-step')].forEach((stepNode) => {
+      const isCurrent = Number(stepNode.getAttribute('data-step')) === wizardState.step;
+      stepNode.classList.toggle('is-active', isCurrent);
+    });
+    if (wizardPrevBtn) wizardPrevBtn.disabled = wizardState.step === 1;
+    if (wizardNextBtn) wizardNextBtn.textContent = wizardState.step === 3 ? 'Отправить заявку' : 'Далее';
+    hideWizardError(wizardState.step);
+  };
+
+  const validateWizardStep = (step) => {
+    syncWizardFromDom();
+    if (step === 1) {
+      const valid = Boolean(wizardState.data.type);
+      if (!valid) {
+        showWizardError(1, 'Выберите тип задачи, чтобы перейти к релевантным кейсам.');
+      }
+      if (valid) {
+        applyWizardCaseFilter();
+      }
+      return valid;
+    }
+
+    if (step === 2) {
+      const valid = Boolean(wizardState.data.timeline) && Boolean(wizardState.data.outcome) && validateRequired(wizardState.data.task, 10);
+      if (!valid) {
+        showWizardError(2, 'Уточните срок, результат и задачу (минимум 10 символов).');
+      }
+      return valid;
+    }
+
+    if (step === 3) {
+      const valid = validateRequired(wizardState.data.name) && validateRequired(wizardState.data.contact, 3) && wizardState.data.consent;
+      if (!valid) {
+        showWizardError(3, 'Проверьте имя, контакт и согласие на обработку данных.');
+      }
+      return valid;
+    }
+    return true;
+  };
+
+  const goToWizardStep = (nextStep, source = 'navigation') => {
+    wizardState.step = Math.max(1, Math.min(3, nextStep));
+    syncWizardToDom();
+    updateWizardUI();
+    pushAnalytics('wizard_step_view', { step: wizardState.step, source, type: wizardState.data.type || 'none' });
+  };
+
+  const submitWizard = async () => {
+    if (!(wizardForm instanceof HTMLFormElement)) return;
+    if (!validateWizardStep(3)) {
+      pushAnalytics('wizard_validation_error', { step: 3, reason: 'contact_fields' });
+      return;
+    }
+
+    const message = [
+      'Новая заявка через мастер Step3D',
+      `Тип задачи: ${wizardState.data.type || '—'}`,
+      `Желаемый срок: ${wizardState.data.timeline || '—'}`,
+      `Ожидаемый результат: ${wizardState.data.outcome || '—'}`,
+      `Описание: ${wizardState.data.task || '—'}`,
+      `Имя: ${wizardState.data.name || '—'}`,
+      `Компания/роль: ${wizardState.data.company || '—'}`,
+      `Контакт: ${wizardState.data.contact || '—'}`,
+    ].join('\n');
+
+    setWizardStatus('loading', 'Формируем заявку и готовим отправку…');
+    if (wizardNextBtn instanceof HTMLButtonElement) {
+      wizardNextBtn.disabled = true;
+      wizardNextBtn.setAttribute('aria-busy', 'true');
+    }
+    pushAnalytics('wizard_submit_attempt', { step: 3, type: wizardState.data.type || 'none' });
+
+    try {
+      await navigator.clipboard.writeText(message);
+      window.location.href = `mailto:hello@step3d.pro?subject=${encodeURIComponent('Новая заявка Step3D (мастер)')}&body=${encodeURIComponent(message)}`;
+      wizardState.submitted = true;
+      setWizardStatus('success', 'Заявка подготовлена. Проверьте письмо и отправьте его — после этого мы свяжемся с вами.');
+      pushAnalytics('wizard_submit_success', { type: wizardState.data.type || 'none' });
+      wizardForm.reset();
+      wizardState.step = 1;
+      wizardState.data = { type: '', timeline: '', outcome: '', task: '', name: '', company: '', contact: '', consent: false };
+      applyWizardCaseFilter();
+      updateWizardUI();
+    } catch {
+      setWizardStatus('error', 'Не удалось сформировать отправку автоматически. Напишите нам на hello@step3d.pro.');
+      pushAnalytics('wizard_submit_error', { type: wizardState.data.type || 'none' });
+    } finally {
+      if (wizardNextBtn instanceof HTMLButtonElement) {
+        wizardNextBtn.disabled = false;
+        wizardNextBtn.removeAttribute('aria-busy');
+      }
+    }
+  };
+
+  if (projectWizard && wizardForm) {
+    goToWizardStep(1, 'init');
+    applyWizardCaseFilter();
+    wizardTaskField?.addEventListener('input', updateWizardTaskCounter);
+    wizardForm.addEventListener('input', () => {
+      syncWizardFromDom();
+      hideWizardError(wizardState.step);
+    });
+    wizardForm.addEventListener('change', () => {
+      syncWizardFromDom();
+      if (wizardState.data.type) applyWizardCaseFilter();
+    });
+
+    wizardPrevBtn?.addEventListener('click', () => {
+      syncWizardFromDom();
+      if (wizardState.step > 1) {
+        pushAnalytics('wizard_step_back', { from: wizardState.step, to: wizardState.step - 1, type: wizardState.data.type || 'none' });
+        goToWizardStep(wizardState.step - 1, 'back');
+      }
+    });
+
+    wizardNextBtn?.addEventListener('click', () => {
+      syncWizardFromDom();
+      const currentStep = wizardState.step;
+      const isValid = validateWizardStep(currentStep);
+      if (!isValid) {
+        pushAnalytics('wizard_validation_error', { step: currentStep, type: wizardState.data.type || 'none' });
+        return;
+      }
+      if (currentStep < 3) {
+        pushAnalytics('wizard_step_next', { from: currentStep, to: currentStep + 1, type: wizardState.data.type || 'none' });
+        goToWizardStep(currentStep + 1, 'next');
+        return;
+      }
+      submitWizard();
+    });
+
+    heroWizardTriggers.forEach((trigger) => {
+      trigger.addEventListener('click', () => {
+        document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        pushAnalytics('wizard_launch', { source: trigger.getAttribute('data-open-wizard') || 'unknown' });
+      });
+    });
+
+    wizardFallbackToggle?.addEventListener('click', () => {
+      contactForm?.classList.toggle('is-fallback-hidden');
+      const isVisible = !contactForm?.classList.contains('is-fallback-hidden');
+      wizardFallbackToggle.textContent = isVisible ? 'Скрыть классическую форму' : 'Заполнить классическую форму';
+      pushAnalytics('wizard_toggle_fallback', { fallbackVisible: Boolean(isVisible) });
+    });
+
+    window.addEventListener('beforeunload', () => {
+      const hasProgress = Boolean(wizardState.data.type || wizardState.data.task || wizardState.data.contact);
+      if (hasProgress && !wizardState.submitted) {
+        pushAnalytics('wizard_dropoff', { step: wizardState.step, type: wizardState.data.type || 'none' });
+      }
+    });
+  }
 
   contactForm?.addEventListener('submit', async (event) => {
     event.preventDefault();
