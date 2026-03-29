@@ -8,6 +8,19 @@ document.addEventListener('DOMContentLoaded', () => {
   const navLinks = [...document.querySelectorAll('.nav a')];
   const sections = [...document.querySelectorAll('main section[id]')];
 
+  const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const getLowPowerMode = () => {
+    const memory = navigator.deviceMemory || 0;
+    const cpu = navigator.hardwareConcurrency || 0;
+    return motionQuery.matches || (memory > 0 && memory <= 4) || (cpu > 0 && cpu <= 4);
+  };
+  const applyPerformanceMode = () => {
+    body.classList.toggle('is-low-motion', getLowPowerMode());
+  };
+
+  applyPerformanceMode();
+  motionQuery.addEventListener?.('change', applyPerformanceMode);
+
   const applyTheme = (theme) => {
     root.setAttribute('data-theme', theme);
     localStorage.setItem('step3d-theme', theme);
@@ -66,29 +79,103 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const toTopBtn = document.getElementById('toTopBtn');
 
-  const onScroll = () => {
-    const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-    if (progress) {
-      progress.style.width = `${maxScroll > 0 ? (window.scrollY / maxScroll) * 100 : 0}%`;
-    }
-    toTopBtn?.classList.toggle('is-visible', window.scrollY > 560);
+  let activeId = sections[0]?.id || '';
 
-    let activeId = '';
-    sections.forEach((section) => {
-      if (section.getBoundingClientRect().top <= 140) {
-        activeId = section.id;
-      }
-    });
-
+  const setActiveNavLink = (id) => {
     navLinks.forEach((link) => {
-      const isCurrent = link.getAttribute('href') === `#${activeId}`;
+      const isCurrent = !!id && link.getAttribute('href') === `#${id}`;
       link.classList.toggle('is-active', isCurrent);
       link.setAttribute('aria-current', isCurrent ? 'page' : 'false');
     });
   };
 
-  window.addEventListener('scroll', onScroll, { passive: true });
-  onScroll();
+  const updateScrollProgress = () => {
+    if (!progress) return;
+    const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+    progress.style.width = `${maxScroll > 0 ? (window.scrollY / maxScroll) * 100 : 0}%`;
+  };
+
+  const onScrollShared = () => {
+    updateScrollProgress();
+    toTopBtn?.classList.toggle('is-visible', window.scrollY > 560);
+  };
+
+  let scrollTicking = false;
+  const onScroll = () => {
+    if (scrollTicking) return;
+    scrollTicking = true;
+    window.requestAnimationFrame(() => {
+      onScrollShared();
+      scrollTicking = false;
+    });
+  };
+
+  if ('IntersectionObserver' in window && sections.length) {
+    const sectionPositions = new Map(sections.map((section, index) => [section.id, index]));
+    const intersectionState = new Map();
+
+    const sectionObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          const id = entry.target.id;
+          if (!id) return;
+          if (entry.isIntersecting) {
+            intersectionState.set(id, entry.intersectionRatio);
+          } else {
+            intersectionState.delete(id);
+          }
+        });
+
+        const nextId = [...intersectionState.entries()]
+          .sort((a, b) => {
+            if (b[1] !== a[1]) return b[1] - a[1];
+            return (sectionPositions.get(a[0]) ?? 0) - (sectionPositions.get(b[0]) ?? 0);
+          })[0]?.[0];
+
+        if (nextId && nextId !== activeId) {
+          activeId = nextId;
+          setActiveNavLink(activeId);
+        }
+      },
+      {
+        rootMargin: '-35% 0px -45% 0px',
+        threshold: [0.1, 0.25, 0.5, 0.75],
+      },
+    );
+
+    sections.forEach((section) => sectionObserver.observe(section));
+  } else {
+    const updateActiveFromScroll = () => {
+      let nextActiveId = '';
+      sections.forEach((section) => {
+        if (section.getBoundingClientRect().top <= 140) {
+          nextActiveId = section.id;
+        }
+      });
+      if (nextActiveId !== activeId) {
+        activeId = nextActiveId;
+        setActiveNavLink(activeId);
+      }
+    };
+
+    window.addEventListener(
+      'scroll',
+      () => {
+        onScroll();
+        updateActiveFromScroll();
+      },
+      { passive: true },
+    );
+
+    updateActiveFromScroll();
+  }
+
+  if ('IntersectionObserver' in window && sections.length) {
+    window.addEventListener('scroll', onScroll, { passive: true });
+    setActiveNavLink(activeId);
+  }
+
+  onScrollShared();
 
   const faqItems = [...document.querySelectorAll('.faq-item')];
   const faqExpandAll = document.getElementById('faqExpandAll');

@@ -5,6 +5,7 @@
   background: color-mix(in srgb, var(--bg) 88%, transparent);
   border-bottom: 1px solid var(--line);
   backdrop-filter: blur(10px);
+  will-change: backdrop-filter;
 }
 
 .header-row {
@@ -172,7 +173,7 @@ select:focus-visible,
   overflow: hidden;
   border-radius: var(--radius-lg);
   border: 1px solid var(--line-strong);
-  background: linear-gradient(145deg, rgba(25, 39, 61, 0.9), rgba(14, 25, 40, 0.84));
+  background: var(--surface-gradient-strong);
   box-shadow: var(--shadow-lg);
   padding: clamp(22px, 3.5vw, 36px);
 }
@@ -221,7 +222,7 @@ select:focus-visible,
   inset: 0;
   background-image: linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px);
   background-size: 34px 34px;
-  opacity: 0.18;
+  opacity: var(--mesh-opacity);
   mask-image: radial-gradient(circle at 75% 40%, black 15%, transparent 70%);
 }
 
@@ -238,7 +239,7 @@ select:focus-visible,
 .contact-aside {
   border: 1px solid var(--line);
   border-radius: var(--radius-md);
-  background: linear-gradient(165deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.015));
+  background: var(--surface-gradient);
 }
 
 .card {
@@ -291,7 +292,7 @@ select:focus-visible,
 
 .story-card.is-active {
   border-color: var(--line-strong);
-  background: linear-gradient(165deg, rgba(156, 188, 255, 0.2), rgba(255, 255, 255, 0.04));
+  background: color-mix(in srgb, var(--accent-strong) 20%, transparent);
 }
 
 .story-card-title {
@@ -307,7 +308,7 @@ select:focus-visible,
 .story-stage {
   border: 1px solid var(--line);
   border-radius: var(--radius-lg);
-  background: linear-gradient(165deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.015));
+  background: var(--surface-gradient);
   padding: clamp(18px, 3vw, 28px);
   display: grid;
   gap: var(--space-4);
@@ -845,4 +846,19 @@ select.is-invalid {
   opacity: 1;
   transform: translateY(0);
   pointer-events: auto;
+}
+
+body.is-low-motion .site-header {
+  backdrop-filter: none;
+}
+
+body.is-low-motion .btn:hover,
+body.is-low-motion .story-card:hover {
+  transform: none;
+}
+
+body.is-low-motion .visual-mesh,
+body.is-low-motion .story-graphic-grid,
+body.is-low-motion .story-graphic-ring {
+  opacity: 0.06;
 }
