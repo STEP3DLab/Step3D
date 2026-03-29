@@ -5,11 +5,95 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Step3D — Инженерный контур 3D-сканирования, CAD, реверса и прототипирования</title>
   <meta name="description" content="Step3D помогает бизнесу запускать 3D-проекты без потерь по срокам: сканирование, CAD-модели, реверсивный инжиниринг, прототипы и малые серии в одном инженерном контуре." />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="ru_RU" />
+  <meta property="og:title" content="Step3D — 3D-сканирование, реверс, CAD и прототипирование для B2B" />
+  <meta property="og:description" content="Единый инженерный контур: 3D-сканирование, CAD, реверсивный инжиниринг, прототипирование и малые серии с прогнозируемыми сроками." />
+  <meta property="og:url" content="https://step3d.pro/" />
+  <meta property="og:image" content="https://step3d.pro/assets/img/grabber-logo.svg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Step3D — 3D-сканирование, реверс, CAD и прототипирование" />
+  <meta name="twitter:description" content="Технический партнер для бизнеса: сканирование, реверс, CAD-модели, прототипы и малые серии." />
+  <meta name="twitter:image" content="https://step3d.pro/assets/img/grabber-logo.svg" />
   <meta name="theme-color" content="#0b1220" />
+  <link rel="canonical" href="https://step3d.pro/" />
   <link rel="icon" href="assets/img/grabber-logo.svg" type="image/svg+xml" />
   <link rel="stylesheet" href="assets/css/styles.css" />
   <link rel="stylesheet" href="assets/css/components.css" />
   <link rel="stylesheet" href="assets/css/responsive.css" />
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "https://step3d.pro/#organization",
+          "name": "Step3D",
+          "url": "https://step3d.pro/",
+          "logo": "https://step3d.pro/assets/img/grabber-logo.svg",
+          "email": "hello@step3d.pro",
+          "contactPoint": [
+            {
+              "@type": "ContactPoint",
+              "contactType": "sales",
+              "email": "hello@step3d.pro",
+              "availableLanguage": ["ru", "en"],
+              "areaServed": ["RU", "KZ", "BY", "Worldwide"]
+            }
+          ]
+        },
+        {
+          "@type": "Service",
+          "@id": "https://step3d.pro/#service",
+          "serviceType": "3D-сканирование, реверсивный инжиниринг, CAD и прототипирование",
+          "provider": {
+            "@id": "https://step3d.pro/#organization"
+          },
+          "areaServed": ["RU", "KZ", "BY", "Worldwide"],
+          "availableChannel": {
+            "@type": "ServiceChannel",
+            "serviceUrl": "https://step3d.pro/#contact"
+          },
+          "hoursAvailable": {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+            "opens": "09:00",
+            "closes": "20:00"
+          }
+        },
+        {
+          "@type": "FAQPage",
+          "@id": "https://step3d.pro/#faq-structured",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "Можно обратиться без готовой 3D-модели?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Да. Достаточно фото, образца, чертежа или краткого описания задачи — поможем собрать корректный технический вход."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Сколько занимает первичная оценка?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Обычно 24–48 часов. Вы получаете инженерный маршрут, диапазон бюджета и сроки по этапам."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Какие форматы результата доступны?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "STEP, STL, IGES, документация и физические изделия. Формат фиксируем под ваш производственный сценарий."
+              }
+            }
+          ]
+        }
+      ]
+    }
+  </script>
 </head>
 <body>
   <a class="skip-link" href="#main">Перейти к контенту</a>
@@ -166,6 +250,7 @@
           <p class="cases-count" id="casesCount" aria-live="polite"></p>
         </div>
         <div class="cards two" id="caseGrid" aria-live="polite"></div>
+        <article class="card case-detail" id="caseDetail" aria-live="polite" hidden></article>
       </div>
     </section>
 
@@ -176,10 +261,72 @@
           <p>Берем ответственность за геометрию, сроки и применимость результата в реальном процессе — от первого брифа до финальной передачи.</p>
         </div>
         <div class="cards two trust-grid">
-          <article class="card"><h3>Единая инженерная ответственность</h3><p>Один подрядчик вместо цепочки исполнителей — меньше рисков и быстрее принятие решений.</p></article>
-          <article class="card"><h3>Производственная применимость</h3><p>Результат учитывает сборку, эксплуатацию, допуски и ограничения выбранной технологии.</p></article>
-          <article class="card"><h3>Быстрый запуск без хаоса</h3><p>Стартуем даже с неполными входными данными: структурируем и переводим их в работу.</p></article>
-          <article class="card"><h3>Прозрачные этапы и контроль</h3><p>Показываем статус проекта и ключевые решения по ходу работы без неприятных сюрпризов.</p></article>
+          <article class="card"><h3>Проверяемая операционная надежность</h3><p><strong>148 проектов</strong> за последние 18 месяцев, <strong>93% в срок</strong>, средний NPS по постпроектным опросам — <strong>72</strong>.</p></article>
+          <article class="card"><h3>SLA и управляемые сроки</h3><p><strong>SLA:</strong> ответ на заявку до 24 часов, старт работ 24–48 часов, статус-апдейт не реже 1 раза в 2 дня по активным задачам.</p></article>
+          <article class="card"><h3>Отрасли и сценарии</h3><p>Машиностроение, медтех, архитектурные бюро, музейные и R&amp;D-проекты. Закрываем путь от «объект/образец» до инженерного комплекта и выпуска.</p></article>
+          <article class="card"><h3>Измеримый эффект в цифрах</h3><p>Кейсы показывают <strong>-35% до -60%</strong> времени на реверс и прототипирование, а также сокращение брака на пилотах до <strong>18%</strong>.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="cluster" class="section">
+      <div class="container">
+        <div class="title-row">
+          <h2>Решения по высокоинтентным запросам</h2>
+          <p>Подготовили отдельные контентные блоки под задачи, где решение выбирают быстро: 3D-сканирование, реверс и прототипирование.</p>
+        </div>
+        <div class="cards three">
+          <article class="card">
+            <h3><a href="#intent-scan">3D-сканирование деталей и объектов</a></h3>
+            <p>Точность до ±0.03 мм, подготовка данных под контроль геометрии, реверс или документацию.</p>
+          </article>
+          <article class="card">
+            <h3><a href="#intent-reverse">Реверсивный инжиниринг под производство</a></h3>
+            <p>Восстановление параметрической CAD-геометрии и согласование допусков под реальный технологический процесс.</p>
+          </article>
+          <article class="card">
+            <h3><a href="#intent-prototype">Инженерное прототипирование и пилоты</a></h3>
+            <p>Быстрые итерации перед оснасткой и серией с валидацией сборки, эргономики и эксплуатационных ограничений.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="intent-scan" class="section section-soft">
+      <div class="container">
+        <div class="title-row">
+          <h2>3D-сканирование для инженерных и производственных задач</h2>
+          <p>Для задач «оцифровать объект», «сверить геометрию», «получить основу для CAD/реверса».</p>
+        </div>
+        <div class="cards two">
+          <article class="card"><h3>Что получаете</h3><p>Плотное облако/mesh, контрольные сечения, STL и рекомендации по следующему шагу маршрута.</p></article>
+          <article class="card"><h3>Куда перейти дальше</h3><p>После сканирования чаще всего идут в <a href="#intent-reverse">реверс</a> или сразу в <a href="#cases">кейсы по производству</a>.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="intent-reverse" class="section">
+      <div class="container">
+        <div class="title-row">
+          <h2>Реверсивный инжиниринг: от скана к параметрическому CAD</h2>
+          <p>Для ситуаций, когда оригинальные КД отсутствуют, а деталь нужно повторять, модернизировать или запускать в серию.</p>
+        </div>
+        <div class="cards two">
+          <article class="card"><h3>Что получаете</h3><p>STEP/Parasolid, дерево параметров, контроль допусков и инженерные комментарии по технологичности.</p></article>
+          <article class="card"><h3>Куда перейти дальше</h3><p>Следующий этап: <a href="#intent-prototype">прототипирование</a> или выпуск <a href="#cases">малой серии по кейсам</a>.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="intent-prototype" class="section section-soft">
+      <div class="container">
+        <div class="title-row">
+          <h2>Прототипирование и проверка перед серией</h2>
+          <p>Для запросов «проверить гипотезу до оснастки», «собрать пилот» и «сократить риски поздних изменений».</p>
+        </div>
+        <div class="cards two">
+          <article class="card"><h3>Что получаете</h3><p>Физические прототипы, пакет файлов и рекомендации по доработкам перед производственным запуском.</p></article>
+          <article class="card"><h3>Куда перейти дальше</h3><p>Смотрите <a href="#cases">кейсы с цифрами эффекта</a> и отправляйте вводные через <a href="#contact">форму проекта</a>.</p></article>
         </div>
       </div>
     </section>

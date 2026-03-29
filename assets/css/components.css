@@ -498,6 +498,11 @@ select:focus-visible,
   border: 0;
   padding: 0;
   cursor: pointer;
+  text-decoration: none;
+}
+
+.case-detail {
+  margin-top: var(--space-4);
 }
 
 .faq-list {
