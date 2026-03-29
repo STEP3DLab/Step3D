@@ -7,6 +7,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const themeToggle = document.getElementById('themeToggle');
   const navLinks = [...document.querySelectorAll('.nav a')];
   const sections = [...document.querySelectorAll('main section[id]')];
+  const getFocusableElements = (container) => {
+    if (!(container instanceof HTMLElement)) return [];
+    return [...container.querySelectorAll('a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])')]
+      .filter((node) => node instanceof HTMLElement && !node.hasAttribute('hidden') && node.getAttribute('aria-hidden') !== 'true');
+  };
 
   const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
   const getLowPowerMode = () => {
@@ -43,10 +48,13 @@ document.addEventListener('DOMContentLoaded', () => {
     applyTheme(nextTheme);
   });
 
-  const closeMobileNav = () => {
+  const closeMobileNav = ({ restoreFocus = true } = {}) => {
     nav?.classList.remove('is-open');
     menuToggle?.setAttribute('aria-expanded', 'false');
     body.classList.remove('menu-open');
+    if (restoreFocus && menuToggle instanceof HTMLButtonElement) {
+      menuToggle.focus();
+    }
   };
 
   if (menuToggle && nav) {
@@ -54,25 +62,47 @@ document.addEventListener('DOMContentLoaded', () => {
       const isOpen = nav.classList.toggle('is-open');
       menuToggle.setAttribute('aria-expanded', String(isOpen));
       body.classList.toggle('menu-open', isOpen);
+      if (isOpen) {
+        const firstFocusable = getFocusableElements(nav)[0];
+        if (firstFocusable) {
+          firstFocusable.focus();
+        }
+      } else {
+        closeMobileNav({ restoreFocus: true });
+      }
     });
 
-    navLinks.forEach((link) => link.addEventListener('click', closeMobileNav));
+    navLinks.forEach((link) => link.addEventListener('click', () => closeMobileNav({ restoreFocus: false })));
 
     document.addEventListener('click', (event) => {
       const target = event.target;
       if (!(target instanceof HTMLElement)) return;
       if (!nav.classList.contains('is-open')) return;
       if (target.closest('#nav') || target.closest('#menuToggle')) return;
-      closeMobileNav();
+      closeMobileNav({ restoreFocus: false });
     });
 
     document.addEventListener('keydown', (event) => {
-      if (event.key === 'Escape') closeMobileNav();
+      if (!nav.classList.contains('is-open')) return;
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        closeMobileNav({ restoreFocus: true });
+        return;
+      }
+      if (event.key !== 'Tab') return;
+      const focusable = [menuToggle, ...getFocusableElements(nav)].filter((element) => element instanceof HTMLElement);
+      if (!focusable.length) return;
+      const currentIndex = focusable.indexOf(document.activeElement);
+      const nextIndex = event.shiftKey
+        ? (currentIndex <= 0 ? focusable.length - 1 : currentIndex - 1)
+        : (currentIndex === focusable.length - 1 ? 0 : currentIndex + 1);
+      event.preventDefault();
+      focusable[nextIndex]?.focus();
     });
 
     window.addEventListener('resize', () => {
       if (window.innerWidth > 900) {
-        closeMobileNav();
+        closeMobileNav({ restoreFocus: false });
       }
     });
   }
@@ -180,27 +210,54 @@ document.addEventListener('DOMContentLoaded', () => {
   const faqItems = [...document.querySelectorAll('.faq-item')];
   const faqExpandAll = document.getElementById('faqExpandAll');
   const faqCollapseAll = document.getElementById('faqCollapseAll');
+  const faqButtons = faqItems.map((item) => item.querySelector('.faq-btn')).filter((button) => button instanceof HTMLButtonElement);
+
+  const setFaqItemState = (item, isOpen) => {
+    const button = item.querySelector('.faq-btn');
+    const panelId = button?.getAttribute('aria-controls');
+    const panel = panelId ? document.getElementById(panelId) : null;
+    item.classList.toggle('is-open', isOpen);
+    button?.setAttribute('aria-expanded', String(isOpen));
+    if (panel instanceof HTMLElement) {
+      panel.hidden = !isOpen;
+      panel.setAttribute('aria-hidden', String(!isOpen));
+    }
+  };
 
   faqItems.forEach((item) => {
     const button = item.querySelector('.faq-btn');
-    button?.addEventListener('click', () => {
-      const willOpen = !item.classList.contains('is-open');
-      item.classList.toggle('is-open', willOpen);
-      button.setAttribute('aria-expanded', String(willOpen));
+    if (!(button instanceof HTMLButtonElement)) return;
+    const isOpen = item.classList.contains('is-open');
+    setFaqItemState(item, isOpen);
+    button.addEventListener('click', () => {
+      setFaqItemState(item, !item.classList.contains('is-open'));
+    });
+    button.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        button.click();
+        return;
+      }
+      if (!['ArrowDown', 'ArrowUp'].includes(event.key)) return;
+      event.preventDefault();
+      const currentIndex = faqButtons.indexOf(button);
+      if (currentIndex === -1) return;
+      const nextIndex = event.key === 'ArrowDown'
+        ? (currentIndex + 1) % faqButtons.length
+        : (currentIndex - 1 + faqButtons.length) % faqButtons.length;
+      faqButtons[nextIndex]?.focus();
     });
   });
 
   faqExpandAll?.addEventListener('click', () => {
     faqItems.forEach((item) => {
-      item.classList.add('is-open');
-      item.querySelector('.faq-btn')?.setAttribute('aria-expanded', 'true');
+      setFaqItemState(item, true);
     });
   });
 
   faqCollapseAll?.addEventListener('click', () => {
     faqItems.forEach((item) => {
-      item.classList.remove('is-open');
-      item.querySelector('.faq-btn')?.setAttribute('aria-expanded', 'false');
+      setFaqItemState(item, false);
     });
   });
 
@@ -209,6 +266,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const caseModalContent = document.getElementById('caseModalContent');
   const caseModalClose = document.getElementById('caseModalClose');
   const caseDetail = document.getElementById('caseDetail');
+  const casesPanel = document.getElementById('cases-panel');
   const cases = Array.isArray(window.STEP3D_CASES) ? window.STEP3D_CASES : [];
   const fallbackText = 'По запросу';
   const toText = (value) => (typeof value === 'string' && value.trim().length ? value.trim() : fallbackText);
@@ -233,14 +291,21 @@ document.addEventListener('DOMContentLoaded', () => {
   const caseSearch = document.getElementById('caseSearch');
   const casesCount = document.getElementById('casesCount');
   const filterButtons = [...document.querySelectorAll('.filter-btn')];
+  let lastCaseTrigger = null;
 
   const setCaseFilter = (filter) => {
     activeCaseFilter = filter;
+    let selectedTabId = '';
     filterButtons.forEach((item) => {
       const isCurrent = (item.dataset.filter || 'all') === filter;
       item.classList.toggle('is-active', isCurrent);
       item.setAttribute('aria-selected', String(isCurrent));
+      item.setAttribute('tabindex', isCurrent ? '0' : '-1');
+      if (isCurrent) selectedTabId = item.id;
     });
+    if (casesPanel && selectedTabId) {
+      casesPanel.setAttribute('aria-labelledby', selectedTabId);
+    }
   };
 
   const renderCases = (filter = 'all', query = '') => {
@@ -273,7 +338,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     caseDetail.hidden = false;
     caseDetail.innerHTML = `
-      <h3>${toText(selected.title)}</h3>
+      <h3 id="caseDetailHeading" tabindex="-1">${toText(selected.title)}</h3>
       <p>${toText(selected.problem)}</p>
       <div class="modal-grid">
         <div><strong>Тип задачи</strong><p>${toText(selected.taskType)}</p></div>
@@ -283,7 +348,10 @@ document.addEventListener('DOMContentLoaded', () => {
         <div><strong>Срок / бюджет</strong><p>${timeline} · ${budget}</p></div>
         <div><strong>Выходной результат</strong><p>${toText(selected.output)}</p></div>
       </div>
-      <p><a class="btn btn-secondary" href="#contact">Обсудить похожий проект</a></p>
+      <p class="case-detail-actions">
+        <button class="btn btn-secondary" type="button" id="caseDetailBackBtn">Назад к списку кейсов</button>
+        <a class="btn btn-secondary" href="#contact">Обсудить похожий проект</a>
+      </p>
     `;
 
     const nextUrl = `${window.location.pathname}?case=${encodeURIComponent(caseId)}#cases`;
@@ -295,6 +363,14 @@ document.addEventListener('DOMContentLoaded', () => {
       canonicalLink.href = `${window.location.origin}${nextUrl}`;
     }
     caseDetail.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    document.getElementById('caseDetailHeading')?.focus();
+    document.getElementById('caseDetailBackBtn')?.addEventListener('click', () => {
+      if (window.history.state?.caseId) {
+        window.history.back();
+      } else {
+        clearCaseDetail(true);
+      }
+    });
   };
 
   const clearCaseDetail = (pushState = true) => {
@@ -309,6 +385,11 @@ document.addEventListener('DOMContentLoaded', () => {
     if (pushState) {
       window.history.pushState({}, '', `${window.location.pathname}#cases`);
     }
+    if (lastCaseTrigger instanceof HTMLElement && document.contains(lastCaseTrigger)) {
+      lastCaseTrigger.focus();
+    } else {
+      filterButtons.find((button) => button.getAttribute('aria-selected') === 'true')?.focus();
+    }
   };
 
   let activeCaseFilter = 'all';
@@ -318,6 +399,23 @@ document.addEventListener('DOMContentLoaded', () => {
       const filter = button.dataset.filter || 'all';
       setCaseFilter(filter);
       renderCases(filter, caseSearch instanceof HTMLInputElement ? caseSearch.value : '');
+      button.focus();
+    });
+
+    button.addEventListener('keydown', (event) => {
+      if (!['ArrowRight', 'ArrowLeft', 'Home', 'End'].includes(event.key)) return;
+      event.preventDefault();
+      const currentIndex = filterButtons.indexOf(button);
+      if (currentIndex < 0) return;
+      let nextIndex = currentIndex;
+      if (event.key === 'ArrowRight') nextIndex = (currentIndex + 1) % filterButtons.length;
+      if (event.key === 'ArrowLeft') nextIndex = (currentIndex - 1 + filterButtons.length) % filterButtons.length;
+      if (event.key === 'Home') nextIndex = 0;
+      if (event.key === 'End') nextIndex = filterButtons.length - 1;
+      const nextButton = filterButtons[nextIndex];
+      if (!(nextButton instanceof HTMLButtonElement)) return;
+      nextButton.focus();
+      nextButton.click();
     });
   });
 
@@ -325,6 +423,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const target = event.target;
     if (target instanceof HTMLElement && target.matches('.case-link')) {
       event.preventDefault();
+      lastCaseTrigger = target;
       renderCaseDetail(target.dataset.caseId || '');
     }
   });
@@ -343,7 +442,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (event.target === caseModal) closeCaseModal();
   });
 
-  renderCases();
+  setCaseFilter(activeCaseFilter);
+  renderCases(activeCaseFilter);
 
   const initialCaseId = new URLSearchParams(window.location.search).get('case');
   if (initialCaseId) {

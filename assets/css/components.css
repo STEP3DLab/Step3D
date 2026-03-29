@@ -106,18 +106,22 @@
   transform: translateY(-1px);
 }
 
-.btn:focus-visible,
-.filter-btn:focus-visible,
-input:focus-visible,
-textarea:focus-visible,
-select:focus-visible,
-.faq-btn:focus-visible,
-.case-link:focus-visible,
-.menu-toggle:focus-visible,
-.theme-toggle:focus-visible,
-.modal-close:focus-visible {
+:is(
+  a[href],
+  button,
+  input,
+  textarea,
+  select,
+  [role='tab'],
+  [role='button'],
+  [tabindex]:not([tabindex='-1']),
+  .chip,
+  .story-card,
+  .story-step
+):focus-visible {
   outline: 2px solid var(--color-focus-ring);
   outline-offset: 2px;
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--surface) 65%, transparent);
 }
 
 .btn-primary {
