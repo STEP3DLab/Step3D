@@ -143,6 +143,24 @@ body.modal-open { overflow: hidden; }
 a { color: inherit; text-decoration: none; }
 img { display: block; max-width: 100%; }
 
+:is(
+  a[href],
+  button,
+  input,
+  textarea,
+  select,
+  [role='tab'],
+  [role='button'],
+  [tabindex]:not([tabindex='-1']),
+  .chip,
+  .story-card,
+  .story-step
+):focus-visible {
+  outline: 2px solid var(--color-focus-ring);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--surface) 65%, transparent);
+}
+
 .container {
   width: min(calc(100% - 42px), var(--container));
   margin: 0 auto;

@@ -243,20 +243,22 @@
         </div>
 
         <div class="filters" role="tablist" aria-label="Фильтры кейсов">
-          <button class="filter-btn is-active" data-filter="all" role="tab" aria-selected="true">Все кейсы</button>
-          <button class="filter-btn" data-filter="scan" role="tab" aria-selected="false">Сканирование</button>
-          <button class="filter-btn" data-filter="reverse" role="tab" aria-selected="false">Реверс</button>
-          <button class="filter-btn" data-filter="print" role="tab" aria-selected="false">Печать и серии</button>
-          <button class="filter-btn" data-filter="prototype" role="tab" aria-selected="false">Прототипы</button>
+          <button id="case-tab-all" class="filter-btn is-active" data-filter="all" role="tab" aria-controls="cases-panel" aria-selected="true" tabindex="0">Все кейсы</button>
+          <button id="case-tab-scan" class="filter-btn" data-filter="scan" role="tab" aria-controls="cases-panel" aria-selected="false" tabindex="-1">Сканирование</button>
+          <button id="case-tab-reverse" class="filter-btn" data-filter="reverse" role="tab" aria-controls="cases-panel" aria-selected="false" tabindex="-1">Реверс</button>
+          <button id="case-tab-print" class="filter-btn" data-filter="print" role="tab" aria-controls="cases-panel" aria-selected="false" tabindex="-1">Печать и серии</button>
+          <button id="case-tab-prototype" class="filter-btn" data-filter="prototype" role="tab" aria-controls="cases-panel" aria-selected="false" tabindex="-1">Прототипы</button>
         </div>
 
-        <div class="cases-toolbar">
-          <label class="case-search-label" for="caseSearch">Поиск по кейсам</label>
-          <input id="caseSearch" class="case-search" type="search" placeholder="Например: медицина, оснастка, сканирование" aria-label="Поиск по кейсам" />
-          <p class="cases-count" id="casesCount" aria-live="polite"></p>
+        <div id="cases-panel" role="tabpanel" aria-labelledby="case-tab-all" tabindex="-1">
+          <div class="cases-toolbar">
+            <label class="case-search-label" for="caseSearch">Поиск по кейсам</label>
+            <input id="caseSearch" class="case-search" type="search" placeholder="Например: медицина, оснастка, сканирование" aria-label="Поиск по кейсам" />
+            <p class="cases-count" id="casesCount" aria-live="polite"></p>
+          </div>
+          <div class="cards two" id="caseGrid" aria-live="polite"></div>
+          <article class="card case-detail" id="caseDetail" aria-live="polite" hidden></article>
         </div>
-        <div class="cards two" id="caseGrid" aria-live="polite"></div>
-        <article class="card case-detail" id="caseDetail" aria-live="polite" hidden></article>
       </div>
     </section>
 
@@ -350,19 +352,19 @@
         <div class="faq-list">
           <article class="faq-item">
             <button class="faq-btn" type="button" aria-expanded="false" aria-controls="faq-panel-1" id="faq-btn-1">Можно обратиться без готовой 3D-модели?<span>+</span></button>
-            <p id="faq-panel-1" role="region" aria-labelledby="faq-btn-1">Да. Достаточно фото, образца, чертежа или краткого описания задачи — поможем собрать корректный технический вход.</p>
+            <p id="faq-panel-1" role="region" aria-labelledby="faq-btn-1" aria-hidden="true" hidden>Да. Достаточно фото, образца, чертежа или краткого описания задачи — поможем собрать корректный технический вход.</p>
           </article>
           <article class="faq-item">
             <button class="faq-btn" type="button" aria-expanded="false" aria-controls="faq-panel-2" id="faq-btn-2">Сколько занимает первичная оценка?<span>+</span></button>
-            <p id="faq-panel-2" role="region" aria-labelledby="faq-btn-2">Обычно 24–48 часов. Вы получаете инженерный маршрут, диапазон бюджета и сроки по этапам.</p>
+            <p id="faq-panel-2" role="region" aria-labelledby="faq-btn-2" aria-hidden="true" hidden>Обычно 24–48 часов. Вы получаете инженерный маршрут, диапазон бюджета и сроки по этапам.</p>
           </article>
           <article class="faq-item">
             <button class="faq-btn" type="button" aria-expanded="false" aria-controls="faq-panel-3" id="faq-btn-3">Какие форматы результата доступны?<span>+</span></button>
-            <p id="faq-panel-3" role="region" aria-labelledby="faq-btn-3">STEP, STL, IGES, документация и физические изделия. Формат фиксируем под ваш производственный сценарий.</p>
+            <p id="faq-panel-3" role="region" aria-labelledby="faq-btn-3" aria-hidden="true" hidden>STEP, STL, IGES, документация и физические изделия. Формат фиксируем под ваш производственный сценарий.</p>
           </article>
           <article class="faq-item">
             <button class="faq-btn" type="button" aria-expanded="false" aria-controls="faq-panel-4" id="faq-btn-4">Работаете только с компаниями?<span>+</span></button>
-            <p id="faq-panel-4" role="region" aria-labelledby="faq-btn-4">Фокус на B2B и R&amp;D-командах, но принимаем и частные технически сложные задачи.</p>
+            <p id="faq-panel-4" role="region" aria-labelledby="faq-btn-4" aria-hidden="true" hidden>Фокус на B2B и R&amp;D-командах, но принимаем и частные технически сложные задачи.</p>
           </article>
         </div>
       </div>
