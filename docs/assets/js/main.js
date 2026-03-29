@@ -1,0 +1,488 @@
+document.addEventListener('DOMContentLoaded', () => {
+  const body = document.body;
+  const root = document.documentElement;
+  const menuToggle = document.getElementById('menuToggle');
+  const nav = document.getElementById('nav');
+  const progress = document.getElementById('scrollProgress');
+  const themeToggle = document.getElementById('themeToggle');
+  const navLinks = [...document.querySelectorAll('.nav a')];
+  const sections = [...document.querySelectorAll('main section[id]')];
+
+  const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const getLowPowerMode = () => {
+    const memory = navigator.deviceMemory || 0;
+    const cpu = navigator.hardwareConcurrency || 0;
+    return motionQuery.matches || (memory > 0 && memory <= 4) || (cpu > 0 && cpu <= 4);
+  };
+  const applyPerformanceMode = () => {
+    body.classList.toggle('is-low-motion', getLowPowerMode());
+  };
+
+  applyPerformanceMode();
+  motionQuery.addEventListener?.('change', applyPerformanceMode);
+
+  const applyTheme = (theme) => {
+    root.setAttribute('data-theme', theme);
+    localStorage.setItem('step3d-theme', theme);
+    if (themeToggle) {
+      const isLight = theme === 'light';
+      themeToggle.textContent = isLight ? 'Тёмная тема' : 'Светлая тема';
+      themeToggle.setAttribute('aria-pressed', String(isLight));
+    }
+  };
+
+  const savedTheme = localStorage.getItem('step3d-theme');
+  if (savedTheme === 'light' || savedTheme === 'dark') {
+    applyTheme(savedTheme);
+  } else {
+    applyTheme('dark');
+  }
+
+  themeToggle?.addEventListener('click', () => {
+    const nextTheme = root.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+    applyTheme(nextTheme);
+  });
+
+  const closeMobileNav = () => {
+    nav?.classList.remove('is-open');
+    menuToggle?.setAttribute('aria-expanded', 'false');
+    body.classList.remove('menu-open');
+  };
+
+  if (menuToggle && nav) {
+    menuToggle.addEventListener('click', () => {
+      const isOpen = nav.classList.toggle('is-open');
+      menuToggle.setAttribute('aria-expanded', String(isOpen));
+      body.classList.toggle('menu-open', isOpen);
+    });
+
+    navLinks.forEach((link) => link.addEventListener('click', closeMobileNav));
+
+    document.addEventListener('click', (event) => {
+      const target = event.target;
+      if (!(target instanceof HTMLElement)) return;
+      if (!nav.classList.contains('is-open')) return;
+      if (target.closest('#nav') || target.closest('#menuToggle')) return;
+      closeMobileNav();
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') closeMobileNav();
+    });
+
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 900) {
+        closeMobileNav();
+      }
+    });
+  }
+
+  const toTopBtn = document.getElementById('toTopBtn');
+
+  let activeId = sections[0]?.id || '';
+
+  const setActiveNavLink = (id) => {
+    navLinks.forEach((link) => {
+      const isCurrent = !!id && link.getAttribute('href') === `#${id}`;
+      link.classList.toggle('is-active', isCurrent);
+      link.setAttribute('aria-current', isCurrent ? 'page' : 'false');
+    });
+  };
+
+  const updateScrollProgress = () => {
+    if (!progress) return;
+    const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+    progress.style.width = `${maxScroll > 0 ? (window.scrollY / maxScroll) * 100 : 0}%`;
+  };
+
+  const onScrollShared = () => {
+    updateScrollProgress();
+    toTopBtn?.classList.toggle('is-visible', window.scrollY > 560);
+  };
+
+  let scrollTicking = false;
+  const onScroll = () => {
+    if (scrollTicking) return;
+    scrollTicking = true;
+    window.requestAnimationFrame(() => {
+      onScrollShared();
+      scrollTicking = false;
+    });
+  };
+
+  if ('IntersectionObserver' in window && sections.length) {
+    const sectionPositions = new Map(sections.map((section, index) => [section.id, index]));
+    const intersectionState = new Map();
+
+    const sectionObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          const id = entry.target.id;
+          if (!id) return;
+          if (entry.isIntersecting) {
+            intersectionState.set(id, entry.intersectionRatio);
+          } else {
+            intersectionState.delete(id);
+          }
+        });
+
+        const nextId = [...intersectionState.entries()]
+          .sort((a, b) => {
+            if (b[1] !== a[1]) return b[1] - a[1];
+            return (sectionPositions.get(a[0]) ?? 0) - (sectionPositions.get(b[0]) ?? 0);
+          })[0]?.[0];
+
+        if (nextId && nextId !== activeId) {
+          activeId = nextId;
+          setActiveNavLink(activeId);
+        }
+      },
+      {
+        rootMargin: '-35% 0px -45% 0px',
+        threshold: [0.1, 0.25, 0.5, 0.75],
+      },
+    );
+
+    sections.forEach((section) => sectionObserver.observe(section));
+  } else {
+    const updateActiveFromScroll = () => {
+      let nextActiveId = '';
+      sections.forEach((section) => {
+        if (section.getBoundingClientRect().top <= 140) {
+          nextActiveId = section.id;
+        }
+      });
+      if (nextActiveId !== activeId) {
+        activeId = nextActiveId;
+        setActiveNavLink(activeId);
+      }
+    };
+
+    window.addEventListener(
+      'scroll',
+      () => {
+        onScroll();
+        updateActiveFromScroll();
+      },
+      { passive: true },
+    );
+
+    updateActiveFromScroll();
+  }
+
+  if ('IntersectionObserver' in window && sections.length) {
+    window.addEventListener('scroll', onScroll, { passive: true });
+    setActiveNavLink(activeId);
+  }
+
+  onScrollShared();
+
+  const faqItems = [...document.querySelectorAll('.faq-item')];
+  const faqExpandAll = document.getElementById('faqExpandAll');
+  const faqCollapseAll = document.getElementById('faqCollapseAll');
+
+  faqItems.forEach((item) => {
+    const button = item.querySelector('.faq-btn');
+    button?.addEventListener('click', () => {
+      const willOpen = !item.classList.contains('is-open');
+      item.classList.toggle('is-open', willOpen);
+      button.setAttribute('aria-expanded', String(willOpen));
+    });
+  });
+
+  faqExpandAll?.addEventListener('click', () => {
+    faqItems.forEach((item) => {
+      item.classList.add('is-open');
+      item.querySelector('.faq-btn')?.setAttribute('aria-expanded', 'true');
+    });
+  });
+
+  faqCollapseAll?.addEventListener('click', () => {
+    faqItems.forEach((item) => {
+      item.classList.remove('is-open');
+      item.querySelector('.faq-btn')?.setAttribute('aria-expanded', 'false');
+    });
+  });
+
+  const caseGrid = document.getElementById('caseGrid');
+  const caseModal = document.getElementById('caseModal');
+  const caseModalContent = document.getElementById('caseModalContent');
+  const caseModalClose = document.getElementById('caseModalClose');
+  const caseDetail = document.getElementById('caseDetail');
+  const cases = Array.isArray(window.STEP3D_CASES) ? window.STEP3D_CASES : [];
+  const fallbackText = 'По запросу';
+  const toText = (value) => (typeof value === 'string' && value.trim().length ? value.trim() : fallbackText);
+  const baseTitle = document.title;
+  const canonicalLink = document.querySelector('link[rel="canonical"]');
+
+  const renderCaseCard = (item) => {
+    const card = document.createElement('article');
+    card.className = 'case-card';
+    card.innerHTML = `
+      <div class="case-top">
+        <p class="case-type">${toText(item.categoryLabel)}</p>
+        <p class="case-meta">${toText(item.timeline)}</p>
+      </div>
+      <h3>${toText(item.title)}</h3>
+      <p>${toText(item.problem)}</p>
+      <a class="case-link" data-case-id="${item.id}" href="?case=${encodeURIComponent(item.id)}#cases">Открыть кейс →</a>
+    `;
+    return card;
+  };
+
+  const caseSearch = document.getElementById('caseSearch');
+  const casesCount = document.getElementById('casesCount');
+
+  const renderCases = (filter = 'all', query = '') => {
+    if (!caseGrid) return;
+    caseGrid.innerHTML = '';
+    const filteredByType = filter === 'all' ? cases : cases.filter((item) => Array.isArray(item.type) && item.type.includes(filter));
+    const normalizedQuery = query.trim().toLowerCase();
+    const filtered = normalizedQuery
+      ? filteredByType.filter((item) => [item.title, item.problem, item.solution, item.result, item.taskType, item.categoryLabel].join(' ').toLowerCase().includes(normalizedQuery))
+      : filteredByType;
+
+    if (casesCount) {
+      casesCount.textContent = `Найдено кейсов: ${filtered.length}`;
+    }
+
+    if (!filtered.length) {
+      caseGrid.innerHTML = '<article class="card"><h3>Нет кейсов в этой категории</h3><p>Выберите другой фильтр или отправьте задачу — подберем релевантные примеры.</p></article>';
+      return;
+    }
+
+    filtered.forEach((item) => caseGrid.appendChild(renderCaseCard(item)));
+  };
+
+  const renderCaseDetail = (caseId, pushState = true) => {
+    const selected = cases.find((item) => item.id === caseId);
+    if (!selected || !caseDetail) return;
+
+    const timeline = toText(selected.timeline);
+    const budget = toText(selected.budget);
+
+    caseDetail.hidden = false;
+    caseDetail.innerHTML = `
+      <h3>${toText(selected.title)}</h3>
+      <p>${toText(selected.problem)}</p>
+      <div class="modal-grid">
+        <div><strong>Тип задачи</strong><p>${toText(selected.taskType)}</p></div>
+        <div><strong>Что сделали</strong><p>${toText(selected.solution)}</p></div>
+        <div><strong>Результат</strong><p>${toText(selected.result)}</p></div>
+        <div><strong>Галерея</strong><p>${toText(selected.gallery)}</p></div>
+        <div><strong>Срок / бюджет</strong><p>${timeline} · ${budget}</p></div>
+        <div><strong>Выходной результат</strong><p>${toText(selected.output)}</p></div>
+      </div>
+      <p><a class="btn btn-secondary" href="#contact">Обсудить похожий проект</a></p>
+    `;
+
+    const nextUrl = `${window.location.pathname}?case=${encodeURIComponent(caseId)}#cases`;
+    if (pushState) {
+      window.history.pushState({ caseId }, '', nextUrl);
+    }
+    document.title = `${toText(selected.title)} — кейс Step3D`;
+    if (canonicalLink instanceof HTMLLinkElement) {
+      canonicalLink.href = `${window.location.origin}${nextUrl}`;
+    }
+    caseDetail.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+
+  const clearCaseDetail = (pushState = true) => {
+    if (caseDetail) {
+      caseDetail.hidden = true;
+      caseDetail.innerHTML = '';
+    }
+    document.title = baseTitle;
+    if (canonicalLink instanceof HTMLLinkElement) {
+      canonicalLink.href = `${window.location.origin}${window.location.pathname}`;
+    }
+    if (pushState) {
+      window.history.pushState({}, '', `${window.location.pathname}#cases`);
+    }
+  };
+
+  let activeCaseFilter = 'all';
+
+  document.querySelectorAll('.filter-btn').forEach((button) => {
+    button.addEventListener('click', () => {
+      const filter = button.dataset.filter || 'all';
+      activeCaseFilter = filter;
+      document.querySelectorAll('.filter-btn').forEach((item) => {
+        item.classList.remove('is-active');
+        item.setAttribute('aria-selected', 'false');
+      });
+      button.classList.add('is-active');
+      button.setAttribute('aria-selected', 'true');
+      renderCases(filter, caseSearch instanceof HTMLInputElement ? caseSearch.value : '');
+    });
+  });
+
+  caseGrid?.addEventListener('click', (event) => {
+    const target = event.target;
+    if (target instanceof HTMLElement && target.matches('.case-link')) {
+      event.preventDefault();
+      renderCaseDetail(target.dataset.caseId || '');
+    }
+  });
+
+  caseSearch?.addEventListener('input', () => {
+    renderCases(activeCaseFilter, caseSearch instanceof HTMLInputElement ? caseSearch.value : '');
+  });
+
+  const closeCaseModal = () => {
+    caseModal?.close();
+    body.classList.remove('modal-open');
+  };
+
+  caseModalClose?.addEventListener('click', closeCaseModal);
+  caseModal?.addEventListener('click', (event) => {
+    if (event.target === caseModal) closeCaseModal();
+  });
+
+  renderCases();
+
+  const initialCaseId = new URLSearchParams(window.location.search).get('case');
+  if (initialCaseId) {
+    renderCaseDetail(initialCaseId, false);
+  }
+
+  window.addEventListener('popstate', () => {
+    const caseId = new URLSearchParams(window.location.search).get('case');
+    if (caseId) {
+      renderCaseDetail(caseId, false);
+    } else {
+      clearCaseDetail(false);
+    }
+  });
+
+  toTopBtn?.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  const contactForm = document.getElementById('contactForm');
+  const contactFormStatus = document.getElementById('contactFormStatus');
+  const submitButton = contactForm?.querySelector('button[type="submit"]');
+  const taskField = document.getElementById('taskField');
+  const taskCounter = document.getElementById('taskCounter');
+  const fileInput = document.getElementById('fileInput');
+  const fileSummary = document.getElementById('fileSummary');
+  const formProgressBar = document.getElementById('formProgressBar');
+  const formProgressText = document.getElementById('formProgressText');
+
+  const normalizeSpaces = (value) => value.replace(/\s+/g, ' ').trim();
+  const normalizeTask = (value) => value.replace(/\r\n/g, '\n').split('\n').map((line) => line.trim()).filter(Boolean).join('\n');
+  const validateRequired = (value, minLength = 2) => value.length >= minLength;
+
+
+  const updateTaskCounter = () => {
+    if (!(taskField instanceof HTMLTextAreaElement) || !taskCounter) return;
+    taskCounter.textContent = `${taskField.value.length} / ${taskField.maxLength || 1200}`;
+  };
+
+  const updateFileSummary = () => {
+    if (!(fileInput instanceof HTMLInputElement) || !fileSummary) return;
+    const total = fileInput.files?.length || 0;
+    fileSummary.textContent = total ? `Выбрано файлов: ${total}` : 'Файлы не выбраны';
+  };
+
+  const setFieldValidityState = (field, valid) => {
+    if (!(field instanceof HTMLElement)) return;
+    field.classList.toggle('is-invalid', !valid);
+    field.setAttribute('aria-invalid', String(!valid));
+  };
+
+  const updateFormProgress = () => {
+    if (!contactForm || !formProgressBar || !formProgressText) return;
+    const requiredFields = [...contactForm.querySelectorAll('[required]')];
+    const completed = requiredFields.filter((field) => {
+      if (field instanceof HTMLInputElement && field.type === 'checkbox') return field.checked;
+      return String(field.value || '').trim().length > 0;
+    }).length;
+    const percent = requiredFields.length ? Math.round((completed / requiredFields.length) * 100) : 0;
+    formProgressBar.style.width = `${percent}%`;
+    formProgressText.textContent = `Заполнено ${percent}% обязательных полей`;
+  };
+
+  taskField?.addEventListener('input', updateTaskCounter);
+  fileInput?.addEventListener('change', updateFileSummary);
+
+  contactForm?.addEventListener('input', updateFormProgress);
+  contactForm?.addEventListener('change', updateFormProgress);
+
+  updateTaskCounter();
+  updateFileSummary();
+  updateFormProgress();
+
+  const setSubmitState = (state, message) => {
+    if (!contactFormStatus) return;
+    contactFormStatus.hidden = false;
+    contactFormStatus.textContent = message;
+    contactFormStatus.classList.remove('is-loading', 'is-success', 'is-error');
+    contactFormStatus.classList.add(`is-${state}`);
+  };
+
+  contactForm?.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const formData = new FormData(contactForm);
+
+    const name = normalizeSpaces(String(formData.get('name') || ''));
+    const company = normalizeSpaces(String(formData.get('company') || ''));
+    const contact = normalizeSpaces(String(formData.get('contact') || ''));
+    const type = normalizeSpaces(String(formData.get('type') || ''));
+    const task = normalizeTask(String(formData.get('task') || ''));
+    const consent = formData.get('consent');
+
+    const nameField = contactForm?.elements.namedItem('name');
+    const contactField = contactForm?.elements.namedItem('contact');
+    const typeField = contactForm?.elements.namedItem('type');
+    const taskTextField = contactForm?.elements.namedItem('task');
+    const consentField = contactForm?.elements.namedItem('consent');
+
+    const isNameValid = validateRequired(name);
+    const isContactValid = validateRequired(contact, 3);
+    const isTypeValid = Boolean(type);
+    const isTaskValid = validateRequired(task, 10);
+    const isConsentValid = Boolean(consent);
+
+    setFieldValidityState(nameField, isNameValid);
+    setFieldValidityState(contactField, isContactValid);
+    setFieldValidityState(typeField, isTypeValid);
+    setFieldValidityState(taskTextField, isTaskValid);
+    setFieldValidityState(consentField, isConsentValid);
+
+    if (!isNameValid) return setSubmitState('error', 'Укажите имя и фамилию (минимум 2 символа).');
+    if (!isContactValid) return setSubmitState('error', 'Укажите корректный контакт для связи.');
+    if (!isTypeValid) return setSubmitState('error', 'Выберите тип проекта.');
+    if (!isTaskValid) return setSubmitState('error', 'Добавьте более подробное описание задачи (минимум 10 символов).');
+    if (!isConsentValid) return setSubmitState('error', 'Подтвердите согласие на обработку данных.');
+
+    const message = [
+      'Новая заявка с сайта Step3D',
+      `Имя: ${name}`,
+      `Компания/роль: ${company || '—'}`,
+      `Контакт: ${contact}`,
+      `Тип задачи: ${type}`,
+      `Описание: ${task}`,
+    ].join('\n');
+
+    setSubmitState('loading', 'Проверяем заявку и подготавливаем отправку…');
+    if (submitButton instanceof HTMLButtonElement) {
+      submitButton.disabled = true;
+      submitButton.setAttribute('aria-busy', 'true');
+    }
+
+    try {
+      await navigator.clipboard.writeText(message);
+      window.location.href = `mailto:hello@step3d.pro?subject=${encodeURIComponent('Новая заявка Step3D')}&body=${encodeURIComponent(message)}`;
+      setSubmitState('success', 'Заявка подготовлена. Проверьте письмо и отправьте его — после этого мы свяжемся с вами.');
+      contactForm.reset();
+    } catch {
+      setSubmitState('error', 'Не удалось сформировать отправку автоматически. Напишите нам на hello@step3d.pro.');
+    } finally {
+      if (submitButton instanceof HTMLButtonElement) {
+        submitButton.disabled = false;
+        submitButton.removeAttribute('aria-busy');
+      }
+    }
+  });
+});
