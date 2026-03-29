@@ -108,6 +108,10 @@
     max-width: 14ch;
   }
 
+  .hero-content h1 {
+    max-width: 12.5ch;
+  }
+
   .hero-content {
     gap: var(--space-3);
   }
@@ -199,6 +203,15 @@
 
   .hero-chips {
     gap: 6px;
+  }
+
+  .hero-proof {
+    padding: 12px;
+    gap: 8px;
+  }
+
+  .hero-proof li {
+    font-size: 0.87rem;
   }
 
   .chip {
